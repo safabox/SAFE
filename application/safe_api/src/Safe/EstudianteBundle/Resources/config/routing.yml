@@ -1,0 +1,8 @@
+safe_estudiante_homepage:
+    path:     /estudiante/home
+    defaults: { _controller: SafeEstudianteBundle:Default:index }
+safe_estudiante:
+    type: rest
+    prefix: /v1
+    resource: "Safe\EstudianteBundle\Controller\EstudianteController"
+    name_prefix:  api_1_estudiantes # naming collision

@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: safe_db
+    database_user: safe_db_rw
+    database_password: grupo5508
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: 3b98718c82ae20d8ab2887d5aa4485ffd45faea4

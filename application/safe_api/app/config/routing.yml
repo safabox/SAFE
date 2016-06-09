@@ -1,0 +1,14 @@
+safe_docente:
+    resource: "@SafeDocenteBundle/Resources/config/routing.yml"
+    prefix:   /api
+    type: rest
+
+safe_estudiante:
+    resource: "@SafeEstudianteBundle/Resources/config/routing.yml"
+    prefix:   /api
+    type: rest
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
