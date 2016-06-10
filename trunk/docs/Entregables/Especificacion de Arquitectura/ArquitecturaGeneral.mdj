@@ -186,9 +186,12 @@
 								},
 								{
 									"$ref": "AAAAAAFVDnMI7kuf8/k="
+<<<<<<< HEAD
 								},
 								{
 									"$ref": "AAAAAAFVO+OoFD4O5dc="
+=======
+>>>>>>> d784353aab1df924d62a4b41074f561090725b30
 								}
 							],
 							"visible": true,
@@ -1100,7 +1103,11 @@
 							"left": 312,
 							"top": 288,
 							"width": 161,
+<<<<<<< HEAD
 							"height": 113,
+=======
+							"height": 161,
+>>>>>>> d784353aab1df924d62a4b41074f561090725b30
 							"autoResize": false,
 							"stereotypeDisplay": "label",
 							"showVisibility": true,
@@ -3571,6 +3578,7 @@
 								"$ref": "AAAAAAFVE4wdLAvXYBM="
 							},
 							"wordWrap": false
+<<<<<<< HEAD
 						},
 						{
 							"_type": "UMLPackageView",
@@ -3924,6 +3932,8 @@
 								"$ref": "AAAAAAFVO+RQaj4sx3o="
 							},
 							"wordWrap": false
+=======
+>>>>>>> d784353aab1df924d62a4b41074f561090725b30
 						}
 					]
 				},
@@ -4126,6 +4136,7 @@
 								}
 							],
 							"visibility": "public"
+<<<<<<< HEAD
 						},
 						{
 							"_type": "UMLPackage",
@@ -4146,6 +4157,8 @@
 								}
 							],
 							"visibility": "public"
+=======
+>>>>>>> d784353aab1df924d62a4b41074f561090725b30
 						}
 					],
 					"visibility": "public"
