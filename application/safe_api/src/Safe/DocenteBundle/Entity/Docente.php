@@ -4,11 +4,16 @@ namespace Safe\DocenteBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+
 /**
  * Docente
  *
  * @ORM\Table(name="docente")
  * @ORM\Entity(repositoryClass="Safe\DocenteBundle\Repository\DocenteRepository")
+ * @ExclusionPolicy("all")
  */
 class Docente
 {
@@ -18,6 +23,7 @@ class Docente
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Expose
      */
     private $id;
 
@@ -25,6 +31,7 @@ class Docente
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=100)
+     * @Expose
      */
     private $nombre;
 
@@ -32,6 +39,7 @@ class Docente
      * @var string
      *
      * @ORM\Column(name="apellido", type="string", length=100)
+     * @Expose
      */
     private $apellido;
 
@@ -50,6 +58,13 @@ class Docente
     private $fechaModificacion;
 
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="docente")
+     * @Groups({"docente_detalle"})
+     */
+    private $cursos;
+    
     /**
      * Get id
      *
@@ -150,5 +165,28 @@ class Docente
     public function getFechaModificacion()
     {
         return $this->fechaModificacion;
+    }
+    
+    /**
+     * Set cursos
+     *
+     * @param Collection $cursos
+     * @return Docente
+     */
+    public function setCursos($cursos)
+    {
+        $this->cursos = $cursos;
+
+        return $this;
+    }
+
+    /**
+     * Get cursos
+     *
+     * @return Collection
+     */
+    public function getCursos()
+    {
+        return $this->cursos;
     }
 }

@@ -1,0 +1,3 @@
+safe_curso_homepage:
+    path:     /
+    defaults: { _controller: SafeCursoBundle:Default:index }

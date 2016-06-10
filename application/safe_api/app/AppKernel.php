@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new Safe\AlumnoBundle\SafeAlumnoBundle(),
             new Safe\DocenteBundle\SafeDocenteBundle(),
+            new Safe\CursoBundle\SafeCursoBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

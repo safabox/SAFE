@@ -7,6 +7,9 @@ services:
     safe_alumno.service.alumno:
         class: Safe\AlumnoBundle\Service\AlumnoService
         arguments: ["@safe_alumno.repository.alumno"]
+    safe_alumno.service.curso_asignado:
+        class: Safe\AlumnoBundle\Service\CursoAsignadoService
+        arguments: ["@safe_curso.repository.curso"]
     safe_alumno.repository.alumno:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

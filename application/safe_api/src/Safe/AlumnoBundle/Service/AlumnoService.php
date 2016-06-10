@@ -14,5 +14,9 @@ class AlumnoService {
     public function findAll($limit = 5, $offset = 0) {
          return $this->alumnoRepository->findBy(array(), null, $limit, $offset);
     }
+    
+    public function getById($id) {
+        return $this->alumnoRepository->find($id);
+    }
 
 }

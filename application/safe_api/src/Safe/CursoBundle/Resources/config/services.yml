@@ -1,0 +1,10 @@
+services:
+#    safe_curso.example:
+#        class: Safe\CursoBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+    safe_curso.repository.curso:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\CursoBundle\Entity\Curso

@@ -38,10 +38,10 @@ class DocenteController extends FOSRestController {
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
        
-        return $this->getDocenteRepository()->findAll($limit, $offset);
+        return $this->getDocenteService()->findAll($limit, $offset);
     } 
     
-    private function getDocenteRepository() {
+    private function getDocenteService() {
         return $this->container->get('safe_docente.service.docente');
     }
 }

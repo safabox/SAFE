@@ -1,3 +1,7 @@
+safe_curso:
+    resource: "@SafeCursoBundle/Resources/config/routing.yml"
+    prefix:   /
+
 safe_docente:
     resource: "@SafeDocenteBundle/Resources/config/routing.yml"
     prefix:   /api
