@@ -1,0 +1,18 @@
+#parameters:
+#    parameter_name: value
+services:
+#    safe_alumno.example:
+#        class: Safe\AlumnoBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+    safe_alumno.service.alumno:
+        class: Safe\AlumnoBundle\Service\AlumnoService
+        arguments: ["@safe_alumno.repository.alumno"]
+    safe_alumno.service.curso_asignado:
+        class: Safe\AlumnoBundle\Service\CursoAsignadoService
+        arguments: ["@safe_curso.repository.curso"]
+    safe_alumno.repository.alumno:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\AlumnoBundle\Entity\Alumno

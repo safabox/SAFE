@@ -1,0 +1,8 @@
+safe_docente_homepage:
+    path:     /docente/home
+    defaults: { _controller: SafeDocenteBundle:Default:index }
+safe_docente:
+    type: rest
+    prefix: /v1
+    resource: "Safe\DocenteBundle\Controller\DocenteController"
+    name_prefix:  api_1_docentes # naming collision

@@ -1,0 +1,13 @@
+safe_alumno_homepage:
+    path:     /alumno/home
+    defaults: { _controller: SafeAlumnoBundle:Default:index }
+safe_alumno:
+    type: rest
+    prefix: /v1
+    resource: "Safe\AlumnoBundle\Controller\AlumnoController"
+    name_prefix:  api_1_alumnos # naming collision
+safe_alumno_curso:
+    type: rest
+    parent:   safe_alumno
+    resource: "Safe\AlumnoBundle\Controller\CursoAsignadoController"
+    name_prefix:  api_1_alumnos_cursos # naming collision    
