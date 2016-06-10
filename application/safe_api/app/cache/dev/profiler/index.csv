@@ -1,4 +1,0 @@
-9e9a36,127.0.0.1,GET,http://localhost:8000/app_dev.php/api/v1/estudiantes,1465515426,,200
-47f9ee,127.0.0.1,GET,http://localhost:8000/app_dev.php/api/v1/docentes,1465515439,c37f14,200
-c37f14,127.0.0.1,GET,http://localhost:8000/app_dev.php/api/v1/docentes,1465515439,,500
-9bfc4f,127.0.0.1,GET,http://localhost:8000/app_dev.php/api/v1/docentes,1465515483,,200

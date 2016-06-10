@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new AppBundle\AppBundle(),
-            new Safe\EstudianteBundle\SafeEstudianteBundle(),
+            new Safe\AlumnoBundle\SafeAlumnoBundle(),
             new Safe\DocenteBundle\SafeDocenteBundle(),
         );
 

@@ -1,5 +1,5 @@
 <?php
-namespace Safe\DocenteBundle\Controller;
+namespace Safe\AlumnoBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -8,8 +8,22 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+/*
+ * use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Util\Codes;
+use FOS\RestBundle\Controller\Annotations;
+use FOS\RestBundle\View\View;
+use FOS\RestBundle\Request\ParamFetcherInterface;
+use Symfony\Component\Form\FormTypeInterface;
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use Acme\BlogBundle\Exception\InvalidFormException;
+use Acme\BlogBundle\Form\PageType;
+use Acme\BlogBundle\Model\PageInterface;
+ */
 
-class DocenteController extends FOSRestController {
+class AlumnoController extends FOSRestController {
 /**
      * List all pages.
      *
@@ -32,16 +46,16 @@ class DocenteController extends FOSRestController {
      *
      * @return array
      */
-    public function getDocentesAction(Request $request, ParamFetcherInterface $paramFetcher)
+    public function getAlumnosAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
        
-        return $this->getDocenteRepository()->findAll($limit, $offset);
+        return $this->getAlumnoRepository()->findAll($limit, $offset);
     } 
     
-    private function getDocenteRepository() {
-        return $this->container->get('safe_docente.service.docente');
+    private function getAlumnoRepository() {
+        return $this->container->get('safe_alumno.service.alumno');
     }
 }

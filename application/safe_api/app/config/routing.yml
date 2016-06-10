@@ -3,8 +3,8 @@ safe_docente:
     prefix:   /api
     type: rest
 
-safe_estudiante:
-    resource: "@SafeEstudianteBundle/Resources/config/routing.yml"
+safe_alumno:
+    resource: "@SafeAlumnoBundle/Resources/config/routing.yml"
     prefix:   /api
     type: rest
 
