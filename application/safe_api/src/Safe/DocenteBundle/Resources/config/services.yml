@@ -5,6 +5,9 @@ services:
     safe_docente.service.docente:
         class: Safe\DocenteBundle\Service\DocenteService
         arguments: ["@safe_docente.repository.docente"]
+    safe_docente.service.curso_impartido:
+        class: Safe\DocenteBundle\Service\CursoImpartidoService
+        arguments: ["@safe_curso.repository.curso"]    
     safe_docente.repository.docente:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

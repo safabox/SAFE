@@ -6,3 +6,9 @@ safe_docente:
     prefix: /v1
     resource: "Safe\DocenteBundle\Controller\DocenteController"
     name_prefix:  api_1_docentes # naming collision
+safe_docente_curso:
+    type: rest
+    parent:   safe_docente
+    resource: "Safe\DocenteBundle\Controller\CursoImpartidoController"
+    name_prefix:  api_1_docentes_cursos # naming collision
+    

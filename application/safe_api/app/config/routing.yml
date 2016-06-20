@@ -1,3 +1,7 @@
+safe_tema:
+    resource: "@SafeTemaBundle/Resources/config/routing.yml"
+    prefix:   /
+
 safe_curso:
     resource: "@SafeCursoBundle/Resources/config/routing.yml"
     prefix:   /

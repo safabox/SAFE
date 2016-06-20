@@ -44,4 +44,34 @@ class DocenteController extends FOSRestController {
     private function getDocenteService() {
         return $this->container->get('safe_docente.service.docente');
     }
+    
+    /**
+     * Obtiene un docente,
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   description = "Obtiene el alumno segun el  id",
+     *   output = "Safe\DocenteBundle\Entity\Docente",
+     *   statusCodes = {
+     *     200 = "Returned when successful",
+     *     404 = "Returned when the page is not found"
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="page")
+     *
+     * @param int     $id      id del alumno.
+     *
+     * @return object
+     *
+     * @throws NotFoundHttpException cuando no existe el alumno.
+     */
+    public function getDocenteAction($id)
+    {
+        
+        //$view = $this->view();
+        //$view->setSerializationContext(SerializationContext::create()->setGroups(array('docente_detalle')));
+       
+        return $this->getDocenteService()->getById($id);
+    }
 }

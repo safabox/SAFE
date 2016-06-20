@@ -66,6 +66,13 @@ class Curso
      * @Groups({"curso_detalle"})
      */
     private $alumnos;
+    
+     /**
+     *
+     * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="curso")
+     * 
+     */
+    private $temas;
 
     public function __construct()
     {
@@ -194,5 +201,28 @@ class Curso
     public function getAlumnos()
     {
         return $this->alumnos;
+    }
+    
+    /**
+     * Set temas
+     *
+     * @param Collection $temas
+     * @return Tema
+     */
+    public function setTemas($temas)
+    {
+        $this->temas = $temas;
+
+        return $this;
+    }
+
+    /**
+     * Get temas
+     *
+     * @return Collection
+     */
+    public function getTemas()
+    {
+        return $this->temas;
     }
 }

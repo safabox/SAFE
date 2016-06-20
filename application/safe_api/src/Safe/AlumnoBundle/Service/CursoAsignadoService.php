@@ -11,7 +11,7 @@ class CursoAsignadoService {
         $this->cursoRepository = $cursoRepository;
     }
     
-    public function findAll($alumnoId, $limit = 5, $offset = 0) {
+    public function findAll($alumnoId, $limit = 10, $offset = 0) {
         $query = $this->cursoRepository->createQueryBuilder('curso')
                                        ->join('curso.alumnos', 'a')
                                        ->where('a.id = :id')
