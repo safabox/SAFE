@@ -10,3 +10,5 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: 3b98718c82ae20d8ab2887d5aa4485ffd45faea4
+    google_client_id: 198173606678-ld9ihtqg1rnmo5afjsrj2dcslh39t975.apps.googleusercontent.com
+    google_client_secret: J4PpnuyaFz9QgYKpH3DCS035

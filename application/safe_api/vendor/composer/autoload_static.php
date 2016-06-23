@@ -56,10 +56,15 @@ class ComposerStaticInit6e39e16d27915b3bf57b5ed4fe59f85a
         array (
             'Incenteev\\ParameterHandler\\' => 27,
         ),
+        'H' => 
+        array (
+            'HWI\\Bundle\\OAuthBundle\\' => 23,
+        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Cache\\' => 22,
+            'Doctrine\\Common\\' => 16,
             'Doctrine\\Bundle\\DoctrineCacheBundle\\' => 36,
             'Doctrine\\Bundle\\DoctrineBundle\\' => 31,
         ),
@@ -158,6 +163,10 @@ class ComposerStaticInit6e39e16d27915b3bf57b5ed4fe59f85a
         array (
             0 => __DIR__ . '/..' . '/incenteev/composer-parameter-handler',
         ),
+        'HWI\\Bundle\\OAuthBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hwi/oauth-bundle',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -165,6 +174,10 @@ class ComposerStaticInit6e39e16d27915b3bf57b5ed4fe59f85a
         'Doctrine\\Common\\Cache\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache',
+        ),
+        'Doctrine\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
         ),
         'Doctrine\\Bundle\\DoctrineCacheBundle\\' => 
         array (
@@ -249,6 +262,10 @@ class ComposerStaticInit6e39e16d27915b3bf57b5ed4fe59f85a
         ),
         'F' => 
         array (
+            'FOS\\UserBundle' => 
+            array (
+                0 => __DIR__ . '/..' . '/friendsofsymfony/user-bundle',
+            ),
             'FOS\\RestBundle' => 
             array (
                 0 => __DIR__ . '/..' . '/friendsofsymfony/rest-bundle',
@@ -280,9 +297,12 @@ class ComposerStaticInit6e39e16d27915b3bf57b5ed4fe59f85a
             array (
                 0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
             ),
-            'Doctrine\\Common\\' => 
+        ),
+        'B' => 
+        array (
+            'Buzz' => 
             array (
-                0 => __DIR__ . '/..' . '/doctrine/common/lib',
+                0 => __DIR__ . '/..' . '/kriswallsmith/buzz/lib',
             ),
         ),
     );

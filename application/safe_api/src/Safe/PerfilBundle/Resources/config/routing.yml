@@ -1,0 +1,3 @@
+safe_perfil_homepage:
+    path:     /
+    defaults: { _controller: SafePerfilBundle:Default:index }

@@ -87,13 +87,16 @@ The main problem with documentation is to keep it up to date. That's why the
 really easy to document an API method. The following chapters will help you
 setup your API documentation:
 
-* the-apidoc-annotation
-* multiple-api-doc
-* other-bundle-annotations
-* swagger-support
-* dunglasapibundle
-* sandbox
-* commands
+.. toctree::
+    :maxdepth: 1
+
+    the-apidoc-annotation
+    multiple-api-doc
+    other-bundle-annotations
+    swagger-support
+    dunglasapibundle
+    sandbox
+    commands
 
 Web Interface
 ~~~~~~~~~~~~~

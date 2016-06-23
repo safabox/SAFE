@@ -16,13 +16,16 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new AppBundle\AppBundle(),
             new Safe\AlumnoBundle\SafeAlumnoBundle(),
             new Safe\DocenteBundle\SafeDocenteBundle(),
             new Safe\CursoBundle\SafeCursoBundle(),
             new Safe\TemaBundle\SafeTemaBundle(),
+            new Safe\PerfilBundle\SafePerfilBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {
