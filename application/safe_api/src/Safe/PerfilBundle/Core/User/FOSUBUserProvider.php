@@ -48,10 +48,19 @@ class FOSUBUserProvider extends BaseClass
             $user->$setter_token($response->getAccessToken());
             //I have set all requested data with the user's username
             //modify here with relevant data
+            
+            //var_dump($response);
+            //https://github.com/hwi/HWIOAuthBundle/blob/master/OAuth/Response/PathUserResponse.php
+            $user->setEmail($response->getEmail());
+            $user->setNickname($response->getNickname());            
+            $user->setNombre($response->getFirstName());
+            $user->setAvatar($response->getProfilePicture());
+            
             $user->setUsername($username);
-            $user->setEmail($username);
+            //$user->setEmail($username);
             $user->setPassword($username);
             $user->setEnabled(true);
+            
             $this->userManager->updateUser($user);
             return $user;
         }
