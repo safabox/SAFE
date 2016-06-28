@@ -22,19 +22,6 @@ class Usuario extends BaseUser
      */
     protected $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="google_id", type="string", length=255, nullable=true, unique=true)
-     */
-    private $googleId;
-    
-     /** 
-      * @ORM\Column(name="google_access_token", type="string", length=255, nullable=true) 
-      * 
-      */
-    private $googleAccessToken;
-
     
     /**
      * @var string
@@ -81,37 +68,6 @@ class Usuario extends BaseUser
         return $this->id;
     }
 
-    /**
-     * Set googleId
-     *
-     * @param string $googleId
-     *
-     * @return User
-     */
-    public function setGoogleId($googleId)
-    {
-        $this->googleId = $googleId;
-
-        return $this;
-    }
-
-    /**
-     * Get googleId
-     *
-     * @return string
-     */
-    public function getGoogleId()
-    {
-        return $this->googleId;
-    }
-
-    function getGoogleAccessToken() {
-        return $this->googleAccessToken;
-    }
-
-    function setGoogleAccessToken($googleAccessToken) {
-        $this->googleAccessToken = $googleAccessToken;
-    }
 
     function getNickname() {
         return $this->nickname;

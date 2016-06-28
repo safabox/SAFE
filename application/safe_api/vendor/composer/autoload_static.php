@@ -56,10 +56,6 @@ class ComposerStaticInit6e39e16d27915b3bf57b5ed4fe59f85a
         array (
             'Incenteev\\ParameterHandler\\' => 27,
         ),
-        'H' => 
-        array (
-            'HWI\\Bundle\\OAuthBundle\\' => 23,
-        ),
         'D' => 
         array (
             'Doctrine\\Instantiator\\' => 22,
@@ -162,10 +158,6 @@ class ComposerStaticInit6e39e16d27915b3bf57b5ed4fe59f85a
         'Incenteev\\ParameterHandler\\' => 
         array (
             0 => __DIR__ . '/..' . '/incenteev/composer-parameter-handler',
-        ),
-        'HWI\\Bundle\\OAuthBundle\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/hwi/oauth-bundle',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -296,13 +288,6 @@ class ComposerStaticInit6e39e16d27915b3bf57b5ed4fe59f85a
             'Doctrine\\Common\\Annotations\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
-            ),
-        ),
-        'B' => 
-        array (
-            'Buzz' => 
-            array (
-                0 => __DIR__ . '/..' . '/kriswallsmith/buzz/lib',
             ),
         ),
     );

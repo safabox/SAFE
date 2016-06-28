@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
-            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+#            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new AppBundle\AppBundle(),
             new Safe\AlumnoBundle\SafeAlumnoBundle(),
             new Safe\DocenteBundle\SafeDocenteBundle(),

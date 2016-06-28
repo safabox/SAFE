@@ -1,0 +1,10 @@
+FOS\UserBundle\Entity\User:
+    exclusion_policy: ALL
+    properties:
+        email:
+            expose: true
+            groups: [Registration, Profile, Default]
+        # enabled:
+        #     expose: true
+        # locked:
+        #     expose: true

@@ -1,3 +1,9 @@
 safe_perfil_homepage:
     path:     /
     defaults: { _controller: SafePerfilBundle:Default:index }
+safe_perfil:
+    type: rest
+    prefix: /v1
+    resource: Safe\PerfilBundle\Controller\UsuarioController
+    name_prefix:  api_1_perfiles # naming collision
+    

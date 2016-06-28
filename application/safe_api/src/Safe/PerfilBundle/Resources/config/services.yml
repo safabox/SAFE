@@ -8,3 +8,14 @@ services:
         class: "%safe_user_provider.class%"
         #this is the place where the properties are passed to the UserProvider - see config.yml
         arguments: [@fos_user.user_manager, {google: googleId}]
+    safe_perfil.service.usuario:
+        class: Safe\PerfilBundle\Service\UsuarioService
+        arguments: ["@safe_perfil.repository.usuario"]
+    
+    safe_perfil.repository.usuario:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\PerfilBundle\Entity\Usuario
+    
