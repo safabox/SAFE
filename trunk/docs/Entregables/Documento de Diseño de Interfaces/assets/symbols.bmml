@@ -1,0 +1,19 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="150" measuredH="110" mockupW="90" mockupH="90">
+  <controls>
+    <control controlID="0" controlTypeID="__group__" x="60" y="20" w="90" h="90" measuredW="90" measuredH="90" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <controlName>bs-bg-primary</controlName>
+      </controlProperties>
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::RoundButton" x="0" y="0" w="90" h="90" measuredW="32" measuredH="32" zOrder="0" locked="false" isInGroup="0">
+          <controlProperties>
+            <borderColor>2848996</borderColor>
+            <color>2848996</color>
+            <shape>rectangle</shape>
+            <text>blue%0A%7Bsize%3A12%7Dprimary%7Bsize%7D</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+  </controls>
+</mockup>
