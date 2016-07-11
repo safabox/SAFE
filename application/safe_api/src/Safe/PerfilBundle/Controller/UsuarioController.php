@@ -74,8 +74,12 @@ class UsuarioController extends FOSRestController {
         //$view = $this->view();
         //$view->setSerializationContext(SerializationContext::create()->setGroups(array('alumno_detalle')));
        
-        return $this->getAlumnoService()->getById($id);
+        return $this->getUsuarioService()->getById($id);
     } 
+    
+    public function postUsersAction() {
+        
+    }
 
     
     

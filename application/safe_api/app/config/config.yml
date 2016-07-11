@@ -95,6 +95,8 @@ fos_rest:
         default_engine: twig
     routing_loader:
         default_format: json
+    serializer:
+        serialize_null: true        
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: secure_area
@@ -139,7 +141,8 @@ fos_user:
 #            google: googleId
 jms_serializer:
     metadata:
+        auto_detection: true
         directories:
-            FOSUB:
+            FOSUserBundle:
                 namespace_prefix: "FOS\\UserBundle"
-                path: "%kernel.root_dir%/serializer/FOSUB"
+                path: "@SafePerfilBundle/Resources/config/serializer"
