@@ -31,8 +31,9 @@ class AlumnoController extends FOSRestController {
      *
      * @ApiDoc(
      *   resource = true,
+     *   output="array<Safe\AlumnoBundle\Entity\Alumno>",
      *   statusCodes = {
-     *     200 = "Returned when successful"
+     *     200 = "Petición resuelta correctamente"
      *   }
      * )
      *
@@ -61,15 +62,13 @@ class AlumnoController extends FOSRestController {
     } 
     
     /**
-     * Obtiene un alumno,
+     * Obtiene el alumno segun el  id
      *
-     * @ApiDoc(
-     *   resource = true,
-     *   description = "Obtiene el alumno segun el  id",
+     * @ApiDoc(     
      *   output = "Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     404 = "Returned when the page is not found"
+     *     200 = "Petición resuelta correctamente",
+     *     404 = "Alumno no encontrado"
      *   }
      * )
      *

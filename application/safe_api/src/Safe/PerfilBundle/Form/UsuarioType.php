@@ -9,6 +9,8 @@ use Symfony\Component\Form\AbstractType;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Safe\PerfilBundle\Entity\Usuario;
@@ -35,7 +37,25 @@ class UsuarioType extends AbstractType
                 'second_options' => array('label' => 'form.password_confirmation'),
                 'invalid_message' => 'fos_user.password.mismatch',
             ))
+            ->add('roles', CollectionType::class, array(
                 
+                'entry_type'   => ChoiceType::class,
+                'entry_options'  => array(
+                        'choices'  => array(
+                                'ROLE_SUPERVISOR' => 'ROLE_SUPERVISOR',
+                                'ROLE_ALUMNO'     => 'ROLE_ALUMNO',
+                                'ROLE_DOCENTE'    => 'ROLE_DOCENTE',                                
+                        )
+                ),
+                'allow_add' => true,
+            ))    
+            /*->add('roles', ChoiceType::class, array(
+                'roles' => array(
+                    'ROLE_SUPERVISOR' => ['ROLE_SUPERVISOR'],
+                    'ROLE_ALUMNO' => ['ROLE_ALUMNO'],
+                    'ROLE_DOCENTE' => ['ROLE_DOCENTE'],                    
+                )
+            ))*/    
         ;
     }
     

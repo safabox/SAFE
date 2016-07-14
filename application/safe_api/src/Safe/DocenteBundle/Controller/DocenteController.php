@@ -11,17 +11,18 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class DocenteController extends FOSRestController {
 /**
-     * Lista todo los docentes
+     * Lista todos los docentes.
      *
      * @ApiDoc(
      *   resource = true,
+     *   output="array<Safe\DocenteBundle\Entity\Docente>",
      *   statusCodes = {
-     *     200 = "Returned when successful"
+     *     200 = "Petición resuelta correctamente"
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing pages.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many pages to return.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Número de página.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="Cantidad de elementos a retornar.")
      *
      * @Annotations\View(
      *  templateVar="pages"
@@ -46,21 +47,19 @@ class DocenteController extends FOSRestController {
     }
     
     /**
-     * Obtiene un docente,
+     * Obtiene el docente según el id.
      *
-     * @ApiDoc(
-     *   resource = true,
-     *   description = "Obtiene el alumno segun el  id",
+     * @ApiDoc(     
      *   output = "Safe\DocenteBundle\Entity\Docente",
      *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     404 = "Returned when the page is not found"
+     *     200 = "Petición resuelta correctamente",
+     *     404 = "Docente no encontrado"
      *   }
      * )
      *
      * @Annotations\View(templateVar="page")
      *
-     * @param int     $id      id del alumno.
+     * @param int     $id      id del docente.
      *
      * @return object
      *

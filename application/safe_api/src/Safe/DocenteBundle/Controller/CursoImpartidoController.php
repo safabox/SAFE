@@ -14,12 +14,12 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class CursoImpartidoController extends FOSRestController {
     /**
-     * Lista todos los cusos impartido por el docente
+     * Lista todos los cusos impartidos por el docente.
      *
      * @ApiDoc(
-     *   resource = true,
+     *   output = "array<Safe\CursoBundle\Entity\Curso>",
      *   statusCodes = {
-     *     200 = "Returned when successful"
+     *     200 = "Petición resuelta correctamente"
      *   }
      * )
      *
@@ -30,12 +30,12 @@ class CursoImpartidoController extends FOSRestController {
      *  templateVar="pages"
      * )
      *
-     * @param Request               $id      the request object
+     * @param Request               $id      id del docente
      * @param ParamFetcherInterface $paramFetcher param fetcher service
      *
      * @return array
      */
-    public function getCursosAction($docenteId, ParamFetcherInterface $paramFetcher)
+    public function getCursosAction($id, ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
@@ -44,19 +44,17 @@ class CursoImpartidoController extends FOSRestController {
         //$view = $this->view();
         //$view->setSerializationContext(SerializationContext::create()->setGroups(array('docente_curso_listado')));
        
-        return $this->getCursoImpartidoService()->findAll($docenteId, $limit, $offset);
+        return $this->getCursoImpartidoService()->findAll($id, $limit, $offset);
     } 
     
     /**
-     * Obtiene un curso,
+     * Obtiene el detalle del curso impartido por el docente.
      *
      * @ApiDoc(
-     *   resource = true,
-     *   description = "Obtiene el alumno segun el  id",
      *   output = "Safe\CursoBundle\Entity\Curso",
      *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     404 = "Returned when the page is not found"
+     *     200 = "Petición resuelta correctamente",
+     *     404 = "Curso no econtrado"
      *   }
      * )
      *

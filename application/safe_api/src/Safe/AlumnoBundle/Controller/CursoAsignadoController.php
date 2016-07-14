@@ -16,26 +16,26 @@ class CursoAsignadoController extends FOSRestController {
     /**
      * Lista todos los cusos asignados al alumno
      *
-     * @ApiDoc(
-     *   resource = true,
+     * @ApiDoc(     
+     *   output = "array<Safe\CursoBundle\Entity\Curso>",
      *   statusCodes = {
-     *     200 = "Returned when successful"
+     *     200 = "Petición resuelta correctamente"
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Numero de pagina.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Número de página.")
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="Cantidad de elementos a retornar.")
      *
      * @Annotations\View(
      *  templateVar="pages"
      * )
      *
-     * @param Request               $id      the request object
+     * @param Request               $id      id del alumno.
      * @param ParamFetcherInterface $paramFetcher param fetcher service
      *
      * @return array
      */
-    public function getCursosAction($alumnoId, ParamFetcherInterface $paramFetcher)
+    public function getCursosAction($id, ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
@@ -44,7 +44,7 @@ class CursoAsignadoController extends FOSRestController {
         $view = $this->view();
         $view->setSerializationContext(SerializationContext::create()->setGroups(array('alumno_listado')));
        
-        return $this->getCursoAsignadoService()->findAll($alumnoId, $limit, $offset);
+        return $this->getCursoAsignadoService()->findAll($id, $limit, $offset);
     } 
     
     

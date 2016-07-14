@@ -86,7 +86,7 @@ fos_rest:
         view_response_listener: 'force'
         formats:
             xml: true
-            json : true
+            json : true            
         templating_formats:
             html: true
         force_redirects:
@@ -95,6 +95,7 @@ fos_rest:
         default_engine: twig
     routing_loader:
         default_format: json
+        include_format: false
     serializer:
         serialize_null: true       
     disable_csrf_role: IS_AUTHENTICATED_FULLY    
