@@ -1,14 +1,18 @@
 <?php
 namespace Safe\PerfilBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Request\ParamFetcherInterface;
+use FOS\RestBundle\View\View;
 
 use JMS\Serializer\SerializationContext;
 
-use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
+use Safe\PerfilBundle\Entity\Usuario;
+use Safe\PerfilBundle\Form\UsuarioType;
 
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class UsuarioController extends FOSRestController {
@@ -77,8 +81,30 @@ class UsuarioController extends FOSRestController {
         return $this->getUsuarioService()->getById($id);
     } 
     
-    public function postUsersAction() {
-        
+    /**
+     * Crea un nuevo usuario.
+     *
+     * @ApiDoc(
+     *   resource = true,
+     *   input = "PerfilBundle\Form\UsuarioType",
+     *   statusCodes = {
+     *     200 = "Usuario creado correctamente",
+     *     400 = "Hubo un error al crear el usuario"
+     *   }
+     * )
+     *
+     * @param Request $request the request object
+     *     
+     */
+    public function postUsersAction(Request $request) {
+        $usuario = new Usuario();
+        $form = $this->createForm(new UsuarioType(), $usuario);
+        $form->submit($request);
+        if ($form->isValid()) {            
+            $this->getUsuarioService()->save($usuario);
+            return $usuario;    
+        }
+        return View::create($form->getErrors(), 400);
     }
 
     

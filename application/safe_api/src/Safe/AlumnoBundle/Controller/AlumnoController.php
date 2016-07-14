@@ -36,7 +36,7 @@ class AlumnoController extends FOSRestController {
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Numero de pagina.")
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Número de página.")
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="Cantidad de elementos a retornar.")
      *
      * @Annotations\View(

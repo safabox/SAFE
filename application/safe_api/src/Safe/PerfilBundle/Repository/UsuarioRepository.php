@@ -10,4 +10,11 @@ namespace Safe\PerfilBundle\Repository;
  */
 class UsuarioRepository extends \Doctrine\ORM\EntityRepository
 {
+    
+    public function save($usuario) {
+        $em = $this->getEntityManager();
+        $em->persist($usuario);
+        $em->flush();
+        return $usuario;
+    }
 }

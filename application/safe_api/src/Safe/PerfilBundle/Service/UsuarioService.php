@@ -19,4 +19,7 @@ class UsuarioService {
         return $this->usuarioRepository->find($id);
     }
 
+    public function save($usuario) {
+        return $this->usuarioRepository->save($usuario);              
+    }
 }

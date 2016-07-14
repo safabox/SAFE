@@ -11,7 +11,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 class DocenteController extends FOSRestController {
 /**
-     * List all pages.
+     * Lista todo los docentes
      *
      * @ApiDoc(
      *   resource = true,
