@@ -1,7 +1,7 @@
 ## YAML Template.
 perfilBundle:
     usuario:
-        exists: La persona ya se encuentra registrado
+        exists: La persona ya se encuentra registrada
         nombre:
             not_blank: El nombre es obligatorio
             max: El nombre no puede superar los {{ limit }} caracteres
