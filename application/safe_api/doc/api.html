@@ -789,13 +789,6 @@ form .request-content {
                             <td></td>
                         </tr>
                                             <tr>
-                            <td>[][id]</td>
-                            <td>integer</td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
                             <td>[][nombre]</td>
                             <td>string</td>
                             <td>*
@@ -805,6 +798,13 @@ form .request-content {
                                             <tr>
                             <td>[][apellido]</td>
                             <td>string</td>
+                            <td>*
+</td>
+                            <td></td>
+                        </tr>
+                                            <tr>
+                            <td>[][id]</td>
+                            <td>integer</td>
                             <td>*
 </td>
                             <td></td>
@@ -1013,13 +1013,6 @@ form .request-content {
                             </td>
                         </tr>
                                             <tr>
-                            <td>id</td>
-                            <td>integer</td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
                             <td>nombre</td>
                             <td>string</td>
                             <td>*
@@ -1029,6 +1022,13 @@ form .request-content {
                                             <tr>
                             <td>apellido</td>
                             <td>string</td>
+                            <td>*
+</td>
+                            <td></td>
+                        </tr>
+                                            <tr>
+                            <td>id</td>
+                            <td>integer</td>
                             <td>*
 </td>
                             <td></td>
@@ -1560,13 +1560,6 @@ form .request-content {
                             <td></td>
                         </tr>
                                             <tr>
-                            <td>[][id]</td>
-                            <td>integer</td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
                             <td>[][nombre]</td>
                             <td>string</td>
                             <td>*
@@ -1576,6 +1569,13 @@ form .request-content {
                                             <tr>
                             <td>[][apellido]</td>
                             <td>string</td>
+                            <td>*
+</td>
+                            <td></td>
+                        </tr>
+                                            <tr>
+                            <td>[][id]</td>
+                            <td>integer</td>
                             <td>*
 </td>
                             <td></td>
@@ -2008,13 +2008,6 @@ form .request-content {
                             </td>
                         </tr>
                                             <tr>
-                            <td>id</td>
-                            <td>integer</td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
                             <td>nombre</td>
                             <td>string</td>
                             <td>*
@@ -2024,6 +2017,13 @@ form .request-content {
                                             <tr>
                             <td>apellido</td>
                             <td>string</td>
+                            <td>*
+</td>
+                            <td></td>
+                        </tr>
+                                            <tr>
+                            <td>id</td>
+                            <td>integer</td>
                             <td>*
 </td>
                             <td></td>
@@ -2746,6 +2746,71 @@ form .request-content {
             <div class="pane content selected">
                             <h4>Documentation</h4>
                 <div><p>Crea un nuevo usuario</p>
+
+<h4>Ejemplo del Request</h4>
+
+<p><strong>Registrar un usuario del tipo alumno y docente</strong></p>
+
+<pre><code>{
+ "usuario": {
+     "nombre": "Juan",
+     "apellido": "Perez",
+     "username": "juancito",
+     "email": "juan.perez@organizacion.org",
+     "plainPassword": {
+         "first" : "123456",
+         "second" : "123456"
+     },
+     "roles" : ["ROLE_ALUMNO", "ROLE_DOCENTE"]
+    },
+    "alumno": {
+     "legajo":  "123456"
+ },
+    "docente": {
+     "curriculum":  "este es el curriculumn del profesor"
+ }
+} 
+</code></pre>
+
+<p><strong>Registrar un usuario del tipo docente</strong></p>
+
+<pre><code>{
+ "usuario": {
+     "nombre": "Ruben",
+     "apellido": "Aguirre",
+     "username": "Jirafales",
+     "email": "jirafales@organizacion.org",
+     "plainPassword": {
+         "first" : "123456",
+         "second" : "123456"
+     },
+     "roles" : ["ROLE_DOCENTE"]
+    },
+ "docente": {
+     "curriculum":  "este es el curriculumn del profesor"
+ }
+} 
+</code></pre>
+
+<p><strong>Registrar un usuario del tipo alumno</strong></p>
+
+<pre><code>{
+ "usuario": {
+     "nombre": "Roberto",
+     "apellido": "Gómez Bolaño",
+     "username": "chespirito",
+     "email": "chespirito@organizacion.org",
+     "plainPassword": {
+         "first" : "123456",
+         "second" : "123456"
+     },
+     "roles" : ["ROLE_ALUMNO"]
+    },
+    "alumno": {
+     "legajo":  "123457"
+ }
+} 
+</code></pre>
 </div>
             
             
@@ -2764,64 +2829,99 @@ form .request-content {
                     </thead>
                     <tbody>
                                                                                     <tr>
-                                    <td>nombre</td>
+                                    <td>usuario</td>
+                                    <td>object (UsuarioType)</td>
+                                    <td>true</td>
+                                    <td class="format"></td>
+                                    <td></td>
+                                </tr>
+                                                                                                                <tr>
+                                    <td>usuario[nombre]</td>
                                     <td>string</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td></td>
                                 </tr>
                                                                                                                 <tr>
-                                    <td>apellido</td>
+                                    <td>usuario[apellido]</td>
                                     <td>string</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td></td>
                                 </tr>
                                                                                                                 <tr>
-                                    <td>avatar</td>
+                                    <td>usuario[avatar]</td>
                                     <td>string</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td></td>
                                 </tr>
                                                                                                                 <tr>
-                                    <td>username</td>
+                                    <td>usuario[username]</td>
                                     <td>string</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td></td>
                                 </tr>
                                                                                                                 <tr>
-                                    <td>email</td>
+                                    <td>usuario[email]</td>
                                     <td>string</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td></td>
                                 </tr>
                                                                                                                 <tr>
-                                    <td>plainPassword</td>
+                                    <td>usuario[plainPassword]</td>
                                     <td>object (RepeatedType)</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td></td>
                                 </tr>
                                                                                                                 <tr>
-                                    <td>plainPassword[first]</td>
+                                    <td>usuario[plainPassword][first]</td>
                                     <td>string</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td>form.password</td>
                                 </tr>
                                                                                                                 <tr>
-                                    <td>plainPassword[second]</td>
+                                    <td>usuario[plainPassword][second]</td>
                                     <td>string</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td>form.password_confirmation</td>
                                 </tr>
                                                                                                                 <tr>
-                                    <td>roles[]</td>
+                                    <td>usuario[roles][]</td>
                                     <td>array of choices</td>
+                                    <td>true</td>
+                                    <td class="format"></td>
+                                    <td></td>
+                                </tr>
+                                                                                                                <tr>
+                                    <td>alumno</td>
+                                    <td>object (AlumnoFlatType)</td>
+                                    <td>true</td>
+                                    <td class="format"></td>
+                                    <td></td>
+                                </tr>
+                                                                                                                <tr>
+                                    <td>alumno[legajo]</td>
+                                    <td>string</td>
+                                    <td>true</td>
+                                    <td class="format"></td>
+                                    <td></td>
+                                </tr>
+                                                                                                                <tr>
+                                    <td>docente</td>
+                                    <td>object (DocenteFlatType)</td>
+                                    <td>true</td>
+                                    <td class="format"></td>
+                                    <td></td>
+                                </tr>
+                                                                                                                <tr>
+                                    <td>docente[curriculum]</td>
+                                    <td>string</td>
                                     <td>true</td>
                                     <td class="format"></td>
                                     <td></td>
@@ -2849,55 +2949,6 @@ form .request-content {
                                                                             - Usuario creado correctamente
                                                                     </h4>
                             </td>
-                        </tr>
-                                            <tr>
-                            <td>username</td>
-                            <td></td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
-                            <td>email</td>
-                            <td></td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
-                            <td>plainPassword</td>
-                            <td></td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
-                            <td>nombre</td>
-                            <td>string</td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
-                            <td>apellido</td>
-                            <td>string</td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
-                            <td>avatar</td>
-                            <td>string</td>
-                            <td>*
-</td>
-                            <td></td>
-                        </tr>
-                                            <tr>
-                            <td>id</td>
-                            <td>integer</td>
-                            <td>*
-</td>
-                            <td></td>
                         </tr>
                                         </tbody>
                                 </table>
@@ -2938,8 +2989,20 @@ form .request-content {
                             <fieldset class="parameters">
                                 <legend>Input</legend>
                                                                                                                                     <h4>Parameters</h4>
-                                                                                                                <p class="tuple" data-dataType="string" data-format="" data-description="">
-                                            <input type="text" class="key" value="nombre" placeholder="Key" />
+                                                                                                                <p class="tuple" data-dataType="object (UsuarioType)" data-format="" data-description="">
+                                            <input type="text" class="key" value="usuario" placeholder="Key" />
+                                            <span>=</span>
+                                            <select class="tuple_type">
+                                                <option value="">Type</option>
+                                                <option value="string">String</option>
+                                                <option value="boolean">Boolean</option>
+                                                <option value="file">File</option>
+                                                <option value="textarea">Textarea</option>
+                                            </select>
+                                            <input type="text" class="value" placeholder="[object (UsuarioType)] Value"  value="" /> <span class="remove">-</span>
+                                        </p>
+                                                                                                                                                    <p class="tuple" data-dataType="string" data-format="" data-description="">
+                                            <input type="text" class="key" value="usuario[nombre]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -2951,7 +3014,7 @@ form .request-content {
                                             <input type="text" class="value" placeholder="[string] Value"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                                                                     <p class="tuple" data-dataType="string" data-format="" data-description="">
-                                            <input type="text" class="key" value="apellido" placeholder="Key" />
+                                            <input type="text" class="key" value="usuario[apellido]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -2963,7 +3026,7 @@ form .request-content {
                                             <input type="text" class="value" placeholder="[string] Value"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                                                                     <p class="tuple" data-dataType="string" data-format="" data-description="">
-                                            <input type="text" class="key" value="avatar" placeholder="Key" />
+                                            <input type="text" class="key" value="usuario[avatar]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -2975,7 +3038,7 @@ form .request-content {
                                             <input type="text" class="value" placeholder="[string] Value"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                                                                     <p class="tuple" data-dataType="string" data-format="" data-description="">
-                                            <input type="text" class="key" value="username" placeholder="Key" />
+                                            <input type="text" class="key" value="usuario[username]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -2987,7 +3050,7 @@ form .request-content {
                                             <input type="text" class="value" placeholder="[string] Value"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                                                                     <p class="tuple" data-dataType="string" data-format="" data-description="">
-                                            <input type="text" class="key" value="email" placeholder="Key" />
+                                            <input type="text" class="key" value="usuario[email]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -2999,7 +3062,7 @@ form .request-content {
                                             <input type="text" class="value" placeholder="[string] Value"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                                                                     <p class="tuple" data-dataType="object (RepeatedType)" data-format="" data-description="">
-                                            <input type="text" class="key" value="plainPassword" placeholder="Key" />
+                                            <input type="text" class="key" value="usuario[plainPassword]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -3011,7 +3074,7 @@ form .request-content {
                                             <input type="text" class="value" placeholder="[object (RepeatedType)] Value"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                                                                     <p class="tuple" data-dataType="string" data-format="" data-description="form.password">
-                                            <input type="text" class="key" value="plainPassword[first]" placeholder="Key" />
+                                            <input type="text" class="key" value="usuario[plainPassword][first]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -3023,7 +3086,7 @@ form .request-content {
                                             <input type="text" class="value" placeholder="[string] form.password"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                                                                     <p class="tuple" data-dataType="string" data-format="" data-description="form.password_confirmation">
-                                            <input type="text" class="key" value="plainPassword[second]" placeholder="Key" />
+                                            <input type="text" class="key" value="usuario[plainPassword][second]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -3035,7 +3098,7 @@ form .request-content {
                                             <input type="text" class="value" placeholder="[string] form.password_confirmation"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                                                                     <p class="tuple" data-dataType="array of choices" data-format="" data-description="">
-                                            <input type="text" class="key" value="roles[]" placeholder="Key" />
+                                            <input type="text" class="key" value="usuario[roles][]" placeholder="Key" />
                                             <span>=</span>
                                             <select class="tuple_type">
                                                 <option value="">Type</option>
@@ -3045,6 +3108,54 @@ form .request-content {
                                                 <option value="textarea">Textarea</option>
                                             </select>
                                             <input type="text" class="value" placeholder="[array of choices] Value"  value="" /> <span class="remove">-</span>
+                                        </p>
+                                                                                                                                                    <p class="tuple" data-dataType="object (AlumnoFlatType)" data-format="" data-description="">
+                                            <input type="text" class="key" value="alumno" placeholder="Key" />
+                                            <span>=</span>
+                                            <select class="tuple_type">
+                                                <option value="">Type</option>
+                                                <option value="string">String</option>
+                                                <option value="boolean">Boolean</option>
+                                                <option value="file">File</option>
+                                                <option value="textarea">Textarea</option>
+                                            </select>
+                                            <input type="text" class="value" placeholder="[object (AlumnoFlatType)] Value"  value="" /> <span class="remove">-</span>
+                                        </p>
+                                                                                                                                                    <p class="tuple" data-dataType="string" data-format="" data-description="">
+                                            <input type="text" class="key" value="alumno[legajo]" placeholder="Key" />
+                                            <span>=</span>
+                                            <select class="tuple_type">
+                                                <option value="">Type</option>
+                                                <option value="string">String</option>
+                                                <option value="boolean">Boolean</option>
+                                                <option value="file">File</option>
+                                                <option value="textarea">Textarea</option>
+                                            </select>
+                                            <input type="text" class="value" placeholder="[string] Value"  value="" /> <span class="remove">-</span>
+                                        </p>
+                                                                                                                                                    <p class="tuple" data-dataType="object (DocenteFlatType)" data-format="" data-description="">
+                                            <input type="text" class="key" value="docente" placeholder="Key" />
+                                            <span>=</span>
+                                            <select class="tuple_type">
+                                                <option value="">Type</option>
+                                                <option value="string">String</option>
+                                                <option value="boolean">Boolean</option>
+                                                <option value="file">File</option>
+                                                <option value="textarea">Textarea</option>
+                                            </select>
+                                            <input type="text" class="value" placeholder="[object (DocenteFlatType)] Value"  value="" /> <span class="remove">-</span>
+                                        </p>
+                                                                                                                                                    <p class="tuple" data-dataType="string" data-format="" data-description="">
+                                            <input type="text" class="key" value="docente[curriculum]" placeholder="Key" />
+                                            <span>=</span>
+                                            <select class="tuple_type">
+                                                <option value="">Type</option>
+                                                <option value="string">String</option>
+                                                <option value="boolean">Boolean</option>
+                                                <option value="file">File</option>
+                                                <option value="textarea">Textarea</option>
+                                            </select>
+                                            <input type="text" class="value" placeholder="[string] Value"  value="" /> <span class="remove">-</span>
                                         </p>
                                                                                                             <button type="button" class="add_parameter">New parameter</button>
                                 
@@ -3383,7 +3494,7 @@ form .request-content {
                                 </ul>
         </div>
         <p id="colophon">
-            Documentation auto-generated on Thu, 14 Jul 16 20:32:46 +0200
+            Documentation auto-generated on Fri, 15 Jul 16 22:42:30 +0200
         </p>
         <script type="text/javascript">
 

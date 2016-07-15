@@ -25,10 +25,6 @@ limit:
 
   * type: array of objects (Alumno)
 
-[][id]:
-
-  * type: integer
-
 [][nombre]:
 
   * type: string
@@ -36,6 +32,10 @@ limit:
 [][apellido]:
 
   * type: string
+
+[][id]:
+
+  * type: integer
 
 [][legajo]:
 
@@ -55,10 +55,6 @@ _Obtiene el alumno segun el id_
 
 #### Response ####
 
-id:
-
-  * type: integer
-
 nombre:
 
   * type: string
@@ -66,6 +62,10 @@ nombre:
 apellido:
 
   * type: string
+
+id:
+
+  * type: integer
 
 legajo:
 
@@ -144,10 +144,6 @@ limit:
 
   * type: array of objects (Docente)
 
-[][id]:
-
-  * type: integer
-
 [][nombre]:
 
   * type: string
@@ -155,6 +151,10 @@ limit:
 [][apellido]:
 
   * type: string
+
+[][id]:
+
+  * type: integer
 
 
 ### `GET` /api/v1/docentes/{docenteId}/cursos/{id} ###
@@ -204,10 +204,6 @@ Obtiene el docente según el id.
 
 #### Response ####
 
-id:
-
-  * type: integer
-
 nombre:
 
   * type: string
@@ -215,6 +211,10 @@ nombre:
 apellido:
 
   * type: string
+
+id:
+
+  * type: integer
 
 
 ### `GET` /api/v1/docentes/{id}/cursos ###
@@ -322,86 +322,79 @@ limit:
 
 _Crea un nuevo usuario_
 
-Crea un nuevo usuario
-
 #### Parameters ####
 
-nombre:
+usuario:
+
+  * type: object (UsuarioType)
+  * required: true
+
+usuario[nombre]:
 
   * type: string
   * required: true
 
-apellido:
+usuario[apellido]:
 
   * type: string
   * required: true
 
-avatar:
+usuario[avatar]:
 
   * type: string
   * required: true
 
-username:
+usuario[username]:
 
   * type: string
   * required: true
 
-email:
+usuario[email]:
 
   * type: string
   * required: true
 
-plainPassword:
+usuario[plainPassword]:
 
   * type: object (RepeatedType)
   * required: true
 
-plainPassword[first]:
+usuario[plainPassword][first]:
 
   * type: string
   * required: true
   * description: form.password
 
-plainPassword[second]:
+usuario[plainPassword][second]:
 
   * type: string
   * required: true
   * description: form.password_confirmation
 
-roles[]:
+usuario[roles][]:
 
   * type: array of choices
   * required: true
 
-#### Response ####
+alumno:
 
-username:
+  * type: object (AlumnoFlatType)
+  * required: true
 
-  * type: 
-
-email:
-
-  * type: 
-
-plainPassword:
-
-  * type: 
-
-nombre:
+alumno[legajo]:
 
   * type: string
+  * required: true
 
-apellido:
+docente:
+
+  * type: object (DocenteFlatType)
+  * required: true
+
+docente[curriculum]:
 
   * type: string
-
-avatar:
-
-  * type: string
-
-id:
-
-  * type: integer
+  * required: true
 
 
 ### `GET` /api/v1/usuarios/{id} ###

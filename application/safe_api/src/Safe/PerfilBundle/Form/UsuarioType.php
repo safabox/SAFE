@@ -42,20 +42,13 @@ class UsuarioType extends AbstractType
                 'entry_type'   => ChoiceType::class,
                 'entry_options'  => array(
                         'choices'  => array(
-                                'ROLE_SUPERVISOR' => 'ROLE_SUPERVISOR',
-                                'ROLE_ALUMNO'     => 'ROLE_ALUMNO',
-                                'ROLE_DOCENTE'    => 'ROLE_DOCENTE',                                
+                                Usuario::ROLE_SUPERVISOR => Usuario::ROLE_SUPERVISOR,
+                                Usuario::ROLE_DOCENTE   => Usuario::ROLE_DOCENTE,
+                                Usuario::ROLE_ALUMNO    => Usuario::ROLE_ALUMNO,                                
                         )
                 ),
                 'allow_add' => true,
-            ))    
-            /*->add('roles', ChoiceType::class, array(
-                'roles' => array(
-                    'ROLE_SUPERVISOR' => ['ROLE_SUPERVISOR'],
-                    'ROLE_ALUMNO' => ['ROLE_ALUMNO'],
-                    'ROLE_DOCENTE' => ['ROLE_DOCENTE'],                    
-                )
-            ))*/    
+            ))            
         ;
     }
     
@@ -65,8 +58,7 @@ class UsuarioType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Safe\PerfilBundle\Entity\Usuario',
-            'intention'  => 'registration',
+            'data_class' => 'Safe\PerfilBundle\Entity\Usuario',            
             'constraints' => array(
                 new UniqueEntity(array('fields' => array('username'))),
                 new UniqueEntity(array('fields' => array('email')))              

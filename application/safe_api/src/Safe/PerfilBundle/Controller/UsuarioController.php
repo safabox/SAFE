@@ -14,6 +14,9 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Safe\PerfilBundle\Entity\Usuario;
 use Safe\PerfilBundle\Form\UsuarioType;
 
+use Safe\PerfilBundle\Form\RegistracionUsuarioType;
+use Safe\PerfilBundle\Form\Model\RegistracionUsuario;
+
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class UsuarioController extends FOSRestController {
     /**
@@ -54,9 +57,71 @@ class UsuarioController extends FOSRestController {
     
     /**
      * Crea un nuevo usuario
+     * 
+     * #### Ejemplo del Request
+     * **Registrar un usuario del tipo alumno y docente**
+     * ```
+     * {
+     *  "usuario": {
+     *      "nombre": "Juan",
+     *      "apellido": "Perez",
+     *      "username": "juancito",
+     *      "email": "juan.perez@organizacion.org",
+     *      "plainPassword": {
+     *          "first" : "123456",
+     *          "second" : "123456"
+     *      },
+     *      "roles" : ["ROLE_ALUMNO", "ROLE_DOCENTE"]
+     *	},
+     *	"alumno": {
+     *      "legajo":  "123456"
+     *  },
+     *	"docente": {
+     *      "curriculum":  "este es el curriculumn del profesor"
+     *  }
+     * } 
+     * ```
+     * **Registrar un usuario del tipo docente**
+     * ```
+     * {
+     *  "usuario": {
+     *      "nombre": "Ruben",
+     *      "apellido": "Aguirre",
+     *      "username": "Jirafales",
+     *      "email": "jirafales@organizacion.org",
+     *      "plainPassword": {
+     *          "first" : "123456",
+     *          "second" : "123456"
+     *      },
+     *      "roles" : ["ROLE_DOCENTE"]
+     *	},
+     *  "docente": {
+     *      "curriculum":  "este es el curriculumn del profesor"
+     *  }
+     * } 
+     * ```
+     * **Registrar un usuario del tipo alumno**
+     * ```
+     * {
+     *  "usuario": {
+     *      "nombre": "Roberto",
+     *      "apellido": "Gómez Bolaño",
+     *      "username": "chespirito",
+     *      "email": "chespirito@organizacion.org",
+     *      "plainPassword": {
+     *          "first" : "123456",
+     *          "second" : "123456"
+     *      },
+     *      "roles" : ["ROLE_ALUMNO"]
+     *	},
+     *	"alumno": {
+     *      "legajo":  "123457"
+     *  }
+     * } 
+     * ```
      * @ApiDoc(          
-     *   input = "Safe\PerfilBundle\Form\UsuarioType",
-     *   output="Safe\PerfilBundle\Entity\Usuario",
+     *   input = "Safe\PerfilBundle\Form\RegistracionUsuarioType",
+     *   output="Safe\PerfilBundle\Form\Model\RegistracionUsuario",
      *   statusCodes = {
      *     200 = "Usuario creado correctamente",
      *     400 = "Hubo un error al crear el usuario"
@@ -67,14 +132,23 @@ class UsuarioController extends FOSRestController {
      *     
      */
     public function postUsuarioAction(Request $request) {
-        $usuario = new Usuario();
-        $form = $this->createForm(new UsuarioType(), $usuario);
-        $form->submit($request);        
-        if ($form->isValid()) {            
-            $this->getUsuarioService()->save($usuario);
-            return $usuario;    
+        try {
+            $registracionUsuario = new RegistracionUsuario();
+            $form = $this->createForm(new RegistracionUsuarioType(), $registracionUsuario);
+            $form->submit($request);        
+            if ($form->isValid()) {       
+                    $registracionUsuario->limpiarEntidadesSinRol();
+                    $usuario = $registracionUsuario->getUsuario();
+                    $docente = $registracionUsuario->getDocente();
+                    $alumno = $registracionUsuario->getAlumno();                    
+                    $this->getUsuarioService()->registrarUsuario($usuario, $docente, $alumno);
+                    return $registracionUsuario;    
+            }
+            return View::create($form->getErrors(), 400);
+        } catch (Exception $ex) {
+            var_dump($ex->getMessage());
+            return View::create($ex->getMessage(), 500);
         }
-        return View::create($form->getErrors(), 400);
     }
 
     /**     

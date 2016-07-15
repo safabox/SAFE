@@ -32,6 +32,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Usuario extends BaseUser
 {
+    
+    const ROLE_SUPERVISOR = 'ROLE_SUPERVISOR';
+    const ROLE_DOCENTE = 'ROLE_DOCENTE';
+    const ROLE_ALUMNO = 'ROLE_ALUMNO';
     /**
      * @var int
      *
@@ -46,7 +50,7 @@ class Usuario extends BaseUser
      *
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
      * @Assert\NotBlank(
-         *      message = "perfilBundle.usuario.nombre.not_blank"
+         *      message = "perfilBundle.usuario.nombre.vacio"
      * )
      * @Assert\Length(
      *      max = 100,
@@ -60,7 +64,7 @@ class Usuario extends BaseUser
      *
      * @ORM\Column(name="apellido", type="string", length=100, nullable=false)
      * @Assert\NotBlank(
-     *      message = "perfilBundle.usuario.apellido.not_blank"
+     *      message = "perfilBundle.usuario.apellido.vacio"
      * )
      * @Assert\Length(
      *      max = 100,

@@ -8,6 +8,12 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+
+use Safe\PerfilBundle\Entity\Usuario;
+
 /**
  * Docente
  *
@@ -28,20 +34,10 @@ class Docente
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nombre", type="string", length=100)
-     * @Expose
+     * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\Usuario")
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
      */
-    private $nombre;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="apellido", type="string", length=100)
-     * @Expose
-     */
-    private $apellido;
+    private $usuario;
 
     /**
      * @var string
@@ -86,39 +82,6 @@ class Docente
         $this->nombre = $nombre;
 
         return $this;
-    }
-
-    /**
-     * Get nombre
-     *
-     * @return string 
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * Set apellidos
-     *
-     * @param string $apellido
-     * @return Docente
-     */
-    public function setApellido($apellido)
-    {
-        $this->apellido = $apellido;
-
-        return $this;
-    }
-
-    /**
-     * Get apellido
-     *
-     * @return string 
-     */
-    public function getApellido()
-    {
-        return $this->apellido;
     }
 
     /**
@@ -189,4 +152,30 @@ class Docente
     {
         return $this->cursos;
     }
+    public function getUsuario() {
+        return $this->usuario;
+    }
+
+    public function setUsuario($usuario) {
+        $this->usuario = $usuario;
+    }
+    /**
+     * @VirtualProperty
+     * @Type("string")     
+     */
+    public function getNombre() {
+        return $this->usuario->getNombre();
+    }
+    
+     /**
+     * @VirtualProperty
+     * @Type("string")         
+     */
+    public function getApellido() {
+        return $this->usuario->getApellido();
+    }
+    
+   
+
+
 }

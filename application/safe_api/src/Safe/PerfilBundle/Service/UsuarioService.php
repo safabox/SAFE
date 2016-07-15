@@ -22,4 +22,8 @@ class UsuarioService {
     public function save($usuario) {
         return $this->usuarioRepository->save($usuario);              
     }
+    
+    public function registrarUsuario($usuario, $docente, $alumno) {
+        return $this->usuarioRepository->registrarUsuario($usuario, $docente, $alumno);
+    }
 }
