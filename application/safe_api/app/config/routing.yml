@@ -24,7 +24,10 @@ safe_alumno:
     resource: "@SafeAlumnoBundle/Resources/config/routing.yml"
     prefix:   /api
     type: rest
-
+safe_admin:
+    resource: "@SafeAdminBundle/Resources/config/routing.yml"
+    prefix:   /api
+    type: rest
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

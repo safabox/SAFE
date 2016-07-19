@@ -17,7 +17,7 @@ class UsuarioRepository extends \Doctrine\ORM\EntityRepository
         $em->flush();
         return $usuario;
     }
-
+    
     public function registrarUsuario($usuario, $docente, $alumno) {
         $em = $this->getEntityManager();
         $em->getConnection()->beginTransaction();

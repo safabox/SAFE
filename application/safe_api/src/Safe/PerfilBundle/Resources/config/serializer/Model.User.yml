@@ -5,8 +5,22 @@ FOS\UserBundle\Model\User:
     properties:
         email:
             expose: true
-#            groups: [Registration, Profile, Default]
-        # enabled:
-        #     expose: true
-        # locked:
-        #     expose: true
+            groups: [listado]
+        lastLogin:
+            expose: true
+            groups: [listado]            
+        enabled:
+            expose: true
+            groups: [admin_listado]
+        locked:
+            expose: true
+            groups: [admin_listado]
+        roles:
+            expose: true
+            groups: [admin_listado]    
+        credentialsExpired:
+            expose: true
+            groups: [admin_listado]
+        credentialsExpireAt:
+            expose: true
+            groups: [admin_listado]        

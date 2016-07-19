@@ -1,0 +1,13 @@
+safe_admin_homepage:
+    path:     /admin/home
+    defaults: { _controller: SafeAdminBundle:Default:index }
+safe_admin_docentes:
+    type: rest
+    prefix: /v1/admin
+    resource: "Safe\AdminBundle\Controller\DocenteController"
+    name_prefix:  api_1_admin_docentes # naming collision
+safe_admin_alumnos:
+    type: rest
+    prefix: /v1/admin
+    resource: "Safe\AdminBundle\Controller\AlumnoController"
+    name_prefix:  api_1_admin_alumnos # naming collision

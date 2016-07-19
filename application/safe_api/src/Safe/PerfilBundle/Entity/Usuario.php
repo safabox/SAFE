@@ -42,6 +42,7 @@ class Usuario extends BaseUser
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"listado"})
      */
     protected $id;
 
@@ -50,12 +51,13 @@ class Usuario extends BaseUser
      *
      * @ORM\Column(name="nombre", type="string", length=100, nullable=false)
      * @Assert\NotBlank(
-         *      message = "perfilBundle.usuario.nombre.vacio"
-     * )
+     *      message = "perfilBundle.usuario.nombre.vacio"
+     * ) 
      * @Assert\Length(
      *      max = 100,
      *      maxMessage = "perfilBundle.usuario.nombre.max"
-     * )         
+     * )        
+     * @Groups({"listado"})
      */
     private $nombre;
     
@@ -70,7 +72,7 @@ class Usuario extends BaseUser
      *      max = 100,
      *      maxMessage = "perfilBundle.usuario.apellido.max"
      * )
-     *  
+     * @Groups({"listado"}) 
      */
     private $apellido;
     
@@ -82,6 +84,7 @@ class Usuario extends BaseUser
      *      max = 255,
      *      maxMessage = "perfilBundle.usuario.avatar.max"
      * )
+     * @Groups({"listado"})
      */
     private $avatar;
     
@@ -137,7 +140,8 @@ class Usuario extends BaseUser
      *      min = 2,
      *      minMessage = "fos_user.username.short",
      *      max = 255,
-     *      maxMessage = "fos_user.username.long"
+     *      maxMessage = "fos_user.username.long",
+     *      groups={"patch"}
      * )
      */
     public function getUsername()
@@ -153,10 +157,12 @@ class Usuario extends BaseUser
      *      min = 2,
      *      minMessage = "fos_user.email.short",
      *      max = 254,
-     *      maxMessage = "fos_user.email.long"
+     *      maxMessage = "fos_user.email.long",
+     *      groups={"patch"}
      * )
      * @Assert\Email(
      *      message = "fos_user.email.invalid",
+     *      groups={"patch"}
      * )
      */
     public function getEmail() {
@@ -170,7 +176,8 @@ class Usuario extends BaseUser
      * @Assert\Length(
      *      min = 2,
      *      minMessage = "fos_user.password.short",
-     *      max = 4096   
+     *      max = 4096,
+     *      groups={"patch"}   
      * )
      */
     public function getPlainPassword() {

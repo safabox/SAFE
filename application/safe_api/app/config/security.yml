@@ -54,6 +54,7 @@ security:
          - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/api, roles: ROLE_USER }
+         - { path: ^/api/v1/admin, roles: ROLE_SUPERVISOR }
          - { path: ^/api/v1/usuarios, roles: ROLE_SUPERVISOR }
          - { path: ^/api/v1/docentes, roles: ROLE_DOCENTE }
          - { path: ^/api/v1/alumnos, roles: ROLE_ALUMNO }

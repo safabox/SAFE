@@ -1,0 +1,6 @@
+## YAML Template.
+alumnoBundle:
+    alumno:
+        no_encontrado: Alumno no encontrado.
+        legajo:
+            max: El legajo no puede superar los {{ limit }} caracteres

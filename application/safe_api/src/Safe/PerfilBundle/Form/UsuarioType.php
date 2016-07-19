@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Safe\PerfilBundle\Entity\Usuario;
@@ -30,6 +31,7 @@ class UsuarioType extends AbstractType
                 
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
+            ->add('enabled', CheckboxType::class)
             ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
                 'options' => array('translation_domain' => 'FOSUserBundle'),

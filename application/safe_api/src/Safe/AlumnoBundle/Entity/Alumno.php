@@ -2,17 +2,19 @@
 
 namespace Safe\AlumnoBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
-
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 
 use Safe\PerfilBundle\Entity\Usuario;
+
 /**
  * Alumno
  *
@@ -29,6 +31,7 @@ class Alumno
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Expose
+     * @Groups({"listado"}) 
      */
     private $id;
 
@@ -38,19 +41,27 @@ class Alumno
      *
      * @ORM\Column(name="legajo", type="string", length=100, nullable=true)
      * @Expose
+     * @Assert\Length(
+     *      max = 100,
+     *      maxMessage = "alumnoBundle.alumno.legajo.max"
+     * ) 
+     * @Groups({"listado"}) 
      */
     private $legajo;
     
     /**
      * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\Usuario")
-     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)     
+     * @Expose
+     * @Groups({"listado"})      
+     * @Assert\Valid
      */
     private $usuario;
 
 
     /**
      * @ORM\ManyToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="alumnos")
-     * @Groups({"alumno_detalle"})
+     * @Groups({"detalle"})
      */
     private $cursos;
     
@@ -122,7 +133,7 @@ class Alumno
         
     /**
      * @VirtualProperty
-     * @Type("string")          
+     * @Type("string")               
      */
     public function getNombre() {
         return $this->usuario->getNombre();
@@ -130,11 +141,13 @@ class Alumno
     
    /**
      * @VirtualProperty
-     * @Type("string")         
+     * @Type("string")  
      */
     public function getApellido() {
         return $this->usuario->getApellido();
+    }  
+    
+    public function setRol() {
+        $this->usuario->setRoles(array(Usuario::ROLE_ALUMNO));
     }
-    
-    
 }

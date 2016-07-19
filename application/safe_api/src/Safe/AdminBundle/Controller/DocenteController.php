@@ -1,5 +1,5 @@
 <?php
-namespace Safe\DocenteBundle\Controller;
+namespace Safe\AdminBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,10 +42,6 @@ class DocenteController extends FOSRestController {
         return $this->getDocenteService()->findAll($limit, $offset);
     } 
     
-    private function getDocenteService() {
-        return $this->container->get('safe_docente.service.docente');
-    }
-    
     /**
      * Obtiene el docente según el id.
      *
@@ -72,5 +68,9 @@ class DocenteController extends FOSRestController {
         //$view->setSerializationContext(SerializationContext::create()->setGroups(array('docente_detalle')));
        
         return $this->getDocenteService()->getById($id);
+    }
+    
+    private function getDocenteService() {
+        return $this->container->get('safe_docente.service.docente');
     }
 }

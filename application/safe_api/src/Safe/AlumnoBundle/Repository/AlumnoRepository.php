@@ -12,4 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class AlumnoRepository extends EntityRepository
 {
+    
+    public function crearOActualizar($alumno) {
+        $em = $this->getEntityManager();
+        $em->getConnection()->beginTransaction();
+        
+        try {
+            $em->persist($alumno->getUsuario());
+            $em->persist($alumno);            
+            $em->flush();
+            $em->getConnection()->commit();
+        } catch (Exception $ex) {
+            $em->getConnection()->rollback();            
+            throw $ex;
+        }
+    }
 }

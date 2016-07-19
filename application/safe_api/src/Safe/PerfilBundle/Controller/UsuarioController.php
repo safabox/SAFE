@@ -2,6 +2,8 @@
 namespace Safe\PerfilBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Request\ParamFetcherInterface;
@@ -144,13 +146,41 @@ class UsuarioController extends FOSRestController {
                     $this->getUsuarioService()->registrarUsuario($usuario, $docente, $alumno);
                     return $registracionUsuario;    
             }
-            return View::create($form->getErrors(), 400);
+            return View::create($form->getErrors(), Response::HTTP_BAD_REQUEST);
         } catch (Exception $ex) {
             var_dump($ex->getMessage());
-            return View::create($ex->getMessage(), 500);
+            return View::create($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
+    /**     
+     * Actualiza el usuario segun el id
+     * @ApiDoc(
+     *   output = "Safe\PerfilBundle\Form\Model\RegistracionUsuario",
+     *   statusCodes = {
+     *     200 = "Petición resuelta correctamente",
+     *     404 = "Usuario no encontrado"
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="page")
+     *
+     * @param int     $id      id del alumno.
+     *
+     * @return object
+     *
+     * @throws NotFoundHttpException cuando no existe el usuario.
+     */
+    public function putUsuarioAction(Request $request, $id) {
+         $usuario = $this->getUsuarioService()->getById($id);         
+         if ($usuario === null) {
+             throw $this->createNotFoundException("Usuario does not exist.");
+         }
+         $registracionUsuario = new RegistracionUsuario();
+         $registracionUsuario->setUsuario($usuario);        
+         $form = $this->createForm(new RegistracionUsuarioType(), $registracionUsuario);         
+    }
+    
     /**     
      * Obtiene el usuario segun el  id
      * @ApiDoc(

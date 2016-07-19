@@ -18,5 +18,10 @@ class AlumnoService {
     public function getById($id) {
         return $this->alumnoRepository->find($id);
     }
+    
+    public function crearOActualizar($alumno) {
+        $alumno->setRol();
+        return $this->alumnoRepository->crearOActualizar($alumno);
+    }
 
 }

@@ -3,6 +3,7 @@ namespace Safe\AlumnoBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 
 use JMS\Serializer\SerializationContext;
@@ -10,20 +11,6 @@ use JMS\Serializer\SerializationContext;
 use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-/*
- * use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Util\Codes;
-use FOS\RestBundle\Controller\Annotations;
-use FOS\RestBundle\View\View;
-use FOS\RestBundle\Request\ParamFetcherInterface;
-use Symfony\Component\Form\FormTypeInterface;
-use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use Acme\BlogBundle\Exception\InvalidFormException;
-use Acme\BlogBundle\Form\PageType;
-use Acme\BlogBundle\Model\PageInterface;
- */
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class AlumnoController extends FOSRestController {
     /**
@@ -55,10 +42,9 @@ class AlumnoController extends FOSRestController {
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
         
-        $view = $this->view();
-        $view->setSerializationContext(SerializationContext::create()->setGroups(array('alumno_listado')));
-       
-        return $this->getAlumnoService()->findAll($limit, $offset);
+        $view = $this->view($this->getAlumnoService()->findAll($limit, $offset), Response::HTTP_OK);
+        $view->setSerializationContext(SerializationContext::create()->setGroups(array('listado')));
+        return $this->handleView($view);
     } 
     
     /**
