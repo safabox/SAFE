@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Safe\TemaBundle\SafeTemaBundle(),
             new Safe\PerfilBundle\SafePerfilBundle(),
             new Safe\AdminBundle\SafeAdminBundle(),
+            new Safe\CoreBundle\SafeCoreBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

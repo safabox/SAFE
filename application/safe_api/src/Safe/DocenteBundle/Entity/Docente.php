@@ -2,12 +2,13 @@
 
 namespace Safe\DocenteBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 use Doctrine\ORM\Mapping as ORM;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
-
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
@@ -30,12 +31,16 @@ class Docente
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Expose
+     * @Groups({"listado"}) 
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\Usuario")
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
+     * @Expose
+     * @Groups({"listado"})  
+     * @Assert\Valid 
      */
     private $usuario;
 
@@ -43,6 +48,7 @@ class Docente
      * @var string
      *
      * @ORM\Column(name="curriculum", type="text", nullable=true)
+     * @Groups({"detalle"})  
      */
     private $curriculum;
 
@@ -50,6 +56,8 @@ class Docente
      * @var \DateTime
      *
      * @ORM\Column(name="fechaModificacion", type="datetime", nullable=true)
+     * @Expose 
+     * @Groups({"listado"})     
      */
     private $fechaModificacion;
 
@@ -57,7 +65,7 @@ class Docente
     /**
      *
      * @ORM\OneToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="docente")
-     * @Groups({"docente_detalle"})
+     * @Groups({"docente_detalle"})      
      */
     private $cursos;
     
@@ -159,6 +167,8 @@ class Docente
     public function setUsuario($usuario) {
         $this->usuario = $usuario;
     }
+    
+    
     /**
      * @VirtualProperty
      * @Type("string")     
@@ -176,6 +186,8 @@ class Docente
     }
     
    
-
+    public function setRol() {
+        $this->usuario->setRoles(array(Usuario::ROLE_DOCENTE));
+    }
 
 }

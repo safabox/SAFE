@@ -140,8 +140,7 @@ class Usuario extends BaseUser
      *      min = 2,
      *      minMessage = "fos_user.username.short",
      *      max = 255,
-     *      maxMessage = "fos_user.username.long",
-     *      groups={"patch"}
+     *      maxMessage = "fos_user.username.long"
      * )
      */
     public function getUsername()
@@ -161,8 +160,7 @@ class Usuario extends BaseUser
      *      groups={"patch"}
      * )
      * @Assert\Email(
-     *      message = "fos_user.email.invalid",
-     *      groups={"patch"}
+     *      message = "fos_user.email.invalid"
      * )
      */
     public function getEmail() {
@@ -176,8 +174,7 @@ class Usuario extends BaseUser
      * @Assert\Length(
      *      min = 2,
      *      minMessage = "fos_user.password.short",
-     *      max = 4096,
-     *      groups={"patch"}   
+     *      max = 4096  
      * )
      */
     public function getPlainPassword() {

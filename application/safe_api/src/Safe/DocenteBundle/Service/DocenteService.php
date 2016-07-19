@@ -19,4 +19,8 @@ class DocenteService {
         return $this->docenteRepository->find($id);
     }
 
+    public function crearOActualizar($docente) {
+        $docente->setRol();
+        return $this->docenteRepository->crearOActualizar($docente);
+    }
 }

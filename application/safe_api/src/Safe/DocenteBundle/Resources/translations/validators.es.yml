@@ -1,0 +1,4 @@
+## YAML Template.
+docenteBundle:
+    docente:
+        no_encontrado: Alumno no encontrado.

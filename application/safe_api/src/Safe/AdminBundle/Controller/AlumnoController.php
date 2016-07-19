@@ -3,21 +3,21 @@ namespace Safe\AdminBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\Controller\Annotations;
-use FOS\RestBundle\View\View;
 
-use JMS\Serializer\SerializationContext;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Safe\AdminBundle\Form\RegistracionAlumnoType;
-use Safe\AdminBundle\Form\RegistracionAlumnoPatchType;
 use Safe\AlumnoBundle\Entity\Alumno;
+
+use Safe\CoreBundle\Controller\SafeRestAbstractController;
+use Safe\CoreBundle\Http\HttpMethod;
 
 use Doctrine\Common\Util\Debug;
 
-class AlumnoController extends FOSRestController {
+
+class AlumnoController extends SafeRestAbstractController {
     /**
      * Lista todos los alumnos
      *
@@ -47,9 +47,9 @@ class AlumnoController extends FOSRestController {
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
         
-        $view = $this->view($this->getAlumnoService()->findAll($limit, $offset), Response::HTTP_OK);
-        $view->setSerializationContext(SerializationContext::create()->setGroups(array('listado', 'admin_listado')));
-        return $this->handleView($view);
+        return $this->generarRespuesta($this->getAlumnoService()->findAll($limit, $offset),
+                Response::HTTP_OK,
+                array('listado', 'admin_listado'));
     } 
     
     /**
@@ -77,28 +77,16 @@ class AlumnoController extends FOSRestController {
      *   input = "Safe\AdminBundle\Form\RegistracionAlumnoType",
      *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
-     *     200 = "Usuario creado correctamente",
-     *     400 = "Hubo un error al crear el usuario"
+     *     204 = "Entidad creadad correctamente",
+     *     400 = "Hubo un error al crear la entidad"
      *   }
      * )
      *
      * @param Request $request the request object
      *     
      */
-    public function postAlumnoAction(Request $request) {
-        try {
-            $alumno = new Alumno();
-            $form = $this->createForm(new RegistracionAlumnoType(), $alumno);
-            $form->submit($request);                 
-            if ($form->isValid()) {
-                $this->getAlumnoService()->crear($alumno);
-                return $alumno;    
-            }
-            return View::create($form->getErrors(), Response::HTTP_BAD_REQUEST);
-        } catch (Exception $ex) {
-            var_dump($ex->getMessage());
-            return View::create($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+    public function postAlumnoAction(Request $request) {        
+        return $this->procesarRequest($request, new RegistracionAlumnoType(), new Alumno(), HttpMethod::POST);        
     }
     
     /**
@@ -126,8 +114,8 @@ class AlumnoController extends FOSRestController {
      *   input = "Safe\AdminBundle\Form\RegistracionAlumnoType",
      *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
-     *     200 = "Usuario creado correctamente",
-     *     400 = "Hubo un error al crear el usuario"
+     *     204 = "Entidad actualizada correctamente",
+     *     400 = "Hubo un error al actualizar la entidad"
      *   }
      * )
      *
@@ -139,17 +127,7 @@ class AlumnoController extends FOSRestController {
         if ($alumno == null) {                      
             throw  $this->createNotFoundException("alumnoBundle.alumno.no_encontrado");
         }            
-        try {                        
-            $form = $this->createForm(new RegistracionAlumnoType(), $alumno);
-            $form->submit($request);                 
-            if ($form->isValid()) {                      
-                $this->getAlumnoService()->crear($alumno);
-                return $alumno;    
-            }
-            return View::create($form->getErrors(), Response::HTTP_BAD_REQUEST);
-        } catch (Exception $ex) {            
-            return View::create($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return $this->procesarRequest($request, new RegistracionAlumnoType(), $alumno, HttpMethod::PUT);         
     }
     
     /**
@@ -177,8 +155,8 @@ class AlumnoController extends FOSRestController {
      *   input = "Safe\AdminBundle\Form\RegistracionAlumnoType",
      *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
-     *     200 = "Usuario creado correctamente",
-     *     400 = "Hubo un error al crear el usuario"
+     *     204 = "Alumno actualizado correctamente",
+     *     400 = "Hubo un error al actualizar parcialmente el alumno"
      *   }
      * )
      *
@@ -190,19 +168,9 @@ class AlumnoController extends FOSRestController {
         if ($alumno == null) {        
             throw  $this->createNotFoundException("alumnoBundle.alumno.no_encontrado");
         }   
-        try {                                    
-            $form = $this->createForm(new RegistracionAlumnoType(), $alumno);            
-            $form->submit($request->request->all(), false);                       
-            if ($form->isValid()) {                
-                $this->getAlumnoService()->crearOActualizar($alumno);
-                return $alumno;    
-            }
-            return View::create($form->getErrors(), Response::HTTP_BAD_REQUEST);
-        } catch (Exception $ex) {            
-            return View::create($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return $this->procesarRequest($request, new RegistracionAlumnoType(), $alumno, HttpMethod::PATCH); 
     }
-    
+        
     /**
      * Obtiene el alumno segun el  id
      *
@@ -223,18 +191,23 @@ class AlumnoController extends FOSRestController {
      * @throws NotFoundHttpException cuando no existe el alumno.
      */
     public function getAlumnoAction($id)
-    {
-        
-        $view = $this->view($this->getAlumnoService()->getById($id), Response::HTTP_OK);
-        $view->setSerializationContext(SerializationContext::create()->setGroups(array('detalle')));
-       
-        return $this->handleView($view);
+    {        
+        return generarRespuesta($this->getAlumnoService()->getById($id), Response::HTTP_OK, array('detalle'));
     } 
-    
-    
-    
-    
+       
     private function getAlumnoService() {
         return $this->container->get('safe_alumno.service.alumno');
     }
+    
+    /*
+     *
+     */
+    protected function procesarEntidadValida($alumno, $method = HttpMethod::POST) {
+        $this->getAlumnoService()->crearOActualizar($alumno);        
+        if (HttpMethod::POST == $method) {
+            return $this->generarRespuesta($alumno, Response::HTTP_OK, array('listado', 'admin_listado'));
+        }
+        return $this->generarRepuestaNotContent();
+    }
+
 }
