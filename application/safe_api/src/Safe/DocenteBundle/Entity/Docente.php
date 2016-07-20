@@ -31,7 +31,6 @@ class Docente
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Expose
-     * @Groups({"listado"}) 
      */
     private $id;
 
@@ -39,7 +38,6 @@ class Docente
      * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\Usuario")
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
      * @Expose
-     * @Groups({"listado"})  
      * @Assert\Valid 
      */
     private $usuario;
@@ -56,8 +54,7 @@ class Docente
      * @var \DateTime
      *
      * @ORM\Column(name="fechaModificacion", type="datetime", nullable=true)
-     * @Expose 
-     * @Groups({"listado"})     
+     * @Expose      
      */
     private $fechaModificacion;
 
@@ -190,4 +187,8 @@ class Docente
         $this->usuario->setRoles(array(Usuario::ROLE_DOCENTE));
     }
 
+    
+    public function getNombreYApellido() {
+        return $this->usuario->getNombre().', '.$this->usuario->getApellido();
+    }
 }

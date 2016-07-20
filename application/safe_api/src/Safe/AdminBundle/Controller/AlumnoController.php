@@ -49,7 +49,7 @@ class AlumnoController extends SafeRestAbstractController {
         
         return $this->generarRespuesta($this->getAlumnoService()->findAll($limit, $offset),
                 Response::HTTP_OK,
-                array('listado', 'admin_listado'));
+                array('Default', 'admin_listado'));
     } 
     
     /**
@@ -155,8 +155,8 @@ class AlumnoController extends SafeRestAbstractController {
      *   input = "Safe\AdminBundle\Form\RegistracionAlumnoType",
      *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
-     *     204 = "Alumno actualizado correctamente",
-     *     400 = "Hubo un error al actualizar parcialmente el alumno"
+     *     204 = "Entidad actualizada correctamente",
+     *     400 = "Hubo un error al actualizar parcialmente la entidad"
      *   }
      * )
      *
@@ -204,8 +204,8 @@ class AlumnoController extends SafeRestAbstractController {
      */
     protected function procesarEntidadValida($alumno, $method = HttpMethod::POST) {
         $this->getAlumnoService()->crearOActualizar($alumno);        
-        if (HttpMethod::POST == $method) {
-            return $this->generarRespuesta($alumno, Response::HTTP_OK, array('listado', 'admin_listado'));
+        if (HttpMethod::POST == $method) {            
+            return $this->generarRespuesta($alumno, Response::HTTP_OK, array('Default', 'admin_listado'));
         }
         return $this->generarRepuestaNotContent();
     }

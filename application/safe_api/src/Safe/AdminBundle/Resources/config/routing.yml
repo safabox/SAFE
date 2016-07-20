@@ -11,3 +11,8 @@ safe_admin_alumnos:
     prefix: /v1/admin
     resource: "Safe\AdminBundle\Controller\AlumnoController"
     name_prefix:  api_1_admin_alumnos # naming collision
+safe_admin_cursos:
+    type: rest
+    prefix: /v1/admin
+    resource: "Safe\AdminBundle\Controller\CursoController"
+    name_prefix:  api_1_admin_cursos # naming collision

@@ -5,10 +5,8 @@ FOS\UserBundle\Model\User:
     properties:
         email:
             expose: true
-            groups: [listado]
         lastLogin:
             expose: true
-            groups: [listado]            
         enabled:
             expose: true
             groups: [admin_listado]

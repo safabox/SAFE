@@ -148,7 +148,6 @@ class UsuarioController extends FOSRestController {
             }
             return View::create($form->getErrors(), Response::HTTP_BAD_REQUEST);
         } catch (Exception $ex) {
-            var_dump($ex->getMessage());
             return View::create($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

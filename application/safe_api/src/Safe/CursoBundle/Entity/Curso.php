@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
+
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Curso
  *
@@ -30,16 +32,22 @@ class Curso
     /**
      * @var string
      *
-     * @ORM\Column(name="nombre", type="string", length=100)
+     * @ORM\Column(name="titulo", type="string", length=100)
+     * @Assert\NotBlank(
+     *      message = "cursoBundle.curso.titulo.vacio"
+     * ) 
+     * @Assert\Length(
+     *      max = 100,
+     *      maxMessage = "cursoBundle.curso.titulo.max"
+     * )   
      * @Expose
      */
-    private $nombre;
+    private $titulo;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="descripcion", type="text", nullable=true)
-     * @Groups({"curso_listado", "curso_detalle"})
+     * @ORM\Column(name="descripcion", type="text", nullable=true)     
      */
     private $descripcion;
 
@@ -54,7 +62,7 @@ class Curso
     /**
      *
      * @ORM\ManyToOne(targetEntity="Safe\DocenteBundle\Entity\Docente")
-     * @Groups({"curso_detalle"})
+     * @Groups({"listado"})
      */
     private $docente;
 
@@ -62,8 +70,7 @@ class Curso
     
     /**
      * @ORM\ManyToMany(targetEntity="Safe\AlumnoBundle\Entity\Alumno", inversedBy="cursos")
-     * @ORM\JoinTable(name="curso_alumno")
-     * @Groups({"curso_detalle"})
+     * @ORM\JoinTable(name="curso_alumno")     
      */
     private $alumnos;
     
@@ -89,29 +96,14 @@ class Curso
         return $this->id;
     }
 
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     * @return Curso
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
+    function getTitulo() {
+        return $this->titulo;
     }
 
-    /**
-     * Get nombre
-     *
-     * @return string 
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
+    function setTitulo($titulo) {
+        $this->titulo = $titulo;
     }
-
+   
     /**
      * Set descripcion
      *

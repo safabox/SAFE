@@ -1,0 +1,8 @@
+## YAML Template.
+cursoBundle:
+    curso:
+        exists: El curso ya se encuentra registrado
+        no_encontrado: No se encontró el curso
+        titulo:
+            vacio: El nombre es obligatorio
+            max: El nombre no puede superar los {{ limit }} caracteres        

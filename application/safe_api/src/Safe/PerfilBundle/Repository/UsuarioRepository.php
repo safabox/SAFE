@@ -36,9 +36,6 @@ class UsuarioRepository extends \Doctrine\ORM\EntityRepository
             $em->getConnection()->commit();
         } catch (Exception $ex) {
             $em->getConnection()->rollback();
-            
-            var_dump($ex->getMessage());
-            
             throw $ex;
         }
     }

@@ -12,4 +12,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class CursoRepository extends EntityRepository
 {
+    public function crearOActualizar($curso) {
+        $em = $this->getEntityManager();
+        $em->persist($curso);            
+        $em->flush();
+        return $curso;
+    }
 }

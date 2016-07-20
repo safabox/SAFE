@@ -31,7 +31,6 @@ class Alumno
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @Expose
-     * @Groups({"listado"}) 
      */
     private $id;
 
@@ -45,7 +44,6 @@ class Alumno
      *      max = 100,
      *      maxMessage = "alumnoBundle.alumno.legajo.max"
      * ) 
-     * @Groups({"listado"}) 
      */
     private $legajo;
     
@@ -53,7 +51,6 @@ class Alumno
      * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\Usuario")
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)     
      * @Expose
-     * @Groups({"listado"})      
      * @Assert\Valid
      */
     private $usuario;
