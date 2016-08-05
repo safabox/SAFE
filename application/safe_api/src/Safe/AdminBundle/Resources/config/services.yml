@@ -2,7 +2,7 @@ services:
 #    safe_admin.example:
 #        class: Safe\AdminBundle\Example
 #        arguments: ["@service_id", "plain_value", %parameter%]
-    app.form.type.registracion.curso:
+    safe_admin.form.type.registracion.curso:
             class: Safe\AdminBundle\Form\RegistracionCursoType
             arguments: ["@doctrine.orm.entity_manager"]
             tags:

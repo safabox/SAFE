@@ -20,6 +20,7 @@ use Safe\PerfilBundle\Entity\Usuario;
  *
  * @ORM\Table(name="docente")
  * @ORM\Entity(repositoryClass="Safe\DocenteBundle\Repository\DocenteRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
  */
 class Docente
@@ -58,14 +59,22 @@ class Docente
      */
     private $fechaModificacion;
 
-
+    
     /**
-     *
-     * @ORM\OneToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="docente")
-     * @Groups({"docente_detalle"})      
+     * @ORM\ManyToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="docentes")
+     * @Groups({"detalle"})
      */
     private $cursos;
     
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function actualizarFechaModificacion()
+    {
+        $this->setFechaModificacion(new \DateTime());
+    }
+
     /**
      * Get id
      *

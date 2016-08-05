@@ -9,10 +9,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 
 use Doctrine\Common\Persistence\ObjectManager;
 
-use Safe\DocenteBundle\Form\DataTransformer\DocenteToNumberTransformer;
+use Safe\DocenteBundle\Form\IdentificadorDocenteType;
 
 class RegistracionCursoType extends AbstractType {
     private $manager;
@@ -26,10 +28,18 @@ class RegistracionCursoType extends AbstractType {
     {
         $builder->add('titulo', TextType::class)
                 ->add('descripcion', TextareaType::class)
-                ->add('docente', TextType::class)
+                ->add('docentes',  CollectionType::class, array(
+                    'entry_type' => 'identificador_docente',
+                    'allow_add' => true,        
+                    'required' => true,
+                ))
+                ->add('alumnos',  CollectionType::class, array(
+                    'entry_type' => 'identificador_alumno',
+                    'allow_add' => true,                        
+                ))
         ;
         
-        $builder->get('docente')->addModelTransformer(new DocenteToNumberTransformer($this->manager));
+        
     }
     
     /**

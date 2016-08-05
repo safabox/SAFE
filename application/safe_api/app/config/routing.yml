@@ -2,6 +2,17 @@ NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
     prefix:   /api/doc
 
+#gallery:
+#    resource: '@SonataMediaBundle/Resources/config/routing/gallery.xml'
+#    prefix: /media/gallery
+
+#media:
+#    resource: '@SonataMediaBundle/Resources/config/routing/media.xml'
+#    prefix: /media
+#sonata_api_media:
+#    type:         rest
+#    prefix:       /api
+#    resource:     "@SonataMediaBundle/Resources/config/routing/api.xml"    
 safe_perfil:
     resource: "@SafePerfilBundle/Resources/config/routing.yml"
     prefix:   /api

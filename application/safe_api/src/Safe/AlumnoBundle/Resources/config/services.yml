@@ -16,3 +16,8 @@ services:
         factory_method: getRepository
         arguments:
             - Safe\AlumnoBundle\Entity\Alumno
+    safe_alumno.form.type.identificador_alumno:
+        class: Safe\AlumnoBundle\Form\IdentificadorAlumnoType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+          - {name: form.type, alias: 'identificador_alumno'}

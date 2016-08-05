@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class DocenteToNumberTransformer implements DataTransformerInterface
+class DocenteAIdentificadorTransformer implements DataTransformerInterface
 {
     private $manager;
 

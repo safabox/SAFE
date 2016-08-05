@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="curso")
  * @ORM\Entity(repositoryClass="Safe\CursoBundle\Repository\CursoRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
  */
 class Curso
@@ -61,13 +62,11 @@ class Curso
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Safe\DocenteBundle\Entity\Docente")
-     * @Groups({"listado"})
+     * @ORM\ManyToMany(targetEntity="Safe\DocenteBundle\Entity\Docente", inversedBy="cursos")
+     * @ORM\JoinTable(name="curso_docente")     
      */
-    private $docente;
+    private $docentes;
 
-  
-    
     /**
      * @ORM\ManyToMany(targetEntity="Safe\AlumnoBundle\Entity\Alumno", inversedBy="cursos")
      * @ORM\JoinTable(name="curso_alumno")     
@@ -84,6 +83,15 @@ class Curso
     public function __construct()
     {
         $this->alumnos = new ArrayCollection();
+    }
+    
+        
+    /**
+     * @ORM\PrePersist()
+     */
+    public function actualizarFechaDeCreacion()
+    {
+        $this->setFechaCreacion(new \DateTime());
     }
 
     /**
@@ -151,25 +159,25 @@ class Curso
     }
 
     /**
-     * Set docente
+     * Set docentes
      *
      * @param \stdClass $docente
      * @return Curso
      */
-    public function setDocente($docente)
+    public function setDocentes($docentes)
     {        
-        $this->docente = $docente;
+        $this->docentes = $docentes;
         return $this;
     }
 
     /**
-     * Get docente
+     * Get docentes
      *
      * @return \stdClass 
      */
-    public function getDocente()
+    public function getDocentes()
     {
-        return $this->docente;
+        return $this->docentes;
     }
 
     /**
