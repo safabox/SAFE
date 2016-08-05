@@ -15,7 +15,7 @@ use Safe\CoreBundle\Controller\SafeRestAbstractController;
 use Safe\CoreBundle\Http\HttpMethod;
 
 use Doctrine\Common\Util\Debug;
-
+use Doctrine\Common\Collections\ArrayCollection;
 
 class CursoController extends SafeRestAbstractController {
     /**
@@ -136,11 +136,11 @@ class CursoController extends SafeRestAbstractController {
      *     
      */
     public function patchCursoAction(Request $request, $id) {                
-        $alumno = $this->getCursoService()->getById($id);        
-        if ($alumno == null) {        
+        $curso = $this->getCursoService()->getById($id);        
+        if ($curso == null) {        
             throw  $this->createNotFoundException("cursoBundle.curso.no_encontrado");
         }   
-        return $this->procesarRequest($request, RegistracionCursoType::class, $alumno, HttpMethod::PATCH); 
+        return $this->procesarRequest($request, RegistracionCursoType::class, $curso, HttpMethod::PATCH); 
     }
         
     /**
@@ -175,11 +175,27 @@ class CursoController extends SafeRestAbstractController {
      *
      */
     protected function procesarEntidadValida($curso, $method = HttpMethod::POST) {
-        $this->getCursoService()->crearOActualizar($curso);        
+        
+        if (HttpMethod::PUT == $method || HttpMethod::PATCH == $method) {
+            $docentes = $curso->getDocentes()->filter(
+                function($entry) {
+                    return ($entry !== '' || $entry !== NULL);
+                }
+            );
+            $alumnos = $curso->getAlumnos()->filter(
+                function($entry) {                    
+                    return ($entry !== NULL && $entry !== '');
+                }
+            );
+            $curso->setDocentes($docentes);       
+            $curso->setAlumnos($alumnos);       
+        }
+        
+        
+        $this->getCursoService()->crearOActualizar($curso);
         if (HttpMethod::POST == $method) {
             return $this->generarRespuesta($curso, Response::HTTP_OK, array('Default', 'admin_listado'));
         }
         return $this->generarRepuestaNotContent();
     }
-
 }

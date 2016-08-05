@@ -11,6 +11,7 @@ use Safe\CoreBundle\Http\HttpMethod;
 
 use JMS\Serializer\SerializationContext;
 
+use Doctrine\Common\Util\Debug;
 abstract class SafeRestAbstractController extends FOSRestController {
 
     public function generarRespuesta($result, $responseStatusCode = Response::HTTP_OK, $groups = null) {        
@@ -34,7 +35,7 @@ abstract class SafeRestAbstractController extends FOSRestController {
         $form = $this->createForm($type, $data);
         try {            
             $form->submit($request->request->all(), HttpMethod::PATCH !== $method);         
-            if ($form->isValid()) {
+            if ($form->isValid()) {                
                 return $this->procesarEntidadValida($data, $method);                                    
             }
             return View::create($form->getErrors(), Response::HTTP_BAD_REQUEST);
