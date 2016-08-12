@@ -23,5 +23,17 @@ class AlumnoService {
         $alumno->setRol();
         return $this->alumnoRepository->crearOActualizar($alumno);
     }
+    
+    public function buscarPorCursos($cursoId, $limit = 10, $offset = 0) {
+        $query = $this->alumnoRepository->createQueryBuilder('alumno')
+                                       ->join('alumno.cursos', 'c')
+                                       ->where('c.id = :id')
+                                       ->setParameter('id', $cursoId)
+                                       ->getQuery()
+                                       ->setMaxResults($limit)
+                                       ->setFirstResult($limit * $offset);
+        
+         return $query->getResult();
+    }
 
 }

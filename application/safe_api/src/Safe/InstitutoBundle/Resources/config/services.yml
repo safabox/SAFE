@@ -1,0 +1,13 @@
+services:
+#    safe_instituto.example:
+#        class: Safe\InstitutoBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+    safe_instituto.service.instituto:
+        class: Safe\InstitutoBundle\Service\InstitutoService
+        arguments: ["@safe_instituto.repository.instituto"]
+    safe_instituto.repository.instituto:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\InstitutoBundle\Entity\Instituto

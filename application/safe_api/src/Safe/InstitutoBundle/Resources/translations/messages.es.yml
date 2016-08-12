@@ -1,0 +1,4 @@
+## YAML Template.
+institutoBundle:
+    instituto:
+        no_encontrado: No se encontro el instituto.

@@ -15,6 +15,8 @@ use JMS\Serializer\Annotation\Type;
 
 use Safe\PerfilBundle\Entity\Usuario;
 
+use Safe\InstitutoBundle\Entity\Instituto;
+
 /**
  * Alumno
  *
@@ -50,17 +52,23 @@ class Alumno
     /**
      * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\Usuario")
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)     
-     * @Expose
      * @Assert\Valid
+     * @Expose
      */
     private $usuario;
 
 
     /**
      * @ORM\ManyToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="alumnos")
-     * @Groups({"detalle"})
      */
     private $cursos;
+    
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Safe\InstitutoBundle\Entity\Instituto")
+     * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id", nullable=false)
+     */    
+    private $instituto;
     
     /**
      * Get id
@@ -127,24 +135,19 @@ class Alumno
         $this->usuario = $usuario;
     }
 
-        
-    /**
-     * @VirtualProperty
-     * @Type("string")               
-     */
-    public function getNombre() {
-        return $this->usuario->getNombre();
-    }
-    
-   /**
-     * @VirtualProperty
-     * @Type("string")  
-     */
-    public function getApellido() {
-        return $this->usuario->getApellido();
-    }  
+ 
     
     public function setRol() {
         $this->usuario->setRoles(array(Usuario::ROLE_ALUMNO));
     }
+    
+    function getInstituto() {
+        return $this->instituto;
+    }
+
+    function setInstituto($instituto) {
+        $this->instituto = $instituto;
+    }
+
+
 }

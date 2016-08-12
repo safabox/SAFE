@@ -15,6 +15,7 @@ use JMS\Serializer\Annotation\Type;
 
 use Safe\PerfilBundle\Entity\Usuario;
 
+use Safe\InstitutoBundle\Entity\Instituto;
 /**
  * Docente
  *
@@ -65,6 +66,12 @@ class Docente
      * @Groups({"detalle"})
      */
     private $cursos;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Safe\InstitutoBundle\Entity\Instituto")
+     * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id")
+     */    
+    private $instituto;
     
     /**
      * @ORM\PrePersist()
@@ -200,4 +207,14 @@ class Docente
     public function getNombreYApellido() {
         return $this->usuario->getNombre().', '.$this->usuario->getApellido();
     }
+    
+    function getInstituto() {
+        return $this->instituto;
+    }
+
+    function setInstituto($instituto) {
+        $this->instituto = $instituto;
+    }
+
+
 }

@@ -3,28 +3,15 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 04-07-2016 a las 20:50:17
--- Versión del servidor: 10.1.13-MariaDB
--- Versión de PHP: 5.6.23
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-set global innodb_file_format = BARRACUDA;
-set global innodb_large_prefix = ON;
--- phpMyAdmin SQL Dump
--- version 4.5.2
--- http://www.phpmyadmin.net
---
--- Servidor: localhost
--- Tiempo de generación: 14-07-2016 a las 16:56:34
+-- Tiempo de generación: 12-08-2016 a las 06:24:07
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+set global innodb_file_format = BARRACUDA;
+set global innodb_large_prefix = ON;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -43,18 +30,78 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `alumno` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `apellidos` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `legajo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `legajo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `instituto_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `alumno`
+-- Estructura de tabla para la tabla `classification__category`
 --
 
-INSERT INTO `alumno` (`id`, `nombre`, `apellidos`, `legajo`) VALUES
-(1, 'Alumno 1', 'Apellido 1', '123412'),
-(2, 'Alumno 2', 'Apellido 2', NULL);
+CREATE TABLE `classification__category` (
+  `id` int(11) NOT NULL,
+  `parent_id` int(11) DEFAULT NULL,
+  `context` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `position` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `classification__collection`
+--
+
+CREATE TABLE `classification__collection` (
+  `id` int(11) NOT NULL,
+  `context` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `classification__context`
+--
+
+CREATE TABLE `classification__context` (
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `classification__tag`
+--
+
+CREATE TABLE `classification__tag` (
+  `id` int(11) NOT NULL,
+  `context` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -64,19 +111,18 @@ INSERT INTO `alumno` (`id`, `nombre`, `apellidos`, `legajo`) VALUES
 
 CREATE TABLE `curso` (
   `id` int(11) NOT NULL,
-  `docente_id` int(11) DEFAULT NULL,
-  `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `titulo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion` longtext COLLATE utf8mb4_unicode_ci,
-  `fechaCreacion` datetime DEFAULT NULL
+  `fechaCreacion` datetime DEFAULT NULL,
+  `instituto_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `curso`
 --
 
-INSERT INTO `curso` (`id`, `docente_id`, `nombre`, `descripcion`, `fechaCreacion`) VALUES
-(1, 1, 'Matemáticas', 'Esto es una clase de matemáticas', '2016-06-09 00:00:00'),
-(2, 2, 'Biología', 'Clase de biología', '2016-06-09 00:00:00');
+INSERT INTO `curso` (`id`, `titulo`, `descripcion`, `fechaCreacion`, `instituto_id`) VALUES
+(2, 'Matemáticas 1', '<h1>Curso inical de matemáticas</h1>', '2016-08-12 06:21:14', 1);
 
 -- --------------------------------------------------------
 
@@ -89,14 +135,16 @@ CREATE TABLE `curso_alumno` (
   `alumno_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `curso_alumno`
+-- Estructura de tabla para la tabla `curso_docente`
 --
 
-INSERT INTO `curso_alumno` (`curso_id`, `alumno_id`) VALUES
-(1, 1),
-(1, 2),
-(2, 1);
+CREATE TABLE `curso_docente` (
+  `curso_id` int(11) NOT NULL,
+  `docente_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -106,19 +154,94 @@ INSERT INTO `curso_alumno` (`curso_id`, `alumno_id`) VALUES
 
 CREATE TABLE `docente` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
   `curriculum` text,
-  `apellido` varchar(100) NOT NULL,
-  `fechaModificacion` datetime DEFAULT NULL
+  `fechaModificacion` datetime DEFAULT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `instituto_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `docente`
+-- Estructura de tabla para la tabla `instituto`
 --
 
-INSERT INTO `docente` (`id`, `nombre`, `curriculum`, `apellido`, `fechaModificacion`) VALUES
-(1, 'Docente 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sit amet volutpat elit. Morbi ultricies diam sit amet felis varius sodales. Aliquam non nunc commodo dui mollis fermentum quis eget nibh. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus', '', NULL),
-(2, 'Docente 2', 'Morbi bibendum tellus tempus, iaculis ligula non, ultrices lorem. Curabitur eu velit non lorem condimentum posuere vitae vestibulum nibh. Praesent eu laoreet massa, non cursus sapien. Mauris lorem ligula, consequat ac augue et, sodales mollis orci. Nunc consectetur blandit augue sollicitudin posuere', '', NULL);
+CREATE TABLE `instituto` (
+  `id` int(11) NOT NULL,
+  `razonSocial` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_unicode_ci
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+--
+-- Volcado de datos para la tabla `instituto`
+--
+
+INSERT INTO `instituto` (`id`, `razonSocial`, `descripcion`) VALUES
+(1, 'Razón social por defecto', 'Ingrese aquí la descripción del instituto, historia, datos de contacto.');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `media__gallery`
+--
+
+CREATE TABLE `media__gallery` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `context` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `default_format` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `media__gallery_media`
+--
+
+CREATE TABLE `media__gallery_media` (
+  `id` int(11) NOT NULL,
+  `gallery_id` int(11) DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `position` int(11) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `media__media`
+--
+
+CREATE TABLE `media__media` (
+  `id` int(11) NOT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `enabled` tinyint(1) NOT NULL,
+  `provider_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider_status` int(11) NOT NULL,
+  `provider_reference` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider_metadata` longtext COLLATE utf8mb4_unicode_ci COMMENT '(DC2Type:json)',
+  `width` int(11) DEFAULT NULL,
+  `height` int(11) DEFAULT NULL,
+  `length` decimal(10,0) DEFAULT NULL,
+  `content_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `content_size` int(11) DEFAULT NULL,
+  `copyright` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `author_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `context` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cdn_is_flushable` tinyint(1) DEFAULT NULL,
+  `cdn_flush_identifier` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cdn_flush_at` datetime DEFAULT NULL,
+  `cdn_status` int(11) DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 -- --------------------------------------------------------
 
@@ -134,14 +257,6 @@ CREATE TABLE `tema` (
   `orden` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `tema`
---
-
-INSERT INTO `tema` (`id`, `curso_id`, `titulo`, `descripcion`, `orden`) VALUES
-(1, 1, 'Suma y resta', 'Aprender a sumar y restar', 1),
-(2, 1, 'Multiplicación', 'Aprender a multiplicar', 2);
-
 -- --------------------------------------------------------
 
 --
@@ -152,6 +267,25 @@ CREATE TABLE `tema_dependencia` (
   `tema_source` int(11) NOT NULL,
   `tema_target` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_documento`
+--
+
+CREATE TABLE `tipo_documento` (
+  `id` int(11) NOT NULL,
+  `codigo` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `tipo_documento`
+--
+
+INSERT INTO `tipo_documento` (`id`, `codigo`, `descripcion`) VALUES
+(1, 'DNI', 'Documento nacional de identidad');
 
 -- --------------------------------------------------------
 
@@ -179,17 +313,19 @@ CREATE TABLE `usuario` (
   `credentials_expire_at` datetime DEFAULT NULL,
   `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `apellido` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `avatar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo_documento_id` int(11) NOT NULL,
+  `numero_documento` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `genero` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nacionalidad` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `apellido`, `avatar`) VALUES
-(8, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-07-14 15:52:18', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL),
-(9, 'pepe', 'pepe', 'pepe@mail.com', 'pepe@mail.com', 0, 'ijizd3jp7e0ogcksc48ggsocwgckoc4', 'r3PB/OGX1u44MLk0uIGRu0Lop6VB/4avUigjscM888sadATC5f7naHUyE6UY+cGxwhA26rQ0T6i1WTpHmxQkmg==', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'pepe_nombre', 'pepe_apellido', 'pepe_avatar'),
-(10, 'test1_username', 'test1_username', 'test1@safe.com', 'test1@safe.com', 0, 'n0g2wfgetn48kww48so0wkgwgggcgws', 'waKlY4nWQGByxFYrce0RbU7XIQ8aGB2+19mvfaVD70UFWKxRGgiypz9+lpg9FLAIqYhqoq2Sk27kSMCP6WSpxA==', NULL, 0, 0, NULL, NULL, NULL, 'a:0:{}', 0, NULL, 'Test1', 'Test1_apellido', NULL);
+INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `apellido`, `avatar`, `tipo_documento_id`, `numero_documento`, `genero`, `nacionalidad`) VALUES
+(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-08-09 22:26:16', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -199,14 +335,48 @@ INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_c
 -- Indices de la tabla `alumno`
 --
 ALTER TABLE `alumno`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_1435D52DDB38439E` (`usuario_id`),
+  ADD KEY `IDX_1435D52D6C6EF28` (`instituto_id`);
+
+--
+-- Indices de la tabla `classification__category`
+--
+ALTER TABLE `classification__category`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_43629B36727ACA70` (`parent_id`),
+  ADD KEY `IDX_43629B36E25D857E` (`context`),
+  ADD KEY `IDX_43629B36EA9FDD75` (`media_id`);
+
+--
+-- Indices de la tabla `classification__collection`
+--
+ALTER TABLE `classification__collection`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tag_collection` (`slug`,`context`),
+  ADD KEY `IDX_A406B56AE25D857E` (`context`),
+  ADD KEY `IDX_A406B56AEA9FDD75` (`media_id`);
+
+--
+-- Indices de la tabla `classification__context`
+--
+ALTER TABLE `classification__context`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `classification__tag`
+--
+ALTER TABLE `classification__tag`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tag_context` (`slug`,`context`),
+  ADD KEY `IDX_CA57A1C7E25D857E` (`context`);
 
 --
 -- Indices de la tabla `curso`
 --
 ALTER TABLE `curso`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `IDX_CA3B40EC94E27525` (`docente_id`);
+  ADD KEY `IDX_CA3B40EC6C6EF28` (`instituto_id`);
 
 --
 -- Indices de la tabla `curso_alumno`
@@ -217,10 +387,48 @@ ALTER TABLE `curso_alumno`
   ADD KEY `IDX_E95F7354FC28E5EE` (`alumno_id`);
 
 --
+-- Indices de la tabla `curso_docente`
+--
+ALTER TABLE `curso_docente`
+  ADD PRIMARY KEY (`curso_id`,`docente_id`),
+  ADD KEY `IDX_D4BB6C9A87CB4A1F` (`curso_id`),
+  ADD KEY `IDX_D4BB6C9A94E27525` (`docente_id`);
+
+--
 -- Indices de la tabla `docente`
 --
 ALTER TABLE `docente`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_FD9FCFA4DB38439E` (`usuario_id`),
+  ADD KEY `IDX_FD9FCFA46C6EF28` (`instituto_id`);
+
+--
+-- Indices de la tabla `instituto`
+--
+ALTER TABLE `instituto`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_2A805CCE832CBC66` (`razonSocial`);
+
+--
+-- Indices de la tabla `media__gallery`
+--
+ALTER TABLE `media__gallery`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `media__gallery_media`
+--
+ALTER TABLE `media__gallery_media`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_80D4C5414E7AF8F` (`gallery_id`),
+  ADD KEY `IDX_80D4C541EA9FDD75` (`media_id`);
+
+--
+-- Indices de la tabla `media__media`
+--
+ALTER TABLE `media__media`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_5C6DD74E12469DE2` (`category_id`);
 
 --
 -- Indices de la tabla `tema`
@@ -238,13 +446,23 @@ ALTER TABLE `tema_dependencia`
   ADD KEY `IDX_894FC75381EF8E7E` (`tema_target`);
 
 --
+-- Indices de la tabla `tipo_documento`
+--
+ALTER TABLE `tipo_documento`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UNIQ_54DF918920332D99` (`codigo`),
+  ADD UNIQUE KEY `UNIQ_54DF9189A02A2F00` (`descripcion`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `UNIQ_2265B05D92FC23A8` (`username_canonical`),
   ADD UNIQUE KEY `UNIQ_2265B05DA0D96FBF` (`email_canonical`),
-  ADD UNIQUE KEY `user_uk` (`nombre`,`apellido`);
+  ADD UNIQUE KEY `user_uk` (`nombre`,`apellido`),
+  ADD UNIQUE KEY `user_doc_uk` (`tipo_documento_id`,`numero_documento`),
+  ADD KEY `IDX_2265B05DF6939175` (`tipo_documento_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -254,36 +472,104 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `classification__category`
+--
+ALTER TABLE `classification__category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `classification__collection`
+--
+ALTER TABLE `classification__collection`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `classification__tag`
+--
+ALTER TABLE `classification__tag`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `instituto`
+--
+ALTER TABLE `instituto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `media__gallery`
+--
+ALTER TABLE `media__gallery`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `media__gallery_media`
+--
+ALTER TABLE `media__gallery_media`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `media__media`
+--
+ALTER TABLE `media__media`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tema`
 --
 ALTER TABLE `tema`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tipo_documento`
+--
+ALTER TABLE `tipo_documento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- Restricciones para tablas volcadas
 --
 
 --
+-- Filtros para la tabla `alumno`
+--
+ALTER TABLE `alumno`
+  ADD CONSTRAINT `FK_1435D52D6C6EF28` FOREIGN KEY (`instituto_id`) REFERENCES `instituto` (`id`),
+  ADD CONSTRAINT `FK_1435D52DDB38439E` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `classification__category`
+--
+ALTER TABLE `classification__category`
+  ADD CONSTRAINT `FK_43629B36727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `classification__category` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_43629B36E25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`),
+  ADD CONSTRAINT `FK_43629B36EA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media__media` (`id`) ON DELETE SET NULL;
+
+--
+-- Filtros para la tabla `classification__collection`
+--
+ALTER TABLE `classification__collection`
+  ADD CONSTRAINT `FK_A406B56AE25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`),
+  ADD CONSTRAINT `FK_A406B56AEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media__media` (`id`) ON DELETE SET NULL;
+
+--
+-- Filtros para la tabla `classification__tag`
+--
+ALTER TABLE `classification__tag`
+  ADD CONSTRAINT `FK_CA57A1C7E25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`);
+
+--
 -- Filtros para la tabla `curso`
 --
 ALTER TABLE `curso`
-  ADD CONSTRAINT `FK_CA3B40EC94E27525` FOREIGN KEY (`docente_id`) REFERENCES `docente` (`id`);
+  ADD CONSTRAINT `FK_CA3B40EC6C6EF28` FOREIGN KEY (`instituto_id`) REFERENCES `instituto` (`id`);
 
 --
 -- Filtros para la tabla `curso_alumno`
@@ -291,6 +577,33 @@ ALTER TABLE `curso`
 ALTER TABLE `curso_alumno`
   ADD CONSTRAINT `FK_E95F735487CB4A1F` FOREIGN KEY (`curso_id`) REFERENCES `curso` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_E95F7354FC28E5EE` FOREIGN KEY (`alumno_id`) REFERENCES `alumno` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `curso_docente`
+--
+ALTER TABLE `curso_docente`
+  ADD CONSTRAINT `FK_D4BB6C9A87CB4A1F` FOREIGN KEY (`curso_id`) REFERENCES `curso` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `FK_D4BB6C9A94E27525` FOREIGN KEY (`docente_id`) REFERENCES `docente` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `docente`
+--
+ALTER TABLE `docente`
+  ADD CONSTRAINT `FK_FD9FCFA46C6EF28` FOREIGN KEY (`instituto_id`) REFERENCES `instituto` (`id`),
+  ADD CONSTRAINT `FK_FD9FCFA4DB38439E` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `media__gallery_media`
+--
+ALTER TABLE `media__gallery_media`
+  ADD CONSTRAINT `FK_80D4C5414E7AF8F` FOREIGN KEY (`gallery_id`) REFERENCES `media__gallery` (`id`),
+  ADD CONSTRAINT `FK_80D4C541EA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media__media` (`id`);
+
+--
+-- Filtros para la tabla `media__media`
+--
+ALTER TABLE `media__media`
+  ADD CONSTRAINT `FK_5C6DD74E12469DE2` FOREIGN KEY (`category_id`) REFERENCES `classification__category` (`id`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `tema`
@@ -304,6 +617,12 @@ ALTER TABLE `tema`
 ALTER TABLE `tema_dependencia`
   ADD CONSTRAINT `FK_894FC75381EF8E7E` FOREIGN KEY (`tema_target`) REFERENCES `tema` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_894FC753980ADEF1` FOREIGN KEY (`tema_source`) REFERENCES `tema` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `FK_2265B05DF6939175` FOREIGN KEY (`tipo_documento_id`) REFERENCES `tipo_documento` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

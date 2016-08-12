@@ -18,7 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="usuario",
  *  uniqueConstraints={
- *     @ORM\UniqueConstraint(name="user_uk", columns={"nombre", "apellido"})
+ *     @ORM\UniqueConstraint(name="user_uk", columns={"nombre", "apellido"}),
+ *     @ORM\UniqueConstraint(name="user_doc_uk", columns={"tipo_documento_id", "numero_documento"})
  *  }
  * )
  * @ORM\Entity(repositoryClass="Safe\PerfilBundle\Repository\UsuarioRepository")
@@ -27,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(
  *     fields={"nombre", "apellido"},
  *     errorPath="apellido",
- *     message="perfilBundle.usuario.exists"
+ *     message="perfilBundle.usuario.existe"
  * )
  */
 class Usuario extends BaseUser
@@ -42,7 +43,6 @@ class Usuario extends BaseUser
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"listado"})
      */
     protected $id;
 
@@ -57,7 +57,7 @@ class Usuario extends BaseUser
      *      max = 100,
      *      maxMessage = "perfilBundle.usuario.nombre.max"
      * )        
-     * @Groups({"listado"})
+     * @Expose
      */
     private $nombre;
     
@@ -72,9 +72,59 @@ class Usuario extends BaseUser
      *      max = 100,
      *      maxMessage = "perfilBundle.usuario.apellido.max"
      * )
-     * @Groups({"listado"}) 
+     * @Expose
      */
     private $apellido;
+    
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\TipoDocumento")
+     * @ORM\JoinColumn(name="tipo_documento_id", referencedColumnName="id", nullable=false)     
+     * @Expose
+     * @Assert\Valid
+     */
+    private $tipoDocumento;
+    
+    
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="genero", type="string", length=100, nullable=true)
+     * @Assert\Length(
+     *      max = 100,
+     *      maxMessage = "perfilBundle.usuario.genero"
+     * )        
+     * @Groups({"detalle"})
+     */
+    private $genero;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nacionalidad", type="string", length=100, nullable=true)
+     * @Assert\Length(
+     *      max = 100,
+     *      maxMessage = "perfilBundle.usuario.nacionalidad"
+     * )        
+     * @Groups({"detalle"})
+     */
+    private $nacionalidad;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="numero_documento", type="string", length=100, nullable=false)
+     * @Assert\NotBlank(
+     *      message = "perfilBundle.usuario.documento.numero.vacio"
+     * )
+     * @Assert\Length(
+     *      max = 100,
+     *      maxMessage = "perfilBundle.usuario.document.numero.max"
+     * )
+     * @Expose
+     * @Groups({"detalle"}) 
+     */
+    private $numeroDocumento;
     
     /**
      * @var string
@@ -84,7 +134,7 @@ class Usuario extends BaseUser
      *      max = 255,
      *      maxMessage = "perfilBundle.usuario.avatar.max"
      * )
-     * @Groups({"listado"})
+     * @Expose
      */
     private $avatar;
     
@@ -180,6 +230,41 @@ class Usuario extends BaseUser
     public function getPlainPassword() {
         return parent::getPlainPassword();
     }
+
+    function getTipoDocumento() {
+        return $this->tipoDocumento;
+    }
+
+    function getNumeroDocumento() {
+        return $this->numeroDocumento;
+    }
+
+    function setTipoDocumento($tipoDocumento) {
+        $this->tipoDocumento = $tipoDocumento;
+    }
+
+    function setNumeroDocumento($numeroDocumento) {
+        $this->numeroDocumento = $numeroDocumento;
+    }
+    
+    function getGenero() {
+        return $this->genero;
+    }
+
+    function getNacionalidad() {
+        return $this->nacionalidad;
+    }
+
+    function setGenero($genero) {
+        $this->genero = $genero;
+    }
+
+    function setNacionalidad($nacionalidad) {
+        $this->nacionalidad = $nacionalidad;
+    }
+
+
+
 
 }
 

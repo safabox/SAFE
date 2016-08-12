@@ -53,7 +53,6 @@ class DocenteController extends SafeRestAbstractController {
     
     /**
      * Crea un nuevo docente
-     * Nota: el usuario no debe existir.
      * 
      * #### Ejemplo del Request     
      * ```
@@ -63,6 +62,9 @@ class DocenteController extends SafeRestAbstractController {
      *      "nombre": "Ruben",
      *      "apellido": "Aguirre",
      *      "username": "jirafales",
+     *      "tipoDocumento":  "DNI",
+     *      "numeroDocumento": "30777555",
+     *      "genero": "Masculino",
      *      "email": "jirafales@organizacion.org",
      *      "enabled": "true",
      *      "plainPassword": {
@@ -73,7 +75,6 @@ class DocenteController extends SafeRestAbstractController {
      * } 
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionDocenteType",
      *   output="Safe\DocenteBundle\Entity\Docente",
      *   statusCodes = {
      *     200 = "Entidad creada correctamente",
@@ -85,7 +86,9 @@ class DocenteController extends SafeRestAbstractController {
      *     
      */
     public function postDocenteAction(Request $request) {
-        return $this->procesarRequest($request, new RegistracionDocenteType(), new Docente(), HttpMethod::POST);          
+        $docente = new Docente();
+        $docente->setInstituto($this->obtenerInstitutoPorDefecto());
+        return $this->procesarRequest($request, new RegistracionDocenteType(), $docente, HttpMethod::POST);          
     }
     
     /**
@@ -100,6 +103,9 @@ class DocenteController extends SafeRestAbstractController {
      *      "nombre": "Ruben",
      *      "apellido": "Aguirre",
      *      "username": "jirafales",
+     *      "tipoDocumento":  "DNI",
+     *      "numeroDocumento": "30777555",
+     *      "genero": "Masculino",
      *      "email": "jirafales@organizacion.org",
      *      "enabled": "true",
      *      "plainPassword": {
@@ -110,7 +116,6 @@ class DocenteController extends SafeRestAbstractController {
      * } 
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionDocenteType",
      *   output="Safe\DocenteBundle\Entity\Docente",
      *   statusCodes = {
      *     204 = "Entidad actualizada correctamente",
@@ -131,7 +136,6 @@ class DocenteController extends SafeRestAbstractController {
     
     /**
      * Actualiza los datos parciales del docente
-     * Nota: el usuario no debe existir.
      * 
      * #### Ejemplo del Request     
     * ```
@@ -141,6 +145,9 @@ class DocenteController extends SafeRestAbstractController {
      *      "nombre": "Ruben",
      *      "apellido": "Aguirre",
      *      "username": "jirafales",
+     *      "tipoDocumento":  "DNI",
+     *      "numeroDocumento": "30777555",
+     *      "genero": "Masculino",
      *      "email": "jirafales@organizacion.org",
      *      "enabled": "true",
      *      "plainPassword": {
@@ -151,7 +158,6 @@ class DocenteController extends SafeRestAbstractController {
      * } 
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionDocenteType",
      *   output="Safe\DocenteBundle\Entity\Docente",
      *   statusCodes = {
      *     204 = "entidad actualizada correctamente",
@@ -192,7 +198,7 @@ class DocenteController extends SafeRestAbstractController {
      */
     public function getDocenteAction($id)
     {
-        return $this->generarRespuesta($this->getDocenteService()->getById($id), Response::HTTP_OK, array('detalle'));            
+        return $this->generarRespuesta($this->getDocenteService()->getById($id), Response::HTTP_OK, array('Default', 'admin_listado'));            
     }
     
     private function getDocenteService() {

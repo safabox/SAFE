@@ -1,6 +1,7 @@
 parameters:    
     safe_user_provider.class: Safe\PerfilBundle\Core\User\FOSUBUserProvider
     safe_perfil_service_usuario.class: Safe\PerfilBundle\Service\UsuarioService    
+    safe_perfil_service_tipo_documento.class: Safe\PerfilBundle\Service\TipoDocumentoService  
 services:
 #    safe_perfil.example:
 #        class: Safe\PerfilBundle\Example
@@ -12,10 +13,19 @@ services:
     safe_perfil.service.usuario:
         class: "%safe_perfil_service_usuario.class%"
         arguments: ["@safe_perfil.repository.usuario"]
-    
+    safe_perfil.service.tipo_documento:
+        class: "%safe_perfil_service_tipo_documento.class%"
+        arguments: ["@safe_perfil.repository.tipo_documento"]    
+            
     safe_perfil.repository.usuario:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
             - Safe\PerfilBundle\Entity\Usuario
+    safe_perfil.repository.tipo_documento:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\PerfilBundle\Entity\TipoDocumento        

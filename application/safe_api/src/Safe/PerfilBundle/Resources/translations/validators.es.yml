@@ -1,13 +1,17 @@
 ## YAML Template.
 perfilBundle:
     usuario:
-        exists: La persona ya se encuentra registrada
+        existe: La persona ya se encuentra registrada
         nombre:
             vacio: El nombre es obligatorio
-            max: El nombre no puede superar los {{ limit }} caracteres
+            max: El nombre no puede superar los {{ limit }} caracteres            
         apellido:
             vacio: El apellido es obligatorio
             max: El apellido no puede superar los {{ limit }} caracteres
+        genero:
+            max: El género no puede superar los {{ limit }} caracteres
+        nacionalidad:
+            max: La nacionalidad no puede superar los {{ limit }} caracteres            
         avatar:
             max: La url del avatar no puede superar los {{ limit }} caracteres
         docente: 

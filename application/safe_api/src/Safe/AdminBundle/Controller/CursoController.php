@@ -53,19 +53,18 @@ class CursoController extends SafeRestAbstractController {
     } 
     
     /**
-     * Crea un nuevo curso
-     * Nota: el usuario no debe existir.
+     * Crea un nuevo curso.
      * 
      * #### Ejemplo del Request     
      * ```
      * {
      *   "titulo" : "Matemáticas 1",
-     *   "descripcion" : "<h1>Curso inical de matemáticas</h1>",
-     *   "docente": "13"
+     *   "descripcion" : "<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>" ,
+     *   "docentes": ["13"],
+     *   "alumnos": ["9", "10"]
      *  }
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionCursoType",
      *   output="Safe\CursoBundle\Entity\Curso",
      *   statusCodes = {
      *     204 = "Entidad creadad correctamente",
@@ -76,8 +75,10 @@ class CursoController extends SafeRestAbstractController {
      * @param Request $request the request object
      *     
      */
-    public function postCursoAction(Request $request) {        
-        return $this->procesarRequest($request, RegistracionCursoType::class, new Curso(), HttpMethod::POST);        
+    public function postCursoAction(Request $request) { 
+        $curso = new Curso();
+        $curso->setInstituto($this->obtenerInstitutoPorDefecto());
+        return $this->procesarRequest($request, RegistracionCursoType::class, $curso, HttpMethod::POST);        
     }
     
     /**
@@ -87,12 +88,12 @@ class CursoController extends SafeRestAbstractController {
      * ```
      * {
      *   "titulo" : "Matemáticas 1",
-     *   "descripcion" : "<h1>Curso inical de matemáticas</h1>",
-     *   "docente": "13"
+     *   "descripcion" : "<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>" ,
+     *   "docentes": ["13"],
+     *   "alumnos": ["9", "10"]
      *  }
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionAlumnoType",
      *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
      *     204 = "Entidad actualizada correctamente",
@@ -119,12 +120,12 @@ class CursoController extends SafeRestAbstractController {
      * ```
      * {
      *   "titulo" : "Matemáticas 1",
-     *   "descripcion" : "<h1>Curso inical de matemáticas</h1>",
-     *   "docente": "13"
+     *   "descripcion" : "<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>" ,
+     *   "docentes": ["13"],
+     *   "alumnos": ["9", "10"]
      *  }
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionCursoType",
      *   output="Safe\CursoBundle\Entity\Curso",
      *   statusCodes = {
      *     204 = "Entidad actualizada correctamente",
@@ -164,7 +165,7 @@ class CursoController extends SafeRestAbstractController {
      */
     public function getCursoAction($id)
     {        
-        return generarRespuesta($this->getCursoService()->getById($id), Response::HTTP_OK, array('detalle'));
+        return $this->generarRespuesta($this->getCursoService()->getById($id), Response::HTTP_OK, array('Default', 'admin_listado'));
     } 
        
     private function getCursoService() {
@@ -189,6 +190,8 @@ class CursoController extends SafeRestAbstractController {
             );
             $curso->setDocentes($docentes);       
             $curso->setAlumnos($alumnos);       
+        } else {
+            $curso->setFechaCreacion(new \DateTime());
         }
         
         

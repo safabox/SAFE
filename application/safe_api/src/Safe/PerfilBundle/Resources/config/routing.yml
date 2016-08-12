@@ -6,4 +6,4 @@ safe_perfil:
     prefix: /v1
     resource: Safe\PerfilBundle\Controller\UsuarioController
     name_prefix:  api_1_perfiles # naming collision
-    
+ 

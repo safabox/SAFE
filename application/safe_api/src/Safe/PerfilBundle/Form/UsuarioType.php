@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+use Doctrine\ORM\EntityRepository;
 
 use Safe\PerfilBundle\Entity\Usuario;
 class UsuarioType extends AbstractType
@@ -31,7 +34,19 @@ class UsuarioType extends AbstractType
                 
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
-            ->add('enabled', CheckboxType::class)
+            ->add('enabled', CheckboxType::class)            
+            ->add('numeroDocumento', TextType::class)
+            ->add('genero', TextType::class)
+            ->add('tipoDocumento', EntityType::class, array(
+                'class' => 'SafePerfilBundle:TipoDocumento',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('tipoDocumento')
+                              ->orderBy('tipoDocumento.codigo', 'ASC');
+                },
+                'choice_label' => 'codigo', 
+                'choice_value' => 'codigo',        
+            ))        
+                
             ->add('plainPassword', 'repeated', array(
                 'type' => 'password',
                 'options' => array('translation_domain' => 'FOSUserBundle'),

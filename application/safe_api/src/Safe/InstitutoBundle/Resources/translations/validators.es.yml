@@ -1,0 +1,6 @@
+## YAML Template.
+institutoBundle:
+    instituto:
+        razon_social:
+            vacio: La razón social es obligatorio
+            max: La razón social no puede superar los {{ limit }} caracteres

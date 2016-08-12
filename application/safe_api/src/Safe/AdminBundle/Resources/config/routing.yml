@@ -6,6 +6,11 @@ safe_admin_docentes:
     prefix: /v1/admin
     resource: "Safe\AdminBundle\Controller\DocenteController"
     name_prefix:  api_1_admin_docentes # naming collision
+safe_admin_institutos:
+    type: rest
+    prefix: /v1/admin
+    resource: "Safe\AdminBundle\Controller\InstitutoController"
+    name_prefix:  api_1_admin_institutos # naming collision    
 safe_admin_alumnos:
     type: rest
     prefix: /v1/admin
@@ -16,3 +21,13 @@ safe_admin_cursos:
     prefix: /v1/admin
     resource: "Safe\AdminBundle\Controller\CursoController"
     name_prefix:  api_1_admin_cursos # naming collision
+safe_admin_cursos_alumnos:
+    type: rest
+    parent:   safe_admin_cursos
+    resource: "Safe\AdminBundle\Controller\CursoAlumnoController"
+    name_prefix:  api_1_admin_alumnos_cursos # naming collision
+safe_admin_tipo_documentos:
+    type: rest
+    prefix: /v1/admin
+    resource: "Safe\AdminBundle\Controller\TipoDocumentoController"
+    name_prefix:  api_1_admin_tipo_documentos # naming collision

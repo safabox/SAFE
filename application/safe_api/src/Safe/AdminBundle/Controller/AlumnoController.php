@@ -54,16 +54,18 @@ class AlumnoController extends SafeRestAbstractController {
     
     /**
      * Crea un nuevo alumno
-     * Nota: el usuario no debe existir.
      * 
      * #### Ejemplo del Request     
      * ```
      * {
      *  "legajo":  "123457",
-     *  "usuario": {
+     *  "usuario": { 
      *      "nombre": "Roberto",
      *      "apellido": "Gómez Bolaño",
      *      "username": "chespirito",
+     *      "tipoDocumento":  "DNI",
+     *      "numeroDocumento": "30777555",
+     *      "genero": "Masculino",
      *      "email": "chespirito@organizacion.org",
      *      "enabled": "true",
      *      "plainPassword": {
@@ -74,7 +76,6 @@ class AlumnoController extends SafeRestAbstractController {
      * } 
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionAlumnoType",
      *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
      *     204 = "Entidad creadad correctamente",
@@ -86,12 +87,13 @@ class AlumnoController extends SafeRestAbstractController {
      *     
      */
     public function postAlumnoAction(Request $request) {        
-        return $this->procesarRequest($request, new RegistracionAlumnoType(), new Alumno(), HttpMethod::POST);        
+        $alumno = new Alumno();
+        $alumno->setInstituto($this->obtenerInstitutoPorDefecto());
+        return $this->procesarRequest($request, new RegistracionAlumnoType(), $alumno, HttpMethod::POST);        
     }
     
     /**
      * Actualiza los datos del alumno
-     * Nota: el usuario no debe existir.
      * 
      * #### Ejemplo del Request     
      * ```
@@ -101,6 +103,9 @@ class AlumnoController extends SafeRestAbstractController {
      *      "nombre": "Roberto",
      *      "apellido": "Gómez Bolaño",
      *      "username": "chespirito",     
+     *      "tipoDocumento":  "DNI",
+     *      "numeroDocumento": "30777555",
+     *      "genero": "Masculino",
      *      "email": "chespirito@organizacion.org",
      *      "enabled": "true", 
      *      "plainPassword": {
@@ -111,7 +116,6 @@ class AlumnoController extends SafeRestAbstractController {
      * } 
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionAlumnoType",
      *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
      *     204 = "Entidad actualizada correctamente",
@@ -132,7 +136,6 @@ class AlumnoController extends SafeRestAbstractController {
     
     /**
      * Actualiza los datos parciales del alumno
-     * Nota: el usuario no debe existir.
      * 
      * #### Ejemplo del Request     
      * ```
@@ -142,6 +145,9 @@ class AlumnoController extends SafeRestAbstractController {
      *      "nombre": "Roberto",
      *      "apellido": "Gómez Bolaño",
      *      "username": "chespirito",     
+     *      "tipoDocumento":  "DNI",
+     *      "numeroDocumento": "30777555",
+     *      "genero": "Masculino",
      *      "email": "chespirito@organizacion.org",
      *      "enabled": "true", 
      *      "plainPassword": {
@@ -152,7 +158,6 @@ class AlumnoController extends SafeRestAbstractController {
      * } 
      * ```
      * @ApiDoc(          
-     *   input = "Safe\AdminBundle\Form\RegistracionAlumnoType",
      *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
      *     204 = "Entidad actualizada correctamente",
@@ -192,18 +197,15 @@ class AlumnoController extends SafeRestAbstractController {
      */
     public function getAlumnoAction($id)
     {        
-        return generarRespuesta($this->getAlumnoService()->getById($id), Response::HTTP_OK, array('detalle'));
+        return $this->generarRespuesta($this->getAlumnoService()->getById($id), Response::HTTP_OK, array('Default', 'admin_listado'));
     } 
        
     private function getAlumnoService() {
         return $this->container->get('safe_alumno.service.alumno');
     }
     
-    /*
-     *
-     */
     protected function procesarEntidadValida($alumno, $method = HttpMethod::POST) {
-        $this->getAlumnoService()->crearOActualizar($alumno);        
+        $this->getAlumnoService()->crearOActualizar($alumno);      
         if (HttpMethod::POST == $method) {            
             return $this->generarRespuesta($alumno, Response::HTTP_OK, array('Default', 'admin_listado'));
         }

@@ -11,9 +11,13 @@ use Safe\CoreBundle\Http\HttpMethod;
 
 use JMS\Serializer\SerializationContext;
 
+use Symfony\Component\Translation\Translator;
+
 use Doctrine\Common\Util\Debug;
 abstract class SafeRestAbstractController extends FOSRestController {
 
+    
+    
     public function generarRespuesta($result, $responseStatusCode = Response::HTTP_OK, $groups = null) {        
         $view = $this->view($result, $responseStatusCode);
         if ($groups != null) {            
@@ -22,13 +26,24 @@ abstract class SafeRestAbstractController extends FOSRestController {
         return $this->handleView($view);
     }
     
-    public function generarRepuestaNotContent($statusCode = Response::HTTP_NO_CONTENT) {
-        $response = new Response();
-        $response->setStatusCode($statusCode);
-        return $response;
+    public function generarRepuestaNotContent() {
+        return $this->crearResponse(Response::HTTP_NO_CONTENT);
     }
     
+    public function generarRepuestaBadRequest($content = 'Bad Request') {
+        return $this->crearResponse($statusCode = Response::HTTP_BAD_REQUEST, $content);
+    }
     
+    public function generarRepuestaNotFount($content = 'Entidad no encontrada') {
+        return $this->crearResponse(Response::HTTP_NOT_FOUND, $content);
+    }
+    
+    public function crearResponse($statusCode = Response::HTTP_ACCEPTED, $content = '') {
+        $response = new Response();
+        $response->setStatusCode($statusCode);
+        $response->setContent($content);
+        return $response;
+    }
     public function procesarRequest(Request $request, $type, $data = null, $method = HttpMethod::POST) {
         
         //$form = $this->creatForm($type, $data, array('method' => $method));
@@ -43,6 +58,28 @@ abstract class SafeRestAbstractController extends FOSRestController {
             return View::create($ex->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    
+    public function obtenerIdentificadorPostRequest(Request $request) {
+         $form = $this->createFormBuilder()
+                        ->add('id', 'number')
+                        ->getForm();
+         $form->submit($request->request->all());         
+         return $form->getData()['id'];
+    }
+    
+    public function traducir($mensaje) {
+        return $this->container->get('translator')->trans($mensaje);
+    } 
+    
+    public function obtenerInstitutoPorDefecto() {
+        $instituto = $this->container->get('safe_instituto.service.instituto')->obtenerInstitutoPorDefecto();
+                
+        if ($instituto == null) {        
+            throw  $this->createNotFoundException($this->traducir("institutoBundle.instituto.no_encontrado"));
+        }         
+        return $instituto;
+    }
+    
     protected abstract function procesarEntidadValida($data, $method = HttpMethod::POST);
     
 }

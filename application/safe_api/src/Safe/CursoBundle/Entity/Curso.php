@@ -10,6 +10,8 @@ use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Safe\InstitutoBundle\Entity\Instituto;
 /**
  * Curso
  *
@@ -79,20 +81,18 @@ class Curso
      * 
      */
     private $temas;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Safe\InstitutoBundle\Entity\Instituto")
+     * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id")
+     */    
+    private $instituto;
 
     public function __construct()
     {
         $this->alumnos = new ArrayCollection();
     }
-    
-        
-    /**
-     * @ORM\PrePersist()
-     */
-    public function actualizarFechaDeCreacion()
-    {
-        $this->setFechaCreacion(new \DateTime());
-    }
+
 
     /**
      * Get id
@@ -225,4 +225,14 @@ class Curso
     {
         return $this->temas;
     }
+    
+    function getInstituto() {
+        return $this->instituto;
+    }
+
+    function setInstituto($instituto) {
+        $this->instituto = $instituto;
+    }
+
+
 }
