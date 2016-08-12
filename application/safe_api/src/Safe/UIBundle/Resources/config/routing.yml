@@ -1,0 +1,4 @@
+safe_ui_homepage:
+    path:     /ui
+    defaults: { _controller: SafeUIBundle:Default:index }
+ 

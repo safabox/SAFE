@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">        
+        <title>{% block title %}Sistema de formaci&oacute;n educativo adaptativo{% endblock %}</title>
+        
+        <meta name="description" content="Sistema de formaci&oacute;n educativo adaptativo">
+        <meta name="keywords" content="educaci&oacute;n adaptativa, formaci&oacute;n">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+        <!-- Needs images, font... therefore can not be part of main.css -->
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{ asset('bundles/safeui/bower_components/font-awesome/css/font-awesome.min.css') }} ">
+        <!-- end Needs images -->
+        
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        <script>
+            (function() {   
+                window['staticRoute'] = "{{ asset('bundles/safeui/') }}";
+            })();
+        </script>
+         <!--[if lt IE 9]>
+            <div class="lt-ie9-bg">
+                <p class="browsehappy">You are using an <strong>outdated</strong> browser.</p>
+                <p>Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+            </div>
+        <![endif]-->
+        
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

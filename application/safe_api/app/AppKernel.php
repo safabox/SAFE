@@ -35,6 +35,8 @@ class AppKernel extends Kernel
             new Safe\AdminBundle\SafeAdminBundle(),
             new Safe\CoreBundle\SafeCoreBundle(),
             new Safe\InstitutoBundle\SafeInstitutoBundle(),
+            new Safe\UIBundle\SafeUIBundle(),
+            new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

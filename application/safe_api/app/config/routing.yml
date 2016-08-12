@@ -90,3 +90,5 @@ logout:
     path: /logout
 #google_login:
 #    path: /login/check-google 
+api_login_check:
+    path: /api/login_check
