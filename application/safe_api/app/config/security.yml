@@ -14,20 +14,20 @@ security:
 
  
      firewalls:
-         login:
-            pattern:  ^/api/login
-            stateless: true
-            anonymous: true
-            form_login:
-                check_path:               /api/login_check
-                success_handler:          lexik_jwt_authentication.handler.authentication_success
-                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
-                require_previous_session: false
+#         login:
+#            pattern:  ^/api/login
+#            stateless: true
+#            anonymous: true
+#            form_login:
+#                check_path:               /api/login_check
+#                success_handler:          lexik_jwt_authentication.handler.authentication_success
+#                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+#                require_previous_session: false
 
-         api:
-            pattern:   ^/api
-            stateless: true
-            lexik_jwt: ~
+#         api:
+#            pattern:   ^/api
+#            stateless: true
+#            lexik_jwt: ~
          dev:
              pattern:  ^/(_(profiler|wdt)|css|images|js)/
              security: false
@@ -66,6 +66,7 @@ security:
          - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/api/doc, roles: ROLE_USER }
          - { path: ^/api/v1/admin, roles: ROLE_ADMIN }
          - { path: ^/api/v1/usuarios, roles: ROLE_ADMIN }
          - { path: ^/api/v1/docentes, roles: ROLE_DOCENTE }
