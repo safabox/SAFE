@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new Nelmio\CorsBundle\NelmioCorsBundle(),
 #            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Sonata\MediaBundle\SonataMediaBundle(),
             new Sonata\ClassificationBundle\SonataClassificationBundle(),
@@ -35,7 +36,6 @@ class AppKernel extends Kernel
             new Safe\AdminBundle\SafeAdminBundle(),
             new Safe\CoreBundle\SafeCoreBundle(),
             new Safe\InstitutoBundle\SafeInstitutoBundle(),
-            new Safe\UIBundle\SafeUIBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
         );
 
