@@ -3,7 +3,34 @@
 
     angular.module('app.page')
         .controller('invoiceCtrl', ['$scope', '$window', invoiceCtrl])
-        .controller('authCtrl', ['$scope', '$window', '$location', authCtrl]);
+        .controller('authCtrl', ['$scope', '$window', '$location', authCtrl])
+
+        .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'AutorizacionService', 'PaginaService', LoginCtrl])
+    ;
+    
+    function LoginCtrl($scope, $state, $stateParams, AutorizacionService, PaginaService) {
+        
+        $scope.login = function() {
+            AutorizacionService.login($scope.username, $scope.password).then(
+                    function(data){
+                        if ($stateParams.toStateOriginal) {
+                            $state.go($stateParams.toStateOriginal.name, $stateParams.toParamsOriginal);
+                        } else {
+                            $state.go(PaginaService.getInicio());
+                        }
+                        
+                    },
+                    function(error){
+                        console.log(error);
+                    }
+            );
+        }
+        
+        function handleRequest(res) {
+            var token = res.data ? res.data.token : null;
+            console.log('JWT:', token);            
+        }
+    }
 
     function invoiceCtrl($scope, $window) {
         var printContents, originalContents, popupWin;

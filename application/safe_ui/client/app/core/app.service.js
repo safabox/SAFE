@@ -3,7 +3,22 @@
 
     angular.module('app')
         .factory('UsuarioService', ['$localStorage', UsuarioService])
-        .factory('AutorizacionService', ['UsuarioService', '$http', '$q','SystemConfig', AutorizacionService]);
+        .factory('AutorizacionService', ['UsuarioService', '$http', '$q','SystemConfig', AutorizacionService])
+        .factory('PaginaService', ['UsuarioService', PaginaService])
+
+;
+    
+    function PaginaService(UsuarioService) {
+        return {
+            getInicio: getInicio
+        }
+        
+        function getInicio() {
+            if (UsuarioService.isAlumno()) return 'alumno.dashboard';
+            if (UsuarioService.isDocente()) return 'docente.dashboard';
+            if (UsuarioService.isAdmin()) return 'admin.dashboard';
+        }
+    }
     
     function AutorizacionService(UsuarioService, $http, $q, SystemConfig) {
         
@@ -42,7 +57,20 @@
             eliminar: eliminar,
             isAutenticado: isAutenticado,
             tieneRol: tieneRol,
+            
+            isAlumno: isAlumno,
+            isDocente: isDocente,
+            isAdmin: isAdmin,
                                 
+        }
+        function isAlumno() {
+            return tieneRol(["ROLE_ALUMNO"]);
+        }
+        function isDocente() {
+            return tieneRol(["ROLE_DOCENTE"]);
+        }
+        function isAdmin() {
+            return tieneRol(["ROLE_SUPER_ADMIN", "ROLE_ADMIN"]);
         }
         
         function iniciar(username, token, roles) {

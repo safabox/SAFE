@@ -14,34 +14,9 @@
         .controller('TabsDemoCtrl', ['$scope', TabsDemoCtrl])
         .controller('MapDemoCtrl', ['$scope', '$http', '$interval', MapDemoCtrl])
 
-        .controller('LoginCtrl', ['$scope', '$state', '$stateParams', 'AutorizacionService', LoginCtrl])
         .controller('HeaderCtrl', ['$scope', '$state', 'AutorizacionService', HeaderCtrl])
 ;
 
-    function LoginCtrl($scope, $state, $stateParams, AutorizacionService) {
-        
-        $scope.login = function() {
-            AutorizacionService.login($scope.username, $scope.password).then(
-                    function(data){
-                        if ($stateParams.toStateOriginal) {
-                            $state.go($stateParams.toStateOriginal.name, $stateParams.toParamsOriginal);
-                        } else {
-                            $state.go("lock-screen");
-                        }
-                        
-                    },
-                    function(error){
-                        console.log(error);
-                    }
-            );
-        }
-        
-        function handleRequest(res) {
-            var token = res.data ? res.data.token : null;
-            console.log('JWT:', token);            
-        }
-    }
-    
     function HeaderCtrl($scope, $state, AutorizacionService){
         $scope.logout = function() {
             AutorizacionService.logout();
