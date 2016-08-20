@@ -14,19 +14,33 @@ security:
 
  
      firewalls:
+         login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            form_login:
+                check_path:               /api/login_check
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+
+         api:
+            pattern:   ^/api
+            stateless: true
+            lexik_jwt: ~
          dev:
              pattern:  ^/(_(profiler|wdt)|css|images|js)/
              security: false
  
-         secured_area:
-             pattern:    ^/
-             logout:
-                path: /logout
-                target: /
-             form_login:
-                provider: fos_userbundle
-                csrf_provider: form.csrf_provider
-                login_path: /login
+#         secured_area:
+#             pattern:    ^/
+#             logout:
+#                path: /logout
+#                target: /
+#             form_login:
+#                provider: fos_userbundle
+#                csrf_provider: form.csrf_provider
+#                login_path: /login
 #                check_path: /login_check
 #             oauth:
 #                 login_path: /login
@@ -37,23 +51,22 @@ security:
 #                     google: "/login/check-google"
 #                 oauth_user_provider:
 #                     service: safe_user_provider
-             anonymous:    true               
-         login:
-            pattern:  ^/login$
-            security: false
-
-            remember_me:
-                key: "%secret%"
-                lifetime: 31536000 # 365 days in seconds
-                path: /
-                domain: ~ # Defaults to the current domain from $_SERVER
-        
+#             anonymous:    true               
+#         login:
+#            pattern:  ^/login$
+#            security: false
+#            remember_me:
+#                key: "%secret%"
+#                lifetime: 31536000 # 365 days in seconds
+#                path: /
+#                domain: ~ # Defaults to the current domain from $_SERVER
      access_control:
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: ^/api, roles: ROLE_USER }
+         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/doc, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/api/v1/admin, roles: ROLE_ADMIN }
          - { path: ^/api/v1/usuarios, roles: ROLE_ADMIN }
          - { path: ^/api/v1/docentes, roles: ROLE_DOCENTE }

@@ -1,6 +1,6 @@
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
-    prefix:   /api/doc
+    prefix:   /doc
 
 #gallery:
 #    resource: '@SonataMediaBundle/Resources/config/routing/gallery.xml'
@@ -24,7 +24,6 @@ NelmioApiDocBundle:
 #safe_instituto:
 #    resource: "@SafeInstitutoBundle/Resources/config/routing.yml"
 #    prefix:   /    
-
 safe_perfil:
     resource: "@SafePerfilBundle/Resources/config/routing.yml"
     prefix:   /api
@@ -90,3 +89,5 @@ logout:
     path: /logout
 #google_login:
 #    path: /login/check-google 
+api_login_check:
+    path: /api/login_check
