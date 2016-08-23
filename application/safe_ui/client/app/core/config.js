@@ -4,7 +4,7 @@
     angular
         .module('app')
         .config(restangularProviderConfig)
-        .config(authProviderConfig);;
+        .config(authProviderConfig);
 
     restangularProviderConfig.$inject = ['RestangularProvider', 'environment'];
         function restangularProviderConfig(RestangularProvider, environment) {
