@@ -11,6 +11,7 @@
         vm.cantidadAlumnos = 0;
         vm.cantidadDocentes = 0;
         vm.cantidadCursos = 0;
+        vm.loading = true;
                 
         $q.all([getUsuarios(), getAlumnos(),getDocentes(),getCursos()])
             .then(onLoadComplete);
@@ -64,8 +65,8 @@
             vm.cantidadAlumnos = _.size(vm.alumnos);
             vm.cantidadDocentes = _.size(vm.docentes);
             vm.cantidadCursos = _.size(vm.cursos);
+            vm.loading = false;
         }
-        
         
         $scope.line2 = {};
         $scope.radar1 = {};
