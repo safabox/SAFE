@@ -13,64 +13,67 @@
             SystemConfigProvider.setHost(environment.apiUrlBaseLogin);           
             $stateProvider
                 .state("login", {
-                        url: "/login",
-                        templateUrl: SystemConfigProvider.getStaticPath() + "app/page/signin.html",
-                        controller: 'LoginCtrl',
-                        controllerAs: 'vm',
-                        params: {
-                              toStateOriginal: null,
-                              toParamsOriginal: null
-                        }
-                    })
-                    .state('admin', {
-                        abstract: true,
-                        url: '/admin',
-                        template: '<ui-view/>'
-                    })
-                    .state('admin.dashboard', {                    
-                        url: '/dashboard',
-                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/admin_dashboard.html',                  
-                        roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
-                        controller: 'AdminDashboardCtrl',
-                        controllerAs: 'vm',    
-                        params: {error: null}
-                    })
+                    url: "/login",
+                    templateUrl: SystemConfigProvider.getStaticPath() + "app/page/signin.html",
+                    controller: 'LoginCtrl',
+                    controllerAs: 'vm',
+                    params: {
+                          toStateOriginal: null,
+                          toParamsOriginal: null
+                    }
+                })
+                .state("dashboard", {
+                    url: "/",
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/dashboard/dashboard.html',                  
+                    roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],   
+                })
 
-                    .state('alumno', {
-                        abstract: true,
-                        url: '/alumno',
-                        template: '<ui-view/>'
-                    })                
-                    .state('alumno.dashboard', {                    
-                        url: '/dashboard',
-                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/alumnos/alumno_dashboard.html',
-                        roles: ["ROLE_ALUMNO"],
-                        params: {error: null}
-                    })
+                .state('admin', {
+                    abstract: true,
+                    url: '/admin',
+                    template: '<ui-view/>'
+                })
+                .state('admin.dashboard', {                    
+                    url: '/dashboard',
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/admin_dashboard.html',                  
+                    roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
+                    controller: 'AdminDashboardCtrl',
+                    controllerAs: 'vm',    
+                    params: {error: null}
+                })
 
-                    .state('docente', {
-                        abstract: true,
-                        url: '/docente',
-                        template: '<ui-view/>'
-                    })
-                    .state('docente.dashboard', {                    
-                        url: '/dashboard',
-                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/docentes/docente_dashboard.html',
-                        roles: ["ROLE_DOCENTE"],
-                        params: {error: null}
-                    })
+                .state('alumno', {
+                    abstract: true,
+                    url: '/alumno',
+                    template: '<ui-view/>'
+                })                
+                .state('alumno.dashboard', {                    
+                    url: '/dashboard',
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/alumnos/alumno_dashboard.html',
+                    roles: ["ROLE_ALUMNO"],
+                    params: {error: null}
+                })
 
-                    .state("404", {
-                      url: "/404",
-                      templateUrl: SystemConfigProvider.getStaticPath() + "app/page/404.html"
-
-                    })
-                    .state("lock-screen", {
-                        url:"/lock-screen",
-                        templateUrl: SystemConfigProvider.getStaticPath() + "app/page/lock-screen.html"
-                    })
-                    ;    
-            $urlRouterProvider.otherwise("/dashboard");
+                .state('docente', {
+                    abstract: true,
+                    url: '/docente',
+                    template: '<ui-view/>'
+                })
+                .state('docente.dashboard', {                    
+                    url: '/dashboard',
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/docentes/docente_dashboard.html',
+                    roles: ["ROLE_DOCENTE"],
+                    params: {error: null}
+                })
+                .state("404", {
+                    url: "/404",
+                    templateUrl: SystemConfigProvider.getStaticPath() + "app/page/404.html"
+                })
+                .state("lock-screen", {
+                    url:"/lock-screen",
+                    templateUrl: SystemConfigProvider.getStaticPath() + "app/page/lock-screen.html"
+                });                
+           $urlRouterProvider.otherwise("/");
         }]
     )
     .config(['$httpProvider', function($httpProvider){
