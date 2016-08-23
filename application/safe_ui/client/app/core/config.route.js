@@ -1,56 +1,27 @@
-(function() {   
+/*(function() {   
     window['staticPath'] = (window['staticPath']) ? window['staticPath'] : '/';
     window['host'] = (window['host']) ? window['host'] : '/';
-})();
+})(); */
 
 (function () {
     'use strict';
 
     angular.module('app')
-        .config(['$stateProvider', '$urlRouterProvider', 'SystemConfigProvider', function($stateProvider, $urlRouterProvider, SystemConfigProvider) {
-            var routes, setRoutes;          
-            /*routes = [
-                'dashboard',
-                'ui/typography', 'ui/buttons', 'ui/icons', 'ui/grids', 'ui/widgets', 'ui/components', 'ui/boxes', 'ui/timeline', 'ui/pricing-tables', 'ui/maps',
-                'table/static', 'table/dynamic', 'table/responsive',
-                'form/elements', 'form/layouts', 'form/validation', 'form/wizard',
-                'chart/echarts', 'chart/echarts-line', 'chart/echarts-bar', 'chart/echarts-pie', 'chart/echarts-scatter', 'chart/echarts-more',
-                'page/404', 'page/500', 'page/blank', 'page/forgot-password', 'page/invoice', 'page/lock-screen', 'page/profile', 'page/invoice', 'page/signin', 'page/signup', 'page/about', 'page/services', 'page/contact',
-                'mail/compose', 'mail/inbox', 'mail/single',
-                'app/tasks', 'app/calendar'
-            ]
+        .config(['$stateProvider', '$urlRouterProvider', 'SystemConfigProvider','environment', function($stateProvider, $urlRouterProvider, SystemConfigProvider, environment) {
 
-            setRoutes = function(route) {
-                var config, url;
-                url = '/' + route;
-                config = {
-                    templateUrl: staticRoute + 'app/' + route + '.html'
-                };
-                $routeProvider.when(url, config);
-                return $routeProvider;
-            };
-
-            routes.forEach(function(route) {
-                return setRoutes(route);
-            });*/
-            SystemConfigProvider.setStaticPath(window['staticPath']);
-            SystemConfigProvider.setHost(window['host']);           
+            SystemConfigProvider.setStaticPath(environment.staticPath);
+            SystemConfigProvider.setHost(environment.apiUrlBaseLogin);           
             $stateProvider
                 .state("login", {
-                      url: "/login",
-                      templateUrl: SystemConfigProvider.getStaticPath() + "app/page/signin.html",
-                      params: {
-                            toStateOriginal: null,
-                            toParamsOriginal: null
-                      }
-
+                        url: "/login",
+                        templateUrl: SystemConfigProvider.getStaticPath() + "app/page/signin.html",
+                        controller: 'LoginCtrl',
+                        controllerAs: 'vm',
+                        params: {
+                              toStateOriginal: null,
+                              toParamsOriginal: null
+                        }
                     })
-                    .state("dashboard", {
-                      url: "/dashboard",
-                      templateUrl: SystemConfigProvider.getStaticPath() + 'app/dashboard/dashboard.html',                  
-                      roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],                      
-                    })
-
                     .state('admin', {
                         abstract: true,
                         url: '/admin',
@@ -58,8 +29,10 @@
                     })
                     .state('admin.dashboard', {                    
                         url: '/dashboard',
-                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/dashboard/admin_dashboard.html',                  
+                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/admin_dashboard.html',                  
                         roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
+                        controller: 'AdminDashboardCtrl',
+                        controllerAs: 'vm',    
                         params: {error: null}
                     })
 
@@ -70,7 +43,7 @@
                     })                
                     .state('alumno.dashboard', {                    
                         url: '/dashboard',
-                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/dashboard/alumno_dashboard.html',
+                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/alumnos/alumno_dashboard.html',
                         roles: ["ROLE_ALUMNO"],
                         params: {error: null}
                     })
@@ -82,7 +55,7 @@
                     })
                     .state('docente.dashboard', {                    
                         url: '/dashboard',
-                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/dashboard/docente_dashboard.html',
+                        templateUrl: SystemConfigProvider.getStaticPath() + 'app/docentes/docente_dashboard.html',
                         roles: ["ROLE_DOCENTE"],
                         params: {error: null}
                     })

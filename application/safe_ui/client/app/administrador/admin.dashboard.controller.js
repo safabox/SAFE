@@ -2,10 +2,71 @@
     'use strict';
 
     angular.module('app')
-        .controller('DashboardCtrl', ['$scope', DashboardCtrl])
+        .controller('AdminDashboardCtrl', ['_', '$q', '$scope', 'Administrador', 'AdminAlumnos', 'AdminDocentes', 'AdminCursos', 'logger', AdminDashboardCtrl])
 
-    function DashboardCtrl($scope) {
+    function AdminDashboardCtrl(_, $q, $scope, Administrador, AdminAlumnos, AdminDocentes, AdminCursos, logger) {
+        var vm = this;
+        
+        vm.cantidadUsuarios = 0;
+        vm.cantidadAlumnos = 0;
+        vm.cantidadDocentes = 0;
+        vm.cantidadCursos = 0;
+                
+        $q.all([getUsuarios(), getAlumnos(),getDocentes(),getCursos()])
+            .then(onLoadComplete);
+        
+        function getUsuarios(){        
+            return Administrador.getList().then(onSuccess, onError);
 
+            function onSuccess(response) {            
+                vm.usuarios = response.plain();     
+            }        
+            function onError(httpResponse) {
+                logger.error('No se pudieron obtener los usuarios', httpResponse);
+            }            
+        }
+        
+        function getAlumnos(){        
+            return AdminAlumnos.getList().then(onSuccess, onError);
+
+            function onSuccess(response) {            
+                vm.alumnos = response.plain();     
+            }        
+            function onError(httpResponse) {
+                logger.error('No se pudieron obtener los usuarios', httpResponse);
+            }            
+        }
+        
+        function getDocentes(){        
+            return AdminDocentes.getList().then(onSuccess, onError);
+
+            function onSuccess(response) {            
+                vm.docentes = response.plain();     
+            }        
+            function onError(httpResponse) {
+                logger.error('No se pudieron obtener los usuarios', httpResponse);
+            }            
+        }
+        
+        function getCursos(){        
+            return AdminCursos.getList().then(onSuccess, onError);
+
+            function onSuccess(response) {            
+                vm.cursos = response.plain();     
+            }        
+            function onError(httpResponse) {
+                logger.error('No se pudieron obtener los usuarios', httpResponse);
+            }            
+        }
+        
+        function onLoadComplete() {
+            vm.cantidadUsuarios = _.size(vm.usuarios);
+            vm.cantidadAlumnos = _.size(vm.alumnos);
+            vm.cantidadDocentes = _.size(vm.docentes);
+            vm.cantidadCursos = _.size(vm.cursos);
+        }
+        
+        
         $scope.line2 = {};
         $scope.radar1 = {};
 

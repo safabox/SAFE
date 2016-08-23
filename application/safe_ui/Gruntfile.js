@@ -365,6 +365,7 @@
                 dist: {}
             }
         });
+                
         grunt.registerTask("server", function(target) {
             grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
         });
@@ -391,7 +392,7 @@
         grunt.registerTask("landing", function() {
             return grunt.task.run(["jade:landing", "compass:landing", "connect:landing", "open", "watch"]);
         });
-
+        
         grunt.registerTask("build", ["clean:dist", "useminPrepare", "concurrent:dist", "copy:dist", "cssmin", "concat", "uglify", "usemin"]);
         grunt.registerTask("lessBuild", ["clean:dist", "useminPrepare", "concurrent:lessDist", "copy:dist", "cssmin", "concat", "uglify", "usemin"]);
         return grunt.registerTask("default", ["serve"]);
