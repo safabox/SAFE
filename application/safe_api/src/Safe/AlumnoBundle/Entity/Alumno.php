@@ -12,6 +12,7 @@ use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Safe\PerfilBundle\Entity\Usuario;
 
@@ -20,9 +21,18 @@ use Safe\InstitutoBundle\Entity\Instituto;
 /**
  * Alumno
  *
- * @ORM\Table(name="alumno")
+ * @ORM\Table(name="alumno",
+ *  uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="alumn_leg_uk", columns={"legajo", "instituto_id"})
+ *  }
+ * )
  * @ORM\Entity(repositoryClass="Safe\AlumnoBundle\Repository\AlumnoRepository")
  * @ExclusionPolicy("all")
+ * @UniqueEntity(
+ *     fields={"legajo", "instituto"},
+ *     errorPath="legajo",
+ *     message="alumnoBundle.alumno.legajo.existe"
+ * )  
  */
 class Alumno
 {

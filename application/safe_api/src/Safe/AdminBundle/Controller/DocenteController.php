@@ -57,6 +57,7 @@ class DocenteController extends SafeRestAbstractController {
      * #### Ejemplo del Request     
      * ```
      * {
+     *  "legajo":  "123457",
      *  "curriculum":  "<h3>Educaci&oacute;n<h3> <ul><li>Instituto 1</li><li>Instituto 2</li></ul>",
      *  "usuario": {
      *      "nombre": "Ruben",
@@ -98,6 +99,7 @@ class DocenteController extends SafeRestAbstractController {
      * #### Ejemplo del Request     
      * ```
      * {
+     *  "legajo":  "123457",
      *  "curriculum":  "<h3>Educaci&oacute;n<h3> <ul><li>Instituto 1</li><li>Instituto 2</li></ul>",
      *  "usuario": {
      *      "nombre": "Ruben",
@@ -140,6 +142,7 @@ class DocenteController extends SafeRestAbstractController {
      * #### Ejemplo del Request     
     * ```
      * {
+     *  "legajo":  "123457",
      *  "curriculum":  "<h3>Educaci&oacute;n<h3> <ul><li>Instituto 1</li><li>Instituto 2</li></ul>",
      *  "usuario": {
      *      "nombre": "Ruben",

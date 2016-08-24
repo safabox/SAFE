@@ -3,15 +3,13 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 12-08-2016 a las 06:24:07
+-- Tiempo de generación: 24-08-2016 a las 21:39:45
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-set global innodb_file_format = BARRACUDA;
-set global innodb_large_prefix = ON;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -121,9 +119,6 @@ CREATE TABLE `curso` (
 -- Volcado de datos para la tabla `curso`
 --
 
-INSERT INTO `curso` (`id`, `titulo`, `descripcion`, `fechaCreacion`, `instituto_id`) VALUES
-(2, 'Matemáticas 1', '<h1>Curso inical de matemáticas</h1>', '2016-08-12 06:21:14', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -157,7 +152,8 @@ CREATE TABLE `docente` (
   `curriculum` text,
   `fechaModificacion` datetime DEFAULT NULL,
   `usuario_id` int(11) NOT NULL,
-  `instituto_id` int(11) DEFAULT NULL
+  `instituto_id` int(11) DEFAULT NULL,
+  `legajo` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -325,7 +321,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `apellido`, `avatar`, `tipo_documento_id`, `numero_documento`, `genero`, `nacionalidad`) VALUES
-(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-08-09 22:26:16', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL);
+(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-08-23 23:56:41', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -336,6 +332,7 @@ INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_c
 --
 ALTER TABLE `alumno`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `alumn_leg_uk` (`legajo`,`instituto_id`),
   ADD KEY `IDX_1435D52DDB38439E` (`usuario_id`),
   ADD KEY `IDX_1435D52D6C6EF28` (`instituto_id`);
 
@@ -399,6 +396,7 @@ ALTER TABLE `curso_docente`
 --
 ALTER TABLE `docente`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `doc_leg_uk` (`legajo`,`instituto_id`),
   ADD KEY `IDX_FD9FCFA4DB38439E` (`usuario_id`),
   ADD KEY `IDX_FD9FCFA46C6EF28` (`instituto_id`);
 
@@ -472,7 +470,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT de la tabla `classification__category`
 --
@@ -492,12 +490,12 @@ ALTER TABLE `classification__tag`
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT de la tabla `instituto`
 --

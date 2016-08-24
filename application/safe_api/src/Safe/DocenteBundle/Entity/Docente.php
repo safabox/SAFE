@@ -12,17 +12,26 @@ use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Safe\PerfilBundle\Entity\Usuario;
 
 use Safe\InstitutoBundle\Entity\Instituto;
 /**
  * Docente
- *
- * @ORM\Table(name="docente")
+ * @ORM\Table(name="docente", 
+ *  uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="doc_leg_uk", columns={"legajo", "instituto_id"})
+ *  }
+ * )
  * @ORM\Entity(repositoryClass="Safe\DocenteBundle\Repository\DocenteRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
+ * @UniqueEntity(
+ *     fields={"legajo", "instituto"},
+ *     errorPath="legajo",
+ *     message="docenteBundle.docente.legajo.existe"
+ * ) 
  */
 class Docente
 {
@@ -43,6 +52,18 @@ class Docente
      * @Assert\Valid 
      */
     private $usuario;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="legajo", type="string", length=100, nullable=true)
+     * @Expose
+     * @Assert\Length(
+     *      max = 100,
+     *      maxMessage = "docenteBundle.docente.legajo.max"
+     * ) 
+     */
+    private $legajo;
 
     /**
      * @var string
@@ -214,6 +235,29 @@ class Docente
 
     function setInstituto($instituto) {
         $this->instituto = $instituto;
+    }
+    
+    /**
+     * Set legajo
+     *
+     * @param string $legajo
+     * @return Alumno
+     */
+    public function setLegajo($legajo)
+    {
+        $this->legajo = $legajo;
+
+        return $this;
+    }
+
+    /**
+     * Get legajo
+     *
+     * @return string 
+     */
+    public function getLegajo()
+    {
+        return $this->legajo;
     }
 
 

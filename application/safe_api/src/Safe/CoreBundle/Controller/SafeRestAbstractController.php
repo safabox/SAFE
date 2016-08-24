@@ -44,13 +44,27 @@ abstract class SafeRestAbstractController extends FOSRestController {
         $response->setContent($content);
         return $response;
     }
-    public function procesarRequest(Request $request, $type, $data = null, $method = HttpMethod::POST) {
+    public function procesarRequest(Request $request, $type, $data = null, $method = HttpMethod::POST, $patchLimpiarAtributos = []) {
         
         //$form = $this->creatForm($type, $data, array('method' => $method));
         $form = $this->createForm($type, $data);
-        try {            
-            $form->submit($request->request->all(), HttpMethod::PATCH !== $method);         
-            if ($form->isValid()) {                
+        try {   
+            $datoRequest = $request->request->all();
+            if (HttpMethod::PATCH === $method) {    
+                $reflection = new \ReflectionClass($data);
+                foreach ($patchLimpiarAtributos as $atributo) {
+                    if (array_key_exists($atributo, $datoRequest)) {                        
+                        $nombreMetodo = 'get'. ucfirst($atributo);
+                        if ($reflection->hasMethod($nombreMetodo)) {   
+                            $metodo = $reflection->getMethod($nombreMetodo);
+                            $listado =$metodo->invoke($data);                                                        
+                            $listado->clear(); 
+                        }
+                    }
+                }
+            }                        
+            $form->submit($datoRequest, HttpMethod::PATCH !== $method);         
+            if ($form->isValid()) {                                       
                 return $this->procesarEntidadValida($data, $method);                                    
             }
             return View::create($form->getErrors(), Response::HTTP_BAD_REQUEST);

@@ -141,7 +141,7 @@ class CursoController extends SafeRestAbstractController {
         if ($curso == null) {        
             throw  $this->createNotFoundException("cursoBundle.curso.no_encontrado");
         }   
-        return $this->procesarRequest($request, RegistracionCursoType::class, $curso, HttpMethod::PATCH); 
+        return $this->procesarRequest($request, RegistracionCursoType::class, $curso, HttpMethod::PATCH, ["alumnos", "docentes"]); 
     }
         
     /**
@@ -187,7 +187,7 @@ class CursoController extends SafeRestAbstractController {
                 function($entry) {                    
                     return ($entry !== NULL && $entry !== '');
                 }
-            );
+            );            
             $curso->setDocentes($docentes);       
             $curso->setAlumnos($alumnos);       
         } else {
