@@ -19,6 +19,7 @@
         'restangular',
         'ui.router',
         'ngStorage',
+        'blockUI',
        
         // Custom modules
         'app.nav',
