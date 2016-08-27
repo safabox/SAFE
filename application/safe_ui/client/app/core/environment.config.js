@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var urlBase = 'http://localhost:8000/'; // DEV
+    var urlBase = 'http://localhost:8001/'; // DEV
     // var urlBase = ''; // PROD
 
     var enviromentConfig = {
