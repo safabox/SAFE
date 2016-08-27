@@ -25,7 +25,12 @@ safe_admin_cursos_alumnos:
     type: rest
     parent:   safe_admin_cursos
     resource: "Safe\AdminBundle\Controller\CursoAlumnoController"
-    name_prefix:  api_1_admin_alumnos_cursos # naming collision
+    name_prefix:  api_1_admin_cursos_alumnos # naming collision
+safe_admin_cursos_docentes:
+    type: rest
+    parent:   safe_admin_cursos
+    resource: "Safe\AdminBundle\Controller\CursoDocenteController"
+    name_prefix:  api_1_admin_cursos_docentes # naming collision
 safe_admin_tipo_documentos:
     type: rest
     prefix: /v1/admin

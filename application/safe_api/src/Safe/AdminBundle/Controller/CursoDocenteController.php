@@ -8,8 +8,8 @@ use FOS\RestBundle\Controller\Annotations;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-use Safe\AdminBundle\Form\RegistracionAlumnoType;
-use Safe\AlumnoBundle\Entity\Alumno;
+use Safe\AdminBundle\Form\RegistracionDocenteType;
+use Safe\DocenteBundle\Entity\Docente;
 
 use Safe\CoreBundle\Controller\SafeRestAbstractController;
 use Safe\CoreBundle\Http\HttpMethod;
@@ -19,13 +19,13 @@ use Safe\CoreBundle\Exception\IllegalArgumentException;
 use Doctrine\Common\Util\Debug;
 
 
-class CursoAlumnoController extends SafeRestAbstractController {
+class CursoDocenteController extends SafeRestAbstractController {
     /**
      * Lista todos los alumnos del curso. (TODO)
      *
      * @ApiDoc(
      *   resource = true,
-     *   output="array<Safe\AlumnoBundle\Entity\Alumno>",
+     *   output="array<Safe\DocenteBundle\Entity\Docente>",
      *   statusCodes = {
      *     200 = "Petición resuelta correctamente"
      *   }
@@ -43,13 +43,13 @@ class CursoAlumnoController extends SafeRestAbstractController {
      *
      * @return array
      */
-    public function getAlumnosAction($id, Request $request, ParamFetcherInterface $paramFetcher)
+    public function getDocentesAction($id, Request $request, ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
         
-        return $this->generarRespuesta($this->getAlumnoService()->buscarPorCursos($id, $limit, $offset),
+        return $this->generarRespuesta($this->getDocenteService()->buscarPorCursos($id, $limit, $offset),
                 Response::HTTP_OK,
                 array('Default', 'admin_listado'));
     } 
@@ -73,8 +73,8 @@ class CursoAlumnoController extends SafeRestAbstractController {
      * @param Request $request the request object
      *     
      */
-    public function postAlumnoAction($id, Request $request) {
-        $alumno = $this->obtenerAlumno($request);
+    public function postDocenteAction($id, Request $request) {
+        $alumno = $this->obtenerDocente($request);
         try {
            $this->getCursoService()->inscribirAlCurso($id, $alumno);
            
@@ -103,8 +103,8 @@ class CursoAlumnoController extends SafeRestAbstractController {
      * @param Request $request the request object
      *     
      */
-    public function deleteAlumnoAction($id, Request $request) {
-        $alumno = $this->obtenerAlumno($request);
+    public function deleteDocenteAction($id, Request $request) {
+        $alumno = $this->obtenerDocente($request);
         try {
            $this->getCursoService()->desinscribirDelCurso($id, $alumno);
            
@@ -114,9 +114,9 @@ class CursoAlumnoController extends SafeRestAbstractController {
         return $this->generarRepuestaNotContent();
     }
     
-    private function obtenerAlumno($request) {
-        $idAlumno = $this->obtenerIdentificadorPostRequest($request);
-        $alumno = $this->getAlumnoService()->getById($idAlumno);
+    private function obtenerDocente($request) {
+        $idDocente = $this->obtenerIdentificadorPostRequest($request);
+        $alumno = $this->getDocenteService()->getById($idDocente);
         if ($alumno === NULL) {
             throw $this->createNotFoundException();
         }
@@ -124,8 +124,8 @@ class CursoAlumnoController extends SafeRestAbstractController {
     }
     
        
-    private function getAlumnoService() {
-        return $this->container->get('safe_alumno.service.alumno');
+    private function getDocenteService() {
+        return $this->container->get('safe_docente.service.docente');
     }
     
     private function getCursoService() {
@@ -136,7 +136,7 @@ class CursoAlumnoController extends SafeRestAbstractController {
         
         
         
-        $this->getAlumnoService()->crearOActualizar($alumno);        
+        $this->getDocenteService()->crearOActualizar($alumno);        
         if (HttpMethod::POST == $method) {            
             return $this->generarRespuesta($alumno, Response::HTTP_OK, array('Default', 'admin_listado'));
         }

@@ -16,9 +16,11 @@
         'ui.calendar',
         'duScroll',
         'mgo-angular-wizard',
+        'restangular',
         'ui.router',
         'ngStorage',
-
+        'blockUI',
+       
         // Custom modules
         'app.nav',
         'app.i18n',
@@ -27,9 +29,9 @@
         'app.ui.form',
         'app.ui.form.validation',
         'app.page',
-        'app.table',
-        'app.task',
-        'app.calendar'
+        //'app.table',
+        //'app.task',
+        //'app.calendar'
     ]);
 
 })();

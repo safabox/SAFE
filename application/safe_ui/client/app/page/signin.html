@@ -11,28 +11,17 @@
     <div class="main-body">
         <div class="container">
             <div class="form-container">
-
-                <section class="row signin-social text-center">
-                    <a href="javascript:;" class="btn-icon btn-icon-sm bg-twitter"><i class="fa fa-twitter"></i></a>
-                    <div class="space"></div>
-                    <a href="javascript:;" class="btn-icon btn-icon-sm bg-facebook"><i class="fa fa-facebook"></i></a>
-                    <div class="space"></div>
-                    <a href="javascript:;" class="btn-icon btn-icon-sm bg-google-plus"><i class="fa fa-google-plus"></i></a>
-                </section>
-
-                <span class="line-thru">OR</span>
-
-                <form class="form-horizontal">
+                <form class="form-horizontal" data-ng-submit="vm.login()">
                     <fieldset>
                         <div class="form-group">
                             <div class="input-group input-group-lg">
                                 <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-envelope"></span>
+                                    <span class="glyphicon glyphicon-user"></span>
                                 </span>
                                 <input type="text"
                                        class="form-control"
                                        placeholder="Nombre de usuario"
-                                       ng-model="username"
+                                       ng-model="vm.username"
                                        >
                             </div>
                         </div>
@@ -43,26 +32,17 @@
                                 </span>
                                 <input type="password"
                                        class="form-control"
-                                       placeholder="password"
-                                       ng-model="password"
+                                       placeholder="Contraseña"
+                                       ng-model="vm.password"
                                        >
                             </div>
                         </div>
                         <div class="form-group">
-                        </div>
-                        <div class="form-group">
-                            <a ng-click="login()" class="btn btn-primary btn-lg btn-block">Log in</a>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block" data-ng-disabled="vm.form.$invalid">Ingresar</button>
                         </div>
                     </fieldset>
-                </form>
-
-                <section>
-                    <p class="text-center"><a href="#/page/forgot-password">Forgot your password?</a></p>
-                    <p class="text-center text-muted text-small">Don't have an account yet? <a href="#/page/signup">Sign up</a></p>
-                </section>
-                
+                </form>               
             </div>
         </div>
     </div>
-
 </div>

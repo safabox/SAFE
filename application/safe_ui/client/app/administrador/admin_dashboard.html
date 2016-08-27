@@ -1,0 +1,125 @@
+<div class="page page-dashboard" data-ng-hide="vm.loading" >
+    <h1>Bienvenido</h1>
+    </br>    
+        
+    <div class="row" >
+        <div class="col-lg-6">
+            <div class="row text-center">
+                <!-- Stats -->
+                <div class="col-sm-6">
+                    <div class="panel mini-box">
+                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-success">
+                            <span class="fa fa-users"></span>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h2">{{vm.cantidadUsuarios}}</p>
+                            <p class="text-muted"><span data-translate="Usuarios"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel mini-box">
+                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-info">
+                            <i class="fa fa-users"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h2">{{vm.cantidadAlumnos}} </p>
+                            <p class="text-muted"><span data-translate="Alumnos"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel mini-box">
+                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-warning">
+                            <i class="fa fa-users"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h2">{{vm.cantidadDocentes}} </span></p>
+                            <p class="text-muted"><span data-translate="Docentes"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel mini-box">
+                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-danger">
+                            <i class="fa fa-bookmark"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h2"> {{vm.cantidadCursos}} </p>
+                            <p class="text-muted"><span data-translate="Cursos"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- end stats -->
+            </div>
+        </div>
+       <!-- <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div data-echarts data-options="radar1.options" style="height: 250px;"></div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Curso</th>
+                        <th>Estado</th>
+                        <th>Docente</th>
+                        <th>Progreso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><span class="color-success"><i class="fa fa-level-up"></i></span> CURSO1</td>
+                        <td><span class="label label-info">Pending</span></td>
+                        <td>Docente Nombre</td>
+                        <td><uib-progressbar class="progressbar-xs no-margin" value="55"></uib-progressbar></td>
+                    </tr>
+                    <!--<tr>
+                        <td>2</td>
+                        <td><span class="color-success"><i class="fa fa-level-up"></i></span> A16Z</td>
+                        <td><span class="label label-primary">Due</span></td>
+                        <td>Romayne Carlyn</td>
+                        <td><uib-progressbar class="progressbar-xs no-margin" value="34" type="success"></uib-progressbar></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><span class="color-warning"><i class="fa fa-level-down"></i></span> DARK</td>
+                        <td><span class="label label-success">Due</span></td>
+                        <td>Marybeth Joanna</td>
+                        <td><uib-progressbar class="progressbar-xs no-margin" value="68" type="info"></uib-progressbar></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td><span class="color-info"><i class="fa fa-level-up"></i></span> Q300</td>
+                        <td><span class="label label-danger">Blocked</span></td>
+                        <td>Jonah Benny</td>
+                        <td><uib-progressbar class="progressbar-xs no-margin" value="52" type="warning"></uib-progressbar></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td><span class="color-danger"><i class="fa fa-level-down"></i></span> RVNG</td>
+                        <td><span class="label label-warning">Suspended</span></td>
+                        <td>Daly Royle</td>
+                        <td><uib-progressbar class="progressbar-xs no-margin" value="77" type="danger"></uib-progressbar></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td><span class="color-info"><i class="fa fa-level-down"></i></span> FDSA</td>
+                        <td><span class="label label-info">Suspended</span></td>
+                        <td>Jane Swift</td>
+                        <td><uib-progressbar class="progressbar-xs no-margin" value="55" type="success"></uib-progressbar></td>
+                    </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+  

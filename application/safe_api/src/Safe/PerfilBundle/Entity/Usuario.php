@@ -28,8 +28,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(
  *     fields={"nombre", "apellido"},
  *     errorPath="apellido",
- *     message="perfilBundle.usuario.existe"
+ *     message="perfilBundle.usuario.nombre.existe"
  * )
+ * @UniqueEntity(
+ *     fields={"tipoDocumento", "numeroDocumento"},
+ *     errorPath="numeroDocumento",
+ *     message="perfilBundle.usuario.documento.existe"
+ * ) 
  */
 class Usuario extends BaseUser
 {

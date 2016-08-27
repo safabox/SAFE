@@ -23,8 +23,8 @@
         var date = new Date();
         var year = date.getFullYear();
         var main = {
-            brand: 'Square',
-            name: 'Lisa',
+            brand: 'SAFE',
+            name: 'Administrador',
             year: year,
             layout: 'wide',                                 // 'boxed', 'wide'
             menu: 'vertical',                               // 'horizontal', 'vertical'

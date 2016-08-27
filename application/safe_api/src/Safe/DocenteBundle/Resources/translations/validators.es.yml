@@ -2,3 +2,6 @@
 docenteBundle:
     docente:
         no_encontrado: Alumno no encontrado.
+        legajo:
+            max: El legajo no puede superar los {{ limit }} caracteres
+            existe: El legajo ya existe en el sistema

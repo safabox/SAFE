@@ -13,16 +13,13 @@
         .controller('PaginationDemoCtrl', ['$scope', PaginationDemoCtrl])
         .controller('TabsDemoCtrl', ['$scope', TabsDemoCtrl])
         .controller('MapDemoCtrl', ['$scope', '$http', '$interval', MapDemoCtrl])
-
-        .controller('HeaderCtrl', ['$scope', '$state', 'AutorizacionService', HeaderCtrl])
-;
+        .controller('HeaderCtrl', ['$scope', '$state', 'AutorizacionService', HeaderCtrl]);
 
     function HeaderCtrl($scope, $state, AutorizacionService){
         $scope.logout = function() {
             AutorizacionService.logout();
             $state.go("login");
-        }
-        
+        }        
     }
 
     function LoaderCtrl($scope, cfpLoadingBar) {

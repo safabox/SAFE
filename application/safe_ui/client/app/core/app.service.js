@@ -3,10 +3,8 @@
 
     angular.module('app')
         .factory('UsuarioService', ['$localStorage', UsuarioService])
-        .factory('AutorizacionService', ['UsuarioService', '$http', '$q','SystemConfig', AutorizacionService])
-        .factory('PaginaService', ['UsuarioService', PaginaService])
-
-;
+        .factory('AutorizacionService', ['UsuarioService', '$http', 'SystemConfig', AutorizacionService])
+        .factory('PaginaService', ['UsuarioService', PaginaService]);
     
     function PaginaService(UsuarioService) {
         return {
@@ -20,7 +18,7 @@
         }
     }
     
-    function AutorizacionService(UsuarioService, $http, $q, SystemConfig) {
+    function AutorizacionService(UsuarioService, $http, SystemConfig) {
         
         return {
             login: login,
@@ -28,16 +26,14 @@
         }
         
         function login(username, password) {
-            var defered = $q.defer(); 
-            return $http.post(SystemConfig.getHost() + 'api/login_check', {
-                _username: username,
-                _password: password
-            }).then(function(response){
-                UsuarioService.iniciar(username, response.data.token, response.data.roles);
-                defered.resolve(UsuarioService);
-            }, function(error){
-                defered.reject(error);
-            });
+            
+            var data = {
+                 _username: username,
+                 _password: password
+            };
+            
+            return $http.post(SystemConfig.getHost() + '/login_check', data);
+            
         }
         
         function logout() {
@@ -60,8 +56,7 @@
             
             isAlumno: isAlumno,
             isDocente: isDocente,
-            isAdmin: isAdmin,
-                                
+            isAdmin: isAdmin,                                
         }
         function isAlumno() {
             return tieneRol(["ROLE_ALUMNO"]);
@@ -80,9 +75,11 @@
             $localStorage.usuarioSafe.autenticado = true;
             agregarRoles(roles);
         }
+        
         function eliminar() {
             delete $localStorage.usuarioSafe;
         }
+        
         function reset() {            
             $localStorage.usuarioSafe = {
                 username: '',
