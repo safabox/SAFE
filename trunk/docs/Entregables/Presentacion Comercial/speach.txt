@@ -1,0 +1,147 @@
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Agenda
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+De donde venimos a donde vamos
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+----- PARTE 1 ----- (Paradigmas Santiago)
+Bienvenidos ustedes representantes de institutos educativos.
+Paradigma de la música y la tecnologìa
+
+
+----- PARTE 2 -----
+Todavía se preguntarán, ¿Qué tienen que ver la educación con lo que explicó mi compañero sobre la evolución de la música en manos de la tecnologíca?
+Bueno espero poder explicarlo, voy a realizar mi mejor esfuerzo.
+Así como la tecnología que trajo el Walkman generó una revolución de la manera que consumíamos la música, 
+la tecnología de la imprenta trajo una revolución en que los Maestros/Tutores/Sabios transfieren el conocimiento. 
+La educación paso a ser impartida de forma masiva, al pueblo.
+Luego la tecnología siguó avanzando y empezaron a surgir las computadoras personales en los colegios y más adelante en las mayoría de las casas. Pasamos de utilizar recortes de Billiken y Anteojitos al Microsoft Encarta, Banner, Office.
+Vamos observando que así como la tecnología generó cambios paradigmáticos en la música lo mismo podemos observar que pasa en la educación.
+Otra cosa que podemos observar es que la tecnología no para de evolucionar (y no creo que pare).
+
+El siguiente cambio tecnológico y este es más reciente así que todos los presentes lo vivieron de alguna u otra forma, es "INTERNET". 
+(podemos poner anécdotas de como concimos internet)
+¿Y que le paso a la educación? Claramente no quedó ajena al cambio tecnológico. Surgieron la Wikipedia (el lugar donde esta la información incorrecta), conectividad (hay colegios que utilizan internet para contactarse a otros colegios, mail, etc), Google Drive (los documentos estan en la nubes), eLearning  y muchas posibilidades más que brinda Internet.
+
+Bueno, ahora se dirán "Si, todo eso lo sabemos es lo que estamos viviendo ahora"...
+Pero no, no es tan así, como les conté la tecnología esta en constante evolución y ahora mismo hay gente investigando y desarrollando la IA. 
+Por ejemplo Spotify que nombró mi compañero, aprende de tus gustos musicales y te sugiere los próximos temas que te pueden llegar a gustar, lo mismo Netflix, Amazon, MercadoLibre, Ebay y otros desarrollaron algoritmos que "aprenden" del usuario para brindarle el mejora servicio.
+
+¿Y en la eduación? 
+
+<Musica de volver al futuro>
+En la educación está SAFE.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Aprendizaje adaptativo / Jony
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+¿Que es SAFE?
+
+Safe es un sistema informático para la educación que utiliza la formación adaptativa para el aprendizaje de los alumnos.
+
+¿Qué queremos decir con todo esto? ¿Qué es formación adaptativa o educación adaptativa?
+Para eso lo vamos a hacer participar porque creemos que la mejora forma de explicarlo es con la práctica.
+
+<JUEGOS. Demostración de que las personas aprenden diferentes.>
+	
+Listo. ¿Vieron como para alguno, ciertos ejercicios fueron más fácil que otros?
+No todos aprendemos de la misma forma, con la misma velocidad. 
+<SPEACH DE LAS VENTAJAS DEL APRENDIZAJE ADAPTATIVO>
+
+Para que las escuelas puedan obtener el máximo potencial del alumno deberían tener un docente por cada alumno de esta manera se realizaría una 
+educación personalizada, ya que el docente se adapta de como aprende el alumno.
+
+Nuestor sistema ayudará al docente a lidear con esta problemática para mejorar la calidad educativa.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Característica / FACU
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----PPT-----
+Aprendiendo del alumno y seleccion inteligente: el Sistema primero otorga contenidos estandares y luego desde las respuestas del alumno obtiene informacion para poder seleccionar inteligentemente la siguiente actividad que mas se ajuste a su aprendizaje
+Contenido Agnostico: 
+
+Aprendiendo del alumno y seleccion inteligente
+Explicar el Sistema primero otorga contenidos estandares y luego desde las respuestas del alumno obtiene informacion para poder seleccionar inteligentemente la siguiente actividad que mas se ajuste a su aprendizaje
+
+Contenido agnostico
+*Diferentes materias
+*Grupos de edades
+*Generos
+*Libre relacion de contenidos por parte del docente.
+
+Generacion de metricas
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Beneficios (Problemas) / Chyntia
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* Diferencia con los LMS
+* Problemas que solucionamos
+
+-----PPT-----
+SEGUIMIENTO PERSONALIZADO => EDUCACION NO PERSONALIZADA: 
+Para un docente en la actualidad, es difícil realizar el seguimiento y apoyo a todos sus alumnos dada la cantidad de alumnos que tienen por curso. El aprendizaje actual se focaliza en como el docente da los contenidos al total del curso, no pudiendo contemplar en su totalidad como un alumno procesa o percibe la información, teniendo los padres que enviar a sus hijos a profesores particulares (en caso de bajo rendimiento) para que los mismos puedan llegar al rendimiento deseado.
+
+DESACTUALIZACIÓN DE CONTENIDO:
+La presencia de Internet y las redes sociales en la vida cotidiana de los alumnos es un factor fundamental para que el programa educativo pueda subirse al tren de la actualidad y pueda despertar el interés de sus alumnos. Si se mantienen intactos los programas educativos de hace 30 años, es imposible lograr que los jóvenes de hoy puedan sentir algo de entusiasmo en el aprendizaje de las materias.
+
+
+BAJO RENDIMIENTO: Actitudes menos positivas hacia la escuela y el aprendizaje
+Los alumnos con un bajo rendimiento suelen mostrar menos perseverancia, motivación y confianza 
+en sí mismos en matemáticas que los alumnos con mejor rendimiento; también faltan más a clases o a días completos de escuela.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Conclusión / Santiago
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+-----PPT-----
+SAFE es un Sistema web disponible en cualquer dispositivo internet
+Que ayuda al alumno de una manera personalizada mejoradon su rendimiento academic
+Utilizando la inteligencia artificial para el aprendizaje adaptativo 
+Facilitando el control y seguimiento del docente
+
+El aprendizaje es un proceso complejo que no solo depende de como se enseña sino tambien de como el estudiante percibe y procesa la informacion para eso existe SAFE
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Nuetros Contactos / Santiago
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+Preguntas / Facundo
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+Ultimas pregunta...
+
+
+FIN
+
+TEXTO SUELTO
+--------------------------------------------------------
+Aprendizaje adaptativo
+La plataforma funciona a través del adaptive learning (aprendizaje adaptativo), 
+un método educativo que modifica sus contenidos y formas de enseñanza de acuerdo al usuario. 
+Para ello, recolecta información sobre los hábitos de aprendizaje, conocimientos, debilidades y fortalezas de 
+cada usuario para crear un plan de estudios personalizado. Ello hace que los estudiantes se conviertan 
+en participantes activos y no en meros receptores de información
+
+
+Los educadores siempre entendieron la importancia de la formacion adaptativa, esto es el proceso de adaptar que es lo que se enseña y como para cubrir las necesidades del alumno.
+Esto no es nada nuevo, Lo nuevo es utilizar la tecnologia para poder realizar la formacion adaptativa de forma automatica.
+-----------------
+Grafo de conocimientos, conexiones entre los conceptos necesarios para el curso y los pre requisitos y se evalua la fortaleza de esas conexiones. Cuando un estudiante
+tiene dificultad con alguna actividad, se buscan reforzar los conocimientos o pre requisitos necesarios para poder alcanzar la actividad actual.
+
+Un maestro podria hacer lo mismo tambien, pero es cercano a lo imposible crear un plan de estudio unico para cada alumno de sus cursos.
+
+* Podriamos llegar a saber con que tipos de contenidos el alumno aprende mejor (video clips, multiple choice, text libre, etc) y proponer esto para las diferentes actividades.
+--------------------
+
+ALEKS
+
+https://www.youtube.com/watch?v=2jjI3evTDZg
