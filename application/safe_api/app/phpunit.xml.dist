@@ -8,17 +8,20 @@
          bootstrap="autoload.php"
 >
     <php>
-        <ini name="error_reporting" value="-1" />
         <!--
-            <server name="KERNEL_DIR" value="/path/to/your/app/" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
+            <server name="KERNEL_DIR" value="/path/to/your/app/" />        
         -->
+        <ini name="error_reporting" value="-1" />        
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>../src/*/*Bundle/Tests</directory>
+           <!-- <directory>../src/*/*Bundle/Tests</directory>
             <directory>../src/*/Bundle/*Bundle/Tests</directory>
-            <directory>../src/*Bundle/Tests</directory>
+            <directory>../src/*Bundle/Tests</directory>-->
+            <directory>../src/Safe/*Bundle/Tests</directory>
         </testsuite>
     </testsuites>
 

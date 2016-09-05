@@ -48,7 +48,7 @@ class DocenteController extends SafeRestAbstractController {
        
         return $this->generarRespuesta($this->getDocenteService()->findAll($limit, $offset), 
                 Response::HTTP_OK,
-                array('Default', 'admin_listado'));
+                array('Default'));
     } 
     
     /**
@@ -201,7 +201,7 @@ class DocenteController extends SafeRestAbstractController {
      */
     public function getDocenteAction($id)
     {
-        return $this->generarRespuesta($this->getDocenteService()->getById($id), Response::HTTP_OK, array('Default', 'admin_listado'));            
+        return $this->generarRespuesta($this->getDocenteService()->getById($id), Response::HTTP_OK, array('Default', 'admin_detalle'));            
     }
     
     private function getDocenteService() {
@@ -211,7 +211,7 @@ class DocenteController extends SafeRestAbstractController {
     protected function procesarEntidadValida($docente, $method = HttpMethod::POST) {
         $this->getDocenteService()->crearOActualizar($docente);            
         if (HttpMethod::POST == $method) {            
-            return $this->generarRespuesta($docente, Response::HTTP_OK, array('Default', 'admin_listado'));            
+            return $this->generarRespuesta($docente, Response::HTTP_OK, array('Default'));            
         }
         return $this->generarRepuestaNotContent();
     }

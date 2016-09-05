@@ -3,22 +3,20 @@ FOS\UserBundle\Model\User:
 #FOS\UserBundle\Entity\User:
     exclusion_policy: ALL
     properties:
+        username:
+            expose: true
         email:
             expose: true
         lastLogin:
             expose: true
         enabled:
             expose: true
-            groups: [admin_listado]
         locked:
             expose: true
-            groups: [admin_listado]
         roles:
             expose: true
-            groups: [admin_listado]    
         credentialsExpired:
             expose: true
-            groups: [admin_listado]
         credentialsExpireAt:
             expose: true
-            groups: [admin_listado]        
+#            groups: [admin_listado]        
