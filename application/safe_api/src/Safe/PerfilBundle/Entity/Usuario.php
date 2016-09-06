@@ -86,6 +86,7 @@ class Usuario extends BaseUser
      * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\TipoDocumento")
      * @ORM\JoinColumn(name="tipo_documento_id", referencedColumnName="id", nullable=false)     
      * @Expose
+     * @Groups({"detalle"})
      * @Assert\Valid
      */
     private $tipoDocumento;

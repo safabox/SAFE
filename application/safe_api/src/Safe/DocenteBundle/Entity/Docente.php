@@ -69,10 +69,20 @@ class Docente
      * @var string
      *
      * @ORM\Column(name="curriculum", type="text", nullable=true)
-     * @Groups({"detalle"})  
+     * @Expose
+     * @Groups({"admin_detalle"})  
      */
     private $curriculum;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechaCreacion", type="datetime", nullable=true)
+     * @Expose
+     * @Groups({"admin_detalle"})
+     */
+    private $fechaCreacion;
+    
     /**
      * @var \DateTime
      *
@@ -84,7 +94,8 @@ class Docente
     
     /**
      * @ORM\ManyToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="docentes")
-     * @Groups({"detalle"})
+     * @Expose
+     * @Groups({"admin_detalle"})
      */
     private $cursos;
     
@@ -93,7 +104,12 @@ class Docente
      * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id")
      */    
     private $instituto;
+
     
+    public function __construct()
+    {
+        $this->setFechaCreacion(new \DateTime());
+    }
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
@@ -111,6 +127,10 @@ class Docente
     public function getId()
     {
         return $this->id;
+    }
+
+    function setId($id) {
+        $this->id = $id;
     }
 
     /**
@@ -202,24 +222,7 @@ class Docente
         $this->usuario = $usuario;
     }
     
-    
-    /**
-     * @VirtualProperty
-     * @Type("string")     
-     */
-    public function getNombre() {
-        return $this->usuario->getNombre();
-    }
-    
-     /**
-     * @VirtualProperty
-     * @Type("string")         
-     */
-    public function getApellido() {
-        return $this->usuario->getApellido();
-    }
-    
-   
+       
     public function setRol() {
         $this->usuario->setRoles(array(Usuario::ROLE_DOCENTE));
     }
@@ -258,6 +261,14 @@ class Docente
     public function getLegajo()
     {
         return $this->legajo;
+    }
+
+    function getFechaCreacion() {
+        return $this->fechaCreacion;
+    }
+
+    function setFechaCreacion(\DateTime $fechaCreacion) {
+        $this->fechaCreacion = $fechaCreacion;
     }
 
 
