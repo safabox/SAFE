@@ -40,6 +40,14 @@
                     controller: 'AdminDashboardCtrl',
                     controllerAs: 'vm',    
                     params: {error: null}
+                })               
+                .state('admin.alumnos', {                    
+                    url: '/alumnos',
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/alumnos.list.html',                  
+                    roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
+                    controller: 'AdministradorAlumnosCtrl',
+                    controllerAs: 'vm',    
+                    params: {error: null}
                 })
 
                 .state('alumno', {
@@ -50,6 +58,8 @@
                 .state('alumno.dashboard', {                    
                     url: '/dashboard',
                     templateUrl: SystemConfigProvider.getStaticPath() + 'app/alumnos/alumno_dashboard.html',
+                    controller: 'AlumnoDashboardCtrl',
+                    controllerAs: 'vm',
                     roles: ["ROLE_ALUMNO"],
                     params: {error: null}
                 })

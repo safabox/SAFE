@@ -39,6 +39,11 @@
             if(_.indexOf($scope.roles, "ROLE_ALUMNO") >= 0) $state.go("docente.dashboard");
         }
         
+        $scope.irAlumno = irAlumno;
+        function irAlumno(){
+            $state.go('admin.alumnos');
+        }
+        
     }
 
 })(); 
