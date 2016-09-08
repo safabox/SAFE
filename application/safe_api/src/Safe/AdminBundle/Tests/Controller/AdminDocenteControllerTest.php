@@ -5,18 +5,18 @@ namespace Safe\AdminBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Doctrine\Common\Util\Debug;
-class DocenteControllerTest extends SafeTestController {
+class AdminDocenteControllerTest extends SafeTestController {
 
     public function testGetAllAction() {
         //inicio
-        $adminClient = $this->createAdminClient();                
+        $clienteAdministrador = $this->createClienteAdministrador();                
         $route =  $this->getUrl('api_1_admin_docentesget_docentes', array('_format' => 'json'));
         
         //test
-        $adminClient->request('GET', $route, array('ACCEPT' => 'application/json'));
+        $clienteAdministrador->request('GET', $route, array('ACCEPT' => 'application/json'));
         
         //validacion
-        $response = $adminClient->getResponse();
+        $response = $clienteAdministrador->getResponse();
         $this->assertJsonResponse($response, 200);       
         $data = json_decode($response->getContent(), true);
         $this->assertTrue(count($data) > 0);
@@ -29,7 +29,7 @@ class DocenteControllerTest extends SafeTestController {
         $this->assertArrayHasKey('usuario', $docente, 'Datos del usuario del docente no encontrado');        
         $usuario = $docente['usuario'];
         //Datos para el listado
-        $this->assertUsuarioAdminList('ROLE_DOCENTE', $usuario);  
+        $this->assertUsuarioAdminList($usuario, 'ROLE_DOCENTE');  
         
         //datos ocultos en el listado
         $this->assertArrayNotHasKey('curriculum', $docente, 'El curriculum no debe ser visualizado');
@@ -38,14 +38,14 @@ class DocenteControllerTest extends SafeTestController {
     
     public function testGetAction() {
         //inicio
-        $adminClient = $this->createAdminClient();                
+        $clienteAdministrador = $this->createClienteAdministrador();                
         $route =  $this->getUrl('api_1_admin_docentesget_docente', array('id' => '1', '_format' => 'json'));
         
         //test
-        $adminClient->request('GET', $route, array('ACCEPT' => 'application/json'));
+        $clienteAdministrador->request('GET', $route, array('ACCEPT' => 'application/json'));
         
         //validacion
-        $response = $adminClient->getResponse();
+        $response = $clienteAdministrador->getResponse();
         $this->assertJsonResponse($response, 200);       
         $docente = json_decode($response->getContent(), true);
         
@@ -59,7 +59,7 @@ class DocenteControllerTest extends SafeTestController {
         $this->assertArrayHasKey('usuario', $docente, 'Datos del usuario del docente no encontrado');        
         $usuario = $docente['usuario'];
         
-        $this->assertUsuarioAdminList('ROLE_DOCENTE', $usuario);        
+        $this->assertUsuarioAdminList($usuario, 'ROLE_DOCENTE');        
         //datos para el detalle
         $this->assertArrayHasKey('curriculum', $docente, 'curriculum del docente no encontrado');
         $this->assertArrayHasKey('cursos', $docente, 'cursos del docente no encontrado');
@@ -77,15 +77,15 @@ class DocenteControllerTest extends SafeTestController {
     
     public function testPostAction() {
         //inicio
-        $adminClient = $this->createAdminClient();                
+        $clienteAdministrador = $this->createClienteAdministrador();                
         $route =  $this->getUrl('api_1_admin_docentespost_docente', array('_format' => 'json'));       
         $content = json_encode($this->crearDocenteArray('docente100', '100'));
         
         //test
-        $adminClient->request('POST', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
+        $clienteAdministrador->request('POST', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
         
         //validacion
-        $response = $adminClient->getResponse();
+        $response = $clienteAdministrador->getResponse();
         $this->assertJsonResponse($response, 200);       
         
         $docente = json_decode($response->getContent(), true);
@@ -95,39 +95,45 @@ class DocenteControllerTest extends SafeTestController {
     
     public function testPutAction() {
         //inicio
-        $adminClient = $this->createAdminClient();                
-        $route =  $this->getUrl('api_1_admin_docentesput_docente', array('id' => '1', '_format' => 'json'));       
+        $id = '1';
+        $nuevoCurriculum = 'test put';
+        $clienteAdministrador = $this->createClienteAdministrador();                
+        $route =  $this->getUrl('api_1_admin_docentesput_docente', array('id' => $id, '_format' => 'json'));       
         $docente = $this->crearDocenteArray('docente1', '1');
-        $docente['curriculum'] = 'test put';
+        $docente['curriculum'] = $nuevoCurriculum;
         
         
         //test
-        $adminClient->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
+        $clienteAdministrador->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
         
         //validacion
-        $response = $adminClient->getResponse();
+        $response = $clienteAdministrador->getResponse();
         $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
         
-    
+        $docente = $this->getDocente($id);
+        $this->assertEquals($nuevoCurriculum, $docente->getCurriculum());
+        
     }
     
-    /*public function testPatchAction() {
+    public function testPatchAction() {
         //inicio
-        $adminClient = $this->createAdminClient();                
-        $route =  $this->getUrl('api_1_admin_docentesput_docente', array('id' => '1', '_format' => 'json'));       
-        $docente = $this->crearDocenteArray('docente1', '1');
-        $docente['curriculum'] = 'test put';
+        $id = '1';
+        $nuevoCurriculum = 'test patch';
+        $clienteAdministrador = $this->createClienteAdministrador();                
+        $route =  $this->getUrl('api_1_admin_docentespatch_docente', array('id' => $id, '_format' => 'json'));       
+        $docente = array('curriculum' => $nuevoCurriculum);
         
         
         //test
-        $adminClient->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
+        $clienteAdministrador->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
         
         //validacion
-        $response = $adminClient->getResponse();
+        $response = $clienteAdministrador->getResponse();
         $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
         
-    
-    }*/
+        $docente = $this->getDocente($id);
+        $this->assertEquals($nuevoCurriculum, $docente->getCurriculum());
+    }
     
     protected function crearDocenteArray($username, $legajo, $curriculum = '<h3>Educaci&oacute;n<h3>') {
         $dato = array(
@@ -142,13 +148,20 @@ class DocenteControllerTest extends SafeTestController {
                 'genero'=> 'Masculino',
                 'email'=> $username.'@mail.org',
                 'enabled'=> 'true',
-                'plainPassword' => array(
+                'textPassword' => array(
                     'first'=> '123456',
                     'second'=> '123456',
                 )
             )
         );
         return $dato;
+    }
+    
+    protected function getDocente($id) {
+        return $this->em
+            ->getRepository('SafeDocenteBundle:Docente')
+            ->find($id)
+        ;
     }
     
     

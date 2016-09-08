@@ -20,6 +20,7 @@ class CursoData extends AbstractFixture implements OrderedFixtureInterface
         $curso->setTitulo('Matematicas');
         $curso->setDescripcion('Curso de matematicas');
         $curso->setDocentes(array($this->getReference('docente1')));
+        $curso->setAlumnos(array($this->getReference('alumno1'), $this->getReference('alumno2'), $this->getReference('alumno3')));
         
 
         $manager->persist($curso);
@@ -30,7 +31,7 @@ class CursoData extends AbstractFixture implements OrderedFixtureInterface
     }
 
     public function getOrder() {
-        return 5;
+        return 6;
     }
 
 }

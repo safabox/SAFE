@@ -27,6 +27,7 @@ use Safe\InstitutoBundle\Entity\Instituto;
  *  }
  * )
  * @ORM\Entity(repositoryClass="Safe\AlumnoBundle\Repository\AlumnoRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ExclusionPolicy("all")
  * @UniqueEntity(
  *     fields={"legajo", "instituto"},
@@ -70,6 +71,8 @@ class Alumno
 
     /**
      * @ORM\ManyToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="alumnos")
+     * @Expose
+     * @Groups({"admin_detalle", "detalle"})
      */
     private $cursos;
     
@@ -79,6 +82,37 @@ class Alumno
      * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id", nullable=false)
      */    
     private $instituto;
+    
+        /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechaCreacion", type="datetime", nullable=true)
+     * @Expose
+     * @Groups({"admin_detalle", "detalle"})
+     */
+    private $fechaCreacion;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechaModificacion", type="datetime", nullable=true)
+     * @Expose      
+     */
+    private $fechaModificacion;
+
+    public function __construct()
+    {
+        $this->setFechaCreacion(new \DateTime());
+    }
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function actualizarFechaModificacion()
+    {
+        $this->setFechaModificacion(new \DateTime());
+    }
+
     
     /**
      * Get id
@@ -90,8 +124,11 @@ class Alumno
         return $this->id;
     }
 
+    function setId($id) {
+        $this->id = $id;
+    }
 
-    /**
+        /**
      * Set legajo
      *
      * @param string $legajo
@@ -158,6 +195,23 @@ class Alumno
     function setInstituto($instituto) {
         $this->instituto = $instituto;
     }
+
+    function getFechaCreacion() {
+        return $this->fechaCreacion;
+    }
+
+    function getFechaModificacion() {
+        return $this->fechaModificacion;
+    }
+
+    function setFechaCreacion(\DateTime $fechaCreacion) {
+        $this->fechaCreacion = $fechaCreacion;
+    }
+
+    function setFechaModificacion(\DateTime $fechaModificacion) {
+        $this->fechaModificacion = $fechaModificacion;
+    }
+
 
 
 }

@@ -1,6 +1,6 @@
-safe_alumno_homepage:
-    path:     /alumno/home
-    defaults: { _controller: SafeAlumnoBundle:Default:index }
+#safe_alumno_homepage:
+#    path:     /alumno/home
+#    defaults: { _controller: SafeAlumnoBundle:Default:index }
 safe_alumno:
     type: rest
     prefix: /v1

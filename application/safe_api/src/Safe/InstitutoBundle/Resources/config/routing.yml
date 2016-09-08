@@ -1,3 +1,0 @@
-safe_instituto_homepage:
-    path:     /
-    defaults: { _controller: SafeInstitutoBundle:Default:index }

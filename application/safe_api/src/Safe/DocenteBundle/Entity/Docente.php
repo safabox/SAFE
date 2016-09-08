@@ -70,16 +70,29 @@ class Docente
      *
      * @ORM\Column(name="curriculum", type="text", nullable=true)
      * @Expose
-     * @Groups({"admin_detalle"})  
+     * @Groups({"admin_detalle", "detalle"})  
      */
     private $curriculum;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="docentes")
+     * @Expose
+     * @Groups({"admin_detalle", "detalle"})
+     */
+    private $cursos;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Safe\InstitutoBundle\Entity\Instituto")
+     * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id")
+     */    
+    private $instituto;
+
+        /**
      * @var \DateTime
      *
      * @ORM\Column(name="fechaCreacion", type="datetime", nullable=true)
      * @Expose
-     * @Groups({"admin_detalle"})
+     * @Groups({"admin_detalle", "detalle"})
      */
     private $fechaCreacion;
     
@@ -90,20 +103,6 @@ class Docente
      * @Expose      
      */
     private $fechaModificacion;
-
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="Safe\CursoBundle\Entity\Curso", mappedBy="docentes")
-     * @Expose
-     * @Groups({"admin_detalle"})
-     */
-    private $cursos;
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="Safe\InstitutoBundle\Entity\Instituto")
-     * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id")
-     */    
-    private $instituto;
 
     
     public function __construct()

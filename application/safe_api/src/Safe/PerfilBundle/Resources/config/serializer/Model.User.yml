@@ -13,10 +13,12 @@ FOS\UserBundle\Model\User:
             expose: true
         locked:
             expose: true
+            groups: [admin_listado, admin_detalle]
         roles:
             expose: true
         credentialsExpired:
             expose: true
+            groups: [admin_listado, admin_detalle]
         credentialsExpireAt:
             expose: true
-#            groups: [admin_listado]        
+            groups: [admin_listado, admin_detalle]        

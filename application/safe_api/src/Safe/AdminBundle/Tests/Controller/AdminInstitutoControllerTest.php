@@ -5,10 +5,10 @@ namespace Safe\AdminBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Doctrine\Common\Util\Debug;
-class InstitutoControllerTest extends SafeTestController {
+class AdminInstitutoControllerTest extends SafeTestController {
 
     public function testAllAction() {
-        $adminClient = $this->createAdminClient();                
+        $adminClient = $this->createClienteAdministrador();                
         $route =  $this->getUrl('api_1_admin_institutosget_instituto', array('_format' => 'json'));
 
         

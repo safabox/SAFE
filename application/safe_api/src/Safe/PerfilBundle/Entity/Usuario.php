@@ -233,8 +233,19 @@ class Usuario extends BaseUser
      *      max = 4096  
      * )
      */
-    public function getPlainPassword() {
-        return parent::getPlainPassword();
+    public function getTextPassword() {
+        if (parent::getPlainPassword() != NULL) {
+            return parent::getPlainPassword();
+        }
+        if (parent::getPassword() != NULL) {
+            return '000';
+        }
+        return NULL;
+        
+    }
+    
+    public function setTextPassword($textPassword) {
+        parent::setPlainPassword($textPassword);
     }
 
     function getTipoDocumento() {
