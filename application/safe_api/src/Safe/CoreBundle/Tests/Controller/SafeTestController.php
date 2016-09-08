@@ -95,21 +95,24 @@ class SafeTestController extends WebTestCase {
     
     
     protected function createClienteAdministrador($username = 'admin', $password='123456') {
-        return $this->crearClienteAutenticado($username, $password);
+        $login = $this->crearClienteAutenticado($username, $password);
+        return $login['cliente'];
     }
     
-    protected function createClienteAlumno($username = 'alumno1', $password='123456') {
-        return $this->crearClienteAutenticado($username, $password);
+    protected function loginAlumno($username = 'alumno1', $password='123456') {
+        $login = $this->crearClienteAutenticado($username, $password);                
+        return $login;
     }
     
-    protected function createClienteDocente($username = 'docente1', $password='123456') {
-        return $this->crearClienteAutenticado($username, $password);
+    protected function loginDocente($username = 'docente1', $password='123456') {
+        $login = $this->crearClienteAutenticado($username, $password);
+        return $login;
     }
 
     protected function crearClienteAutenticado($username = 'user', $password = 'password')
     {
-        $client = static::createClient();
-        $client->request(
+        $cliente = static::createClient();
+        $cliente->request(
             'POST',
             '/api/login_check',
             array(
@@ -118,12 +121,12 @@ class SafeTestController extends WebTestCase {
             )
         );
 
-        $data = json_decode($client->getResponse()->getContent(), true);
-//        Debug::dump($data);
-        $client = static::createClient();
-        $client->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
-
-        return $client;
+        $data = json_decode($cliente->getResponse()->getContent(), true);        
+        $cliente = static::createClient();
+        $cliente->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
+        
+        $resultado = array('cliente' => $cliente, 'datos' => $data);
+        return $resultado;
     }
 
     

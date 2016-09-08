@@ -10,14 +10,16 @@ class DocenteControllerTest extends SafeTestController {
     
     public function testGetAction() {
         //inicio
-        $clienteAdministrador = $this->createClienteDocente();                
-        $route =  $this->getUrl('api_1_docentesget_docente', array('id' => '1', '_format' => 'json'));
+        $login = $this->loginDocente();    
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'];
+        $route =  $this->getUrl('api_1_docentesget_docente', array('id' => $id, '_format' => 'json'));
         
         //test
-        $clienteAdministrador->request('GET', $route, array('ACCEPT' => 'application/json'));
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
         
         //validacion
-        $response = $clienteAdministrador->getResponse();
+        $response = $cliente->getResponse();
         $this->assertJsonResponse($response, 200);       
         $docente = json_decode($response->getContent(), true);
         
@@ -49,71 +51,78 @@ class DocenteControllerTest extends SafeTestController {
     
        public function testGetAction_conIdUsuarioDiferenteAlLogueado_retornaStatusForbidden() {
         //inicio
-        $clienteAdministrador = $this->createClienteDocente();                
-        $route =  $this->getUrl('api_1_docentesget_docente', array('id' => '2', '_format' => 'json'));
+        $login = $this->loginDocente();  
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'] + 1;
+        $route =  $this->getUrl('api_1_docentesget_docente', array('id' => $id, '_format' => 'json'));
         
         //test
-        $clienteAdministrador->request('GET', $route, array('ACCEPT' => 'application/json'));
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
         
         //validacion
-        $response = $clienteAdministrador->getResponse();
+        $response = $cliente->getResponse();
         $this->assertJsonResponse($response, 403);       
         
     }
     
     public function testPutAction() {
-        //inicio
-        $id = '1';
+        //inicio        
         $nuevoCurriculum = 'test put';
-        $clienteAdministrador = $this->createClienteDocente();                
+        $login = $this->loginDocente();    
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'];
+        
         $route =  $this->getUrl('api_1_docentesput_docente', array('id' => $id, '_format' => 'json'));       
         $docente = $this->crearDocenteArray('docente1', '1');
         $docente['curriculum'] = $nuevoCurriculum;
         
         
         //test
-        $clienteAdministrador->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
+        $cliente->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
         
         //validacion
-        $response = $clienteAdministrador->getResponse();
+        $response = $cliente->getResponse();
         $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
         
         $docente = $this->getDocente($id);
         $this->assertEquals($nuevoCurriculum, $docente->getCurriculum());        
     }
     public function testPutAction_conIdUsuarioDiferenteAlLogueado_retornaStatusForbidden() {
-        //inicio
-        $id = '2';
+        //inicio        
         $nuevoCurriculum = 'test put';
-        $clienteAdministrador = $this->createClienteDocente();                
+        $login = $this->loginDocente();       
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'] + 1;
         $route =  $this->getUrl('api_1_docentesput_docente', array('id' => $id, '_format' => 'json'));       
         $docente = $this->crearDocenteArray('docente1', '1');
         $docente['curriculum'] = $nuevoCurriculum;
         
         
         //test
-        $clienteAdministrador->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
+        $cliente->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
         
         //validacion
-        $response = $clienteAdministrador->getResponse();
+        $response = $cliente->getResponse();
         $this->assertEquals(403, $response->getStatusCode(), 'Se esperaba status code 403 en vez de '.$response->getStatusCode());
 
     }
     
     public function testPatchAction() {
-        //inicio
-        $id = '1';
+        //inicio        
         $nuevoCurriculum = 'test patch';
-        $clienteAdministrador = $this->createClienteDocente();                
+        $login = $this->loginDocente();  
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'];
+        
         $route =  $this->getUrl('api_1_docentespatch_docente', array('id' => $id, '_format' => 'json'));       
         $docente = array('curriculum' => $nuevoCurriculum);
         
         
         //test
-        $clienteAdministrador->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
+        $cliente->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
         
         //validacion
-        $response = $clienteAdministrador->getResponse();
+        $response = $cliente->getResponse();
         $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
         
         $docente = $this->getDocente($id);
@@ -121,19 +130,20 @@ class DocenteControllerTest extends SafeTestController {
     }
     
     public function testPatchAction_conIdUsuarioDiferenteAlLogueado_retornaStatusForbidden() {
-        //inicio
-        $id = '2';
+        //inicio        
         $nuevoCurriculum = 'test patch';
-        $clienteAdministrador = $this->createClienteDocente();                
+        $login = $this->loginDocente();   
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'] + 1;
         $route =  $this->getUrl('api_1_docentespatch_docente', array('id' => $id, '_format' => 'json'));       
         $docente = array('curriculum' => $nuevoCurriculum);
         
         
         //test
-        $clienteAdministrador->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
+        $cliente->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($docente));
         
         //validacion
-        $response = $clienteAdministrador->getResponse();
+        $response = $cliente->getResponse();
         $this->assertEquals(403, $response->getStatusCode(), 'Se esperaba status code 403 en vez de '.$response->getStatusCode());
         
     }
