@@ -41,7 +41,7 @@
         
         $scope.irAlumno = irAlumno;
         function irAlumno(){
-            $state.go('admin.alumnos');
+            $state.go('admin.alumnos.list');
         }
         
     }

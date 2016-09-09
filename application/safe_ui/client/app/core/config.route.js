@@ -35,18 +35,40 @@
                 })
                 .state('admin.dashboard', {                    
                     url: '/dashboard',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/admin_dashboard.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/admin.dashboard.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdminDashboardCtrl',
                     controllerAs: 'vm',    
                     params: {error: null}
-                })               
-                .state('admin.alumnos', {                    
+                })
+                
+                .state('admin.alumnos', {
+                    abstract: true,
+                    url: '',
+                    template: '<ui-view/>'
+                })                
+                .state('admin.alumnos.list', {                    
                     url: '/alumnos',
                     templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/alumnos.list.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorAlumnosCtrl',
                     controllerAs: 'vm',    
+                    params: {error: null}
+                })
+                .state('admin.alumnos.new', {                    
+                    url: '/alumnos/new',
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/alumnos.edit.html',                  
+                    roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
+                    controller: 'AdministradorAlumnosEdit',
+                    controllerAs: 'vm',
+                    params: {error: null}
+                })
+                .state('admin.alumnos.edit', {                    
+                    url: '/alumnos/:id',
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/alumnos.edit.html',                  
+                    roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
+                    controller: 'AdministradorAlumnosEdit',
+                    controllerAs: 'vm',
                     params: {error: null}
                 })
 
