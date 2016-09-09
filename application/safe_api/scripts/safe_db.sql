@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 09-09-2016 a las 22:05:39
+-- Tiempo de generación: 09-09-2016 a las 22:47:17
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -30,19 +30,21 @@ CREATE TABLE `alumno` (
   `id` int(11) NOT NULL,
   `legajo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `usuario_id` int(11) NOT NULL,
-  `instituto_id` int(11) NOT NULL
+  `instituto_id` int(11) NOT NULL,
+  `fechaCreacion` datetime DEFAULT NULL,
+  `fechaModificacion` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `alumno`
 --
 
-INSERT INTO `alumno` (`id`, `legajo`, `usuario_id`, `instituto_id`) VALUES
-(1, '123457', 2, 1),
-(2, '123452', 3, 1),
-(3, '123422', 4, 1),
-(4, '123423', 5, 1),
-(5, '123424', 6, 1);
+INSERT INTO `alumno` (`id`, `legajo`, `usuario_id`, `instituto_id`, `fechaCreacion`, `fechaModificacion`) VALUES
+(1, '123457', 2, 1, NULL, NULL),
+(2, '123452', 3, 1, NULL, NULL),
+(3, '123422', 4, 1, NULL, NULL),
+(4, '123423', 5, 1, NULL, NULL),
+(5, '123424', 6, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -363,7 +365,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `apellido`, `avatar`, `tipo_documento_id`, `numero_documento`, `genero`, `nacionalidad`) VALUES
-(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-09-06 03:16:46', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL),
+(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-09-09 22:39:19', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL),
 (2, 'chespirito', 'chespirito', 'chespirito@organizacion.org', 'chespirito@organizacion.org', 1, 'pll1f8ota5cgcs0s0koog0gkgsc0s0', 'TGo5inENJH2gE3Qf3YxVFoky0OwPYD86inxtaD+bMoYJzCtNkZ4nPUdHWkiRzIO/5G8lfJSSeAtB0tZYShGeuQ==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'Roberto', 'Gómez Bolaño', NULL, 1, '30777555', 'Masculino', NULL),
 (3, 'alumno1', 'alumno1', 'alumno1@organizacion.org', 'alumno1@organizacion.org', 1, 'm009bk38wtso4wkssg4sc8g404wok4w', 'FkaApz8FAz5iZrESTHBKVLJy8zV8UBQcmJqdDrEXMMuI1kiJgrfrJ9ZXgQPtV/i9V3j1RtvlszMyqC4ahInhlw==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'Alumno_1', 'Gómez Bolaño', NULL, 1, '30777551', 'Masculino', NULL),
 (4, 'alumno2', 'alumno2', 'alumno2@organizacion.org', 'alumno2@organizacion.org', 1, 'p5lnsdli5344cwgsgssc0c4sc04o4w0', 'F/TIIq7DfD6M1Hk6uLKuS+VmkrWPkAyAkmzZ7blhpfJgjUeG81Mt3oRoCI2r3pftLBzIVekdfGAltIuFBcX8bg==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'Alumno_2', 'Gómez Bolaño', NULL, 1, '30777552', 'Masculino', NULL),
