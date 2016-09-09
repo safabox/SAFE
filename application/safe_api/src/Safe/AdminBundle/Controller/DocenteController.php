@@ -68,7 +68,7 @@ class DocenteController extends SafeRestAbstractController {
      *      "genero": "Masculino",
      *      "email": "jirafales@organizacion.org",
      *      "enabled": "true",
-     *      "plainPassword": {
+     *      "textPassword": {
      *          "first" : "123456",
      *          "second" : "123456"
      *      }
@@ -110,7 +110,7 @@ class DocenteController extends SafeRestAbstractController {
      *      "genero": "Masculino",
      *      "email": "jirafales@organizacion.org",
      *      "enabled": "true",
-     *      "plainPassword": {
+     *      "textPassword": {
      *          "first" : "123456",
      *          "second" : "123456"
      *      }
@@ -153,7 +153,7 @@ class DocenteController extends SafeRestAbstractController {
      *      "genero": "Masculino",
      *      "email": "jirafales@organizacion.org",
      *      "enabled": "true",
-     *      "plainPassword": {
+     *      "textPassword": {
      *          "first" : "123456",
      *          "second" : "123456"
      *      }
@@ -201,7 +201,7 @@ class DocenteController extends SafeRestAbstractController {
      */
     public function getDocenteAction($id)
     {
-        return $this->generarRespuesta($this->getDocenteService()->getById($id), Response::HTTP_OK, array('Default', 'admin_listado'));            
+        return $this->generarRespuesta($this->getDocenteService()->getById($id), Response::HTTP_OK, array('Default', 'admin_detalle'));            
     }
     
     private function getDocenteService() {

@@ -23,4 +23,14 @@ class DocenteService {
         $docente->setRol();
         return $this->docenteRepository->crearOActualizar($docente);
     }
+    
+    public function buscarPorUsuario($usuario) {
+        $query = $this->docenteRepository->createQueryBuilder('docente')
+                                       ->join('docente.usuario', 'u')
+                                       ->where('u.id = :id')
+                                       ->setParameter('id', $usuario->getId())
+                                       ->getQuery();
+        
+         return $query->getOneOrNullResult();
+    }
 }

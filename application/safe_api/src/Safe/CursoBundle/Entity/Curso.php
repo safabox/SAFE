@@ -51,6 +51,8 @@ class Curso
      * @var string
      *
      * @ORM\Column(name="descripcion", type="text", nullable=true)     
+     * @Expose
+     * @Groups({"admin_detalle"}) 
      */
     private $descripcion;
 
@@ -61,6 +63,14 @@ class Curso
      * @Expose
      */
     private $fechaCreacion;
+    
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechaModificacion", type="datetime", nullable=true)
+     * @Expose
+     */
+    private $fechaModificacion;
 
     /**
      *
@@ -91,8 +101,16 @@ class Curso
     public function __construct()
     {
         $this->alumnos = new ArrayCollection();
+        $this->setFechaCreacion(new \DateTime());
     }
-
+    
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function actualizarFechaModificacion() {
+        $this->setFechaModificacion(new \DateTime());
+    }
 
     /**
      * Get id
@@ -232,6 +250,15 @@ class Curso
 
     function setInstituto($instituto) {
         $this->instituto = $instituto;
+    }
+
+
+    function getFechaModificacion() {
+        return $this->fechaModificacion;
+    }
+
+    function setFechaModificacion(\DateTime $fechaModificacion) {
+        $this->fechaModificacion = $fechaModificacion;
     }
 
 

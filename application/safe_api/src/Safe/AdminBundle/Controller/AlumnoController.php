@@ -68,7 +68,7 @@ class AlumnoController extends SafeRestAbstractController {
      *      "genero": "Masculino",
      *      "email": "chespirito@organizacion.org",
      *      "enabled": "true",
-     *      "plainPassword": {
+     *      "textPassword": {
      *          "first" : "123456",
      *          "second" : "123456"
      *      }
@@ -108,7 +108,7 @@ class AlumnoController extends SafeRestAbstractController {
      *      "genero": "Masculino",
      *      "email": "chespirito@organizacion.org",
      *      "enabled": "true", 
-     *      "plainPassword": {
+     *      "textPassword": {
      *          "first" : "123456",
      *          "second" : "123456"
      *      }
@@ -150,7 +150,7 @@ class AlumnoController extends SafeRestAbstractController {
      *      "genero": "Masculino",
      *      "email": "chespirito@organizacion.org",
      *      "enabled": "true", 
-     *      "plainPassword": {
+     *      "textPassword": {
      *          "first" : "123456",
      *          "second" : "123456"
      *      }
@@ -197,7 +197,7 @@ class AlumnoController extends SafeRestAbstractController {
      */
     public function getAlumnoAction($id)
     {        
-        return $this->generarRespuesta($this->getAlumnoService()->getById($id), Response::HTTP_OK, array('Default', 'admin_listado'));
+        return $this->generarRespuesta($this->getAlumnoService()->getById($id), Response::HTTP_OK, array('Default', 'admin_detalle'));
     } 
        
     private function getAlumnoService() {

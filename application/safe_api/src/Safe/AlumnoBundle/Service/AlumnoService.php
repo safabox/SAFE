@@ -35,5 +35,15 @@ class AlumnoService {
         
          return $query->getResult();
     }
+    
+    public function buscarPorUsuario($usuario) {
+        $query = $this->alumnoRepository->createQueryBuilder('alumno')
+                                       ->join('alumno.usuario', 'u')
+                                       ->where('u.id = :id')
+                                       ->setParameter('id', $usuario->getId())
+                                       ->getQuery();
+        
+         return $query->getOneOrNullResult();
+    }
 
 }

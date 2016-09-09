@@ -47,7 +47,7 @@ class UsuarioType extends AbstractType
                 'choice_value' => 'codigo',        
             ))        
                 
-            ->add('plainPassword', 'repeated', array(
+            ->add('textPassword', 'repeated', array(
                 'type' => 'password',
                 'options' => array('translation_domain' => 'FOSUserBundle'),
                 'first_options' => array('label' => 'form.password'),

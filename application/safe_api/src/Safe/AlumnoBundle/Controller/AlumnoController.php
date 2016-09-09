@@ -1,52 +1,107 @@
 <?php
 namespace Safe\AlumnoBundle\Controller;
 
-use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-
-use JMS\Serializer\SerializationContext;
-
 use FOS\RestBundle\Controller\Annotations;
+
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
-//http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
-class AlumnoController extends FOSRestController {
+use Safe\AdminBundle\Form\RegistracionAlumnoType;
+use Safe\AlumnoBundle\Entity\Alumno;
+
+use Safe\CoreBundle\Controller\SafeRestAbstractController;
+use Safe\CoreBundle\Http\HttpMethod;
+
+use Doctrine\Common\Util\Debug;
+
+
+class AlumnoController extends SafeRestAbstractController {
+     
+    
+
+    
     /**
-     * Lista todos los alumnos
-     *
-     * @ApiDoc(
-     *   resource = true,
-     *   output="array<Safe\AlumnoBundle\Entity\Alumno>",
+     * Actualiza los datos del alumno
+     * 
+     * #### Ejemplo del Request     
+     * ```
+     * {
+     *  "legajo":  "123457",
+     *  "usuario": {
+     *      "nombre": "Roberto",
+     *      "apellido": "Gómez Bolaño",
+     *      "username": "chespirito",     
+     *      "tipoDocumento":  "DNI",
+     *      "numeroDocumento": "30777555",
+     *      "genero": "Masculino",
+     *      "email": "chespirito@organizacion.org",
+     *      "enabled": "true", 
+     *      "textPassword": {
+     *          "first" : "123456",
+     *          "second" : "123456"
+     *      }
+     *	}
+     * } 
+     * ```
+     * @ApiDoc(          
+     *   output="Safe\AlumnoBundle\Entity\Alumno",
      *   statusCodes = {
-     *     200 = "Petición resuelta correctamente"
+     *     204 = "Entidad actualizada correctamente",
+     *     400 = "Hubo un error al actualizar la entidad"
      *   }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Número de página.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="Cantidad de elementos a retornar.")
-     *
-     * @Annotations\View(
-     *  templateVar="pages"
+     * @param Request $request the request object
+     *     
+     */
+    public function putAlumnoAction(Request $request, $id) {                
+        $alumno = $this->obtenerAlumno($id);           
+        return $this->procesarRequest($request, new RegistracionAlumnoType(), $alumno, HttpMethod::PUT);         
+    }
+    
+    /**
+     * Actualiza los datos parciales del alumno
+     * 
+     * #### Ejemplo del Request     
+     * ```
+     * {
+     *  "legajo":  "123457",
+     *  "usuario": {
+     *      "nombre": "Roberto",
+     *      "apellido": "Gómez Bolaño",
+     *      "username": "chespirito",     
+     *      "tipoDocumento":  "DNI",
+     *      "numeroDocumento": "30777555",
+     *      "genero": "Masculino",
+     *      "email": "chespirito@organizacion.org",
+     *      "enabled": "true", 
+     *      "textPassword": {
+     *          "first" : "123456",
+     *          "second" : "123456"
+     *      }
+     *	}
+     * } 
+     * ```
+     * @ApiDoc(          
+     *   output="Safe\AlumnoBundle\Entity\Alumno",
+     *   statusCodes = {
+     *     204 = "Entidad actualizada correctamente",
+     *     400 = "Hubo un error al actualizar parcialmente la entidad"
+     *   }
      * )
      *
-     * @param Request               $request      the request object
-     * @param ParamFetcherInterface $paramFetcher param fetcher service
-     *
-     * @return array
+     * @param Request $request the request object
+     *     
      */
-    public function getAlumnosAction(Request $request, ParamFetcherInterface $paramFetcher)
-    {
-        $offset = $paramFetcher->get('offset');
-        $offset = null == $offset ? 0 : $offset;
-        $limit = $paramFetcher->get('limit');
+    public function patchAlumnoAction(Request $request, $id) {                
+        $alumno = $this->obtenerAlumno($id);  
+        return $this->procesarRequest($request, new RegistracionAlumnoType(), $alumno, HttpMethod::PATCH); 
+    }
         
-        $view = $this->view($this->getAlumnoService()->findAll($limit, $offset), Response::HTTP_OK);
-        $view->setSerializationContext(SerializationContext::create()->setGroups(array('listado')));
-        return $this->handleView($view);
-    } 
-    
     /**
      * Obtiene el alumno segun el  id
      *
@@ -65,20 +120,36 @@ class AlumnoController extends FOSRestController {
      * @return object
      *
      * @throws NotFoundHttpException cuando no existe el alumno.
+     * @throws AccessDeniedHttpException.
      */
     public function getAlumnoAction($id)
-    {
-        
-        $view = $this->view();
-        $view->setSerializationContext(SerializationContext::create()->setGroups(array('alumno_detalle')));
-       
-        return $this->getAlumnoService()->getById($id);
+    {        
+        $alumno = $this->obtenerAlumno($id);
+        return $this->generarRespuesta($alumno, Response::HTTP_OK, array('Default', 'detalle'));
     } 
     
+    protected function procesarEntidadValida($alumno, $method = HttpMethod::POST) {
+        $this->getAlumnoService()->crearOActualizar($alumno);      
+        if (HttpMethod::POST == $method) {            
+            return $this->generarRespuesta($alumno, Response::HTTP_OK, array('Default'));
+        }
+        return $this->generarRepuestaNotContent();
+    }
     
-    
+    protected function obtenerAlumno($id) {
+        $alumno = $this->getAlumnoService()->getById($id);
+        if ($alumno == null) {
+            $this->createNotFoundException("alumnoBundle.alumno.no_encontrado");
+        }      
+        $usuario = $this->get('security.token_storage')->getToken()->getUser();
+        if ($usuario->getId() != $alumno->getUsuario()->getId()) {
+            throw new AccessDeniedHttpException();
+        }
+        return $alumno;
+    }
     
     private function getAlumnoService() {
         return $this->container->get('safe_alumno.service.alumno');
     }
+
 }

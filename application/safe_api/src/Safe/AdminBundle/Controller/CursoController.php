@@ -165,7 +165,7 @@ class CursoController extends SafeRestAbstractController {
      */
     public function getCursoAction($id)
     {        
-        return $this->generarRespuesta($this->getCursoService()->getById($id), Response::HTTP_OK, array('Default', 'admin_listado'));
+        return $this->generarRespuesta($this->getCursoService()->getById($id), Response::HTTP_OK, array('Default', 'admin_detalle'));
     } 
        
     private function getCursoService() {
@@ -197,7 +197,7 @@ class CursoController extends SafeRestAbstractController {
         
         $this->getCursoService()->crearOActualizar($curso);
         if (HttpMethod::POST == $method) {
-            return $this->generarRespuesta($curso, Response::HTTP_OK, array('Default', 'admin_listado'));
+            return $this->generarRespuesta($curso, Response::HTTP_OK, array('Default'));
         }
         return $this->generarRepuestaNotContent();
     }
