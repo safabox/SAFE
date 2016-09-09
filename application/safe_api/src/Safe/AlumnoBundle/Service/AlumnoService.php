@@ -43,7 +43,18 @@ class AlumnoService {
                                        ->setParameter('id', $usuario->getId())
                                        ->getQuery();
         
-         return $query->getOneOrNullResult();
+        return $query->getOneOrNullResult();
+    }
+    
+    public function cantidadAlumnos($instituto) {
+        $query = $this->alumnoRepository->createQueryBuilder('alumno2');
+        $query->select($query->expr()->count('alumno.id'));
+        $query->from('SafeAlumnoBundle:Alumno','alumno')
+                ->join('alumno.instituto', 'i')
+                ->where('i.id = :id')
+                ->setParameter('id', $instituto->getId());
+        $count = $query->getQuery()->getSingleScalarResult();
+        return $count;
     }
 
 }

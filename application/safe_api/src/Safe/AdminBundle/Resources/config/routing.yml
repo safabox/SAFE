@@ -36,3 +36,8 @@ safe_admin_tipo_documentos:
     prefix: /v1/admin
     resource: "Safe\AdminBundle\Controller\TipoDocumentoController"
     name_prefix:  api_1_admin_tipo_documentos # naming collision
+safe_admin_dashboards:
+    type: rest
+    prefix: /v1/admin
+    resource: "Safe\AdminBundle\Controller\DashboardController"
+    name_prefix:  api_1_admin_dashboards # naming collision

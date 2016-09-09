@@ -33,4 +33,15 @@ class DocenteService {
         
          return $query->getOneOrNullResult();
     }
+    
+    public function cantidadDocentes($instituto) {
+        $query = $this->docenteRepository->createQueryBuilder('docente2');
+        $query->select($query->expr()->count('docente.id'));
+        $query->from('SafeDocenteBundle:Docente','docente')
+                ->join('docente.instituto', 'i')
+                ->where('i.id = :id')
+                ->setParameter('id', $instituto->getId());
+        $count = $query->getQuery()->getSingleScalarResult();
+        return $count;        
+    }
 }

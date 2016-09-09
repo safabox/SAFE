@@ -56,4 +56,15 @@ class CursoService {
         
          return ($query->getSingleScalarResult() > 0);
     }
+    
+    public function cantidadCursos($instituto) {        
+        $query = $this->cursoRepository->createQueryBuilder('curso2');
+        $query->select($query->expr()->count('curso.id'));
+        $query->from('SafeCursoBundle:Curso','curso')
+                ->join('curso.instituto', 'i')
+                ->where('i.id = :id')
+                ->setParameter('id', $instituto->getId());
+        $count = $query->getQuery()->getSingleScalarResult();
+        return $count;
+    }
 }
