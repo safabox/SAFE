@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app')
-        .controller('AdminDashboardCtrl', ['_', '$q', '$scope', 'Administrador', 'AdminAlumnos', 'AdminDocentes', 'AdminCursos', 'logger', AdminDashboardCtrl])
+        .controller('AdminDashboardCtrl', ['_', '$q', '$scope', 'Administrador', 'AdminAlumnos', 'AdminDocentes', 'AdminCursos', 'logger', AdminDashboardCtrl]);
 
     function AdminDashboardCtrl(_, $q, $scope, Administrador, AdminAlumnos, AdminDocentes, AdminCursos, logger) {
         var vm = this;
@@ -34,7 +34,7 @@
                 vm.alumnos = response.plain();     
             }        
             function onError(httpResponse) {
-                logger.error('No se pudieron obtener los usuarios', httpResponse);
+                logger.error('No se pudieron obtener los Alumnos', httpResponse);
             }            
         }
         
@@ -45,7 +45,7 @@
                 vm.docentes = response.plain();     
             }        
             function onError(httpResponse) {
-                logger.error('No se pudieron obtener los usuarios', httpResponse);
+                logger.error('No se pudieron obtener los Docentes', httpResponse);
             }            
         }
         
@@ -56,7 +56,7 @@
                 vm.cursos = response.plain();     
             }        
             function onError(httpResponse) {
-                logger.error('No se pudieron obtener los usuarios', httpResponse);
+                logger.error('No se pudieron obtener los Cursos', httpResponse);
             }            
         }
         
