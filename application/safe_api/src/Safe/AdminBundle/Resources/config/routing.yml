@@ -1,6 +1,6 @@
-safe_admin_homepage:
-    path:     /admin/home
-    defaults: { _controller: SafeAdminBundle:Default:index }
+#safe_admin_homepage:
+#    path:     /admin/home
+#    defaults: { _controller: SafeAdminBundle:Default:index }
 safe_admin_docentes:
     type: rest
     prefix: /v1/admin
