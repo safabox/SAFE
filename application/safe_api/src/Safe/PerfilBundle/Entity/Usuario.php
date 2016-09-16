@@ -100,7 +100,7 @@ class Usuario extends BaseUser
      *      max = 100,
      *      maxMessage = "perfilBundle.usuario.genero"
      * )        
-     * @Groups({"detalle"})
+     * @Groups({"admin_detalle", "detalle"})
      */
     private $genero;
     
