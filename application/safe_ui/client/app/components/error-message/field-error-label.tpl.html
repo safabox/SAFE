@@ -1,0 +1,4 @@
+<label class="control-label h6 text-danger error-message-label" ng-if="(!vm.field.$pristine) && vm.field.$invalid" ng-messages="vm.field.$error" role="alert">
+    <span ng-message="required">{{vm.requiredMessage}}</span>
+    <span ng-message="invalid">{{vm.invalidMessage}}</span>
+</label>

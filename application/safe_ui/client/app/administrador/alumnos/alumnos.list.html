@@ -1,0 +1,119 @@
+<div class="page page-table" data-ng-controller="AdministradorAlumnosCtrl" data-ng-hide="vm.loading"> 
+   
+        <section class="invoice-container" id="invoice">
+            
+            <div class="row">
+                <div class="col-md-9">
+                    <p class="size-h1">Administrar Alumnos</p>
+                </div>
+                <div class="col-md-3" style="padding-top: 16px">
+                    <button type="button" class="btn btn-w-md btn-gap-v btn-primary pull-right" ng-click="vm.irNuevo()"><span class="glyphicon glyphicon-plus"></span> Nuevo</button>
+                </div>
+            </div>
+
+            <section class="panel panel-default table-dynamic">
+            <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> Listado Alumnos</strong></div>
+               
+                <div class="table-filters">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-6">
+                            <form>
+                                <input type="text"
+                                       placeholder="Buscar..."
+                                       class="form-control"
+                                       data-ng-model="vm.searchKeywords"
+                                       data-ng-keyup="vm.search()">
+                            </form>
+                        </div>
+                        <div class="col-sm-3 col-xs-6 filter-result-info">
+                            <span>
+                                Mostrando {{vm.filteredStores.length}}/{{vm.alumnos.length}} alumnos
+                            </span>              
+                        </div>
+                    </div>
+                </div>
+               
+                <table class="table table-bordered table-striped table-responsive" > 
+                    <thead>
+                        <tr>
+                            <th><div class="th">
+                                #
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" vm.order('nombre') "
+                                      data-ng-class="{active: vm.row == 'nombre'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" vm.order('-nombre') "
+                                      data-ng-class="{active: vm.row == '-nombre'}"></span>
+                            </div></th>
+                            <th><div class="th">
+                                Nombre y Apellido
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" vm.order('price') "
+                                      data-ng-class="{active: vm.row == 'price'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" vm.order('-price') "
+                                      data-ng-class="{active: vm.row == '-price'}"></span>
+                            </div></th>
+                            <th><div class="th">
+                                Legajo
+                                <span class="fa fa-angle-up"
+                                      data-ng-click=" vm.order('sales') "
+                                      data-ng-class="{active: vm.row == 'sales'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" vm.order('-sales') "
+                                      data-ng-class="{active: vm.row == '-sales'}"></span>
+                            </div></th>
+                            <th><div class="th">
+                                Acciones
+                            </div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="alumno in vm.currentPageStores" >
+                            <td class="text-center">{{alumno.id}}</td>
+                            <td class="text-center">{{alumno.usuario.nombre}}, {{alumno.usuario.apellido}}</td>
+                            <td class="text-center">{{alumno.legajo}}</td>
+                            <td class="text-center">
+                                <button type="button" uib-tooltip="Editar" class="btn btn-xs btn-primary" aria-label="Editar" data-ui-sref="^.edit({ id: 1 })" >
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" uib-tooltip="Eliminar" class="btn btn-xs btn-primary" aria-label="Eliminar"  >
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" uib-tooltip="Recuperar" class="btn btn-xs btn-primary" aria-label="Recuperar"  >
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <footer class="table-footer">
+                    <div class="row">
+                        <div class="col-md-6 page-num-info">
+                            <span>
+                                Mostrar 
+                                <select data-ng-model="vm.numPerPage"
+                                        data-ng-options="num for num in vm.numPerPageOpt"
+                                        data-ng-change="vm.onNumPerPageChange()">
+                                </select> 
+                                registros por página
+                            </span>
+                        </div>
+                        <div class="col-md-6 text-right pagination-container">
+                            <uib-pagination class="pagination-sm"
+                                        ng-model="vm.currentPage"
+                                        total-items="vm.filteredStores.length"
+                                        max-size="4"
+                                        ng-change="vm.select(vm.currentPage)"
+                                        items-per-page="vm.numPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></uib-pagination>
+                        </div>
+                    </div>
+                </footer>
+            </section>
+        </section>
+       
+</div>

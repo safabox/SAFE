@@ -1,0 +1,9 @@
+<div class="alert alert-warning" ng-if="vm.form.$invalid">
+    <h3 class="panel-title">{{vm.title}}</h3>
+
+    <ul>
+        <li ng-repeat="errorItem in vm.getErrors()">
+            {{errorItem}}
+        </li>
+    </ul>
+</div>
