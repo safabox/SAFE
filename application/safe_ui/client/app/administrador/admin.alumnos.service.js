@@ -11,7 +11,7 @@
         
         var route = 'admin/alumnos';
         var svc = Restangular.service(route);
-        return svc;
+        return svc;     
         
     }
 })();

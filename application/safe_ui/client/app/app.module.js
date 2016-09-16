@@ -6,6 +6,9 @@
         'ngRoute',
         'ngAnimate',
         'ngAria',
+        'ngMessages',
+        'ui.bootstrap.showErrors',
+        'ui.validate',
 
         // 3rd Party Modules
         'ui.bootstrap',

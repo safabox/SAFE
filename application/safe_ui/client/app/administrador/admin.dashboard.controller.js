@@ -13,20 +13,9 @@
         vm.cantidadCursos = 0;
         vm.loading = true;
                 
-        $q.all([getUsuarios(), getAlumnos(),getDocentes(),getCursos()])
+        $q.all([getAlumnos(),getDocentes(),getCursos()])
             .then(onLoadComplete);
-        
-        function getUsuarios(){        
-            return Administrador.getList().then(onSuccess, onError);
-
-            function onSuccess(response) {            
-                vm.usuarios = response.plain();     
-            }        
-            function onError(httpResponse) {
-                logger.error('No se pudieron obtener los usuarios', httpResponse);
-            }            
-        }
-        
+                
         function getAlumnos(){        
             return AdminAlumnos.getList().then(onSuccess, onError);
 
