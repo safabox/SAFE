@@ -11,7 +11,7 @@ class DocenteService {
         $this->docenteRepository = $docenteRepository;
     }
     
-    public function findAll($limit = 10, $offset = 0) {
+    public function findAll($limit = null, $offset = null) {
          return $this->docenteRepository->findBy(array(), null, $limit, $offset);
     }
     

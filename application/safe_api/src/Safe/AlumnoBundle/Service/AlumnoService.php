@@ -11,7 +11,7 @@ class AlumnoService {
         $this->alumnoRepository = $alumnoRepository;
     }
     
-    public function findAll($limit = 10, $offset = 0) {
+    public function findAll($limit = null, $offset = null) {
          return $this->alumnoRepository->findBy(array(), null, $limit, $offset);
     }
     
