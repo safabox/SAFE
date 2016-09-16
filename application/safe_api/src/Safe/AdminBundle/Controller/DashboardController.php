@@ -20,8 +20,7 @@ class DashboardController extends SafeRestAbstractController {
      * Muestra el dashboard del admin
      *
      * @ApiDoc(     
-     *   resource = true,
-     *   output="array<Safe\PerfilBundle\Entity\Usuario>",
+     *   resource = true,     
      *   statusCodes = {
      *     200 = "Petición resuelta correctamente"
      *   }

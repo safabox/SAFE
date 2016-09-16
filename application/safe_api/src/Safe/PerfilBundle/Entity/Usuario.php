@@ -86,7 +86,7 @@ class Usuario extends BaseUser
      * @ORM\ManyToOne(targetEntity="Safe\PerfilBundle\Entity\TipoDocumento")
      * @ORM\JoinColumn(name="tipo_documento_id", referencedColumnName="id", nullable=false)     
      * @Expose
-     * @Groups({"detalle"})
+     * @Groups({"admin_detalle", "detalle"})
      * @Assert\Valid
      */
     private $tipoDocumento;
@@ -128,7 +128,7 @@ class Usuario extends BaseUser
      *      maxMessage = "perfilBundle.usuario.document.numero.max"
      * )
      * @Expose
-     * @Groups({"detalle"}) 
+     * @Groups({"admin_detalle", "detalle"}) 
      */
     private $numeroDocumento;
     

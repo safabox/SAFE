@@ -44,7 +44,13 @@ class AlumnoControllerTest extends SafeTestController {
         $this->assertArrayHasKey('fecha_modificacion', $curso, 'fecha de modificacion del curso no encontrado');
         $this->assertNotNull($curso['fecha_modificacion'], 'Fecha de modifiacion del curso invalida');
         $this->assertArrayHasKey('fecha_creacion', $curso, 'fecha de creacion del curso no encontrado');
-        $this->assertNotNull($curso['fecha_creacion'], 'Fecha de creacion del curso invalida');        
+        $this->assertNotNull($curso['fecha_creacion'], 'Fecha de creacion del curso invalida');      
+        
+        $this->assertArrayHasKey('numero_documento', $usuario, 'numero de documento no encontrado');
+        $this->assertArrayHasKey('tipo_documento', $usuario, 'tipo de documento no encontrado');
+        $tipoDocumento = $usuario['tipo_documento'];
+        $this->assertArrayHasKey('codigo', $tipoDocumento, 'tipo de documento[codigo] no encontrado');
+
     }
     
     public function testGetAction_conIdUsuarioDiferenteAlLogueado_retornaStatusForbidden() {

@@ -19,7 +19,15 @@ class AdminDashboardControllerTest extends SafeTestController {
         $response = $clienteAdministrador->getResponse();
         $this->assertJsonResponse($response, 200);       
         $data = json_decode($response->getContent(), true);
-        Debug::dump($data);
+        
+        $this->assertArrayHasKey('cursos_totales', $data, 'cantidad de cursos no encontrado');
+        $this->assertTrue($data['cursos_totales'] > 0, 'cantidad de cursos totales invalida');
+                
+        $this->assertArrayHasKey('docentes_totales', $data, 'cantidad de docentes no encontrado');
+        $this->assertTrue($data['docentes_totales'] > 0, 'cantidad de docentes totales invalida');
+        
+        $this->assertArrayHasKey('alumnos_totales', $data, 'cantidad de alumnos no encontrado');
+        $this->assertTrue($data['alumnos_totales'] > 0, 'cantidad de alumnos totales invalida');
     }
         
     protected function getAlumno($id) {
