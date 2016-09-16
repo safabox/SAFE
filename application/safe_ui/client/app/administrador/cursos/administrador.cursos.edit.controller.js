@@ -66,9 +66,16 @@
         vm.guardar = guardar;
         function guardar() {
             
-            if (vm.editMode) {                
+            if (vm.editMode) {   
+                
+                var cursoPut =
+                {
+                    'titulo':  vm.curso.titulo,
+                    'descripcion': vm.curso.descripcion                    
+                };
+                
                 var curso = AdminCursos.one($stateParams.id);
-                curso.put(vm.curso).then(onSuccess,onError);
+                curso.customPUT(cursoPut).then(onSuccess,onError);
             }else{
                 AdminCursos.post(vm.curso).then(onSuccess,onError);
             }

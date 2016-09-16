@@ -79,29 +79,27 @@
         function guardar() {
             
             if (vm.editMode) {
-             
-                /*vm.prueba =
-                {
-                    "legajo":  "123457",
-                    "usuario": {
-                        "nombre": "Roberto",
-                        "apellido": "Gómez Bolaño",
-                        "username": "chespirito",     
-                        "tipoDocumento":  "DNI",
-                        "numeroDocumento": "30777555",
-                        "genero": "Masculino",
-                        "email": "chespirito@organizacion.org",
-                        "enabled": "true", 
-                        "textPassword": {
-                            "first" : "123456",
-                            "second" : "123456"
-                        }
-                       }
-                   };
-                */
                 
+               var alumnoPut =
+                {
+                    'legajo':  vm.alumno.legajo,
+                    'usuario': {
+                        'nombre': vm.alumno.usuario.nombre,
+                        'apellido': vm.alumno.usuario.apellido,
+                        'username': vm.alumno.usuario.username,     
+                        'tipoDocumento':  vm.alumno.usuario.tipoDocumento,
+                        'numeroDocumento': vm.alumno.usuario.numeroDocumento,
+                        'genero': vm.alumno.usuario.genero,
+                        'email': vm.alumno.usuario.email,
+                        'enabled': vm.alumno.usuario.enabled,
+                        'textPassword': {
+                            'first' : vm.alumno.usuario.textPassword.first,
+                            'second' : vm.alumno.usuario.textPassword.second
+                        }
+                    }
+                };
                 var alumno = AdminAlumnos.one($stateParams.id);
-                alumno.put(vm.alumno).then(onSuccess,onError);
+                alumno.customPUT(alumnoPut).then(onSuccess,onError);
             }else{
                 AdminAlumnos.post(vm.alumno).then(onSuccess,onError);
             }

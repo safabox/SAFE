@@ -78,9 +78,29 @@
         vm.guardar = guardar;
         function guardar() {
             
-            if (vm.editMode) {              
+            if (vm.editMode) { 
+                
+                var docentePut =
+                {
+                    'legajo':  vm.docente.legajo,
+                    'usuario': {
+                        'nombre': vm.docente.usuario.nombre,
+                        'apellido': vm.docente.usuario.apellido,
+                        'username': vm.docente.usuario.username,     
+                        'tipoDocumento':  vm.docente.usuario.tipoDocumento,
+                        'numeroDocumento': vm.docente.usuario.numeroDocumento,
+                        'genero': vm.docente.usuario.genero,
+                        'email': vm.docente.usuario.email,
+                        'enabled': vm.docente.usuario.enabled,
+                        'textPassword': {
+                            'first' : vm.docente.usuario.textPassword.first,
+                            'second' : vm.docente.usuario.textPassword.second
+                        }
+                    }
+                };
+                
                 var docente = AdminDocentes.one($stateParams.id);
-                docente.put(vm.docente).then(onSuccess,onError);
+                docente.customPUT(docentePut).then(onSuccess,onError);
             }else{
                 AdminDocentes.post(vm.docente).then(onSuccess,onError);
             }
