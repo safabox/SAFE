@@ -1,0 +1,9 @@
+<div class="modal-header" data-ng-if="vm.title">
+    <h4 class="modal-title" data-ng-bind-html="vm.title"></h4>
+</div>
+
+<div class="modal-body" data-ng-bind-html="vm.content" data-ng-if="vm.content"></div>
+
+<div class="modal-footer">
+    <button type="button" data-ng-repeat="button in vm.buttons" class="btn btn-{{button.type}}" data-ng-click="vm.click(button.answer)">{{button.caption}}</button>
+</div>
