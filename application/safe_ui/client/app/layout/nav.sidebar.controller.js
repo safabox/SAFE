@@ -37,13 +37,7 @@
             if(_.indexOf($scope.roles, "ROLE_SUPER_ADMIN") >= 0) $state.go("admin.dashboard");
             if(_.indexOf($scope.roles, "ROLE_DOCENTE") >= 0) $state.go("alumno.dashboard");
             if(_.indexOf($scope.roles, "ROLE_ALUMNO") >= 0) $state.go("docente.dashboard");
-        }
-        
-        $scope.irAlumno = irAlumno;
-        function irAlumno(){
-            $state.go('admin.alumnos.list');
-        }
-        
+        }        
     }
 
 })(); 
