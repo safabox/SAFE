@@ -29,6 +29,7 @@
 
                 function onLoadComplete() {
                     vm.loading = false;
+                    vm.generos = getGeneros();
                     
                     if (vm.editMode){
                         getAlumno();
@@ -61,6 +62,17 @@
                 }         
             }
             
+            function getGeneros(){
+                return [{
+                        id: 'Masculino',
+                        descripcion: 'Masculino'
+                    },
+                    {
+                        id: 'Femenino',
+                        descripcion: 'Femenino'
+                    }];
+            }
+            
         }
         
         vm.guardar = guardar;
@@ -68,7 +80,7 @@
             
             if (vm.editMode) {
              
-                vm.prueba =
+                /*vm.prueba =
                 {
                     "legajo":  "123457",
                     "usuario": {
@@ -86,10 +98,10 @@
                         }
                        }
                    };
-                
+                */
                 
                 var alumno = AdminAlumnos.one($stateParams.id);
-                alumno.put(vm.prueba).then(onSuccess,onError);
+                alumno.put(vm.alumno).then(onSuccess,onError);
             }else{
                 AdminAlumnos.post(vm.alumno).then(onSuccess,onError);
             }
@@ -101,7 +113,7 @@
             }
             function onError(httpResponse) {
                 console.log(httpResponse);
-                logger.error('No se pudo guardar el Alumno');
+                logger.error('No se pudo guardar el Alumno', httpResponse);
             }
               
         }

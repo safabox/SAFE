@@ -4,9 +4,9 @@
     angular.module('app')
         .controller('AdministradorAlumnosCtrl', controller);
 
-    controller.$inject = ['$q', '$state','AdminAlumnos', 'logger', '$filter'];
+    controller.$inject = ['$q', 'messageBox','$state','AdminAlumnos', 'logger', '$filter'];
 
-    function controller($q, $state, AdminAlumnos, logger, $filter) {
+    function controller($q, messageBox, $state, AdminAlumnos, logger, $filter) {
         var vm = this;
         vm.loading = true;
         vm.noData = true;
@@ -18,7 +18,11 @@
         vm.search = search;
         vm.order = order;
         vm.irNuevo = irNuevo;
-                
+        vm.puedeEliminar = puedeEliminar;
+        vm.puedeRecuperar = puedeRecuperar;
+        vm.eliminar = eliminar;
+        vm.recuperar = recuperar;
+        
         loadData();
         
         function loadData() {
@@ -101,6 +105,63 @@
             vm.filteredStores = $filter('orderBy')(vm.alumnos, rowName);
             return vm.onOrderChange();
         };        
+        
+        function puedeEliminar(alumno){
+            if(alumno.usuario.enabled === 'true'){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        
+        function puedeRecuperar(alumno){
+            if(alumno.usuario.enabled === 'true'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        
+        function eliminar(alumno){
+            var title = '¿Desea eliminar el alumno ' + alumno.usuario.nombre + '?';
+            messageBox.showOkCancel(title)
+                .then(function (answer) {
+                    if (answer === 'ok') {
+                        var alumnoRemove = AdminAlumnos.one(alumno.id);  
+                        alumnoRemove.remove().then(onSuccess, onError);
+                    }
+                });
+            
+            function onSuccess() {
+                logger.info('Registro eliminado');
+            }
+
+            function onError(httpResponse) {
+                logger.error('No se pudo eliminar el alumno', httpResponse);
+            }
+        }
+        
+        function recuperar(alumno){
+            var title = '¿Desea recuperar el alumno ' + alumno.usuario.nombre + '?';
+            messageBox.showOkCancel(title)
+                .then(function (answer) {
+                    if (answer === 'ok') {
+                        var alumnoRecover = AdminAlumnos.one(alumno.id);  
+                        alumnoRecover.recover().then(onSuccess, onError);
+                    }
+                });
+
+
+            function onSuccess() {
+                logger.info('Registro recuperado');
+            }
+
+            function onError(httpResponse) {
+                logger.error('No se pudo recuperar el Alumno', httpResponse);
+            }
+        }
+        
+        
         
     }
 

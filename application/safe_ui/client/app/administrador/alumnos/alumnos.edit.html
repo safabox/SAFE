@@ -58,10 +58,42 @@
                     <div class="form-group" show-errors>
                         <label class="col-md-2 control-label" for="numeroDocumento">Número de Documento:</label>
                         <div class="col-md-10">
-                           <input class="form-control" type="text" placeholder="Número de Documento" name="numeroDocumento" data-ng-model="vm.alumno.usuario.numeroDocumento" >
+                           <input class="form-control" type="text" placeholder="Número de Documento" name="numeroDocumento" data-ng-model="vm.alumno.usuario.numeroDocumento" required>
                            <field-error-label data-field="vm.form.numeroDocumento" data-field-label="Número de Documento" />
                         </div>
                     </div>
+
+                    <div class="form-group" show-errors>
+                        <label class="col-md-2 control-label" for="genero">Genero:</label>
+                        <div class="col-md-10">
+                           <select class="form-control" placeholder="Genero" name="genero" data-ng-model="vm.alumno.usuario.genero" ng-options="opt.id as opt.descripcion for opt in vm.generos"></select>
+                           <field-error-label data-field="vm.form.genero" data-field-label="Genero" />
+                        </div>
+                    </div>
+
+                    <div class="form-group" show-errors>
+                        <label class="col-md-2 control-label" for="email">Email:</label>
+                        <div class="col-md-10">
+                           <input class="form-control" type="email" placeholder="Email@Email.com" name="email" data-ng-model="vm.alumno.usuario.email" required>
+                           <field-error-label data-field="vm.form.email" data-field-label="Email" />
+                        </div>
+                    </div>                    
+
+                    <div class="form-group" show-errors>
+                        <label class="col-md-2 control-label" for="password">Clave:</label>
+                        <div class="col-md-10">
+                           <input class="form-control" type="password" placeholder="Clave" id="password" name="password" data-ng-model="vm.alumno.usuario.textPassword.first" required>
+                           <field-error-label data-field="vm.form.password" data-field-label="Clave" />
+                        </div>
+                    </div>                      
+
+                    <div class="form-group" show-errors>
+                        <label class="col-md-2 control-label" for="confirmPassword">Confirmación:</label>
+                        <div class="col-md-10">
+                           <input class="form-control" type="password" placeholder="Confirmación de Clave" name="confirmPassword" data-ng-model="vm.alumno.usuario.textPassword.second" required>
+                           <field-error-label data-field="vm.form.confirmPassword" data-field-label="Confirmación de Clave" />
+                        </div>
+                    </div>   
                     
                     <div class="row">
                         <div class="col-md-offset-2 col-md-10">
