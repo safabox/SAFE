@@ -3,10 +3,11 @@
 namespace Safe\CatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Examinee
  *
- * @ORM\Table(name="cat_examinee")
+ * @ORM\Table(name="cat_ability")
  * @ORM\Entity(repositoryClass="Safe\CatBundle\Repository\AbilityRepository")
  * @ORM\HasLifecycleCallbacks() 
  */
@@ -43,6 +44,12 @@ class Ability {
     private $theta;
     
     /**
+     * 
+     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\PastAbility", mappedBy="ability", cascade={"remove"})     
+     */
+    private $pastAbilities;
+    
+    /**
     * @var \DateTime
     *
     * @ORM\Column(name="created", type="datetime", nullable=false)
@@ -57,6 +64,11 @@ class Ability {
      * @Expose
      */
     private $updated;
+    
+    public function __construct()
+    {
+        $this->pastAbilities = new ArrayCollection();
+    }
     
     /**
      * @ORM\PrePersist()
@@ -117,7 +129,11 @@ class Ability {
         $this->itemBank = $itemBank;
     }
 
+    function getPastAbilities() {
+        return $this->pastAbilities;
+    }
 
-
-
+    function setPastAbilities($pastAbilities) {
+        $this->pastAbilities = $pastAbilities;
+    }
 }

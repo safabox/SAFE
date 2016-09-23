@@ -31,13 +31,13 @@ class Examinee {
 
     /**
      * 
-     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\Ability", mappedBy="examinee")     
+     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\Ability", mappedBy="examinee", cascade={"remove"})     
      */
     private $abilities;
     
     /**
      * 
-     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\ItemResult", mappedBy="examinee")     
+     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\ItemResult", mappedBy="examinee", cascade={"remove"})     
      */
     private $itemsResults;
     

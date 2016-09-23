@@ -3,6 +3,7 @@ namespace Safe\CatBundle\Entity;
 
 use Safe\CatBundle\Entity\ItemType;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Item
  *
@@ -58,9 +59,9 @@ class Item {
     
     /**
      *      
-     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\ItemResult", mappedBy="item", cascade={"remove"})     
-     */
-    private $itemsResults;
+     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\ItemResult", mappedBy="item")     
+     */    
+    private $itemsResults; //Los resultados son propios del examinado, no se borran en cascada
     
      /**
      * @var string
@@ -88,6 +89,7 @@ class Item {
     //https://en.wikipedia.org/wiki/Item_response_theory#IRT_models
     public function __construct()
     {
+        $this->itemsResults = new ArrayCollection();
         $this->a = 1;
         $this->b = 0;
         $this->c = 0;
