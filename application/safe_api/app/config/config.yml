@@ -207,3 +207,8 @@ nelmio_cors:
             allow_headers: ['Authorization', 'X-Requested-With', 'Content-Type', 'Accept', 'Origin', 'X-Custom-Auth']
             allow_methods: ['POST', 'PUT', 'GET', 'DELETE', 'OPTIONS']
             max_age: 3600
+#kachkaev_php_r:
+#    default_enginge: command_line    # default R engine (command_line is the only one currently implemented)  
+#    engines:
+#        command_line:
+#            path_to_r: /usr/bin/R    # path to R interpreter            

@@ -37,6 +37,8 @@ class AppKernel extends Kernel
             new Safe\CoreBundle\SafeCoreBundle(),
             new Safe\InstitutoBundle\SafeInstitutoBundle(),
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
+#            new Kachkaev\PHPRBundle\KachkaevPHPRBundle(),
+            new Safe\CatBundle\SafeCatBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

@@ -1,0 +1,3 @@
+safe_cat_homepage:
+    path:     /
+    defaults: { _controller: SafeCatBundle:Default:index }
