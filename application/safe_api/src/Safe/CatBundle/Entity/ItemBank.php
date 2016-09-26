@@ -68,11 +68,11 @@ class ItemBank {
     private $updated;
     
 
-    public function __construct()
+    public function __construct($itemType = ItemType::RASH)
     {
         $this->items = new ArrayCollection();
         $this->abilities = new ArrayCollection();
-        $this->itemType = ItemType::RASH;
+        $this->itemType = $itemType;
     }
     
     /**

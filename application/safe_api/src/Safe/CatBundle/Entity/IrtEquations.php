@@ -2,6 +2,7 @@
 namespace Safe\CatBundle\Entity;
 
 use Safe\CatBundle\Entity\ItemType;
+use Safe\CatBundle\Entity\ItemResult;
 /**
  * Description of Irt
  *
@@ -13,15 +14,17 @@ class IrtEquations {
      * Probabilidad de acierto
      * @param type $theta
      */
-    public static function probP($item) {
-        $theta_b = $item->getTheta() - $$item->getB();
-        switch($item->itemType()){
+    public static function probP($theta, $item) {
+        $theta_b = $theta - $item->getB();
+        switch($item->getItemType()){
             case ItemType::TWO_PL: 
-                $n = exp($item->getA() * $$item->getD() * $theta_b);
+                $n = exp($item->getA() * $item->getD() * $theta_b);
                 return $n/ (1 + $n);                
             case ItemType::THREE_Pl:
-                $n = exp($item->getA() * $item->getD() * $theta_b);
-                return $item->getC() + ((1 - $item->getC()) * $n/ (1 + $n)); 
+                //$n = exp($item->getA() * $item->getD() * $theta_b);
+                //return $item->getC() + ((1 - $item->getC()) * $n/ (1 + $n)); 
+                $n = exp(-1 * $item->getA() * $item->getD() * $theta_b);
+                return $item->getC() + ((1 - $item->getC())/(1 + $n)); 
             default:
                 $n = exp($theta_b);
                 return $n/ (1 + $n);                
@@ -32,8 +35,8 @@ class IrtEquations {
      * Probabilidad de fallo
      * @param type $theta
      */
-    public static function probQ($item) {
-        return 1 - IrtEquations::probP($item);
+    public static function probQ($theta, $item) {
+        return 1 - IrtEquations::probP($theta, $item);
     }
     
     /*
@@ -41,11 +44,11 @@ class IrtEquations {
      * Inferido de la formula de I = (derivP)^2/(P * (1-P))
      * http://www.redconvivencia.net/prevenir/rosario/materiales/medicion/Tema8_TRI2.pdf
      */
-    public static function derivateP($item) {
+    public static function derivateP($theta, $item) {
         //calculo una sola vez p
-        $p = IrtEquations::probP($item);
+        $p = IrtEquations::probP($theta, $item);
         $q = 1 - $p;
-        switch($item->itemType()){
+        switch($item->getItemType()){
             case ItemType::TWO_PL: 
                 return $item->getA() * $item->getD() * $p * $q;               
             case ItemType::THREE_Pl:
@@ -59,17 +62,17 @@ class IrtEquations {
     /*
      * Informacion del item.
      */
-    public static function informationI($item) {
+    public static function informationI($theta, $item) {
         //calculo una sola vez p
-        $p = IrtEquations::probP($item);
+        $p = IrtEquations::probP($theta, $item);
         $q = 1 - $p;
-        switch($item->itemType()){
+        switch($item->getItemType()){
             case ItemType::TWO_PL: 
-                return pow($item->getA(), 2) * pow($item->getD(), 2) * $p * $q;                
+                return ($item->getA() ** 2) * ($item->getD() ** 2) * $p * $q;                
             case ItemType::THREE_Pl:
-                return pow($item->getA(), 2) * pow($item->getD(), 2) * pow(($p - $item->getC()), 2) * $q / (pow ((1 - $item->getC()), 2) * $p);
+                return ($item->getA() ** 2) * ($item->getD() ** 2) * (($p - $item->getC()) ** 2) * $q / (pow ((1 - $item->getC()), 2) * $p);
             default:
-                return pow($item->getD(), 2) * $p * $q;                
+                return ($item->getD() ** 2) * $p * $q;                
         }        
     }
     
@@ -79,22 +82,34 @@ class IrtEquations {
      * result[1] = diferencia con theta anterior.
      * result[2] = error estandar.
      */
-    public static function estimateNewTheta($theta, $itemsResult) {      
+    public static function estimateNewThetaWithStandarError($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3)) {      
         $numerator = 0;
         $denominator = 0;
         foreach ($itemsResult as $itemResult) {
-            $p = IrtEquations::probP($item);
+            $p = IrtEquations::probP($theta, $itemResult);
             $q = 1 - $p;
-            $numerator +=  $itemResult->getA() * ($itemResult->getResult() - $p);
-            $denominator += pow($itemResult->getA(), 2) * $p * $q;
+            $num = $itemResult->getA() * ($itemResult->getResult() - $p);            
+            $numerator +=  $num;
+            $denominator += pow($itemResult->getA(), 2) * $p * $q;            
         }
-        $numerator = $numerator * -1;
-        $diffTheta = ($numerator/$denominator);
-        $estimatedTheta = $theta + $diffTheta;
-        $standarError = 1 / sqrt($denominator);
+         
+        //$numerator = $numerator * -1;
+        $diffTheta = ($numerator/$denominator);       
+        $unsignedDiffTheta = ($diffTheta < 0) ? (-1 * $diffTheta) : $diffTheta;  
         
-        return array($estimatedTheta, $diffTheta, $standarError);
+        $estimatedTheta = $theta + $diffTheta;
+        if ($unsignedDiffTheta < $error || $estimatedTheta < $limit[0] || $estimatedTheta > $limit[1]) {
+            if ($estimatedTheta < $limit[0]) {
+                $estimatedTheta = $limit[0];
+            } else if ($estimatedTheta > $limit[1]) {
+                $estimatedTheta = $limit[1];
+            }
+            
+            $standarError = 1 / sqrt($denominator);
+            return array($estimatedTheta, $diffTheta, $standarError);
+        }
+        return IrtEquations::estimateNewThetaWithStandarError($estimatedTheta, $itemsResult, $error, $limit);
+        
     }
-    
     
 }

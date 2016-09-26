@@ -87,13 +87,13 @@ class Item {
     private $updated;
     
     //https://en.wikipedia.org/wiki/Item_response_theory#IRT_models
-    public function __construct()
+    public function __construct($b=0, $a=1, $c=0, $d=1)
     {
         $this->itemsResults = new ArrayCollection();
-        $this->a = 1;
-        $this->b = 0;
-        $this->c = 0;
-        $this->d = 1.7;
+        $this->a = $a;
+        $this->b = $b;
+        $this->c = $c;
+        $this->d = $d;
     }
     /**
      * @ORM\PrePersist()

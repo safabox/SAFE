@@ -87,12 +87,19 @@ class ItemResult {
     private $created;
     
     //https://en.wikipedia.org/wiki/Item_response_theory#IRT_models
-    public function __construct()
+    public function __construct($b=0, $a=1, $c=0, $d=1)
     {
-        $this->a = 1;
-        $this->b = 0;
-        $this->c = 0;
-        $this->d = 1.7;
+        $this->a = $a;
+        $this->b = $b;
+        $this->c = $c;
+        $this->d = $d;
+    }
+    
+    public static function fromItem($item, $result) {
+        $instance = new ItemResult($item->getB(), $item->getA(), $item->getC(), $item->getD());
+        $instance->setResult($result);
+        $instance->setItem($item);
+        return $instance;
     }
     
     /**
@@ -114,7 +121,7 @@ class ItemResult {
     }
     
     function getItemType() {
-        return $this->itemBank->getItemType();
+        return $this->item->getItemBank()->getItemType();
     }
 
     function getB() {
@@ -147,10 +154,6 @@ class ItemResult {
 
     function setItem($item) {
         $this->item = $item;
-    }
-
-    function setItemType($itemType) {
-        $this->itemType = $itemType;
     }
 
     function setB($b) {
