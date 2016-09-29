@@ -20,6 +20,7 @@ class SafeTestController extends WebTestCase {
                           'Safe\DocenteBundle\DataFixtures\ORM\DocenteData',
                           'Safe\AlumnoBundle\DataFixtures\ORM\AlumnoData',
                           'Safe\CursoBundle\DataFixtures\ORM\CursoData',
+                          'Safe\CatBundle\DataFixtures\ORM\CATData',
                           
             );
         $this->loadFixtures($fixtures);
@@ -33,8 +34,9 @@ class SafeTestController extends WebTestCase {
     protected function tearDown()
     {
         parent::tearDown();
-
-        $this->em->close();
+        if ($this->em != null){
+          $this->em->close();  
+        }
         $this->em = null; // avoid memory leaks
     }
 

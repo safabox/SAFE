@@ -77,14 +77,17 @@ class IrtEquations {
     }
     
     /**
-     * Estima el nuevo valor de theta.
+     * Estima el nuevo valor de theta con newton rapshon
      * result[0] = nuevo valor de theta.
      * result[1] = diferencia con theta anterior.
      * result[2] = error estandar.
      */
-    public static function estimateNewThetaWithStandarError($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3)) {      
+    public static function estimateNewThetaWithStandarErrorNR($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3)) {      
         $numerator = 0;
         $denominator = 0;
+        if (count($itemsResult) <= 1) {
+             return array($theta, 999, 999);
+        }
         foreach ($itemsResult as $itemResult) {
             $p = IrtEquations::probP($theta, $itemResult);
             $q = 1 - $p;
@@ -108,8 +111,38 @@ class IrtEquations {
             $standarError = 1 / sqrt($denominator);
             return array($estimatedTheta, $diffTheta, $standarError);
         }
-        return IrtEquations::estimateNewThetaWithStandarError($estimatedTheta, $itemsResult, $error, $limit);
+        return IrtEquations::estimateNewThetaWithStandarErrorNR($estimatedTheta, $itemsResult, $error, $limit);
         
+    }
+    
+    public static function estimateNewThetaWithStandarErrorML($theta, $itemsResult, $increment = 0.25, $limit = array(-3, 3)) {              
+        $maxLikehoodSum = null;
+        $maxTheta = $limit[0];        
+        for($thetaEval=$limit[0]; $thetaEval < $limit[1]; $thetaEval += $increment) {
+            $likelihoodSum = 0;
+            foreach ($itemsResult as $itemResult) {
+                $p = IrtEquations::probP($thetaEval, $itemResult);
+                $q = 1 - $p;
+                $u = $itemResult->getResult();
+                $logP = log10($p);
+                $logQ = log10($q);
+                $likelihood = ($u * $logP) + ((1 - $u) * $logQ);
+                $likelihoodSum += $likelihood;
+            }         
+            if ($maxLikehoodSum == null || $likelihoodSum > $maxLikehoodSum) {
+                $maxLikehoodSum = $likelihoodSum;
+                $maxTheta = $thetaEval;
+            }            
+        }
+        $denominatorSum = 0;
+        foreach ($itemsResult as $itemResult) {
+            $p = IrtEquations::probP($maxTheta, $itemResult);
+            $alpha_pow2 = ($itemResult->getA() ** 2) * ($itemResult->getD() ** 2);
+            $denominator = $alpha_pow2 * $p * (1 - $p);
+            $denominatorSum += $denominator;
+        }        
+        $standarError = 1 / sqrt($denominatorSum);
+        return array($maxTheta, $maxTheta - $theta, $standarError);
     }
     
 }
