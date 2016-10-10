@@ -1,10 +1,10 @@
 (function () {
     'use strict';
 
-    angular.module('app')
-        .controller('AdminDashboardCtrl', ['_', '$q', '$scope', 'Administrador', 'AdminAlumnos', 'AdminDocentes', 'AdminCursos', 'logger', AdminDashboardCtrl]);
+    angular.module('app.administrador')
+        .controller('AdminDashboardCtrl', ['_', '$q', '$scope', 'AdminAlumnos', 'AdminDocentes', 'AdminCursos', 'logger', AdminDashboardCtrl]);
 
-    function AdminDashboardCtrl(_, $q, $scope, Administrador, AdminAlumnos, AdminDocentes, AdminCursos, logger) {
+    function AdminDashboardCtrl(_, $q, $scope, AdminAlumnos, AdminDocentes, AdminCursos, logger) {
         var vm = this;
         
         vm.cantidadUsuarios = 0;

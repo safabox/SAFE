@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('app.administrador.alumnos')
         .controller('AdministradorAlumnosCtrl', controller);
 
     controller.$inject = ['$q', 'messageBox','$state','AdminAlumnos', 'logger', '$filter'];

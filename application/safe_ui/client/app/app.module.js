@@ -32,6 +32,8 @@
         'app.ui.form',
         'app.ui.form.validation',
         'app.page',
+        'app.administrador',
+        'app.administrador.alumnos'
         //'app.table',
         //'app.task',
         //'app.calendar'

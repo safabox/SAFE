@@ -35,7 +35,7 @@
                 })
                 .state('admin.dashboard', {                    
                     url: '/dashboard',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/admin.dashboard.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/administrador.dashboard.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdminDashboardCtrl',
                     controllerAs: 'vm',    
@@ -49,7 +49,7 @@
                 })                
                 .state('admin.alumnos.list', {                    
                     url: '/alumnos',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/alumnos.list.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/administrador.alumnos.list.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorAlumnosCtrl',
                     controllerAs: 'vm',    
@@ -57,7 +57,7 @@
                 })
                 .state('admin.alumnos.new', {                    
                     url: '/alumnos/new',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/alumnos.edit.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/administrador.alumnos.edit.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorAlumnosEdit',
                     controllerAs: 'vm',
@@ -65,7 +65,7 @@
                 })
                 .state('admin.alumnos.edit', {                    
                     url: '/alumnos/:id',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/alumnos.edit.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/alumnos/administrador.alumnos.edit.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorAlumnosEdit',
                     controllerAs: 'vm',
@@ -79,7 +79,7 @@
                 })                
                 .state('admin.docentes.list', {                    
                     url: '/docentes',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/docentes/docentes.list.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/docentes/administrador.docentes.list.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorDocentesCtrl',
                     controllerAs: 'vm',    
@@ -87,7 +87,7 @@
                 })
                 .state('admin.docentes.new', {                    
                     url: '/docentes/new',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/docentes/docentes.edit.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/docentes/administrador.docentes.edit.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorDocentesEdit',
                     controllerAs: 'vm',
@@ -95,7 +95,7 @@
                 })
                 .state('admin.docentes.edit', {                    
                     url: '/docentes/:id',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/docentes/docentes.edit.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/docentes/administrador.docentes.edit.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorDocentesEdit',
                     controllerAs: 'vm',
@@ -109,7 +109,7 @@
                 })                
                 .state('admin.cursos.list', {                    
                     url: '/cursos',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/cursos/cursos.list.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/cursos/administrador.cursos.list.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorCursosCtrl',
                     controllerAs: 'vm',    
@@ -117,7 +117,7 @@
                 })
                 .state('admin.cursos.new', {                    
                     url: '/cursos/new',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/cursos/cursos.edit.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/cursos/administrador.cursos.edit.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorCursosEdit',
                     controllerAs: 'vm',
@@ -125,7 +125,7 @@
                 })
                 .state('admin.cursos.edit', {                    
                     url: '/cursos/:id',
-                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/cursos/cursos.edit.html',                  
+                    templateUrl: SystemConfigProvider.getStaticPath() + 'app/administrador/cursos/administrador.cursos.edit.html',                  
                     roles: ["ROLE_SUPER_ADMIN", "ROLE_ADMIN"],
                     controller: 'AdministradorCursosEdit',
                     controllerAs: 'vm',

@@ -2,16 +2,16 @@
     'use strict';
 
     angular
-        .module('app')
-        .factory('Administrador', factory);
+        .module('app.administrador.alumnos')
+        .factory('AdminAlumnos', factory);
 
     factory.$inject = ['Restangular'];
 
     function factory(Restangular) {
         
-        var route = 'usuarios';
+        var route = 'admin/alumnos';
         var svc = Restangular.service(route);
-        return svc;
+        return svc;     
         
     }
 })();

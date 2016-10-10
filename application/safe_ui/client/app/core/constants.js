@@ -2,6 +2,7 @@
     'use strict';
 
     var debugModeEnabled = true;
+    var accordion = true;
 
     var fieldPattern = {
         alfanumerico: '\\w+\\s?\\w*\\s?\\w*\\s?\\w*\\s?\\w*',
@@ -11,7 +12,8 @@
     angular
         .module('app')
         .constant('debugModeEnabled', debugModeEnabled)
-        .constant('fieldPattern', fieldPattern);
+        .constant('fieldPattern', fieldPattern)
+        .constant('accordion', accordion);
 })();
 
 

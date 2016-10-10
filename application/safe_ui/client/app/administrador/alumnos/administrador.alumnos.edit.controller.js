@@ -1,20 +1,36 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('app.administrador.alumnos')
         .controller('AdministradorAlumnosEdit', controller);
 
-    controller.$inject = ['$q', 'AdminAlumnos', '$state', 'logger', 'debugModeEnabled', '$stateParams']; 
+    controller.$inject = ['$q', 'AdminAlumnos', '$state', 'logger', 'debugModeEnabled', '$stateParams', 'accordion']; 
     
-    function controller($q, AdminAlumnos, $state, logger, debugModeEnabled, $stateParams) {
+    function controller($q, AdminAlumnos, $state, logger, debugModeEnabled, $stateParams, accordion) {
         
         var vm = this;
         vm.loading = true;
         vm.debug = debugModeEnabled;
-        vm.editMode = ($state.includes('**.edit'));
-        
+        vm.editMode = ($state.includes('**.edit'));        
         vm.cancel = cancel;
         
+        vm.groupInfoGral = { isOpen: true };
+        vm.groupSeguridad = { isOpen: true };
+        vm.groupCursos = { isOpen: true };
+
+        vm.fieldLabels = [
+            { name: 'legajo', label: 'Legajo' },
+            { name: 'nombre', label: 'Nombre' },
+            { name: 'apellido', label: 'Apellido' },
+            { name: 'tipoDocumento', label: 'Tipo de Documento' },
+            { name: 'numeroDocumento', label: 'Número de Documento' },
+            { name: 'genero', label: 'Género' },
+            { name: 'email', label: 'Email' },
+            { name: 'username', label: 'Nombre de Usuario' },
+            { name: 'password', label: 'Contraseña' },
+            { name: 'confirmPassword', label: 'Confirmar Contraseña' },
+        ];
+                
         activate();
         
         function activate() {
@@ -87,8 +103,8 @@
                         'nombre': vm.alumno.usuario.nombre,
                         'apellido': vm.alumno.usuario.apellido,
                         'username': vm.alumno.usuario.username,     
-                        'tipoDocumento':  vm.alumno.usuario.tipoDocumento,
-                        'numeroDocumento': vm.alumno.usuario.numeroDocumento,
+                        'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
+                        'numeroDocumento': vm.alumno.usuario.numero_documento,
                         'genero': vm.alumno.usuario.genero,
                         'email': vm.alumno.usuario.email,
                         'enabled': vm.alumno.usuario.enabled,
