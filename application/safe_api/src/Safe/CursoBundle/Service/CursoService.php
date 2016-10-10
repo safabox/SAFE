@@ -13,7 +13,7 @@ class CursoService {
         $this->cursoRepository = $cursoRepository;
     }
     
-    public function findAll($limit = 10, $offset = 0) {
+    public function findAll($limit = null, $offset = null) {
          return $this->cursoRepository->findBy(array(), null, $limit, $offset);
     }
     
