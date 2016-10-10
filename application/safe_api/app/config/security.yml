@@ -67,6 +67,7 @@ security:
          - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/doc, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/cat, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/api/v1/admin, roles: ROLE_ADMIN }
          - { path: ^/api/v1/usuarios, roles: ROLE_ADMIN }
          - { path: ^/api/v1/docentes, roles: ROLE_DOCENTE }
