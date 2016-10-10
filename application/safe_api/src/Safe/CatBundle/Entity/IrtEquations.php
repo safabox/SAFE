@@ -3,6 +3,7 @@ namespace Safe\CatBundle\Entity;
 
 use Safe\CatBundle\Entity\ItemType;
 use Safe\CatBundle\Entity\ItemResult;
+use Safe\CatBundle\Entity\ThetaEstimation;
 /**
  * Description of Irt
  *
@@ -109,7 +110,7 @@ class IrtEquations {
             }
             
             $standarError = 1 / sqrt($denominator);
-            return array($estimatedTheta, $diffTheta, $standarError);
+            return new ThetaEstimation($estimatedTheta, $diffTheta, $standarError);
         }
         return IrtEquations::estimateNewThetaWithStandarErrorNR($estimatedTheta, $itemsResult, $error, $limit);
         
@@ -142,7 +143,7 @@ class IrtEquations {
             $denominatorSum += $denominator;
         }        
         $standarError = 1 / sqrt($denominatorSum);
-        return array($maxTheta, $maxTheta - $theta, $standarError);
+        return new ThetaEstimation($maxTheta, $maxTheta - $theta, $standarError);
     }
     
 }

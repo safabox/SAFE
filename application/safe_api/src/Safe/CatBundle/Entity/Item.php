@@ -1,9 +1,12 @@
 <?php
+
 namespace Safe\CatBundle\Entity;
 
-use Safe\CatBundle\Entity\ItemType;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+
+use Safe\CatBundle\Entity\ItemResult;
+
 /**
  * Item
  *
@@ -11,81 +14,82 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Entity(repositoryClass="Safe\CatBundle\Repository\ItemRepository")
  * @ORM\HasLifecycleCallbacks() 
  */
-class Item {
-    
+class Item
+{
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Expose
      */
     private $id;
-    
+
     /**
      * @var float
-     * @ORM\Column(name="b", type="float")  
-     * dificultad -3 < b < 3
+     *
+     * @ORM\Column(name="b", type="float", nullable=false)
      */
     private $b;
-        
+
     /**
      * @var float
-     * @ORM\Column(name="a", type="float")  
-     * discriminador a > 0
+     *
+     * @ORM\Column(name="a", type="float", nullable=false)
      */
     private $a;
-    
+
     /**
      * @var float
-     * @ORM\Column(name="c", type="float")  
-     * acierto 0 < c < 1
+     *
+     * @ORM\Column(name="c", type="float", nullable=false)
      */
     private $c;
-    
+
     /**
      * @var float
-     * @ORM\Column(name="d", type="float")  
+     *
+     * @ORM\Column(name="d", type="float", nullable=false)
      */
     private $d;
 
     /**
-     * 
+     * @var \stdClass
+     *
      * @ORM\ManyToOne(targetEntity="Safe\CatBundle\Entity\ItemBank", inversedBy="items")
-     * @ORM\JoinColumn(name="item_bank_id", referencedColumnName="id", nullable=FALSE)    
+     * @ORM\JoinColumn(name="item_bank_id", referencedColumnName="id", nullable=false)
      */
     private $itemBank;
-    
+
     /**
-     *      
-     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\ItemResult", mappedBy="item")     
-     */    
-    private $itemsResults; //Los resultados son propios del examinado, no se borran en cascada
-    
-     /**
+     * @var \stdClass
+     *
+     * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\ItemResult", mappedBy="item", cascade={"persist"}) 
+     */
+    private $itemsResults;
+
+    /**
      * @var string
      *
-     * @ORM\Column(name="code", type="string", length=50, nullable=FALSE)
-     */    
+     * @ORM\Column(name="code", type="string", length=50, nullable=false)
+     */
     private $code;
-    
-   /**
-    * @var \DateTime
-    *
-    * @ORM\Column(name="created", type="datetime", nullable=false)
-    * @Expose
-    */
-    private $created;
-    
+
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="updated", type="datetime", nullable=true)
-     * @Expose
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated", type="datetime", nullable=false)
      */
     private $updated;
-    
+
+
     //https://en.wikipedia.org/wiki/Item_response_theory#IRT_models
     public function __construct($b=0, $a=1, $c=0, $d=1)
     {
@@ -105,92 +109,241 @@ class Item {
             $this->setCreated(new \DateTime());
         }
     }
-
-    function getId() {
+    public function getItemType() {
+        return $this->itemBank->getItemType();
+    }
+    
+    public function addResult($examinee, $result) {
+        $itemResult = new ItemResult($this->getB(), $this->getA(), $this->getC(), $this->getD());
+        $itemResult->setExaminee($examinee);
+        $itemResult->setItem($this);
+        $itemResult->setResult($result);    
+        $this->itemsResults->add($itemResult);
+    }
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
         return $this->id;
     }
 
-    function getItemBank() {
-        return $this->itemBank;
+    /**
+     * Set b
+     *
+     * @param float $b
+     *
+     * @return Item
+     */
+    public function setB($b)
+    {
+        $this->b = $b;
+
+        return $this;
     }
 
-    function getB() {
+    /**
+     * Get b
+     *
+     * @return float
+     */
+    public function getB()
+    {
         return $this->b;
     }
 
-    function getA() {
+    /**
+     * Set a
+     *
+     * @param float $a
+     *
+     * @return Item
+     */
+    public function setA($a)
+    {
+        $this->a = $a;
+
+        return $this;
+    }
+
+    /**
+     * Get a
+     *
+     * @return float
+     */
+    public function getA()
+    {
         return $this->a;
     }
 
-    function getC() {
+    /**
+     * Set c
+     *
+     * @param float $c
+     *
+     * @return Item
+     */
+    public function setC($c)
+    {
+        $this->c = $c;
+
+        return $this;
+    }
+
+    /**
+     * Get c
+     *
+     * @return float
+     */
+    public function getC()
+    {
         return $this->c;
     }
 
-    function getD() {
+    /**
+     * Set d
+     *
+     * @param float $d
+     *
+     * @return Item
+     */
+    public function setD($d)
+    {
+        $this->d = $d;
+
+        return $this;
+    }
+
+    /**
+     * Get d
+     *
+     * @return float
+     */
+    public function getD()
+    {
         return $this->d;
     }
 
-    function setId($id) {
-        $this->id = $id;
-    }
-
-    function setItemBank($itemBank) {
+    /**
+     * Set itemBank
+     *
+     * @param \stdClass $itemBank
+     *
+     * @return Item
+     */
+    public function setItemBank($itemBank)
+    {
         $this->itemBank = $itemBank;
+
+        return $this;
     }
 
-    function setB($b) {
-        $this->b = $b;
+    /**
+     * Get itemBank
+     *
+     * @return \stdClass
+     */
+    public function getItemBank()
+    {
+        return $this->itemBank;
     }
 
-    function setA($a) {
-        $this->a = $a;
+    /**
+     * Set itemsResults
+     *
+     * @param \stdClass $itemsResults
+     *
+     * @return Item
+     */
+    public function setItemsResults($itemsResults)
+    {
+        $this->itemsResults = $itemsResults;
+
+        return $this;
     }
 
-    function setC($c) {
-        $this->c = $c;
-    }
-
-    function setD($d) {
-        $this->d = $d;
-    }
-
-    function getCreated() {
-        return $this->created;
-    }
-
-    function setCreated(\DateTime $created) {
-        $this->created = $created;
-    }
-
-    function getItemsResults() {
+    /**
+     * Get itemsResults
+     *
+     * @return \stdClass
+     */
+    public function getItemsResults()
+    {
         return $this->itemsResults;
     }
 
-    function getUpdated() {
-        return $this->updated;
+    /**
+     * Set code
+     *
+     * @param string $code
+     *
+     * @return Item
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
     }
 
-    function setItemsResults($itemsResults) {
-        $this->itemsResults = $itemsResults;
-    }
-
-    function setUpdated(\DateTime $updated) {
-        $this->updated = $updated;
-    }
-
-    function getItemType() {
-        return $this->itemBank->getItemType();
-    }
-
-    function getCode() {
+    /**
+     * Get code
+     *
+     * @return string
+     */
+    public function getCode()
+    {
         return $this->code;
     }
 
-    function setCode($code) {
-        $this->code = $code;
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Item
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
     }
 
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
 
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     *
+     * @return Item
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
 
-    
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
 }
+

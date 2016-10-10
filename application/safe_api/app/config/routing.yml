@@ -1,7 +1,7 @@
-safe_cat:
-    resource: "@SafeCatBundle/Resources/config/routing.yml"
-    prefix:   /cat
-    type: rest
+#safe_cat:
+#    resource: "@SafeCatBundle/Resources/config/routing.yml"
+#    prefix:   /cat
+#    type: rest
 
 NelmioApiDocBundle:
     resource: "@NelmioApiDocBundle/Resources/config/routing.yml"

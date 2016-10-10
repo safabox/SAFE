@@ -1,13 +1,37 @@
 services:
-#    safe_cat.example:
-#        class: Safe\CatBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
     safe_cat.service.cat:
         class: Safe\CatBundle\Service\CATService
-        arguments: ["@safe_cat.repository.itemBank"]
+        arguments: ["@doctrine.orm.default_entity_manager", "@safe_cat.repository.itemBank", "@safe_cat.repository.item", "@safe_cat.repository.itemResult","@safe_cat.repository.examinee", "@safe_cat.repository.ability"]
+    safe_cat.service.cat.stadistic:
+        class: Safe\CatBundle\Service\CATStadisticService
+        arguments: ["@doctrine.orm.default_entity_manager", "@safe_cat.repository.itemBank", "@safe_cat.repository.item", "@safe_cat.repository.itemResult","@safe_cat.repository.examinee", "@safe_cat.repository.ability"]
     safe_cat.repository.itemBank:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
-            - Safe\CatBundle\Entity\ItemBank        
+            - Safe\CatBundle\Entity\ItemBank
+    safe_cat.repository.examinee:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\CatBundle\Entity\Examinee  
+    safe_cat.repository.ability:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\CatBundle\Entity\Ability            
+    safe_cat.repository.item:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\CatBundle\Entity\Item          
+    safe_cat.repository.itemResult:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\CatBundle\Entity\ItemResult        

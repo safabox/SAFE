@@ -8,6 +8,7 @@ use Safe\CatBundle\Entity\ItemBank;
 use Safe\CatBundle\Entity\ItemResult;
 
 use Safe\CatBundle\Entity\IrtEquations;
+use Safe\CatBundle\Entity\Examinee;
 
 class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
 
@@ -32,7 +33,7 @@ class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
         $result = IrtEquations::probP($theta_2, $item_b1_a0_5);        
         $this->assertEquals(0.62, $result, '', 0.01);
     }
-    
+
     public function testProbB_with_3pl() {
         $itemBank = new ItemBank(ItemType::THREE_Pl);
         $item_b1_5_a1_3_c0_2 = new Item(1.5, 1.3, 0.2);
@@ -56,10 +57,11 @@ class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
     }
     
     public function testEstimateNewTheta_with_newton_raphson_2pl() {
+         $examinee = new Examinee();
          $itemBank = new ItemBank(ItemType::TWO_PL);
          $item_b_minus1_a1 = new Item(-1, 1);
          $item_b_minus1_a1->setItemBank($itemBank);
-         
+     
          $item_b_0_a1_2 = new Item(0, 1.2);
          $item_b_0_a1_2->setItemBank($itemBank);
          
@@ -67,19 +69,20 @@ class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
          $item_b_1_a0_8->setItemBank($itemBank);
          
          $theta = 1;
-         $item_result_1 = ItemResult::fromItem($item_b_minus1_a1, 1);
-         $item_result_2 = ItemResult::fromItem($item_b_0_a1_2, 0);
-         $item_result_3 = ItemResult::fromItem($item_b_1_a0_8, 1);
+         $item_result_1 = ItemResult::fromItem($examinee, $item_b_minus1_a1, 1);
+         $item_result_2 = ItemResult::fromItem($examinee, $item_b_0_a1_2, 0);
+         $item_result_3 = ItemResult::fromItem($examinee, $item_b_1_a0_8, 1);
          
          
-         $result = IrtEquations::estimateNewThetaWithStandarErrorNR($theta, array($item_result_1, $item_result_2, $item_result_3), 0.001);
+         $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorNR($theta, array($item_result_1, $item_result_2, $item_result_3), 0.001);
          
-         $this->assertEquals(0.3249, $result[0], '', 0.0001); //theta
-         $this->assertEquals(0.0009, $result[1], '', 0.0001); //error
-         $this->assertEquals(1.23, $result[2], '', 0.01); //standar error
+         $this->assertEquals(0.3249, $thetaEstimation->getTheta(), '', 0.0001); //theta
+         $this->assertEquals(0.0009, $thetaEstimation->getDiff(), '', 0.0001); //error
+         $this->assertEquals(1.23, $thetaEstimation->getStandarError(), '', 0.01); //standar error
     }
     
     public function testEstimateNewTheta_with_newton_raphson_2pl_saturation() {
+         $examinee = new Examinee();
          $itemBank = new ItemBank(ItemType::TWO_PL);
          $item_b_minus1_a1 = new Item(-1, 1);
          $item_b_minus1_a1->setItemBank($itemBank);
@@ -91,17 +94,18 @@ class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
          $item_b_1_a0_8->setItemBank($itemBank);
          
          $theta = 1;
-         $item_result_1 = ItemResult::fromItem($item_b_minus1_a1, 1);
-         $item_result_2 = ItemResult::fromItem($item_b_0_a1_2, 1);
-         $item_result_3 = ItemResult::fromItem($item_b_1_a0_8, 1);
+         $item_result_1 = ItemResult::fromItem($examinee, $item_b_minus1_a1, 1);
+         $item_result_2 = ItemResult::fromItem($examinee, $item_b_0_a1_2, 1);
+         $item_result_3 = ItemResult::fromItem($examinee, $item_b_1_a0_8, 1);
          
          
-         $result = IrtEquations::estimateNewThetaWithStandarErrorNR($theta, array($item_result_1, $item_result_2, $item_result_3), 0.001);
+         $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorNR($theta, array($item_result_1, $item_result_2, $item_result_3), 0.001);
          
-         $this->assertEquals(3, $result[0], '', 0.0001); //theta
+         $this->assertEquals(3, $thetaEstimation->getTheta(), '', 0.0001); //theta
     }
     
     public function testEstimateNewThetaML_with_2pl() {
+         $examinee = new Examinee();
          $itemBank = new ItemBank(ItemType::TWO_PL);
          $item_b_minus1_a1 = new Item(-1, 1);
          $item_b_minus1_a1->setItemBank($itemBank);
@@ -113,19 +117,20 @@ class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
          $item_b_1_a0_8->setItemBank($itemBank);
          
          $theta = 1;
-         $item_result_1 = ItemResult::fromItem($item_b_minus1_a1, 1);
-         $item_result_2 = ItemResult::fromItem($item_b_0_a1_2, 0);
-         $item_result_3 = ItemResult::fromItem($item_b_1_a0_8, 1);
+         $item_result_1 = ItemResult::fromItem($examinee, $item_b_minus1_a1, 1);
+         $item_result_2 = ItemResult::fromItem($examinee, $item_b_0_a1_2, 0);
+         $item_result_3 = ItemResult::fromItem($examinee, $item_b_1_a0_8, 1);
          
          
          $result = IrtEquations::estimateNewThetaWithStandarErrorML($theta, array($item_result_1, $item_result_2, $item_result_3), 0.01);
          
-         $this->assertEquals(0.32, $result[0], '', 0.01); //theta
-         $this->assertEquals(-0.68, $result[1], '', 0.01); //diff
-         $this->assertEquals(1.23, $result[2], '', 0.01); //standar error
+         $this->assertEquals(0.32, $result->getTheta(), '', 0.01); //theta
+         $this->assertEquals(-0.68, $result->getDiff(), '', 0.01); //diff
+         $this->assertEquals(1.23, $result->getStandarError(), '', 0.01); //standar error
     }
     
     public function testEstimateNewTheta_with_MLE_2pl_saturation() {
+         $examinee = new Examinee();
          $itemBank = new ItemBank(ItemType::TWO_PL);
          $item_b_minus1_a1 = new Item(-1, 1);
          $item_b_minus1_a1->setItemBank($itemBank);
@@ -137,14 +142,14 @@ class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
          $item_b_1_a0_8->setItemBank($itemBank);
          
          $theta = 1;
-         $item_result_1 = ItemResult::fromItem($item_b_minus1_a1, 1);
-         $item_result_2 = ItemResult::fromItem($item_b_0_a1_2, 1);
-         $item_result_3 = ItemResult::fromItem($item_b_1_a0_8, 1);
+         $item_result_1 = ItemResult::fromItem($examinee, $item_b_minus1_a1, 1);
+         $item_result_2 = ItemResult::fromItem($examinee, $item_b_0_a1_2, 1);
+         $item_result_3 = ItemResult::fromItem($examinee, $item_b_1_a0_8, 1);
          
          
          $result = IrtEquations::estimateNewThetaWithStandarErrorML($theta, array($item_result_1, $item_result_2, $item_result_3), 0.001);
          
-         $this->assertEquals(3, $result[0], '', 0.0001); //theta         
+         $this->assertEquals(3, $result->getTheta(), '', 0.0001); //theta         
     }
     
     
@@ -195,6 +200,7 @@ class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
     /*
      * NR es 0.0028 segundos mas rapido
     public function testTimeCompare() {
+         $examinee = new Examinee();
          $itemBank = new ItemBank(ItemType::TWO_PL);
          $item_b_minus1_a1 = new Item(-1, 1);
          $item_b_minus1_a1->setItemBank($itemBank);
@@ -206,9 +212,9 @@ class IrtEquationsTest extends \PHPUnit_Framework_TestCase {
          $item_b_1_a0_8->setItemBank($itemBank);
          
          $theta = 1;
-         $item_result_1 = ItemResult::fromItem($item_b_minus1_a1, 1);
-         $item_result_2 = ItemResult::fromItem($item_b_0_a1_2, 0);
-         $item_result_3 = ItemResult::fromItem($item_b_1_a0_8, 1);
+         $item_result_1 = ItemResult::fromItem($examinee, $item_b_minus1_a1, 1);
+         $item_result_2 = ItemResult::fromItem($examinee, $item_b_0_a1_2, 0);
+         $item_result_3 = ItemResult::fromItem($examinee, $item_b_1_a0_8, 1);
          
          $time_start = microtime(true);
          for($i = 0; $i< 1000; $i++) {

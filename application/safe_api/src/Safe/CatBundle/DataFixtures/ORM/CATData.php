@@ -4,50 +4,82 @@ namespace Safe\CatBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Safe\CatBundle\Entity\ItemBank;
 use Safe\CatBundle\Entity\Item;
-class CATData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
-{
-    
-    protected $container;
-    
-    public function setContainer(ContainerInterface $container = null) {
-        $this->container = $container;
-    }
+use Safe\CatBundle\Entity\ItemResult;
+use Safe\CatBundle\Entity\Examinee;
+use Safe\CatBundle\Entity\Ability;
+use \Safe\CatBundle\Entity\PastAbility;
 
-    
+
+use Doctrine\Common\Util\Debug;
+
+class CATData extends AbstractFixture implements OrderedFixtureInterface
+{
+
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
-    {        
-        $code = $this->getReference('curso-matematicas')->getId();
-        $itemBank = new ItemBank($code);
+    {
+        $itemBank = new ItemBank();
+        $itemBank->setCode($this->getReference('curso-matematicas')->getId());
+        $manager->persist($itemBank);
+        
+        $examinee = new Examinee();
+        $examinee->setCode($this->getReference('alumno1')->getId());
+        $manager->persist($examinee);
+ 
+        $examinee2 = new Examinee();
+        $examinee2->setCode($this->getReference('alumno2')->getId());
+        $manager->persist($examinee2);
+        
+        $examinee3 = new Examinee();
+        $examinee3->setCode($this->getReference('alumno3')->getId());
+        $manager->persist($examinee3);
+ 
+        
+        $theta = 0;
+        
+        $ability = new Ability($examinee, $itemBank, $theta);
+        $manager->persist($ability);
+        $pastAbility = new PastAbility($ability);
+        $pastAbility->setTheta(-1);
+        $manager->persist($pastAbility);
+  
+        $ability3 = new Ability($examinee3, $itemBank, $theta);
+        $manager->persist($ability3);
+  
         
         $items = array();
-        //Genero 60 x 5 items por banco (300 ejercicios, hay 5 x cada dificultad)
-        for($i=-3; $i<=3; $i += 0.1){
-            for($j=0; $j < 5; $j++) {
+        $result = 0;
+        for($i=-3; $i <= 3; $i += 0.25) {
+            for($j=0; $j < 5; $j++){
                 $item = new Item($i);
                 $item->setItemBank($itemBank);
+                $item->setCode("code_".$i."_".$j);
                 $items[] = $item;
+                $manager->persist($item);
+                if ($j % 2 == 0 || $theta == $i) {
+                    $itemResult = ItemResult::fromItem($examinee, $item, $result);
+                    $manager->persist($itemResult);
+                    $result = ($result == 0) ? 1 : 0;
+                }
+                //Add resut for Examinee3 (has all item finished)
+                $itemResult = ItemResult::fromItem($examinee3, $item, $result);
+                $manager->persist($itemResult);                
             }
-        }        
-        $itemBank->setItems($items);
-        
-        $manager->persist($itemBank);
+        }       
 
         $manager->flush();
-
-        $this->addReference('itemBank-matematicas', $itemBank);
+        $this->addReference('itembank-curso-matematicas', $itemBank);
+        $this->addReference('examinee-alumno1', $examinee);
+        $this->addReference('ability-alumno1-curso-matematicas', $ability);
     }
 
     public function getOrder() {
         return 7;
     }
 
-    
 }

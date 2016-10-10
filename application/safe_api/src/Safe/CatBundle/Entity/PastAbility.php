@@ -3,45 +3,53 @@
 namespace Safe\CatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 /**
- * Examinee
+ * PastAbility
  *
  * @ORM\Table(name="cat_past_ability")
  * @ORM\Entity(repositoryClass="Safe\CatBundle\Repository\PastAbilityRepository")
  * @ORM\HasLifecycleCallbacks() 
  */
-class PastAbility {
+class PastAbility
+{
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Expose
      */
     private $id;
-    
+
     /**
      * @var float
-     * @ORM\Column(name="theta", type="float")  
-     * dificultad -3 < b < 3
+     *
+     * @ORM\Column(name="theta", type="float", nullable=false)
      */
     private $theta;
-    
+
     /**
-     * 
+     * @var \stdClass
+     *
      * @ORM\ManyToOne(targetEntity="Safe\CatBundle\Entity\Ability", inversedBy="pastAbilities")
-     * @ORM\JoinColumn(name="ability_id", referencedColumnName="id", nullable=FALSE)    
+     * @ORM\JoinColumn(name="ability_id", referencedColumnName="id", nullable=false)   
      */
     private $ability;
-    
+
     /**
-    * @var \DateTime
-    *
-    * @ORM\Column(name="created", type="datetime", nullable=false)
-    * @Expose
-    */
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
     private $created;
+
+
+    public function __construct($ability)
+    {
+        $this->ability = $ability;        
+        $this->theta = $ability->getTheta();
+    }
     
     /**
      * @ORM\PrePersist()
@@ -52,37 +60,87 @@ class PastAbility {
             $this->setCreated(new \DateTime());
         }
     }
-    function getId() {
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
         return $this->id;
     }
 
-    function getTheta() {
+    /**
+     * Set theta
+     *
+     * @param float $theta
+     *
+     * @return PastAbility
+     */
+    public function setTheta($theta)
+    {
+        $this->theta = $theta;
+
+        return $this;
+    }
+
+    /**
+     * Get theta
+     *
+     * @return float
+     */
+    public function getTheta()
+    {
         return $this->theta;
     }
 
-    function getAbility() {
+    /**
+     * Set ability
+     *
+     * @param \stdClass $ability
+     *
+     * @return PastAbility
+     */
+    public function setAbility($ability)
+    {
+        $this->ability = $ability;
+
+        return $this;
+    }
+
+    /**
+     * Get ability
+     *
+     * @return \stdClass
+     */
+    public function getAbility()
+    {
         return $this->ability;
     }
 
-    function getCreated() {
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return PastAbility
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
         return $this->created;
     }
-
-    function setId($id) {
-        $this->id = $id;
-    }
-
-    function setTheta($theta) {
-        $this->theta = $theta;
-    }
-
-    function setAbility($ability) {
-        $this->ability = $ability;
-    }
-
-    function setCreated(\DateTime $created) {
-        $this->created = $created;
-    }
-
-
 }
+

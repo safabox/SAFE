@@ -25,7 +25,6 @@ class SafeTestController extends WebTestCase {
             );
         $this->loadFixtures($fixtures);
         
-        
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
             ->getManager()
@@ -34,9 +33,7 @@ class SafeTestController extends WebTestCase {
     protected function tearDown()
     {
         parent::tearDown();
-        if ($this->em != null){
-          $this->em->close();  
-        }
+        $this->em->close();
         $this->em = null; // avoid memory leaks
     }
 
