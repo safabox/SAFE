@@ -20,7 +20,9 @@ class SafeTestController extends WebTestCase {
                           'Safe\DocenteBundle\DataFixtures\ORM\DocenteData',
                           'Safe\AlumnoBundle\DataFixtures\ORM\AlumnoData',
                           'Safe\CursoBundle\DataFixtures\ORM\CursoData',
+                          'Safe\TemaBundle\DataFixtures\ORM\TemaData',
                           'Safe\CatBundle\DataFixtures\ORM\CATData',
+            
                           
             );
         $this->loadFixtures($fixtures);

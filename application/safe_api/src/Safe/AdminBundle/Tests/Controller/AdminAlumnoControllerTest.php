@@ -117,7 +117,7 @@ class AdminAlumnoControllerTest extends SafeTestController {
         $this->assertEquals($nuevoNombre, $alumno->getUsuario()->getNombre());
         
     }
-    
+     
     public function testPatchAction() {
         //inicio
         $id = '1';
@@ -137,7 +137,27 @@ class AdminAlumnoControllerTest extends SafeTestController {
         $alumno = $this->getAlumno($id);
         $this->assertEquals($nuevoNombre, $alumno->getUsuario()->getNombre());
     }
-    
+  
+    public function testPutBajaLogicaAction() {
+        //inicio
+        $id = '1';
+        $clienteAdministrador = $this->createClienteAdministrador();                
+        $route =  $this->getUrl('api_1_admin_alumnosput_alumno', array('id' => $id, '_format' => 'json'));       
+        $alumno = $this->crearAlumnoArray('alumno1', '1');
+        $alumno['usuario']['enabled'] = 'false';
+        
+        //test
+        $clienteAdministrador->request('PUT', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), json_encode($alumno));
+        
+        //validacion
+        $response = $clienteAdministrador->getResponse();
+        $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
+        
+        $alumno = $this->getAlumno($id);
+        $this->assertFalse($alumno->getUsuario()->isEnabled());
+        
+    }
+
     protected function crearAlumnoArray($username, $legajo, $curriculum = '<h3>Educaci&oacute;n<h3>') {
         $dato = array(
             'legajo' => $legajo,

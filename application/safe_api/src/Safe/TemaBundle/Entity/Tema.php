@@ -3,6 +3,7 @@
 namespace Safe\TemaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Tema
@@ -58,10 +59,16 @@ class Tema
     private $predecesoras;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="precesoras")
+     * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="predecesoras")
      * 
      */
     private $sucesoras;
+    
+    public function __construct()
+    {
+        $this->predecesoras = new ArrayCollection();
+        $this->sucesoras = new ArrayCollection();
+    }   
 
     /**
      * Get id
@@ -159,6 +166,22 @@ class Tema
      */
     function setCurso($curso) {
         $this->curso = $curso;
+    }
+    
+    function getPredecesoras() {
+        return $this->predecesoras;
+    }
+
+    function getSucesoras() {
+        return $this->sucesoras;
+    }
+
+    function setPredecesoras($predecesoras) {
+        $this->predecesoras = $predecesoras;
+    }
+
+    function setSucesoras($sucesoras) {
+        $this->sucesoras = $sucesoras;
     }
 
 }

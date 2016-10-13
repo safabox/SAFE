@@ -8,4 +8,9 @@ safe_docente_curso:
     parent:   safe_docente
     resource: "Safe\DocenteBundle\Controller\CursoImpartidoController"
     name_prefix:  api_1_docentes_cursos # naming collision
+safe_docente_curso_tema:
+    type: rest
+    parent:   safe_docente_curso
+    resource: "Safe\DocenteBundle\Controller\TemaImpartidoController"
+    name_prefix:  api_1_docentes_cursos_temas # naming collision
     

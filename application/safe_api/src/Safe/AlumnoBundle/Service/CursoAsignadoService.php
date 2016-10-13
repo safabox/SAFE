@@ -16,9 +16,12 @@ class CursoAsignadoService {
                                        ->join('curso.alumnos', 'a')
                                        ->where('a.id = :id')
                                        ->setParameter('id', $alumnoId)
-                                       ->getQuery()
-                                       ->setMaxResults($limit)
-                                       ->setFirstResult($limit * $offset);
+                                       ->getQuery();
+        if ($limit != null) {
+            $offset = ($offset == null) ? 0 : $offset;
+            $query->setMaxResults($limit)
+                  ->setFirstResult($limit * $offset);
+        }
         
          return $query->getResult();
     }

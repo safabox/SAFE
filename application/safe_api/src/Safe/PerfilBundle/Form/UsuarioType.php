@@ -18,6 +18,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
 use Safe\PerfilBundle\Entity\Usuario;
+use Safe\CoreBundle\Form\BooleanType;
 class UsuarioType extends AbstractType
 {
     /**
@@ -34,7 +35,7 @@ class UsuarioType extends AbstractType
                 
             ->add('username', TextType::class)
             ->add('email', EmailType::class)
-            ->add('enabled', CheckboxType::class)            
+            ->add('enabled', BooleanType::class)            
             ->add('numeroDocumento', TextType::class)
             ->add('genero', TextType::class)
             ->add('tipoDocumento', EntityType::class, array(
