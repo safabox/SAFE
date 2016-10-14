@@ -105,7 +105,7 @@
                     'numeroDocumento': vm.alumno.usuario.numero_documento,
                     'genero': vm.alumno.usuario.genero,
                     'email': vm.alumno.usuario.email,
-                    'enabled': vm.alumno.usuario.enabled,
+                    'enabled': true,
                     'textPassword': {
                         'first' : vm.alumno.usuario.textPassword.first,
                         'second' : vm.alumno.usuario.textPassword.second
