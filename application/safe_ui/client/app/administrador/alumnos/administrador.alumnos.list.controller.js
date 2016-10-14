@@ -140,6 +140,7 @@
             
             function onSuccess() {
                 logger.info('Registro eliminado');
+                $state.reload()
             }
 
             function onError(httpResponse) {
@@ -157,7 +158,7 @@
                         var alumnoPatch =
                         {
                             'usuario': {
-                                'enabled': false
+                                'enabled': true
                             }
                         };                
                         alumnoRecover.patch(alumnoPatch).then(onSuccess, onError); 
@@ -166,6 +167,7 @@
 
             function onSuccess() {
                 logger.info('Registro recuperado');
+                $state.reload()
             }
 
             function onError(httpResponse) {
