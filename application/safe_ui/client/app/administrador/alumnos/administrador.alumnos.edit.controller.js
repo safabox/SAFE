@@ -94,30 +94,30 @@
         vm.guardar = guardar;
         function guardar() {
             
-            if (vm.editMode) {
-                
-               var alumnoPut =
-                {
-                    'legajo':  vm.alumno.legajo,
-                    'usuario': {
-                        'nombre': vm.alumno.usuario.nombre,
-                        'apellido': vm.alumno.usuario.apellido,
-                        'username': vm.alumno.usuario.username,     
-                        'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
-                        'numeroDocumento': vm.alumno.usuario.numero_documento,
-                        'genero': vm.alumno.usuario.genero,
-                        'email': vm.alumno.usuario.email,
-                        'enabled': vm.alumno.usuario.enabled,
-                        'textPassword': {
-                            'first' : vm.alumno.usuario.textPassword.first,
-                            'second' : vm.alumno.usuario.textPassword.second
-                        }
+            var alumnoPut =
+            {
+                'legajo':  vm.alumno.legajo,
+                'usuario': {
+                    'nombre': vm.alumno.usuario.nombre,
+                    'apellido': vm.alumno.usuario.apellido,
+                    'username': vm.alumno.usuario.username,     
+                    'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
+                    'numeroDocumento': vm.alumno.usuario.numero_documento,
+                    'genero': vm.alumno.usuario.genero,
+                    'email': vm.alumno.usuario.email,
+                    'enabled': vm.alumno.usuario.enabled,
+                    'textPassword': {
+                        'first' : vm.alumno.usuario.textPassword.first,
+                        'second' : vm.alumno.usuario.textPassword.second
                     }
-                };
+                }
+            };
+
+            if (vm.editMode) {
                 var alumno = AdminAlumnos.one($stateParams.id);
                 alumno.customPUT(alumnoPut).then(onSuccess,onError);
             }else{
-                AdminAlumnos.post(vm.alumno).then(onSuccess,onError);
+                AdminAlumnos.post(alumnoPut).then(onSuccess,onError);
             }
             
             function onSuccess() {
