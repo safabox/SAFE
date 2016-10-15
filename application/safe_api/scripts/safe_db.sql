@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 09-09-2016 a las 22:47:17
+-- Tiempo de generación: 16-10-2016 a las 00:35:45
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -40,11 +40,101 @@ CREATE TABLE `alumno` (
 --
 
 INSERT INTO `alumno` (`id`, `legajo`, `usuario_id`, `instituto_id`, `fechaCreacion`, `fechaModificacion`) VALUES
-(1, '123457', 2, 1, NULL, NULL),
-(2, '123452', 3, 1, NULL, NULL),
-(3, '123422', 4, 1, NULL, NULL),
-(4, '123423', 5, 1, NULL, NULL),
-(5, '123424', 6, 1, NULL, NULL);
+(8, '10', 14, 1, '2016-09-17 01:44:59', '2016-09-17 01:45:00'),
+(9, '12', 16, 1, '2016-09-17 02:12:47', '2016-09-17 02:12:47');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cat_ability`
+--
+
+CREATE TABLE `cat_ability` (
+  `id` int(11) NOT NULL,
+  `examinee_id` int(11) NOT NULL,
+  `item_bank_id` int(11) NOT NULL,
+  `theta` double NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cat_examinee`
+--
+
+CREATE TABLE `cat_examinee` (
+  `id` int(11) NOT NULL,
+  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cat_item`
+--
+
+CREATE TABLE `cat_item` (
+  `id` int(11) NOT NULL,
+  `item_bank_id` int(11) NOT NULL,
+  `b` double NOT NULL,
+  `a` double NOT NULL,
+  `c` double NOT NULL,
+  `d` double NOT NULL,
+  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cat_item_bank`
+--
+
+CREATE TABLE `cat_item_bank` (
+  `id` int(11) NOT NULL,
+  `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `item_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `item_range` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:array)',
+  `theta_est_method` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `discret_increment` double NOT NULL,
+  `created` datetime NOT NULL,
+  `updated` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cat_item_result`
+--
+
+CREATE TABLE `cat_item_result` (
+  `id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `examinee_id` int(11) NOT NULL,
+  `b` double NOT NULL,
+  `a` double NOT NULL,
+  `c` double NOT NULL,
+  `d` double NOT NULL,
+  `result` int(11) NOT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cat_past_ability`
+--
+
+CREATE TABLE `cat_past_ability` (
+  `id` int(11) NOT NULL,
+  `ability_id` int(11) NOT NULL,
+  `theta` double NOT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -134,7 +224,8 @@ CREATE TABLE `curso` (
 --
 
 INSERT INTO `curso` (`id`, `titulo`, `descripcion`, `fechaCreacion`, `instituto_id`, `fechaModificacion`) VALUES
-(4, 'Matemáticas 1', '<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>', '2016-08-25 00:43:30', 1, NULL);
+(4, 'Matemáticas 1', '<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>', '2016-08-25 00:43:30', 1, NULL),
+(5, 'Lengua', 'pepep', '2016-09-17 02:13:55', 1, '2016-09-17 02:13:55');
 
 -- --------------------------------------------------------
 
@@ -147,14 +238,6 @@ CREATE TABLE `curso_alumno` (
   `alumno_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Volcado de datos para la tabla `curso_alumno`
---
-
-INSERT INTO `curso_alumno` (`curso_id`, `alumno_id`) VALUES
-(4, 3),
-(4, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -165,14 +248,6 @@ CREATE TABLE `curso_docente` (
   `curso_id` int(11) NOT NULL,
   `docente_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `curso_docente`
---
-
-INSERT INTO `curso_docente` (`curso_id`, `docente_id`) VALUES
-(4, 1),
-(4, 2);
 
 -- --------------------------------------------------------
 
@@ -195,10 +270,7 @@ CREATE TABLE `docente` (
 --
 
 INSERT INTO `docente` (`id`, `curriculum`, `fechaModificacion`, `usuario_id`, `instituto_id`, `legajo`, `fechaCreacion`) VALUES
-(1, '<h3>Educaci&oacute;n<h3> <ul><li>Instituto 1</li><li>Instituto 2</li></ul>', '2016-08-25 00:39:32', 7, 1, '123457', NULL),
-(2, '<h3>Educaci&oacute;n<h3> <ul><li>Instituto 1</li><li>Instituto 2</li></ul>', '2016-08-25 00:40:40', 8, 1, '123451', NULL),
-(3, '<h3>Educaci&oacute;n<h3> <ul><li>Instituto 1</li><li>Instituto 2</li></ul>', '2016-08-25 00:41:40', 9, 1, '123452', NULL),
-(4, '<h3>Educaci&oacute;n<h3> <ul><li>Instituto 1</li><li>Instituto 2</li></ul>', '2016-08-25 00:41:54', 10, 1, '123454', NULL);
+(6, NULL, '2016-09-17 02:07:27', 15, 1, '11', '2016-09-17 02:07:27');
 
 -- --------------------------------------------------------
 
@@ -291,10 +363,13 @@ CREATE TABLE `media__media` (
 
 CREATE TABLE `tema` (
   `id` int(11) NOT NULL,
-  `curso_id` int(11) DEFAULT NULL,
+  `curso_id` int(11) NOT NULL,
   `titulo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion` longtext COLLATE utf8mb4_unicode_ci,
-  `orden` int(11) NOT NULL
+  `orden` int(11) NOT NULL,
+  `fechaCreacion` datetime DEFAULT NULL,
+  `fechaModificacion` datetime DEFAULT NULL,
+  `habilitado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -304,8 +379,8 @@ CREATE TABLE `tema` (
 --
 
 CREATE TABLE `tema_dependencia` (
-  `tema_source` int(11) NOT NULL,
-  `tema_target` int(11) NOT NULL
+  `sucesora_id` int(11) NOT NULL,
+  `predecesora_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -365,16 +440,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `apellido`, `avatar`, `tipo_documento_id`, `numero_documento`, `genero`, `nacionalidad`) VALUES
-(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-09-09 22:39:19', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL),
-(2, 'chespirito', 'chespirito', 'chespirito@organizacion.org', 'chespirito@organizacion.org', 1, 'pll1f8ota5cgcs0s0koog0gkgsc0s0', 'TGo5inENJH2gE3Qf3YxVFoky0OwPYD86inxtaD+bMoYJzCtNkZ4nPUdHWkiRzIO/5G8lfJSSeAtB0tZYShGeuQ==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'Roberto', 'Gómez Bolaño', NULL, 1, '30777555', 'Masculino', NULL),
-(3, 'alumno1', 'alumno1', 'alumno1@organizacion.org', 'alumno1@organizacion.org', 1, 'm009bk38wtso4wkssg4sc8g404wok4w', 'FkaApz8FAz5iZrESTHBKVLJy8zV8UBQcmJqdDrEXMMuI1kiJgrfrJ9ZXgQPtV/i9V3j1RtvlszMyqC4ahInhlw==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'Alumno_1', 'Gómez Bolaño', NULL, 1, '30777551', 'Masculino', NULL),
-(4, 'alumno2', 'alumno2', 'alumno2@organizacion.org', 'alumno2@organizacion.org', 1, 'p5lnsdli5344cwgsgssc0c4sc04o4w0', 'F/TIIq7DfD6M1Hk6uLKuS+VmkrWPkAyAkmzZ7blhpfJgjUeG81Mt3oRoCI2r3pftLBzIVekdfGAltIuFBcX8bg==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'Alumno_2', 'Gómez Bolaño', NULL, 1, '30777552', 'Masculino', NULL),
-(5, 'alumno3', 'alumno3', 'alumno3@organizacion.org', 'alumno3@organizacion.org', 1, 'kialvu6njsgsco8wck4s0ws44wc4w0o', '/DxuzoEyMAb/KjMFiMxvafn6/NW0YlBPjlipqM31S6c+f3MkXU1l7yphBssAgwUqnB5/z9U7cOb8UMX1ISFdwA==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'Alumno_3', 'Gómez Bolaño', NULL, 1, '30777553', 'Masculino', NULL),
-(6, 'alumno4', 'alumno4', 'alumno4@organizacion.org', 'alumno4@organizacion.org', 1, 'joqg0c4jqeos0k4cs0cwgscwwckk8go', 'dcmdtls7c5JGcy3gpmfwUBewxfKDeg9AXcZRBfLCICR74gEid6N5+kSbwwKKeZmjLeRm9nT8BE5ReerxVcMX4Q==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'Alumno_4', 'Gómez Bolaño', NULL, 1, '30777554', 'Masculino', NULL),
-(7, 'jirafales', 'jirafales', 'jirafales@organizacion.org', 'jirafales@organizacion.org', 1, 'b48n6m4nz1ckkwogg800444w0c4wok8', 'E+XHNQ1Whx352vq24UBhrtOqW6/9flDGEbEYYD+pJ+jxdQAN2DPxzh0jpZo2J1oJbukDTAXvJ443sK0XtuDvvQ==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'Ruben', 'Aguirre', NULL, 1, '20777555', 'Masculino', NULL),
-(8, 'docente1', 'docente1', 'docente1@organizacion.org', 'docente1@organizacion.org', 1, 'xg4udz23ztw0kw4oco48gs008gg4g', 'RlNu8+03kQTcjs4hXE4OEqGUn7lONjSmFthvbbuGLOUVqoQXStVwnZ4MKp1ah8mDKat5QiQ7d4cLmzUlmlUKtw==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'docente1', 'Aguirre', NULL, 1, '20777551', 'Masculino', NULL),
-(9, 'docente2', 'docente2', 'docente2@organizacion.org', 'docente2@organizacion.org', 1, '4acpspaebzwgsc80s08ocswk848ssws', 'YdMcpTwOCIsjxCixlF2tv3pdHt7TrVl9i0dz/Yt5LxJIw5A2iltk6pV6nN1nOSbflyArnYOCRqd/239VBbcSeA==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'docente2', 'Aguirre', NULL, 1, '20777552', 'Masculino', NULL),
-(10, 'docente4', 'docente4', 'docente4@organizacion.org', 'docente4@organizacion.org', 1, 'kwipnamuxlc80so4sckokw0888g4ook', 'MmIYLc3UZwJB+UAG9/TkZaAyhJs1LeO/XmyZuvryN8PuzVtMcrpH0E0nHhxZOmaY4jQsVUehFvYk+kPzQdaRFw==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'docente4', 'Aguirre', NULL, 1, '20777554', 'Masculino', NULL);
+(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-10-15 00:37:22', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL),
+(14, 'alumno10', 'alumno10', 'alumno10@asdf.com', 'alumno10@asdf.com', 0, '95k7ar66q0ow8gscgw4wcss0sk4c8gg', 'OyAMZvesPQMpaGy7KZV1DdcR8yy3O8bNOADSoYukr5EyO662tmSNoHbSpAp5Lpt2HGo2fxB8VJhzV1iYMSWV/g==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'alumno10', 'apellido10', NULL, 1, '290001111', 'Masculino', NULL),
+(15, 'usuario11', 'usuario11', 'usuario11@asd.com', 'usuario11@asd.com', 0, '116kmbor3e1w4os80k4wcso40coogo8', 'bDnIvTx1Bb3pNOl2HpMUql8fxsz1MyNj2dOhXBtb5UVqPCz5E36B36AzGihlAsvLDI1p0MpPO+n3KUprV5/2rw==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'Docente11', 'Apellido11', NULL, 1, '30444711', 'Masculino', NULL),
+(16, 'usuario12', 'usuario12', 'test@test.com', 'test@test.com', 0, 'm52rvfamzj4koks40kgw4ggokccwc44', 'd2QeGc9fYlVIY7H/1lUEaP3xySPwCTCvXtXFtG+I9+TMtkmaLLgyNays1pS4jBlK9Bhqz6FNOKXQ/Vw/LP89cg==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'alumno12', 'apellido12', NULL, 1, '30444712', 'Masculino', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -388,6 +457,48 @@ ALTER TABLE `alumno`
   ADD UNIQUE KEY `alumn_leg_uk` (`legajo`,`instituto_id`),
   ADD KEY `IDX_1435D52DDB38439E` (`usuario_id`),
   ADD KEY `IDX_1435D52D6C6EF28` (`instituto_id`);
+
+--
+-- Indices de la tabla `cat_ability`
+--
+ALTER TABLE `cat_ability`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_157E6C6A4796EA45` (`examinee_id`),
+  ADD KEY `IDX_157E6C6A1A95DD15` (`item_bank_id`);
+
+--
+-- Indices de la tabla `cat_examinee`
+--
+ALTER TABLE `cat_examinee`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `cat_item`
+--
+ALTER TABLE `cat_item`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_228D2AF1A95DD15` (`item_bank_id`);
+
+--
+-- Indices de la tabla `cat_item_bank`
+--
+ALTER TABLE `cat_item_bank`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `cat_item_result`
+--
+ALTER TABLE `cat_item_result`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_5FF4947D126F525E` (`item_id`),
+  ADD KEY `IDX_5FF4947D4796EA45` (`examinee_id`);
+
+--
+-- Indices de la tabla `cat_past_ability`
+--
+ALTER TABLE `cat_past_ability`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_FB4A86578016D8B2` (`ability_id`);
 
 --
 -- Indices de la tabla `classification__category`
@@ -492,9 +603,9 @@ ALTER TABLE `tema`
 -- Indices de la tabla `tema_dependencia`
 --
 ALTER TABLE `tema_dependencia`
-  ADD PRIMARY KEY (`tema_source`,`tema_target`),
-  ADD KEY `IDX_894FC753980ADEF1` (`tema_source`),
-  ADD KEY `IDX_894FC75381EF8E7E` (`tema_target`);
+  ADD PRIMARY KEY (`sucesora_id`,`predecesora_id`),
+  ADD KEY `IDX_894FC7535C6890AE` (`sucesora_id`),
+  ADD KEY `IDX_894FC753C60169B7` (`predecesora_id`);
 
 --
 -- Indices de la tabla `tipo_documento`
@@ -523,7 +634,37 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT de la tabla `cat_ability`
+--
+ALTER TABLE `cat_ability`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `cat_examinee`
+--
+ALTER TABLE `cat_examinee`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `cat_item`
+--
+ALTER TABLE `cat_item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `cat_item_bank`
+--
+ALTER TABLE `cat_item_bank`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `cat_item_result`
+--
+ALTER TABLE `cat_item_result`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `cat_past_ability`
+--
+ALTER TABLE `cat_past_ability`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `classification__category`
 --
@@ -543,12 +684,12 @@ ALTER TABLE `classification__tag`
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT de la tabla `instituto`
 --
@@ -583,7 +724,7 @@ ALTER TABLE `tipo_documento`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- Restricciones para tablas volcadas
 --
@@ -594,6 +735,32 @@ ALTER TABLE `usuario`
 ALTER TABLE `alumno`
   ADD CONSTRAINT `FK_1435D52D6C6EF28` FOREIGN KEY (`instituto_id`) REFERENCES `instituto` (`id`),
   ADD CONSTRAINT `FK_1435D52DDB38439E` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `cat_ability`
+--
+ALTER TABLE `cat_ability`
+  ADD CONSTRAINT `FK_157E6C6A1A95DD15` FOREIGN KEY (`item_bank_id`) REFERENCES `cat_item_bank` (`id`),
+  ADD CONSTRAINT `FK_157E6C6A4796EA45` FOREIGN KEY (`examinee_id`) REFERENCES `cat_examinee` (`id`);
+
+--
+-- Filtros para la tabla `cat_item`
+--
+ALTER TABLE `cat_item`
+  ADD CONSTRAINT `FK_228D2AF1A95DD15` FOREIGN KEY (`item_bank_id`) REFERENCES `cat_item_bank` (`id`);
+
+--
+-- Filtros para la tabla `cat_item_result`
+--
+ALTER TABLE `cat_item_result`
+  ADD CONSTRAINT `FK_5FF4947D126F525E` FOREIGN KEY (`item_id`) REFERENCES `cat_item` (`id`),
+  ADD CONSTRAINT `FK_5FF4947D4796EA45` FOREIGN KEY (`examinee_id`) REFERENCES `cat_examinee` (`id`);
+
+--
+-- Filtros para la tabla `cat_past_ability`
+--
+ALTER TABLE `cat_past_ability`
+  ADD CONSTRAINT `FK_FB4A86578016D8B2` FOREIGN KEY (`ability_id`) REFERENCES `cat_ability` (`id`);
 
 --
 -- Filtros para la tabla `classification__category`
@@ -666,8 +833,8 @@ ALTER TABLE `tema`
 -- Filtros para la tabla `tema_dependencia`
 --
 ALTER TABLE `tema_dependencia`
-  ADD CONSTRAINT `FK_894FC75381EF8E7E` FOREIGN KEY (`tema_target`) REFERENCES `tema` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_894FC753980ADEF1` FOREIGN KEY (`tema_source`) REFERENCES `tema` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `FK_894FC7535C6890AE` FOREIGN KEY (`sucesora_id`) REFERENCES `tema` (`id`),
+  ADD CONSTRAINT `FK_894FC753C60169B7` FOREIGN KEY (`predecesora_id`) REFERENCES `tema` (`id`);
 
 --
 -- Filtros para la tabla `usuario`

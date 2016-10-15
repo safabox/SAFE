@@ -2,9 +2,19 @@ services:
 #    safe_tema.example:
 #        class: Safe\TemaBundle\Example
 #        arguments: ["@service_id", "plain_value", %parameter%]
+    safe_tema.service.tema:
+        class: Safe\TemaBundle\Service\TemaService
+        arguments: ["@safe_tema.repository.tema"]       
+
     safe_tema.repository.tema:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
             - Safe\TemaBundle\Entity\Tema
+    safe_tema.form.type.identificador_tema:
+        class: Safe\TemaBundle\Form\IdentificadorTemaType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+          - {name: form.type, alias: 'identificador_tema'}
+            

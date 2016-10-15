@@ -44,6 +44,7 @@ class SafeTestController extends WebTestCase {
                 $statusCode, $response->getStatusCode(),
                 $response->getContent()
             );
+            //Debug::dump($response->headers);
             $this->assertTrue(
                 $response->headers->contains('Content-Type', 'application/json'),
                 $response->headers

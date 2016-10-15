@@ -4,6 +4,8 @@ namespace Safe\TemaBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+use Doctrine\Common\Util\Debug;
+
 /**
  * TemaRepository
  *
@@ -12,4 +14,47 @@ use Doctrine\ORM\EntityRepository;
  */
 class TemaRepository extends EntityRepository
 {
+    public function crearOActualizar($tema) {
+        $em = $this->getEntityManager();
+        $em->getConnection()->beginTransaction();
+        try {            
+            if ($tema->getId() != null) {
+                $this->actualizarListaSucesoras($tema, $em);
+            }                   
+            
+            $em->persist($tema);                     
+            $em->flush();            
+            $em->getConnection()->commit();
+         } catch (Exception $ex) {
+            $em->getConnection()->rollback();            
+            throw $ex;
+        }
+        return $tema;
+    }
+    
+    public function buscarSucesoras($tema) {
+        $query = $this->createQueryBuilder('tema')
+                 ->select('tema')
+                 ->join('tema.predecesoras', 'p')
+                 ->where('p = :predecesora')
+                 ->setParameter('predecesora', $tema)
+                 ->getQuery();
+         return $query->getResult();
+    }
+    
+    protected function actualizarListaSucesoras($tema, $em) {
+        $sucesoras = $this->buscarSucesoras($tema);
+        $sucesorasAActualizar = array();
+        
+        foreach($sucesoras as $sucesora) {
+            if (!$tema->getSucesoras()->contains($sucesora)) {            
+                $sucesorasAActualizar[] = $sucesora;
+            }
+        }        
+        foreach($sucesorasAActualizar as $sucesoraAEliminarRelacion) {
+            $sucesoraAEliminarRelacion->getPredecesoras()->removeElement($tema);
+            $em->persist($sucesoraAEliminarRelacion);            
+        }
+        return $tema;
+    }
 }
