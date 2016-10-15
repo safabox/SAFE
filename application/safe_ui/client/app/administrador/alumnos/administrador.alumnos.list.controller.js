@@ -10,7 +10,7 @@
         var vm = this;
         vm.loading = true;
         vm.noData = true;
-        
+
         vm.select = select;
         vm.onFilterChange = onFilterChange;
         vm.onNumPerPageChange = onNumPerPageChange;
@@ -107,63 +107,72 @@
         };        
         
         function puedeEliminar(alumno){
-            if(alumno.usuario.enabled === 'true'){
-                return false;
-            }else{
+            if(alumno.usuario.enabled === true){
                 return true;
+            }else{
+                return false;
             }
         }
         
         function puedeRecuperar(alumno){
-            if(alumno.usuario.enabled === 'true'){
-                return true;
-            }else{
+            if(alumno.usuario.enabled === true){
                 return false;
+            }else{
+                return true;
             }
         }
         
         function eliminar(alumno){
             var title = '¿Desea eliminar el alumno ' + alumno.usuario.nombre + '?';
             messageBox.showOkCancel(title)
-                .then(function (answer) {
-                    if (answer === 'ok') {
+                .then(function (answer) {                
+                    if (answer === 'ok') {                        
                         var alumnoRemove = AdminAlumnos.one(alumno.id);  
-                        alumnoRemove.remove().then(onSuccess, onError);
+                        var alumnoPatch =
+                        {
+                            'usuario': {
+                                'enabled': false
+                            }
+                        };                
+                        alumnoRemove.patch(alumnoPatch).then(onSuccess, onError); 
                     }
                 });
             
             function onSuccess() {
                 logger.info('Registro eliminado');
+                $state.reload()
             }
 
             function onError(httpResponse) {
                 logger.error('No se pudo eliminar el alumno', httpResponse);
             }
+                        
         }
         
         function recuperar(alumno){
             var title = '¿Desea recuperar el alumno ' + alumno.usuario.nombre + '?';
             messageBox.showOkCancel(title)
                 .then(function (answer) {
-                    if (answer === 'ok') {
+                    if (answer === 'ok') {                        
                         var alumnoRecover = AdminAlumnos.one(alumno.id);  
-                        alumnoRecover.recover().then(onSuccess, onError);
+                        var alumnoPatch =
+                        {
+                            'usuario': {
+                                'enabled': true
+                            }
+                        };                
+                        alumnoRecover.patch(alumnoPatch).then(onSuccess, onError); 
                     }
                 });
 
-
             function onSuccess() {
                 logger.info('Registro recuperado');
+                $state.reload()
             }
 
             function onError(httpResponse) {
                 logger.error('No se pudo recuperar el Alumno', httpResponse);
             }
-        }
-        
-        
-        
+        }        
     }
-
-
 })(); 
