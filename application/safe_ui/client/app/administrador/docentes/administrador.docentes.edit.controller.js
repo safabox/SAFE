@@ -1,19 +1,35 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('app.administrador.docentes')
         .controller('AdministradorDocentesEdit', controller);
 
-    controller.$inject = ['$q', 'AdminDocentes', '$state', 'logger', 'debugModeEnabled', '$stateParams']; 
+    controller.$inject = ['$q', 'AdminDocentes', '$state', 'logger', 'debugModeEnabled', '$stateParams', 'ErrorHelper']; 
     
-    function controller($q, AdminDocentes, $state, logger, debugModeEnabled, $stateParams) {
+    function controller($q, AdminDocentes, $state, logger, debugModeEnabled, $stateParams, ErrorHelper) {
         
         var vm = this;
         vm.loading = true;
         vm.debug = debugModeEnabled;
-        vm.editMode = ($state.includes('**.edit'));
-        
+        vm.editMode = ($state.includes('**.edit'));        
         vm.cancel = cancel;
+
+        vm.groupInfoGral = { isOpen: true };
+        vm.groupSeguridad = { isOpen: true };
+        vm.groupCursos = { isOpen: true };
+
+        vm.fieldLabels = [
+            { name: 'legajo', label: 'Legajo' },
+            { name: 'nombre', label: 'Nombre' },
+            { name: 'apellido', label: 'Apellido' },
+            { name: 'tipoDocumento', label: 'Tipo de Documento' },
+            { name: 'numeroDocumento', label: 'Número de Documento' },
+            { name: 'genero', label: 'Género' },
+            { name: 'email', label: 'Email' },
+            { name: 'username', label: 'Nombre de Usuario' },
+            { name: 'password', label: 'Contraseña' },
+            { name: 'confirmPassword', label: 'Confirmar Contraseña' },
+        ];
         
         activate();
         
@@ -78,31 +94,30 @@
         vm.guardar = guardar;
         function guardar() {
             
-            if (vm.editMode) { 
-                
-                var docentePut =
-                {
-                    'legajo':  vm.docente.legajo,
-                    'usuario': {
-                        'nombre': vm.docente.usuario.nombre,
-                        'apellido': vm.docente.usuario.apellido,
-                        'username': vm.docente.usuario.username,     
-                        'tipoDocumento':  vm.docente.usuario.tipoDocumento,
-                        'numeroDocumento': vm.docente.usuario.numeroDocumento,
-                        'genero': vm.docente.usuario.genero,
-                        'email': vm.docente.usuario.email,
-                        'enabled': vm.docente.usuario.enabled,
-                        'textPassword': {
-                            'first' : vm.docente.usuario.textPassword.first,
-                            'second' : vm.docente.usuario.textPassword.second
-                        }
+            var docentePut =
+            {
+                'legajo':  vm.docente.legajo,
+                'usuario': {
+                    'nombre': vm.docente.usuario.nombre,
+                    'apellido': vm.docente.usuario.apellido,
+                    'username': vm.docente.usuario.username,     
+                    'tipoDocumento':  vm.docente.usuario.tipo_documento.codigo,
+                    'numeroDocumento': vm.docente.usuario.numero_documento,
+                    'genero': vm.docente.usuario.genero,
+                    'email': vm.docente.usuario.email,
+                    'enabled': true,
+                    'textPassword': {
+                        'first' : vm.docente.usuario.textPassword.first,
+                        'second' : vm.docente.usuario.textPassword.second
                     }
-                };
-                
+                }
+            };
+            
+            if (vm.editMode) { 
                 var docente = AdminDocentes.one($stateParams.id);
                 docente.customPUT(docentePut).then(onSuccess,onError);
             }else{
-                AdminDocentes.post(vm.docente).then(onSuccess,onError);
+                AdminDocentes.post(docentePut).then(onSuccess,onError);
             }
             
             function onSuccess() {
@@ -111,8 +126,8 @@
                 goBack();
             }
             function onError(httpResponse) {
-                console.log(httpResponse);
-                logger.error('No se pudo guardar el Docente', httpResponse);
+                var message = ErrorHelper.parseRequestError(httpResponse);
+                logger.error(message, httpResponse, 'No se pudo guardar el Docente');
             }
               
         }
