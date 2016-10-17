@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 16-10-2016 a las 00:35:45
+-- Tiempo de generación: 17-10-2016 a las 03:41:28
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -207,6 +207,34 @@ CREATE TABLE `classification__tag` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `concepto`
+--
+
+CREATE TABLE `concepto` (
+  `id` int(11) NOT NULL,
+  `tema_id` int(11) NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_unicode_ci,
+  `orden` int(11) DEFAULT NULL,
+  `fechaCreacion` datetime DEFAULT NULL,
+  `fechaModificacion` datetime DEFAULT NULL,
+  `habilitado` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `concepto_dependencia`
+--
+
+CREATE TABLE `concepto_dependencia` (
+  `sucesora_id` int(11) NOT NULL,
+  `predecesora_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `curso`
 --
 
@@ -366,7 +394,7 @@ CREATE TABLE `tema` (
   `curso_id` int(11) NOT NULL,
   `titulo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion` longtext COLLATE utf8mb4_unicode_ci,
-  `orden` int(11) NOT NULL,
+  `orden` int(11) DEFAULT NULL,
   `fechaCreacion` datetime DEFAULT NULL,
   `fechaModificacion` datetime DEFAULT NULL,
   `habilitado` tinyint(1) NOT NULL
@@ -533,6 +561,21 @@ ALTER TABLE `classification__tag`
   ADD KEY `IDX_CA57A1C7E25D857E` (`context`);
 
 --
+-- Indices de la tabla `concepto`
+--
+ALTER TABLE `concepto`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_648388D0A64A8A17` (`tema_id`);
+
+--
+-- Indices de la tabla `concepto_dependencia`
+--
+ALTER TABLE `concepto_dependencia`
+  ADD PRIMARY KEY (`sucesora_id`,`predecesora_id`),
+  ADD KEY `IDX_11AE31AA5C6890AE` (`sucesora_id`),
+  ADD KEY `IDX_11AE31AAC60169B7` (`predecesora_id`);
+
+--
 -- Indices de la tabla `curso`
 --
 ALTER TABLE `curso`
@@ -681,6 +724,11 @@ ALTER TABLE `classification__collection`
 ALTER TABLE `classification__tag`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT de la tabla `concepto`
+--
+ALTER TABLE `concepto`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `curso`
 --
 ALTER TABLE `curso`
@@ -782,6 +830,19 @@ ALTER TABLE `classification__collection`
 --
 ALTER TABLE `classification__tag`
   ADD CONSTRAINT `FK_CA57A1C7E25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`);
+
+--
+-- Filtros para la tabla `concepto`
+--
+ALTER TABLE `concepto`
+  ADD CONSTRAINT `FK_648388D0A64A8A17` FOREIGN KEY (`tema_id`) REFERENCES `tema` (`id`);
+
+--
+-- Filtros para la tabla `concepto_dependencia`
+--
+ALTER TABLE `concepto_dependencia`
+  ADD CONSTRAINT `FK_11AE31AA5C6890AE` FOREIGN KEY (`sucesora_id`) REFERENCES `concepto` (`id`),
+  ADD CONSTRAINT `FK_11AE31AAC60169B7` FOREIGN KEY (`predecesora_id`) REFERENCES `concepto` (`id`);
 
 --
 -- Filtros para la tabla `curso`

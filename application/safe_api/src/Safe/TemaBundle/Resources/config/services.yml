@@ -5,6 +5,9 @@ services:
     safe_tema.service.tema:
         class: Safe\TemaBundle\Service\TemaService
         arguments: ["@safe_tema.repository.tema"]       
+    safe_tema.service.concepto:
+        class: Safe\TemaBundle\Service\ConceptoService
+        arguments: ["@safe_tema.repository.concepto"]       
 
     safe_tema.repository.tema:
         class: Doctrine\ORM\EntityRepository
@@ -12,9 +15,20 @@ services:
         factory_method: getRepository
         arguments:
             - Safe\TemaBundle\Entity\Tema
+    safe_tema.repository.concepto:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\TemaBundle\Entity\Concepto           
     safe_tema.form.type.identificador_tema:
         class: Safe\TemaBundle\Form\IdentificadorTemaType
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
           - {name: form.type, alias: 'identificador_tema'}
+    safe_tema.form.type.identificador_concepto:
+        class: Safe\TemaBundle\Form\IdentificadorConceptoType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+          - {name: form.type, alias: 'identificador_concepto'}
             

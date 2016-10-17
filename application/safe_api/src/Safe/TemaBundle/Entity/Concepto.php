@@ -3,6 +3,7 @@
 namespace Safe\TemaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 use JMS\Serializer\Annotation\ExclusionPolicy;
@@ -10,14 +11,14 @@ use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 
 /**
- * Tema
+ * Concepto
  *
- * @ORM\Table(name="tema")
+ * @ORM\Table(name="concepto")
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Entity(repositoryClass="Safe\TemaBundle\Repository\TemaRepository")
+ * @ORM\Entity(repositoryClass="Safe\TemaBundle\Repository\ConceptoRepository")
  * @ExclusionPolicy("all") 
  */
-class Tema
+class Concepto
 {
     /**
      * @var int
@@ -52,8 +53,7 @@ class Tema
      * @Expose
      */
     private $orden;
-        
-    
+
     /**
      * @var \DateTime
      *
@@ -61,7 +61,7 @@ class Tema
      * @Expose
      */
     private $fechaCreacion;
-    
+
     /**
      * @var \DateTime
      *
@@ -71,48 +71,41 @@ class Tema
     private $fechaModificacion;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Tema", inversedBy="sucesoras")
-     * @ORM\JoinTable(name="tema_dependencia",
+     * @var bool
+     *
+     * @ORM\Column(name="habilitado", type="boolean")
+     * @Expose
+     */
+    private $habilitado;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Concepto", inversedBy="sucesoras")
+     * @ORM\JoinTable(name="concepto_dependencia",
      *     joinColumns={@ORM\JoinColumn(name="sucesora_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="predecesora_id", referencedColumnName="id")}
      * )
      * @ORM\OrderBy({"orden" = "ASC"})
      * @Expose
-     * @Groups({"docente_tema_detalle"})
+     * @Groups({"docente_concepto_detalle"})
      */
     private $predecesoras;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="predecesoras")
+     * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Concepto", mappedBy="predecesoras")
      * @ORM\OrderBy({"orden" = "ASC"}) 
      * @Expose
-     * @Groups({"docente_tema_detalle"}) 
+     * @Groups({"docente_concepto_detalle"}) 
      */
     private $sucesoras;
-    
-    /**
-     *
-     * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\Concepto", mappedBy="tema")
-     * 
-     */
-    private $conceptos;
-    
-     /**
-     * @var boolean 
-     * @ORM\Column(name="habilitado", type="boolean")
-     * 
-     * @Expose
-     * 
-     */
-    private $habilitado;
-    
-    /**
-     *
-     * @ORM\ManyToOne(targetEntity="Safe\CursoBundle\Entity\Curso", inversedBy="items")
-     * @ORM\JoinColumn(name="curso_id", referencedColumnName="id", nullable=false)
-     */
-    private $curso;
 
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity="Safe\TemaBundle\Entity\Tema", inversedBy="conceptos")
+     * @ORM\JoinColumn(name="tema_id", referencedColumnName="id", nullable=false)
+     */
+    private $tema;
+    
     
     public function __construct()
     {
@@ -130,10 +123,11 @@ class Tema
     public function actualizarFechaModificacion() {
         $this->setFechaModificacion(new \DateTime());
     }
+    
     /**
      * Get id
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -144,7 +138,8 @@ class Tema
      * Set titulo
      *
      * @param string $titulo
-     * @return Tema
+     *
+     * @return Concepto
      */
     public function setTitulo($titulo)
     {
@@ -156,7 +151,7 @@ class Tema
     /**
      * Get titulo
      *
-     * @return string 
+     * @return string
      */
     public function getTitulo()
     {
@@ -167,7 +162,8 @@ class Tema
      * Set descripcion
      *
      * @param string $descripcion
-     * @return Tema
+     *
+     * @return Concepto
      */
     public function setDescripcion($descripcion)
     {
@@ -179,7 +175,7 @@ class Tema
     /**
      * Get descripcion
      *
-     * @return string 
+     * @return string
      */
     public function getDescripcion()
     {
@@ -190,7 +186,8 @@ class Tema
      * Set orden
      *
      * @param integer $orden
-     * @return Tema
+     *
+     * @return Concepto
      */
     public function setOrden($orden)
     {
@@ -202,78 +199,155 @@ class Tema
     /**
      * Get orden
      *
-     * @return integer 
+     * @return int
      */
     public function getOrden()
     {
         return $this->orden;
     }
-    
-    /**
-     * Get curso
-     *
-     * @return Curso 
-     */
-    function getCurso() {
-        return $this->curso;
-    }
 
     /**
-     * Set curso
+     * Set fechaCreacion
      *
-     * @param Curso $curso
-     * @return Curso
+     * @param \DateTime $fechaCreacion
+     *
+     * @return Concepto
      */
-    function setCurso($curso) {
-        $this->curso = $curso;
-    }
-    
-    function getPredecesoras() {
-        return $this->predecesoras;
+    public function setFechaCreacion($fechaCreacion)
+    {
+        $this->fechaCreacion = $fechaCreacion;
+
+        return $this;
     }
 
-    function getSucesoras() {
-        return $this->sucesoras;
-    }
-
-    function setPredecesoras($predecesoras) {
-        $this->predecesoras = $predecesoras;
-    }
-
-    function setSucesoras($sucesoras) {
-        $this->sucesoras = $sucesoras;
-    }
-    
-    function getFechaCreacion() {
+    /**
+     * Get fechaCreacion
+     *
+     * @return \DateTime
+     */
+    public function getFechaCreacion()
+    {
         return $this->fechaCreacion;
     }
 
-    function getFechaModificacion() {
+    /**
+     * Set fechaModificacion
+     *
+     * @param \DateTime $fechaModificacion
+     *
+     * @return Concepto
+     */
+    public function setFechaModificacion($fechaModificacion)
+    {
+        $this->fechaModificacion = $fechaModificacion;
+
+        return $this;
+    }
+
+    /**
+     * Get fechaModificacion
+     *
+     * @return \DateTime
+     */
+    public function getFechaModificacion()
+    {
         return $this->fechaModificacion;
     }
 
-    function setFechaCreacion(\DateTime $fechaCreacion) {
-        $this->fechaCreacion = $fechaCreacion;
+    /**
+     * Set habilitado
+     *
+     * @param boolean $habilitado
+     *
+     * @return Concepto
+     */
+    public function setHabilitado($habilitado)
+    {
+        $this->habilitado = $habilitado;
+
+        return $this;
     }
 
-    function setFechaModificacion(\DateTime $fechaModificacion) {
-        $this->fechaModificacion = $fechaModificacion;
-    }
-
-
-    function isHabilitado() {
+    /**
+     * Get habilitado
+     *
+     * @return bool
+     */
+    public function isHabilitado()
+    {
         return $this->habilitado;
     }
 
-    function setHabilitado($habilitado) {
-        $this->habilitado = $habilitado;
+    /**
+     * Set tema
+     *
+     * @param \stdClass $tema
+     *
+     * @return Concepto
+     */
+    public function setTema($tema)
+    {
+        $this->tema = $tema;
+
+        return $this;
     }
 
-    function getConceptos() {
-        return $this->conceptos;
+    /**
+     * Get tema
+     *
+     * @return \stdClass
+     */
+    public function getTema()
+    {
+        return $this->tema;
     }
 
-    function setConceptos($conceptos) {
-        $this->conceptos = $conceptos;
-    } 
+    /**
+     * Set sucesoras
+     *
+     * @param \stdClass $sucesoras
+     *
+     * @return Concepto
+     */
+    public function setSucesoras($sucesoras)
+    {
+        $this->sucesoras = $sucesoras;
+
+        return $this;
+    }
+
+    /**
+     * Get sucesoras
+     *
+     * @return \stdClass
+     */
+    public function getSucesoras()
+    {
+        return $this->sucesoras;
+    }
+
+    /**
+     * Set predecesoras
+     *
+     * @param \stdClass $predecesoras
+     *
+     * @return Concepto
+     */
+    public function setPredecesoras($predecesoras)
+    {
+        $this->predecesoras = $predecesoras;
+
+        return $this;
+    }
+
+    /**
+     * Get predecesoras
+     *
+     * @return \stdClass
+     */
+    public function getPredecesoras()
+    {
+        return $this->predecesoras;
+    }
 }
+

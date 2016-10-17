@@ -11,6 +11,9 @@ services:
     safe_docente.service.tema_impartido:
         class: Safe\DocenteBundle\Service\TemaImpartidoService
         arguments: ["@safe_tema.repository.tema"]       
+    safe_docente.service.concepto_impartido:
+        class: Safe\DocenteBundle\Service\ConceptoImpartidoService
+        arguments: ["@safe_tema.repository.concepto"]               
     safe_docente.repository.docente:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager
@@ -22,8 +25,13 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
           - {name: form.type, alias: 'identificador_docente'}
-    safe_docente.form.type.registracion.curso:
+    safe_docente.form.type.registracion.tema:
             class: Safe\DocenteBundle\Form\RegistracionTemaType
             arguments: ["@doctrine.orm.entity_manager"]
             tags:
                 - { name: form.type }
+    safe_docente.form.type.registracion.concepto:
+            class: Safe\DocenteBundle\Form\RegistracionConceptoType
+            arguments: ["@doctrine.orm.entity_manager"]
+            tags:
+                - { name: form.type }            
