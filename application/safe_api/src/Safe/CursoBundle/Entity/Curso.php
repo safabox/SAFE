@@ -52,7 +52,6 @@ class Curso
      *
      * @ORM\Column(name="descripcion", type="text", nullable=true)     
      * @Expose
-     * @Groups({"admin_detalle"}) 
      */
     private $descripcion;
 
