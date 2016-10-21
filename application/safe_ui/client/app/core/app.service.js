@@ -57,7 +57,7 @@
             isAlumno: isAlumno,
             isDocente: isDocente,
             isAdmin: isAdmin,
-            getUserCurrent: getUserCurrent,
+            getUserCurrentDoc: getUserCurrentDoc,
         }
         function isAlumno() {
             return tieneRol(["ROLE_ALUMNO"]);
@@ -69,7 +69,7 @@
             return tieneRol(["ROLE_SUPER_ADMIN", "ROLE_ADMIN"]);
         }
         
-        function iniciar(username, token, roles) {
+        function iniciar(username, token, roles, idDocente, idAlumno) {
             var tokenPayload = jwtHelper.decodeToken(token);
             
             reset();
@@ -77,7 +77,8 @@
             $localStorage.usuarioSafe.username = username;
             $localStorage.usuarioSafe.token = token;
             $localStorage.usuarioSafe.autenticado = true;
-            $localStorage.usuarioSafe.userId = 1;
+            $localStorage.usuarioSafe.idDocente = idDocente;
+            $localStorage.usuarioSafe.idAlumno = idAlumno;
             agregarRoles(roles);
         }
         
@@ -116,8 +117,8 @@
             return false;
         }
         
-        function getUserCurrent(){
-            return $localStorage.usuarioSafe.userId;
+        function getUserCurrentDoc(){
+            return $localStorage.usuarioSafe.idDocente;
         }
     }
 

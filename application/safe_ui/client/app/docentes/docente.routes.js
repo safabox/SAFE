@@ -61,6 +61,26 @@
                     controllerAs: 'vm',    
                     params: {error: null}
                 }
+            }, 
+            
+            {
+                state: 'docente.cursos.actividad',
+                config: {
+                    abstract: true,
+                    url: '',
+                    template: '<ui-view/>'
+                }
+            },              
+            {
+                state: 'docente.cursos.actividad.edit',
+                config: {
+                    url: '/cursos/actividad/:id',
+                    templateUrl: path + 'app/docentes/cursos/docente.cursos.actividad.html',
+                    roles: ["ROLE_DOCENTE"],
+                    controller: 'ActividadCursosEdit',
+                    controllerAs: 'vm',    
+                    params: {error: null}
+                }
             },  
         ];
     }

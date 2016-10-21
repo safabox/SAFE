@@ -15,7 +15,7 @@
             AutorizacionService.login(vm.username, vm.password).then(onSuccess, onError);
 
             function onSuccess(response) {
-                UsuarioService.iniciar(vm.username, response.data.token, response.data.roles);
+                UsuarioService.iniciar(vm.username, response.data.token, response.data.roles, response.data.idDocente, response.data.idAlumno);
                 defered.resolve(UsuarioService);
                 $state.go(PaginaService.getInicio());
             }

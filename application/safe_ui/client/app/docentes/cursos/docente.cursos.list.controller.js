@@ -27,7 +27,7 @@
                 .then(onLoadComplete);
 
             function getCursos(){
-                var cursos = DocenteCursos.one(UsuarioService.getUserCurrent());
+                var cursos = DocenteCursos.one(UsuarioService.getUserCurrentDoc());
                 return cursos.getList('cursos').then(onSuccess, onError);
 
                 function onSuccess(response) {            
