@@ -51,8 +51,47 @@
                                         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupDocentes.isOpen, 'glyphicon-chevron-right': !vm.groupDocentes.isOpen}"></i>
                                     </div>
                                 </uib-accordion-heading>
+                                
+                                <div class="row top-buffer">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-warning" role="alert" data-ng-if="vm.noDataDocentes">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen docentes cargados
+                                        </div>
+                                    </div>
+                                </div>
 
-
+                                <div data-ng-if="vm.docentes.length > 0">
+                                    <table data-ng-table="vm.docentesTableParams" class="table table-responsive table-condensed table-hover table-striped">
+                                        <tr ng-repeat="docente in $data">
+                                            <td class="col-md-3" data-title="'Legajo'" header-class="'text-left'">
+                                                <div class="form-group col-md-12">
+                                                    {{docente.legajo}}
+                                                </div>
+                                            </td>                                           
+                                            <td class="col-md-7" data-title="'Apellido y Nombre'" header-class="'text-left'">
+                                                <div class="form-group col-md-12">
+                                                    {{docente.usuario.apellido}}, {{docente.usuario.nombre}}
+                                                </div>
+                                            </td>    
+                                            <td class="col-md-2" data-title="'Acciones'">
+                                               <div class="form-group col-md-12" header-class="'text-right'">
+                                                   <button type="button" class="btn btn-sm" aria-label="Eliminar" data-ng-click="vm.eliminarDocente($index)">
+                                                       <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                   </button>
+                                               </div>
+                                           </td>                                       
+                                        </tr>
+                                    </table>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-info btn-sm pull-left" aria-label="Agregar" data-ng-click="vm.agregarDocente()">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar
+                                        </button>
+                                    </div>
+                                </div>                                
+                                
                             </uib-accordion-group>
                         </uib-accordion>
                     </div>
