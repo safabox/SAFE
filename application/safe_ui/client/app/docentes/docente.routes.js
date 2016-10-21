@@ -31,7 +31,26 @@
                     roles: ["ROLE_DOCENTE"],
                     params: {error: null}
                 }
-            }
+            },
+            {
+                state: 'docente.cursos',
+                config: {
+                    abstract: true,
+                    url: '',
+                    template: '<ui-view/>'
+                }
+            },  
+            {
+                state: 'docente.cursos.list',
+                config: {
+                    url: '/cursos',
+                    templateUrl: path + 'app/docente/cursos/docente.cursos.list.html',                  
+                    roles: ["ROLE_DOCENTE"],
+                    controller: 'DocenteCursosCtrl',
+                    controllerAs: 'vm',    
+                    params: {error: null}
+                }
+            },  
         ];
     }
     
