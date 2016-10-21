@@ -1,7 +1,7 @@
 <div class="row">
     
     <div class="col-md-12">
-        <pre ng-if="vm.debug" style="max-height: 200px; overflow: scroll;">{{vm | json }}</pre>
+        <pre ng-if="vm.debug" style="max-height: 200px; overflow: scroll;">{{vm.model | json }}</pre>
     </div>
     <div class="col-md-12">
         <div ng-switch="vm.model.tipo">
@@ -17,18 +17,18 @@
                 </div>
                 
                 <div class="form-group" >
-                    <label class="col-md-2 control-label" for="pregunta">Multiple Choice Opciones: </label>
-                    <div class="col-md-5 alert alert-warning" role="alert" data-ng-if="vm.model.respuestas.length === 0">
+                    <label class="col-md-2 control-label" for="pregunta">Respuestas: </label>
+                    <div style="margin-left: 15px;" class="col-md-5 alert alert-warning" role="alert" data-ng-if="vm.model.respuestas.length === 0">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen Respuestas cargadas
                     </div>
                     <div data-ng-if="vm.model.respuestas.length > 0">
                         <div class="col-md-10" >
                             <table data-ng-table="vm.respuestasTableParams" class="table table-responsive table-condensed table-hover table-striped">
                                 <tr ng-repeat="respuesta in $data">
-                                    <td class="col-md-5" data-title="'Respuestas'" header-class="'text-left'">
+                                    <td class="col-md-10" data-title="'Respuestas'" header-class="'text-left'">
                                         <input class="form-control" type="text" ng-model="respuesta.texto"  required />
                                     </td>
-                                    <td data-title="'Acciones'" header-class="'text-left'">
+                                    <td data-title="'Acciones'" header-class="'text-left'">                          
                                         <button type="button" ng-if="!vm.readOnly" class="btn" aria-label="Eliminar" data-ng-click="vm.eliminarRespuesta($index)" >
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                         </button>
@@ -37,10 +37,31 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-md-12" >
-                        <button type="button" class="btn btn-info btn-sm pull-right" aria-label="Agregar" ng-click="vm.agregarRespuesta()">
+                    <div class="col-md-offset-2 col-md-10" >
+                        <button type="button" class="btn btn-info btn-sm pull-left" aria-label="Agregar" ng-click="vm.agregarRespuesta()">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar
                         </button>
+                    </div>
+                </div>
+
+                <div class="form-group" >
+                    <label class="col-md-2 control-label" for="pregunta">Seleccionar Correcta: </label>
+                    <div style="margin-left: 15px;" class="col-md-5 alert alert-warning" role="alert" data-ng-if="vm.model.respuestas.length === 0">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen Respuestas cargadas
+                    </div>
+                    <div data-ng-if="vm.model.respuestas.length > 0">
+                        <div class="col-md-10" >
+                            <table data-ng-table="vm.respuestasTableParams" class="table table-responsive table-condensed table-hover table-striped">
+                                <tr ng-repeat="respuesta in $data">
+                                    <td class="col-md-10" data-title="'Respuestas'" header-class="'text-left'">
+                                        <input class="form-control" type="text" ng-model="respuesta.texto"  ng-disabled="true" />
+                                    </td>
+                                    <td data-title="'Acciones'" header-class="'text-left'">                          
+                                        <input type="checkbox" ng-model="respuesta.correcta" required />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 
