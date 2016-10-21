@@ -14,6 +14,7 @@
     "angular-translate": "~2.11.0",
     "angular-translate-loader-static-files": "~2.11.0",
     "angular-loading-bar": "~0.9.0",
+    "angular-jwt": "~0.1.6",
     "ng-table": "~1.0.0",
     "toastr": "~2.1.0",
     "textAngular": "~1.5.0",
