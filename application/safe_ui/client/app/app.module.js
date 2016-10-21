@@ -36,7 +36,9 @@
         'app.administrador',
         'app.administrador.alumnos',
         'app.administrador.docentes',
-        'app.administrador.cursos'
+        'app.administrador.cursos',
+        'app.alumno',
+        'app.docente'
         //'app.table',
         //'app.task',
         //'app.calendar'

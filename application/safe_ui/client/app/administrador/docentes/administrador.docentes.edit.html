@@ -130,14 +130,18 @@
                                                     #
                                                 </div></th>
                                                 <th><div class="th">
-                                                    Nombre 
+                                                    Título 
+                                                </div></th>
+                                                <th><div class="th">
+                                                    Descripción 
                                                 </div></th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="curso in vm.cursos" >
+                                            <tr ng-repeat="curso in vm.docente.cursos" >
                                                 <td class="text-center">{{curso.id}}</td>
-                                                <td class="text-center">{{curso.nombre}}</td>
+                                                <td class="text-center">{{curso.titulo}}</td>
+                                                <td class="text-center">{{curso.descripcion}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

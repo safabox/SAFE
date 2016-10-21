@@ -23,20 +23,16 @@
         </li>
         
         <li ng-show="menuAlumno" > 
-            <a href="#/ui"><i class="glyphicon glyphicon-list-alt"></i><span data-translate="Administración"></span></a>
+            <a href="#/"><i class="glyphicon glyphicon-list-alt"></i><span data-translate="Alumno"></span></a>
             <ul>
-                <li><a href="#/ui/buttons"><i class="fa fa-caret-right"></i><span data-translate="Alumnos"></span></a></li>
-                <li><a href="#/ui/typography"><i class="fa fa-caret-right"></i><span data-translate="Docentes"></span></a></li>
-                <li><a href="#/ui/icons"><i class="fa fa-caret-right"></i><span data-translate="Cursos"></span></a></li>
+                <li><a data-ui-sref="alumno.cursos.list" href=""><i class="fa fa-caret-right"></i><span data-translate="Cursos"></span></a></li>
             </ul>
         </li>
         
         <li ng-show="menuDocente" > 
-            <a href="#/ui"><i class="glyphicon glyphicon-list-alt"></i><span data-translate="Administración"></span></a>
+            <a href="#/"><i class="glyphicon glyphicon-list-alt"></i><span data-translate="Docente"></span></a>
             <ul>
-                <li><a href="#/ui/buttons"><i class="fa fa-caret-right"></i><span data-translate="Alumnos"></span></a></li>
-                <li><a href="#/ui/typography"><i class="fa fa-caret-right"></i><span data-translate="Docentes"></span></a></li>
-                <li><a href="#/ui/icons"><i class="fa fa-caret-right"></i><span data-translate="Cursos"></span></a></li>
+                <li><a data-ui-sref="docente.cursos.list" href=""><i class="fa fa-caret-right"></i><span data-translate="Cursos"></span></a></li>    
             </ul>
         </li>
         
