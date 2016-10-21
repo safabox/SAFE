@@ -80,12 +80,12 @@
                                         <tr ng-repeat="alumno in $data">
                                             <td class="col-md-3" data-title="'Legajo'" header-class="'text-left'">
                                                 <div class="form-group col-md-12">
-                                                    <h5>{{alumno.legajo}}</h5>
+                                                    {{alumno.legajo}}
                                                 </div>
                                             </td>                                           
                                             <td class="col-md-7" data-title="'Apellido y Nombre'" header-class="'text-left'">
                                                 <div class="form-group col-md-12">
-                                                    <h5>{{alumno.apellido}}, {{alumno.nombre}}</h5>
+                                                    {{alumno.usuario.apellido}}, {{alumno.usuario.nombre}}
                                                 </div>
                                             </td>    
                                             <td class="col-md-2" data-title="'Acciones'">

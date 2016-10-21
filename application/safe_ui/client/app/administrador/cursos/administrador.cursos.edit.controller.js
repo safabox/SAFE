@@ -4,9 +4,9 @@
     angular.module('app.administrador.cursos')
         .controller('AdministradorCursosEdit', controller);
 
-    controller.$inject = ['$q', 'AdminCursos', '$state', 'logger', 'debugModeEnabled', '$stateParams', 'NgTableParams', 'SeleccionarAlumnosPopup']; 
+    controller.$inject = ['_', '$q', 'AdminCursos', '$state', 'logger', 'debugModeEnabled', '$stateParams', 'NgTableParams', 'SeleccionarAlumnosPopup']; 
     
-    function controller($q, AdminCursos, $state, logger, debugModeEnabled, $stateParams, NgTableParams, SeleccionarAlumnosPopup) {
+    function controller(_, $q, AdminCursos, $state, logger, debugModeEnabled, $stateParams, NgTableParams, SeleccionarAlumnosPopup) {
         
         var vm = this;
         vm.loading = true;
@@ -15,7 +15,7 @@
         vm.noDataAlumnos = true;
         
         vm.agregarAlumno = agregarAlumno;
-        vm.eliminarAlumno = eliminarAlumno;
+        vm.eliminarAlumno = eliminarAlumno;        
         vm.cancel = cancel;
         vm.groupInfoGral = { isOpen: true };
         vm.groupDocentes = { isOpen: true };
@@ -74,7 +74,7 @@
                     return AdminCursos.one($stateParams.id).getList('alumnos').then(onSuccess, onError);
 
                     function onSuccess(response) {            
-                        vm.alumnos = response.plain();     
+                        vm.alumnos = response.plain();   
                     }        
                     function onError(httpResponse) {
                         logger.error('No se pudo obtener los alumnos del curso', httpResponse);
@@ -87,7 +87,7 @@
                     if (vm.editMode){
                         setTitle();
                         vm.cantidadAlumnos = _.size(vm.alumnos);                
-                        if(vm.cantidadAlumnos !== 0) vm.noDataAlumnos = false;   
+                        if(vm.cantidadAlumnos !== 0) vm.noDataAlumnos = false;  
                     }
                     else{
                         vm.curso = '';
@@ -123,7 +123,7 @@
                     result.push({
                         id: alumno.id,
                     });
-                });
+                }); 
                 return result;
             }
 
@@ -138,11 +138,16 @@
                         return {
                             id: alumno.id,
                             legajo: alumno.legajo,
-                            nombre: alumno.usuario.nombre,
-                            apellido: alumno.usuario.apellido,
+                            usuario: {
+                                nombre: alumno.usuario.nombre,
+                                apellido: alumno.usuario.apellido,
+                            }
                         };
                     }
                 }
+                
+                vm.cantidadAlumnos = _.size(vm.alumnos);                
+                if(vm.cantidadAlumnos !== 0) vm.noDataAlumnos = false;                   
             }
         }
         
@@ -155,18 +160,25 @@
         vm.guardar = guardar;
         function guardar() {
             
+            var cursoPatch =
+            {
+                'titulo':  vm.curso.titulo,
+                'descripcion': vm.curso.descripcion,
+                'docentes': [],
+                'alumnos': [],
+            };
+
+            _.forEach(vm.alumnos, guardarAlumnos);
+            function guardarAlumnos(alumno) {
+                cursoPatch.alumnos.push(alumno.id);
+            }
+            
             if (vm.editMode) {   
+                var curso = AdminCursos.one($stateParams.id);                
+                curso.patch(cursoPatch).then(onSuccess,onError);
                 
-                var cursoPut =
-                {
-                    'titulo':  vm.curso.titulo,
-                    'descripcion': vm.curso.descripcion                    
-                };
-                
-                var curso = AdminCursos.one($stateParams.id);
-                curso.customPUT(cursoPut).then(onSuccess,onError);
             }else{
-                AdminCursos.post(vm.curso).then(onSuccess,onError);
+                AdminCursos.post(cursoPatch).then(onSuccess,onError);
             }
             
             function onSuccess() {
