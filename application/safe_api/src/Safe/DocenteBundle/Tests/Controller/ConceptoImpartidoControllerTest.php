@@ -120,8 +120,8 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $response = $cliente->getResponse();
         $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
         $concepto = $this->getConcepto($conceptoId);
-        $this->assertNotEquals($conceptoAActualizar['titulo'], $concepto->getTitulo());
-        $this->assertNotEquals($conceptoAActualizar['descripcion'], $concepto->getDescripcion());
+        $this->assertEquals($conceptoAActualizar['titulo'], $concepto->getTitulo());
+        $this->assertEquals($conceptoAActualizar['descripcion'], $concepto->getDescripcion());
         
         $this->assertEquals(1, $concepto->getPredecesoras()->count());        
         $predecesora = $concepto->getPredecesoras()->get(0);
@@ -156,8 +156,8 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $response = $cliente->getResponse();
         $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
         $concepto = $this->getConcepto($conceptoId);
-        $this->assertNotEquals($conceptoAActualizar['titulo'], $concepto->getTitulo());
-        $this->assertNotEquals($conceptoAActualizar['descripcion'], $concepto->getDescripcion());
+        $this->assertEquals($conceptoAActualizar['titulo'], $concepto->getTitulo());
+        $this->assertEquals($conceptoAActualizar['descripcion'], $concepto->getDescripcion());
         
         $this->assertEquals(1, $concepto->getPredecesoras()->count());        
         $predecesora = $concepto->getPredecesoras()->get(0);
@@ -216,10 +216,12 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
     }
     
     protected function getConcepto($id) {
-        return $this->em
+        $concepto =  $this->em
             ->getRepository('SafeTemaBundle:Concepto')
             ->find($id)
         ;
+        $this->em->detach($concepto);
+        return $concepto;
     }
     
     

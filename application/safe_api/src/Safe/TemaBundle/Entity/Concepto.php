@@ -98,6 +98,12 @@ class Concepto
      */
     private $sucesoras;
 
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\Actividad", mappedBy="concepto")
+     * 
+     */
+    private $actividades;
 
     /**
      *
@@ -109,6 +115,7 @@ class Concepto
     
     public function __construct()
     {
+        $this->actividades = new ArrayCollection();
         $this->predecesoras = new ArrayCollection();
         $this->sucesoras = new ArrayCollection();
         $this->setFechaCreacion(new \DateTime());
@@ -349,5 +356,15 @@ class Concepto
     {
         return $this->predecesoras;
     }
+    
+    function getActividades() {
+        return $this->actividades;
+    }
+
+    function setActividades($actividades) {
+        $this->actividades = $actividades;
+    }
+
+
 }
 

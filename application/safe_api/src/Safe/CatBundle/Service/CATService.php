@@ -47,6 +47,10 @@ class CATService {
         return $this->itemBankRepository->findOneByCode($code);
     }
     
+    public function getItemByCode($code) {
+        return $this->itemRepository->findOneByCode($code);
+    }
+    
     public function findAllExaminees($limit = null, $offset = null) {
         return $this->examineeRepository->findBy(array(), null, $limit, $offset);
     }

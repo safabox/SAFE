@@ -15,7 +15,7 @@ class ConceptoService {
         return $this->conceptoRepository->crearOActualizar($concepto);
     }
     
-    public function findAll($temaId, $limit = 10, $offset = 0) {
+    public function findAll($temaId, $limit, $offset = 0) {
         return $this->conceptoRepository->findBy(array('tema' => $temaId), null, $limit, $offset);
     }
         

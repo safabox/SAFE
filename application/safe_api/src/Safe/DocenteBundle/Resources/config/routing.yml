@@ -18,4 +18,9 @@ safe_docente_curso_tema_concepto:
     parent:   safe_docente_curso_tema
     resource: "Safe\DocenteBundle\Controller\ConceptoImpartidoController"
     name_prefix:  api_1_docentes_cursos_temas_conceptos # naming collision
+safe_docente_curso_tema_concepto_actividad:
+    type: rest
+    parent:   safe_docente_curso_tema_concepto
+    resource: "Safe\DocenteBundle\Controller\ActividadImpartidaController"
+    name_prefix:  api_1_docentes_cursos_temas_conceptos_actividades # naming collision
     

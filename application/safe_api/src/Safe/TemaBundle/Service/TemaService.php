@@ -15,7 +15,7 @@ class TemaService {
         return $this->temaRepository->crearOActualizar($tema);
     }
     
-    public function findAll($cursoId, $limit = 10, $offset = 0) {
+    public function findAll($cursoId, $limit, $offset = 0) {
         return $this->temaRepository->findBy(array('curso' => $cursoId), null, $limit, $offset);
     }
         

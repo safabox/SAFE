@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 17-10-2016 a las 03:41:28
+-- Tiempo de generación: 21-10-2016 a las 02:44:25
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -19,6 +19,23 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `safe_db`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `actividad`
+--
+
+CREATE TABLE `actividad` (
+  `id` int(11) NOT NULL,
+  `concepto_id` int(11) NOT NULL,
+  `titulo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` longtext COLLATE utf8mb4_unicode_ci,
+  `ejercicio` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json)',
+  `habilitado` tinyint(1) NOT NULL,
+  `fechaCreacion` datetime DEFAULT NULL,
+  `fechaModificacion` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -277,6 +294,14 @@ CREATE TABLE `curso_docente` (
   `docente_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `curso_docente`
+--
+
+INSERT INTO `curso_docente` (`curso_id`, `docente_id`) VALUES
+(4, 6),
+(5, 6);
+
 -- --------------------------------------------------------
 
 --
@@ -468,7 +493,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `apellido`, `avatar`, `tipo_documento_id`, `numero_documento`, `genero`, `nacionalidad`) VALUES
-(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-10-15 00:37:22', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL),
+(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-10-21 02:28:54', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL),
 (14, 'alumno10', 'alumno10', 'alumno10@asdf.com', 'alumno10@asdf.com', 0, '95k7ar66q0ow8gscgw4wcss0sk4c8gg', 'OyAMZvesPQMpaGy7KZV1DdcR8yy3O8bNOADSoYukr5EyO662tmSNoHbSpAp5Lpt2HGo2fxB8VJhzV1iYMSWV/g==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'alumno10', 'apellido10', NULL, 1, '290001111', 'Masculino', NULL),
 (15, 'usuario11', 'usuario11', 'usuario11@asd.com', 'usuario11@asd.com', 0, '116kmbor3e1w4os80k4wcso40coogo8', 'bDnIvTx1Bb3pNOl2HpMUql8fxsz1MyNj2dOhXBtb5UVqPCz5E36B36AzGihlAsvLDI1p0MpPO+n3KUprV5/2rw==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'Docente11', 'Apellido11', NULL, 1, '30444711', 'Masculino', NULL),
 (16, 'usuario12', 'usuario12', 'test@test.com', 'test@test.com', 0, 'm52rvfamzj4koks40kgw4ggokccwc44', 'd2QeGc9fYlVIY7H/1lUEaP3xySPwCTCvXtXFtG+I9+TMtkmaLLgyNays1pS4jBlK9Bhqz6FNOKXQ/Vw/LP89cg==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'alumno12', 'apellido12', NULL, 1, '30444712', 'Masculino', NULL);
@@ -476,6 +501,13 @@ INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_c
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `actividad`
+--
+ALTER TABLE `actividad`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_8DF2BD066C2330BD` (`concepto_id`);
 
 --
 -- Indices de la tabla `alumno`
@@ -674,6 +706,11 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `actividad`
+--
+ALTER TABLE `actividad`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `alumno`
 --
 ALTER TABLE `alumno`
@@ -776,6 +813,12 @@ ALTER TABLE `usuario`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `actividad`
+--
+ALTER TABLE `actividad`
+  ADD CONSTRAINT `FK_8DF2BD066C2330BD` FOREIGN KEY (`concepto_id`) REFERENCES `concepto` (`id`);
 
 --
 -- Filtros para la tabla `alumno`

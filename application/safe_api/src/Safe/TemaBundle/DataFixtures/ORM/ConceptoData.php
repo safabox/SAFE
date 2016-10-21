@@ -62,11 +62,11 @@ class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush();
 
-        $this->addReference('curso-matematicas-tema1-tema1-concepto1', $concepto1);
-        $this->addReference('curso-matematicas-tema1-tema1-concepto2', $concepto2);
-        $this->addReference('curso-matematicas-tema1-tema1-concepto3', $concepto3);
-        $this->addReference('curso-matematicas-tema1-tema1-concepto4', $concepto4);
-        $this->addReference('curso-matematicas-tema1-tema1-concepto5', $concepto5);
+        $this->addReference('curso-matematicas-tema1-concepto1', $concepto1);
+        $this->addReference('curso-matematicas-tema1-concepto2', $concepto2);
+        $this->addReference('curso-matematicas-tema1-concepto3', $concepto3);
+        $this->addReference('curso-matematicas-tema1-concepto4', $concepto4);
+        $this->addReference('curso-matematicas-tema1-concepto5', $concepto5);
         
     }
 

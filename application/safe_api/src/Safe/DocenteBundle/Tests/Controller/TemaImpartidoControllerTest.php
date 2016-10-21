@@ -114,8 +114,8 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $response = $cliente->getResponse();
         $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
         $tema = $this->getTema($temaId);
-        $this->assertNotEquals($temaAActualizar['titulo'], $tema->getTitulo());
-        $this->assertNotEquals($temaAActualizar['descripcion'], $tema->getDescripcion());
+        $this->assertEquals($temaAActualizar['titulo'], $tema->getTitulo());
+        $this->assertEquals($temaAActualizar['descripcion'], $tema->getDescripcion());
         
         $this->assertEquals(1, $tema->getPredecesoras()->count());        
         $predecesora = $tema->getPredecesoras()->get(0);
@@ -149,8 +149,8 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $response = $cliente->getResponse();
         $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
         $tema = $this->getTema($temaId);
-        $this->assertNotEquals($temaAActualizar['titulo'], $tema->getTitulo());
-        $this->assertNotEquals($temaAActualizar['descripcion'], $tema->getDescripcion());
+        $this->assertEquals($temaAActualizar['titulo'], $tema->getTitulo());
+        $this->assertEquals($temaAActualizar['descripcion'], $tema->getDescripcion());
         
         $this->assertEquals(1, $tema->getPredecesoras()->count());        
         $predecesora = $tema->getPredecesoras()->get(0);
@@ -209,10 +209,12 @@ class TemaImpartidoControllerTest extends SafeTestController {
     }
     
     protected function getTema($id) {
-        return $this->em
+        $tema = $this->em
             ->getRepository('SafeTemaBundle:Tema')
             ->find($id)
         ;
+        $this->em->detach($tema);
+        return $tema;
     }
     
     protected function getCurso($id) {
