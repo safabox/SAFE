@@ -7,6 +7,7 @@
         'ngAnimate',
         'ngAria',
         'ngMessages',
+        'ngTable',
         'ui.bootstrap.showErrors',
         'ui.validate',
 
@@ -34,7 +35,8 @@
         'app.page',
         'app.administrador',
         'app.administrador.alumnos',
-        'app.administrador.docentes'
+        'app.administrador.docentes',
+        'app.administrador.cursos'
         //'app.table',
         //'app.task',
         //'app.calendar'
