@@ -20,6 +20,7 @@ class TemaData extends AbstractFixture implements OrderedFixtureInterface
         $tema1->setDescripcion("descripcion del primer Tema");
         $tema1->setCurso($this->getReference('curso-matematicas'));
         $tema1->setOrden(1);
+        $tema1->setHabilitado(true);
         $manager->persist($tema1);
 
         $tema2 = new Tema();
@@ -28,6 +29,7 @@ class TemaData extends AbstractFixture implements OrderedFixtureInterface
         $tema2->setCurso($this->getReference('curso-matematicas'));
         $tema2->getPredecesoras()->add($tema1);
         $tema2->setOrden(1);
+        $tema2->setHabilitado(true);
         $manager->persist($tema2);
         
         $tema3 = new Tema();
@@ -36,6 +38,7 @@ class TemaData extends AbstractFixture implements OrderedFixtureInterface
         $tema3->setCurso($this->getReference('curso-matematicas'));
         $tema3->getPredecesoras()->add($tema1);
         $tema3->setOrden(1);
+        $tema3->setHabilitado(true);
         $manager->persist($tema3);
 
         
@@ -46,6 +49,7 @@ class TemaData extends AbstractFixture implements OrderedFixtureInterface
         $tema4->getPredecesoras()->add($tema2);
         $tema4->getPredecesoras()->add($tema3);
         $tema4->setOrden(1);
+        $tema4->setHabilitado(true);
         $manager->persist($tema4);
         
         $tema5 = new Tema();
@@ -53,6 +57,7 @@ class TemaData extends AbstractFixture implements OrderedFixtureInterface
         $tema5->setDescripcion("descripcion del 5 Tema");
         $tema5->setCurso($this->getReference('curso-matematicas'));
         $tema5->setOrden(1);
+        $tema5->setHabilitado(true);
         $manager->persist($tema5);
 
         $manager->flush();

@@ -15,16 +15,16 @@ use Safe\CoreBundle\Http\HttpMethod;
 
 use Safe\CoreBundle\Controller\SafeRestAbstractController;
 
-use Safe\TemaBundle\Entity\Tema;
-use Safe\DocenteBundle\Form\RegistracionTemaType;
+use Safe\TemaBundle\Entity\Concepto;
+use Safe\DocenteBundle\Form\RegistracionConceptoType;
 use Doctrine\Common\Util\Debug;
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
-class TemaImpartidoController extends SafeRestAbstractController {
+class ConceptoImpartidoController extends SafeRestAbstractController {
     /**
-     * Lista todos los temas impartidos por el docente.
+     * Lista todos los conceptos impartidos por el docente.
      *
      * @ApiDoc(
-     *   output = "array<Safe\TemaBundle\Entity\Tema>",
+     *   output = "array<Safe\TemaBundle\Entity\Concepto>",
      *   statusCodes = {
      *     200 = "Petición resuelta correctamente"
      *   }
@@ -42,59 +42,61 @@ class TemaImpartidoController extends SafeRestAbstractController {
      *
      * @return array
      */
-    public function getTemasAction($docenteId, $cursoId, ParamFetcherInterface $paramFetcher)
+    public function getConceptosAction($docenteId, $cursoId, $temaId, ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
         
-        return $this->generarRespuesta($this->getTemaImpartidoService()->findAll($cursoId, $limit, $offset),
+        return $this->generarRespuesta($this->getConceptoImpartidoService()->findAll($temaId, $limit, $offset),
                 Response::HTTP_OK,
                 array('Default'));
     } 
     
     /**
-     * Obtiene el detalle del tema impartido por el docente.
+     * Obtiene el detalle del concepto impartido por el docente.
      *
      * @ApiDoc(
-     *   output = "Safe\TemaBundle\Entity\Tema",
+     *   output = "Safe\TemaBundle\Entity\Concepto",
      *   statusCodes = {
      *     200 = "Petición resuelta correctamente",
-     *     404 = "Tema no econtrado"
+     *     404 = "Concepto no econtrado"
      *   }
      * )
      *
      * @Annotations\View(templateVar="page")
      *
+     * @param int     $docenteId      id del docente.
+     * @param int     $cursoId      id del curso.
      * @param int     $temaId      id del tema.
-     * @param int     $id      id del tema.
+     * @param int     $conceptoId      id del concepto. 
      *
      * @return object
      *
      * @throws NotFoundHttpException cuando no existe el tema.
      */
-    public function getTemaAction($docenteId, $cursoId, $temaId)
+    public function getConceptoAction($docenteId, $cursoId, $temaId, $conceptoId)
     {      
-        return $this->generarRespuesta($this->getTemaImpartidoService()->getById($temaId),
+        return $this->generarRespuesta($this->getConceptoImpartidoService()->getById($conceptoId),
                 Response::HTTP_OK,
-                array('Default', 'docente_tema_detalle'));
+                array('Default', 'docente_concepto_detalle'));
     }
     
     /**
-     * Crea un nuevo tema.
+     * Crea un nuevo concepto.
      * 
      * #### Ejemplo del Request     
      * ```
      * {
      *   "titulo" : "Suma",
-     *   "descripcion" : "<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>" ,
+     *   "descripcion" : "sumar numeros" ,
      *   "orden:" 1,
      *   "predecesoras": ["13"],
      *   "sucesoras": ["9", "10"]
      *  }
      * ```
      * @ApiDoc(          
-     *   output="Safe\TemaBundle\Entity\Tema",
+     *   output="Safe\TemaBundle\Entity\Concepto",
      *   statusCodes = {
      *     204 = "Entidad creadad correctamente",
      *     400 = "Hubo un error al crear la entidad"
@@ -104,29 +106,30 @@ class TemaImpartidoController extends SafeRestAbstractController {
      * @param Request $request the request object
      *     
      */
-    public function postTemaAction(Request $request, $docenteId, $cursoId) { 
+    public function postConceptoAction(Request $request, $docenteId, $cursoId, $temaId) { 
        //TODO SECURITY
-        $tema = new Tema();
-        $curso = $this->getCursoService()->getById($cursoId);
-        $tema->setCurso($curso);
-        return $this->procesarRequest($request, RegistracionTemaType::class, $tema, HttpMethod::POST);        
+        $concepto = new Concepto();
+        $tema = $this->getTemaService()->getById($temaId);
+        $concepto->setTema($tema);
+        return $this->procesarRequest($request, RegistracionConceptoType::class, $concepto, HttpMethod::POST);        
+        
     }
     
     /**
-     * Actualiza un tema.
+     * Actualiza un concepto
      * 
      * #### Ejemplo del Request     
      * ```
      * {
      *   "titulo" : "Suma",
-     *   "descripcion" : "<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>" ,
+     *   "descripcion" : "Suma 2 numeros" ,
      *   "orden:" 1,
      *   "predecesoras": ["13"],
      *   "sucesoras": ["9", "10"]
      *  }
      * ```
      * @ApiDoc(          
-     *   output="Safe\TemaBundle\Entity\Tema",
+     *   output="Safe\TemaBundle\Entity\Concepto",
      *   statusCodes = {
      *     204 = "Entidad creadad correctamente",
      *     400 = "Hubo un error al crear la entidad"
@@ -136,41 +139,41 @@ class TemaImpartidoController extends SafeRestAbstractController {
      * @param Request $request the request object
      *     
      */
-    public function putTemaAction(Request $request, $docenteId, $cursoId, $temaId) {                
+    public function putConceptoAction(Request $request, $docenteId, $cursoId, $temaId, $conceptoId) {                
         //TODO SECURITY
-        $tema = $this->getTemaImpartidoService()->getById($temaId);            
-        if ($tema == null) {                      
-            throw  $this->createNotFoundException("temaBundle.tema.no_encontrado");
+        $concepto = $this->getConceptoImpartidoService()->getById($conceptoId);            
+        if ($concepto == null) {                      
+            throw  $this->createNotFoundException("temaBundle.concepto.no_encontrado");
         }            
-        return $this->procesarRequest($request, RegistracionTemaType::class, $tema, HttpMethod::PUT);         
+        return $this->procesarRequest($request, RegistracionConceptoType::class, $concepto, HttpMethod::PUT); 
     }
       
-    private function getTemaImpartidoService() {        
-        return $this->container->get('safe_docente.service.tema_impartido');       
+    private function getConceptoImpartidoService() {        
+        return $this->container->get('safe_docente.service.concepto_impartido');       
     }
     
-    private function getCursoService() {        
-        return $this->container->get('safe_curso.service.curso');       
+    private function getTemaService() {        
+        return $this->container->get('safe_tema.service.tema');       
     }
 
-    protected function procesarEntidadValida($tema, $method = HttpMethod::POST) {
+    protected function procesarEntidadValida($curso, $method = HttpMethod::POST) {
         if (HttpMethod::PUT == $method || HttpMethod::PATCH == $method) {
-            $predecesoras = $tema->getPredecesoras()->filter(
+            $predecesoras = $curso->getPredecesoras()->filter(
                 function($entry) {
                     return ($entry !== '' || $entry !== NULL);
                 }
             );
-            $sucesoras = $tema->getSucesoras()->filter(
+            $sucesoras = $curso->getSucesoras()->filter(
                 function($entry) {                    
                     return ($entry !== NULL && $entry !== '');
                 }
             );            
-            $tema->setPredecesoras($predecesoras);       
-            $tema->setSucesoras($sucesoras);       
+            $curso->setPredecesoras($predecesoras);       
+            $curso->setSucesoras($sucesoras);       
         }
-        $this->getTemaImpartidoService()->crearOActualizar($tema);
+        $this->getConceptoImpartidoService()->crearOActualizar($curso);
         if (HttpMethod::POST == $method) {
-            return $this->generarRespuesta($tema, Response::HTTP_OK, array('Default', 'docente_tema_detalle'));
+            return $this->generarRespuesta($curso, Response::HTTP_OK, array('Default', 'docente_concepto_detalle'));
         }
         return $this->generarRepuestaNotContent();
     }

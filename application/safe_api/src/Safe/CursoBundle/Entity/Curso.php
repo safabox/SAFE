@@ -85,7 +85,7 @@ class Curso
     private $alumnos;
     
      /**
-     *
+     * @var Collection
      * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="curso")
      * 
      */
@@ -100,6 +100,7 @@ class Curso
     public function __construct()
     {
         $this->alumnos = new ArrayCollection();
+        $this->temas = new ArrayCollection();
         $this->setFechaCreacion(new \DateTime());
     }
     

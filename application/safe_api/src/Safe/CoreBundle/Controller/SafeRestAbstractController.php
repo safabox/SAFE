@@ -62,7 +62,7 @@ abstract class SafeRestAbstractController extends FOSRestController {
                         }
                     }
                 }
-            }                  
+            }   
             $form->submit($datoRequest, HttpMethod::PATCH !== $method);         
             if ($form->isValid()) {                                       
                 return $this->procesarEntidadValida($data, $method);                                    

@@ -21,6 +21,8 @@ class SafeTestController extends WebTestCase {
                           'Safe\AlumnoBundle\DataFixtures\ORM\AlumnoData',
                           'Safe\CursoBundle\DataFixtures\ORM\CursoData',
                           'Safe\TemaBundle\DataFixtures\ORM\TemaData',
+                          'Safe\TemaBundle\DataFixtures\ORM\ConceptoData',
+                          'Safe\TemaBundle\DataFixtures\ORM\ActividadData',
                           'Safe\CatBundle\DataFixtures\ORM\CATData',
             
                           
@@ -44,6 +46,7 @@ class SafeTestController extends WebTestCase {
                 $statusCode, $response->getStatusCode(),
                 $response->getContent()
             );
+            //Debug::dump($response->headers);
             $this->assertTrue(
                 $response->headers->contains('Content-Type', 'application/json'),
                 $response->headers
