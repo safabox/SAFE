@@ -22,14 +22,6 @@
             },
             {
                 id: 2,
-                descripcion: 'Multiple Choice - Multiple Respuestas'
-            },
-            {
-                id: 3,
-                descripcion: 'Multiple Choice - Matriz de Seleccion'
-            },
-            {
-                id: 4,
                 descripcion: 'Multiple Choice - Matriz de Seleccion'
             },
         ];

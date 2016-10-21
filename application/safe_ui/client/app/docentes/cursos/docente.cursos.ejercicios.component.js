@@ -45,7 +45,7 @@
         }
         
         function agregarRespuesta(){
-            vm.model.respuestas.push({texto:'',correcta:false});
+            vm.model.respuestas.push({texto:'',correcta:false, textoCorrecto: 'Verdadero', textoIncorrecto:'Falso'});
         }
         
         function eliminarRespuesta(idx) {
