@@ -58,10 +58,12 @@ class CursoImpartidoControllerTest extends SafeTestController {
     }
     
     protected function getCurso($id) {
-        return $this->em
+        $curso =  $this->em
             ->getRepository('SafeCursoBundle:Curso')
             ->find($id)
         ;
+        $this->em->detach($curso);
+        return $curso;
     }
     
 }

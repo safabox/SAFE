@@ -1,15 +1,16 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('app.administrador.cursos')
         .controller('AdministradorCursosCtrl', controller);
 
-    controller.$inject = ['$q', 'messageBox','$state','AdminCursos', 'logger', '$filter'];
+    controller.$inject = ['$q', 'messageBox','$state','AdminCursos', 'logger', '$filter', 'debugModeEnabled'];
 
-    function controller($q, messageBox, $state, AdminCursos, logger, $filter) {
+    function controller($q, messageBox, $state, AdminCursos, logger, $filter, debugModeEnabled) {
         var vm = this;
         vm.loading = true;
         vm.noData = true;
+        vm.debug = debugModeEnabled;
         
         vm.select = select;
         vm.onFilterChange = onFilterChange;
@@ -107,20 +108,21 @@
         };        
         
         function puedeEliminar(curso){
-            //if(curso.enabled === 'true'){
-            //    return false;
-            //}else{
+            if(curso.enabled === true){
                 return true;
-            //}
+            }else{
+                return false;
+            }
         }
         
         function puedeRecuperar(curso){
-            //if(curso.enabled === 'true'){
-            //    return true;
-            //}else{
+            if(curso.enabled === true){
                 return false;
-            //}
+            }else{
+                return true;
+            }
         }
+        
         
         function eliminar(curso){
             var title = '¿Desea eliminar el curso ' + curso.usuario.nombre + '?';

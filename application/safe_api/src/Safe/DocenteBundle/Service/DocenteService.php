@@ -24,6 +24,18 @@ class DocenteService {
         return $this->docenteRepository->crearOActualizar($docente);
     }
     
+    public function buscarPorCursos($cursoId, $limit = 10, $offset = 0) {
+        $query = $this->docenteRepository->createQueryBuilder('docente')
+                                       ->join('docente.cursos', 'c')
+                                       ->where('c.id = :id')
+                                       ->setParameter('id', $cursoId)
+                                       ->getQuery()
+                                       ->setMaxResults($limit)
+                                       ->setFirstResult($limit * $offset);
+        
+         return $query->getResult();
+    }
+    
     public function buscarPorUsuario($usuario) {
         $query = $this->docenteRepository->createQueryBuilder('docente')
                                        ->join('docente.usuario', 'u')

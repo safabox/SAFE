@@ -19,4 +19,4 @@ perfilBundle:
         docente: 
             integridad: Falta el rol o los datos del docente.
         alumno: 
-            integridad: Falta el rol o los datos del alumno.    
+            integridad: Falta el rol o los datos del alumno.            

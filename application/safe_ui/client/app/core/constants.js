@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var debugModeEnabled = true;
+    var debugModeEnabled = false;
     var accordion = true;
 
     var fieldPattern = {

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app')
+        .module('app.administrador.cursos')
         .factory('AdminCursos', factory);
 
     factory.$inject = ['Restangular'];
