@@ -44,9 +44,20 @@
                 state: 'docente.cursos.list',
                 config: {
                     url: '/cursos',
-                    templateUrl: path + 'app/docente/cursos/docente.cursos.list.html',                  
+                    templateUrl: path + 'app/docentes/cursos/docente.cursos.list.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'DocenteCursosCtrl',
+                    controllerAs: 'vm',    
+                    params: {error: null}
+                }
+            },
+            {
+                state: 'docente.cursos.edit',
+                config: {
+                    url: '/cursos/:id',
+                    templateUrl: path + 'app/docentes/cursos/docente.cursos.edit.html',
+                    roles: ["ROLE_DOCENTE"],
+                    controller: 'DocenteCursosEdit',
                     controllerAs: 'vm',    
                     params: {error: null}
                 }

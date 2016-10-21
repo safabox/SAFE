@@ -24,7 +24,8 @@
         'ui.router',
         'ngStorage',
         'blockUI',
-       
+        'angular-jwt',
+        
         // Custom modules
         'app.nav',
         'app.i18n',
@@ -38,7 +39,8 @@
         'app.administrador.docentes',
         'app.administrador.cursos',
         'app.alumno',
-        'app.docente'
+        'app.docente',
+        'app.docente.cursos'
         //'app.table',
         //'app.task',
         //'app.calendar'

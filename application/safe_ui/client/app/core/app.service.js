@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app')
-        .factory('UsuarioService', ['$localStorage', UsuarioService])
+        .factory('UsuarioService', ['$localStorage', 'jwtHelper', UsuarioService])
         .factory('AutorizacionService', ['UsuarioService', '$http', 'SystemConfig', AutorizacionService])
         .factory('PaginaService', ['UsuarioService', PaginaService]);
     
@@ -42,7 +42,7 @@
         
     }
     
-    function UsuarioService($localStorage) { 
+    function UsuarioService($localStorage, jwtHelper) { 
         if (!$localStorage.usuarioSafe) {
             reset();
         }
@@ -69,10 +69,14 @@
         }
         
         function iniciar(username, token, roles) {
+            var tokenPayload = jwtHelper.decodeToken(token);
+            
             reset();
+            
             $localStorage.usuarioSafe.username = username;
             $localStorage.usuarioSafe.token = token;
             $localStorage.usuarioSafe.autenticado = true;
+            $localStorage.usuarioSafe.userId = tokenPayload.id;
             agregarRoles(roles);
         }
         
