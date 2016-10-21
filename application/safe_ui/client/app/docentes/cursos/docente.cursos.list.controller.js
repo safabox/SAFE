@@ -4,9 +4,9 @@
     angular.module('app.docente.cursos')
         .controller('DocenteCursosCtrl', controller);
 
-    controller.$inject = ['$q', 'messageBox','$state', '$stateParams', 'DocenteCursos', 'logger', '$filter', 'debugModeEnabled'];
+    controller.$inject = ['$q', 'DocenteCursos', 'logger', '$filter', 'debugModeEnabled', 'UsuarioService'];
 
-    function controller($q, messageBox, $state, $stateParams, DocenteCursos, logger, $filter, debugModeEnabled) {
+    function controller($q, DocenteCursos, logger, $filter, debugModeEnabled, UsuarioService) {
         var vm = this;
         vm.loading = true;
         vm.noData = true;
@@ -27,7 +27,7 @@
                 .then(onLoadComplete);
 
             function getCursos(){
-                var cursos = DocenteCursos.one(1)
+                var cursos = DocenteCursos.one(UsuarioService.getUserCurrent());
                 return cursos.getList('cursos').then(onSuccess, onError);
 
                 function onSuccess(response) {            

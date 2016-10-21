@@ -56,7 +56,8 @@
             
             isAlumno: isAlumno,
             isDocente: isDocente,
-            isAdmin: isAdmin,                                
+            isAdmin: isAdmin,
+            getUserCurrent: getUserCurrent,
         }
         function isAlumno() {
             return tieneRol(["ROLE_ALUMNO"]);
@@ -76,7 +77,7 @@
             $localStorage.usuarioSafe.username = username;
             $localStorage.usuarioSafe.token = token;
             $localStorage.usuarioSafe.autenticado = true;
-            $localStorage.usuarioSafe.userId = tokenPayload.id;
+            $localStorage.usuarioSafe.userId = 1;
             agregarRoles(roles);
         }
         
@@ -113,6 +114,10 @@
                 if ($localStorage.usuarioSafe.roles.indexOf(rolesEvaluados[i]) > -1) return true;
             }
             return false;
+        }
+        
+        function getUserCurrent(){
+            return $localStorage.usuarioSafe.userId;
         }
     }
 
