@@ -41,9 +41,9 @@ class TemaAsignadoController extends SafeRestAbstractController {
      */
     public function getProximo_temaAction($alumnoId, $cursoId)
     {              
-        $tema = $this->getTemaAsignadoService()->proximoTema($cursoId, $alumnoId);
+        $proximoResultado = $this->getTemaAsignadoService()->proximoTema($cursoId, $alumnoId);
         
-        return $this->generarRespuesta(new ProximoResultado(ProximoResultado::CURSANDO, $tema),
+        return $this->generarRespuesta($proximoResultado,
                 Response::HTTP_OK,
                 array('Default', 'alumno_tema_detalle'));
     }

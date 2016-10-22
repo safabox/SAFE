@@ -283,7 +283,7 @@ class AsignacionData extends AlumnoData
         Actividad 4  theta 1
      
     Para el alumno 13 Tiene todo los conceptos cierra el tema.
-    Para el alumno 14 Tiene todo los conceptos el curso.
+    Para el alumno 14 Tiene todo los tema cierra el curso.
     */
     
 }

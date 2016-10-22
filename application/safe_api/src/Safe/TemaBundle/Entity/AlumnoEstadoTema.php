@@ -49,12 +49,12 @@ class AlumnoEstadoTema
     /**
      * @var string
      *
-     * @ORM\Column(name="estado", type="string")
+     * @ORM\Column(name="estado", type="string", length=100)
      *
      */
     private $estado;
     
-    public function __construct($alumno, $tema, $aprobado = true, $estado = 'APROBADO')
+    public function __construct($alumno, $tema, $aprobado = true, $estado = 'FINALIZADO')
     {
         $this->alumno = $alumno;
         $this->tema = $tema;

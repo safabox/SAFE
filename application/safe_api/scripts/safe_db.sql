@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-10-2016 a las 18:39:37
+-- Tiempo de generación: 22-10-2016 a las 20:04:55
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -71,7 +71,7 @@ CREATE TABLE `alumno_estado_tema` (
   `alumno_id` int(11) NOT NULL,
   `tema_id` int(11) NOT NULL,
   `aprobado` tinyint(1) NOT NULL,
-  `estado` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `estado` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

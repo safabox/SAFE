@@ -48,7 +48,7 @@ class AlumnoEstadoConcepto
     /**
      * @var string
      *
-     * @ORM\Column(name="estado", type="string")
+     * @ORM\Column(name="estado", type="string", length=100)
      *
      */
     private $estado;

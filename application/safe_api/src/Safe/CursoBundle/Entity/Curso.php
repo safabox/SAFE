@@ -111,11 +111,18 @@ class Curso
      * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id")
      */    
     private $instituto;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\AlumnoEstadoCurso", mappedBy="curso")
+     * 
+     */
+    private $estadosAlumnos;
 
     public function __construct()
     {
         $this->alumnos = new ArrayCollection();
         $this->temas = new ArrayCollection();
+        $this->estadosAlumnos = new ArrayCollection();
         $this->habilitado = true;
         $this->setFechaCreacion(new \DateTime());
     }
@@ -286,5 +293,11 @@ class Curso
         $this->habilitado = $habilitado;
     }
 
+    function getEstadosAlumnos() {
+        return $this->estadosAlumnos;
+    }
 
+    function setEstadosAlumnos($estadosAlumnos) {
+        $this->estadosAlumnos = $estadosAlumnos;
+    }
 }

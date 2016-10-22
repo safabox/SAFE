@@ -28,7 +28,13 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
-            - Safe\TemaBundle\Entity\Actividad          
+            - Safe\TemaBundle\Entity\Actividad  
+    safe_tema.repository.alumno.curso.estado:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\TemaBundle\Entity\AlumnoEstadoCurso            
     safe_tema.repository.alumno.tema.estado:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

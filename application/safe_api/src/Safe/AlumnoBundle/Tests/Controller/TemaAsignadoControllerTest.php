@@ -26,9 +26,31 @@ class TemaAsignadoControllerTest extends SafeTestController {
         $this->assertJsonResponse($response, 200);       
         $proximoResultado = json_decode($response->getContent(), true);
         $expectedTema = $this->getTemaByTitulo("4 tema");
-           
-        $this->assertCamposBasicosEquals($expectedTema, $proximoResultado['elemento']);
+        
         $this->assertEquals(ProximoResultado::CURSANDO, $proximoResultado['estado']);
+        $this->assertCamposBasicosEquals($expectedTema, $proximoResultado['elemento']);
+        
+    }
+    
+    public function testGetProximo_temaAction_ConTodosLosTemasFinalizados_RetornaEstadoFinalizadoYCierraElCurso() {
+        //inicio
+        $login = $this->loginAlumno("alumno14");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('Asignacion');
+        $idCurso = $curso->getId();
+        $route =  $this->getUrl('api_1_alumnos_cursos_temasget_alumno_curso_proximo_tema', array('alumnoId' => $id, 'cursoId' => $idCurso,'_format' => 'json'));
+        
+        //test
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);       
+        $proximoResultado = json_decode($response->getContent(), true);
+
+        $this->assertEquals(ProximoResultado::FINALIZADO, $proximoResultado['estado']);
+        $this->assertNotNull($this->getEstadoCurso($idCurso, $id));
     }
     
     public function testGetAction() {
@@ -110,6 +132,18 @@ class TemaAsignadoControllerTest extends SafeTestController {
         ;
         $this->em->detach($curso);
         return $curso;
+    }
+    
+    protected function getEstadoCurso($idCurso, $idAlumno) {
+        $estado =  $this->em
+            ->getRepository('SafeTemaBundle:AlumnoEstadoCurso')            
+            ->findOneBy(array('curso'=>$idCurso, 'alumno'=>$idAlumno))
+        ;
+        if ($estado != null) {
+            $this->em->detach($estado);
+        }
+        
+        return $estado;
     }
     
     

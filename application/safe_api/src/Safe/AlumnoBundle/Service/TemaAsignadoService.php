@@ -3,6 +3,12 @@ namespace Safe\AlumnoBundle\Service;
 
 use Safe\TemaBundle\Repository\TemaRepository;
 use Safe\TemaBundle\Repository\AlumnoEstadoTemaRepository;
+use Safe\TemaBundle\Repository\AlumnoEstadoCursoRepository;
+
+use Safe\AlumnoBundle\Repository\AlumnoRepository;
+use Safe\CursoBundle\Repository\CursoRepository;
+use Safe\TemaBundle\Entity\AlumnoEstadoCurso;
+use Safe\AlumnoBundle\Entity\ProximoResultado;
 
 use Safe\TemaBundle\Service\TemaService;
 use Doctrine\Common\Util\Debug;
@@ -10,13 +16,32 @@ class TemaAsignadoService extends TemaService {
 
     private $alumnoEstadoTemaRepository;
     
-    public function __construct(TemaRepository $temaRepository, AlumnoEstadoTemaRepository $alumnoEstadoTemaRepository)
+    private $alumnoRepository;
+    
+    private $cursoRepository;
+    
+    private $alumnoEstadoCursoRepository;
+    
+    public function __construct(TemaRepository $temaRepository, 
+            AlumnoRepository $alumnoRepository,
+            CursoRepository $cursoRepository,
+            AlumnoEstadoTemaRepository $alumnoEstadoTemaRepository,
+            AlumnoEstadoCursoRepository $alumnoEstadoCursoRepository)
     {
         parent::__construct($temaRepository);
         $this->alumnoEstadoTemaRepository = $alumnoEstadoTemaRepository;
+        $this->alumnoRepository = $alumnoRepository;
+        $this->cursoRepository = $cursoRepository;
+        $this->alumnoEstadoCursoRepository = $alumnoEstadoCursoRepository;
+        
     }
     
     public function proximoTema($cursoId, $alumnoId) {
+        $alumnoEstadoCurso = $this->alumnoEstadoCursoRepository->findOneBy(array('curso'=> $cursoId, 'alumno' => $alumnoId));
+        if ($alumnoEstadoCurso != null) {
+            return new ProximoResultado($alumnoEstadoCurso->getEstado());
+        }
+        
         $queryTemaFinalizado = $this->alumnoEstadoTemaRepository->createQueryBuilder('alumnoEstadoTema')
                                                        ->join('alumnoEstadoTema.alumno', 'alu') 
                                                        ->where('alu.id = :alumnoId')
@@ -43,10 +68,16 @@ class TemaAsignadoService extends TemaService {
             $predecesorasFinalizadas = $this->countPredecesorasFinalizadas($tema, $alumnoId);
             $cantidadPredecesoras = $tema->getPredecesoras()->count();
             if ($predecesorasFinalizadas >= $cantidadPredecesoras) {
-                return $tema;
+                return new ProximoResultado(ProximoResultado::CURSANDO, $tema);
             }
         }
-        return null;
+        
+        $curso = $this->cursoRepository->find($cursoId);
+        $alumno = $this->alumnoRepository->find($alumnoId);
+        $alumnoEstadoCurso = new AlumnoEstadoCurso($alumno, $curso, true, ProximoResultado::FINALIZADO);
+        $this->alumnoEstadoCursoRepository->crearOActualizar($alumnoEstadoCurso);
+
+        return new ProximoResultado(ProximoResultado::FINALIZADO);
         
     }
     
