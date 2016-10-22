@@ -1,6 +1,3 @@
-* Proxima actividad para el alumno.
-* Creacion de una nueva Habilidad para el alumno cuando es la primera vez que busca en el itemBank.
-* Finalizacion de Tema/Conceptos/Actividades
 * Mostrar estado de los Temas/Conceptos
 * Obtener la proxima actividad automaticamente desde el curso.
 * Obtener el listado de temas/conceptos como alumno.
@@ -13,6 +10,9 @@
 * Desglosar el servicio de seguridad.
 * Clonar cursos enteros.
 -----------------------------------------------
+* Proxima actividad para el alumno. DONE
+* Creacion de una nueva Habilidad para el alumno cuando es la primera vez que busca en el itemBank. DONE
+* Finalizacion de Tema/Conceptos/Actividades DONE
 * Deshabilitar los item cuando se deshabilita la actividad. DONE
 * Proximo Tema para el alumno. DONE
 * Proximo Concepto para el alumno. DONE
