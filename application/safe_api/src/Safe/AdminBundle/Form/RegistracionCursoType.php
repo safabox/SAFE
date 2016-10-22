@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
+use Safe\CoreBundle\Form\BooleanType;
 use Safe\DocenteBundle\Form\IdentificadorDocenteType;
 
 class RegistracionCursoType extends AbstractType {
@@ -37,6 +38,7 @@ class RegistracionCursoType extends AbstractType {
                     'entry_type' => 'identificador_alumno',
                     'allow_add' => true,                        
                 ))
+                ->add('habilitado', BooleanType::class)   
         ;
         
         

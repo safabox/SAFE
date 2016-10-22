@@ -78,7 +78,7 @@ class Tema
      * )
      * @ORM\OrderBy({"orden" = "ASC"})
      * @Expose
-     * @Groups({"docente_tema_detalle"})
+     * @Groups({"docente_tema_detalle", "alumno_tema_detalle"})
      */
     private $predecesoras;
 
@@ -86,7 +86,7 @@ class Tema
      * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="predecesoras")
      * @ORM\OrderBy({"orden" = "ASC"}) 
      * @Expose
-     * @Groups({"docente_tema_detalle"}) 
+     * @Groups({"docente_tema_detalle", "alumno_tema_detalle"}) 
      */
     private $sucesoras;
     

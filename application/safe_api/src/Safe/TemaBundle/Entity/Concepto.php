@@ -92,7 +92,7 @@ class Concepto
      * )
      * @ORM\OrderBy({"orden" = "ASC"})
      * @Expose
-     * @Groups({"docente_concepto_detalle"})
+     * @Groups({"docente_concepto_detalle" })
      */
     private $predecesoras;
 
@@ -117,6 +117,13 @@ class Concepto
      * @ORM\JoinColumn(name="tema_id", referencedColumnName="id", nullable=false)
      */
     private $tema;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\AlumnoEstadoConcepto", mappedBy="concepto")
+     * 
+     */
+    private $estadosAlumnos;
     
     private $itemBank;
     
@@ -379,6 +386,14 @@ class Concepto
 
     function setItemBank($itemBank) {
         $this->itemBank = $itemBank;
+    }
+
+    function getEstadosAlumnos() {
+        return $this->estadosAlumnos;
+    }
+
+    function setEstadosAlumnos(\stdClass $estadosAlumnos) {
+        $this->estadosAlumnos = $estadosAlumnos;
     }
 
         

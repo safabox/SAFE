@@ -52,7 +52,7 @@ class Curso
      *
      * @ORM\Column(name="descripcion", type="text", nullable=true)     
      * @Expose
-     * @Groups({"admin_detalle", "docente_detalle", "alumno_detalle"}) 
+     * @Groups({"admin_detalle", "docente_detalle", "alumno_curso_detalle"}) 
      */
     private $descripcion;
 
@@ -77,7 +77,7 @@ class Curso
      * @ORM\ManyToMany(targetEntity="Safe\DocenteBundle\Entity\Docente", inversedBy="cursos")
      * @ORM\JoinTable(name="curso_docente")     
      * @Expose
-     * @Groups({"docente_detalle", "alumno_detalle"})
+     * @Groups({"docente_detalle", "alumno_curso_detalle"})
      */
     private $docentes;
 
@@ -85,7 +85,7 @@ class Curso
      * @ORM\ManyToMany(targetEntity="Safe\AlumnoBundle\Entity\Alumno", inversedBy="cursos")
      * @ORM\JoinTable(name="curso_alumno")
      * @Expose
-     * @Groups({"docente_detalle", "alumno_detalle"})      
+     * @Groups({"docente_detalle", "alumno_curso_detalle"})      
      */
     private $alumnos;
     
@@ -97,6 +97,15 @@ class Curso
      */
     private $temas;
     
+     /**
+     * @var boolean 
+     * @ORM\Column(name="habilitado", type="boolean")
+     * 
+     * @Expose
+     * 
+     */
+    private $habilitado;
+    
     /**
      * @ORM\ManyToOne(targetEntity="Safe\InstitutoBundle\Entity\Instituto")
      * @ORM\JoinColumn(name="instituto_id", referencedColumnName="id")
@@ -107,6 +116,7 @@ class Curso
     {
         $this->alumnos = new ArrayCollection();
         $this->temas = new ArrayCollection();
+        $this->habilitado = true;
         $this->setFechaCreacion(new \DateTime());
     }
     
@@ -265,6 +275,15 @@ class Curso
 
     function setFechaModificacion(\DateTime $fechaModificacion) {
         $this->fechaModificacion = $fechaModificacion;
+    }
+
+
+    function getHabilitado() {
+        return $this->habilitado;
+    }
+
+    function setHabilitado($habilitado) {
+        $this->habilitado = $habilitado;
     }
 
 

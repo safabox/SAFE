@@ -15,6 +15,7 @@ class CursoAsignadoService {
         $query = $this->cursoRepository->createQueryBuilder('curso')
                                        ->join('curso.alumnos', 'a')
                                        ->where('a.id = :id')
+                                       ->andWhere('curso.habilitado = true')
                                        ->setParameter('id', $alumnoId)
                                        ->getQuery();
         if ($limit != null) {

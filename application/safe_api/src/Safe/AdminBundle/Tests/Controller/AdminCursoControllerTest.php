@@ -23,6 +23,7 @@ class AdminCursoControllerTest extends SafeTestController {
         $curso = $data[0];        
         $this->assertArrayHasKey('id', $curso, 'id del curso no encontrado');
         $this->assertArrayHasKey('titulo', $curso, 'Titulo del curso no encontrado');
+        $this->assertArrayHasKey('habilitado', $curso, 'habilitado del curso');
         $this->assertArrayHasKey('fecha_modificacion', $curso, 'Fecha de modificacion del curso');
         $this->assertNotNull($curso['fecha_modificacion'], 'Fecha de modificacion del curso invalida');
         $this->assertArrayHasKey('fecha_creacion', $curso, 'Fecha de creacion del curso');
@@ -45,6 +46,7 @@ class AdminCursoControllerTest extends SafeTestController {
         $curso = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('id', $curso, 'id del curso no encontrado');
         $this->assertArrayHasKey('titulo', $curso, 'Titulo del curso no encontrado');
+        $this->assertArrayHasKey('habilitado', $curso, 'habilitado del curso');
         $this->assertArrayHasKey('fecha_modificacion', $curso, 'Fecha de modificacion del curso no encontrada');
         $this->assertNotNull($curso['fecha_modificacion'], 'Fecha de modificacion del curso invalida');
         $this->assertArrayHasKey('fecha_creacion', $curso, 'Fecha de creacion del curso no encontrada');
@@ -139,7 +141,8 @@ class AdminCursoControllerTest extends SafeTestController {
             'titulo' => $titulo,
             'descripcion' => $descripcion,
             'docentes' => $docentes,
-            'alumnos' => $alumnos
+            'alumnos' => $alumnos,
+            'habilitado' => true
         );
         return $dato;
     }

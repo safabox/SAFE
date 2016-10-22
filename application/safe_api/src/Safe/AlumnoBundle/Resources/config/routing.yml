@@ -10,4 +10,14 @@ safe_alumno_curso:
     type: rest
     parent:   safe_alumno
     resource: "Safe\AlumnoBundle\Controller\CursoAsignadoController"
-    name_prefix:  api_1_alumnos_cursos # naming collision    
+    name_prefix:  api_1_alumnos_cursos # naming collision
+safe_alumno_curso_tema:
+    type: rest
+    parent:   safe_alumno_curso
+    resource: "Safe\AlumnoBundle\Controller\TemaAsignadoController"
+    name_prefix:  api_1_alumnos_cursos_temas # naming collision    
+safe_alumno_curso_tema_concepto:
+    type: rest
+    parent:   safe_alumno_curso_tema
+    resource: "Safe\AlumnoBundle\Controller\ConceptoAsignadoController"
+    name_prefix:  api_1_alumnos_cursos_temas_conceptos # naming collision    

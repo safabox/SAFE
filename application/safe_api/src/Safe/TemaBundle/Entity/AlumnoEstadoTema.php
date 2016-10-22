@@ -24,10 +24,10 @@ class AlumnoEstadoTema
     /**
      * @var bool
      *
-     * @ORM\Column(name="finalizado", type="boolean")
+     * @ORM\Column(name="aprobo", type="boolean")
      *
      */
-    private $finalizado;
+    private $aprobo;
 
     /**
      * @var \stdClass
@@ -46,6 +46,12 @@ class AlumnoEstadoTema
     private $tema;
 
 
+    public function __construct($alumno, $tema, $aprobo = true)
+    {
+        $this->alumno = $alumno;
+        $this->tema = $tema;
+        $this->aprobo = $aprobo;
+    }  
     /**
      * Get id
      *
@@ -56,14 +62,15 @@ class AlumnoEstadoTema
         return $this->id;
     }
 
-    function getFinalizado() {
-        return $this->finalizado;
+    function getAprobo() {
+        return $this->aprobo;
     }
 
-    function setFinalizado($finalizado) {
-        $this->finalizado = $finalizado;
+    function setAprobo($aprobo) {
+        $this->aprobo = $aprobo;
     }
 
+    
         /**
      * Set alumno
      *

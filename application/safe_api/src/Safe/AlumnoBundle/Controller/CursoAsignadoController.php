@@ -32,19 +32,19 @@ class CursoAsignadoController extends SafeRestAbstractController {
      *  templateVar="pages"
      * )
      *
-     * @param Request               $id      id del alumno.
+     * @param Request               $alumnoId      id del alumno.
      * @param ParamFetcherInterface $paramFetcher param fetcher service
      *
      * @return array
      */
-    public function getCursosAction($id, ParamFetcherInterface $paramFetcher)
+    public function getCursosAction($alumnoId, ParamFetcherInterface $paramFetcher)
     {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
         
         
-        return $this->generarRespuesta($this->getCursoAsignadoService()->findAll($id, $limit, $offset),
+        return $this->generarRespuesta($this->getCursoAsignadoService()->findAll($alumnoId, $limit, $offset),
                 Response::HTTP_OK,
                 array('Default'));
     } 
@@ -69,12 +69,12 @@ class CursoAsignadoController extends SafeRestAbstractController {
      *
      * @throws NotFoundHttpException cuando no existe el curso.
      */
-    public function getCursoAction($docenteId, $id)
+    public function getCursoAction($alumnoId, $cursoId)
     {      
-        $curso =  $this->getCursoAsignadoService()->getById($id);
+        $curso =  $this->getCursoAsignadoService()->getById($cursoId);
         return $this->generarRespuesta($curso,
                 Response::HTTP_OK,
-                array('Default', 'alumno_detalle'));
+                array('Default', 'alumno_curso_detalle'));
     }
     
     

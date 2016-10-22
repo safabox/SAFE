@@ -13,7 +13,7 @@ class AlumnoControllerTest extends SafeTestController {
         $login = $this->loginAlumno();                
         $cliente = $login['cliente'];                
         $id = $login['datos']['idAlumno'];
-        $route =  $this->getUrl('api_1_alumnosget_alumno', array('id' => $id, '_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnosget_alumno', array('alumnoId' => $id, '_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
@@ -58,7 +58,7 @@ class AlumnoControllerTest extends SafeTestController {
         $login = $this->loginAlumno();                
         $cliente = $login['cliente'];                 
         $id = $login['datos']['idAlumno'] +1;
-        $route =  $this->getUrl('api_1_alumnosget_alumno', array('id' => $id, '_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnosget_alumno', array('alumnoId' => $id, '_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
@@ -78,7 +78,7 @@ class AlumnoControllerTest extends SafeTestController {
         $login = $this->loginAlumno();                
         $cliente = $login['cliente'];  
         $id = $login['datos']['idAlumno'];
-        $route =  $this->getUrl('api_1_alumnosput_alumno', array('id' => $id, '_format' => 'json'));       
+        $route =  $this->getUrl('api_1_alumnosput_alumno', array('alumnoId' => $id, '_format' => 'json'));       
         $alumno = $this->crearAlumnoArray('alumno1', '1');
         $alumno['usuario']['nombre'] = $nuevoNombre;
         
@@ -101,7 +101,7 @@ class AlumnoControllerTest extends SafeTestController {
         $login = $this->loginAlumno();                
         $cliente = $login['cliente'];  
         $id = $login['datos']['idAlumno'] + 1;             
-        $route =  $this->getUrl('api_1_alumnosput_alumno', array('id' => $id, '_format' => 'json'));       
+        $route =  $this->getUrl('api_1_alumnosput_alumno', array('alumnoId' => $id, '_format' => 'json'));       
         $alumno = $this->crearAlumnoArray('alumno1', '1');
         $alumno['usuario']['nombre'] = $nuevoNombre;
         
@@ -120,7 +120,7 @@ class AlumnoControllerTest extends SafeTestController {
         $login = $this->loginAlumno();                
         $cliente = $login['cliente'];  
         $id = $login['datos']['idAlumno'];
-        $route =  $this->getUrl('api_1_alumnospatch_alumno', array('id' => $id, '_format' => 'json'));       
+        $route =  $this->getUrl('api_1_alumnospatch_alumno', array('alumnoId' => $id, '_format' => 'json'));       
         $alumno = array('usuario' => array('nombre' => $nuevoNombre));
         
         
@@ -141,7 +141,7 @@ class AlumnoControllerTest extends SafeTestController {
         $login = $this->loginAlumno();                
         $cliente = $login['cliente'];  
         $id = $login['datos']['idAlumno'] + 1;              
-        $route =  $this->getUrl('api_1_alumnospatch_alumno', array('id' => $id, '_format' => 'json'));       
+        $route =  $this->getUrl('api_1_alumnospatch_alumno', array('alumnoId' => $id, '_format' => 'json'));       
         $alumno = array('usuario' => array('nombre' => $nuevoNombre));
         
         

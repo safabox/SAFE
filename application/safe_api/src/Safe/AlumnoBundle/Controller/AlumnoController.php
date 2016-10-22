@@ -58,8 +58,8 @@ class AlumnoController extends SafeRestAbstractController {
      * @param Request $request the request object
      *     
      */
-    public function putAlumnoAction(Request $request, $id) {                
-        $alumno = $this->obtenerAlumno($id);           
+    public function putAlumnoAction(Request $request, $alumnoId) {                
+        $alumno = $this->obtenerAlumno($alumnoId);           
         return $this->procesarRequest($request, new RegistracionAlumnoType(), $alumno, HttpMethod::PUT);         
     }
     
@@ -97,8 +97,8 @@ class AlumnoController extends SafeRestAbstractController {
      * @param Request $request the request object
      *     
      */
-    public function patchAlumnoAction(Request $request, $id) {                
-        $alumno = $this->obtenerAlumno($id);  
+    public function patchAlumnoAction(Request $request, $alumnoId) {                
+        $alumno = $this->obtenerAlumno($alumnoId);  
         return $this->procesarRequest($request, new RegistracionAlumnoType(), $alumno, HttpMethod::PATCH); 
     }
         
@@ -115,16 +115,16 @@ class AlumnoController extends SafeRestAbstractController {
      *
      * @Annotations\View(templateVar="page")
      *
-     * @param int     $id      id del alumno.
+     * @param int     $alumnoId      id del alumno.
      *
      * @return object
      *
      * @throws NotFoundHttpException cuando no existe el alumno.
      * @throws AccessDeniedHttpException.
      */
-    public function getAlumnoAction($id)
+    public function getAlumnoAction($alumnoId)
     {        
-        $alumno = $this->obtenerAlumno($id);
+        $alumno = $this->obtenerAlumno($alumnoId);
         return $this->generarRespuesta($alumno, Response::HTTP_OK, array('Default', 'detalle'));
     } 
     

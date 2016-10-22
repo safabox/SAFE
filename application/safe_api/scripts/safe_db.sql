@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-10-2016 a las 03:36:32
+-- Tiempo de generación: 22-10-2016 a las 13:58:01
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -70,7 +70,7 @@ CREATE TABLE `alumno_estado_tema` (
   `id` int(11) NOT NULL,
   `alumno_id` int(11) NOT NULL,
   `tema_id` int(11) NOT NULL,
-  `finalizado` tinyint(1) NOT NULL
+  `aprobo` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -275,16 +275,17 @@ CREATE TABLE `curso` (
   `descripcion` longtext COLLATE utf8mb4_unicode_ci,
   `fechaCreacion` datetime DEFAULT NULL,
   `instituto_id` int(11) DEFAULT NULL,
-  `fechaModificacion` datetime DEFAULT NULL
+  `fechaModificacion` datetime DEFAULT NULL,
+  `habilitado` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `curso`
 --
 
-INSERT INTO `curso` (`id`, `titulo`, `descripcion`, `fechaCreacion`, `instituto_id`, `fechaModificacion`) VALUES
-(4, 'Matemáticas 1', '<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>', '2016-08-25 00:43:30', 1, NULL),
-(5, 'Lengua', 'pepep', '2016-09-17 02:13:55', 1, '2016-09-17 02:13:55');
+INSERT INTO `curso` (`id`, `titulo`, `descripcion`, `fechaCreacion`, `instituto_id`, `fechaModificacion`, `habilitado`) VALUES
+(4, 'Matemáticas 1', '<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>', '2016-08-25 00:43:30', 1, NULL, 0),
+(5, 'Lengua', 'pepep', '2016-09-17 02:13:55', 1, '2016-09-17 02:13:55', 0);
 
 -- --------------------------------------------------------
 

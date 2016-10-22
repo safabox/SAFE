@@ -22,7 +22,7 @@ class CursoImpartidoControllerTest extends SafeTestController {
         $response = $cliente->getResponse();
         $this->assertJsonResponse($response, 200);       
         $cursos = json_decode($response->getContent(), true);
-        $this->assertCount(2, $cursos);
+        $this->assertCount(3, $cursos);
         
         $curso = $cursos[0];
         $this->assertArrayHasKey('id', $curso, 'id del curso no encontrado');

@@ -13,7 +13,7 @@ class CursoAsignadoControllerTest extends SafeTestController {
         $login = $this->loginAlumno();                
         $cliente = $login['cliente'];                
         $id = $login['datos']['idAlumno'];
-        $route =  $this->getUrl('api_1_alumnos_cursosget_alumno_cursos', array('id' => $id, '_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnos_cursosget_alumno_cursos', array('alumnoId' => $id, '_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
@@ -44,7 +44,7 @@ class CursoAsignadoControllerTest extends SafeTestController {
         $cliente = $login['cliente'];                
         $id = $login['datos']['idAlumno'];
         $idCurso = 1;
-        $route =  $this->getUrl('api_1_alumnos_cursosget_alumno_curso', array('docenteId' => $id, 'id' => $idCurso,'_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnos_cursosget_alumno_curso', array('alumnoId' => $id, 'cursoId' => $idCurso,'_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
