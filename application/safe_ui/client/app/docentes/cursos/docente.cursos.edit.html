@@ -1,4 +1,4 @@
-<div class="page" data-ng-controller="AdministradorAlumnosEdit" data-ng-hide="vm.loading">
+<div class="page" data-ng-controller="DocenteCursosEdit" data-ng-hide="vm.loading">
     
     <section class="invoice-container" id="invoice">
     
@@ -9,7 +9,7 @@
         </div>
         
         <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.curso | json}}</pre>
-        <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.alumnos | json}}</pre>
+
         <div class="row" data-ng-if="!vm.loading" data-confirm-on-exit="vm.form.$dirty">
             <form class="form-horizontal form-validation col-md-12" novalidate name="vm.form" data-ng-submit="vm.guardar()" novalidate>
                 <div class="row">
@@ -26,7 +26,7 @@
                                 <div class="form-group" show-errors>
                                     <label class="col-md-2 control-label" for="titulo">Título</label>
                                     <div class="col-md-10">
-                                       <input class="form-control" type="text" placeholder="Título" name="titulo" data-ng-model="vm.curso.titulo" required>
+                                       <input class="form-control" type="text" placeholder="Título" name="titulo" data-ng-model="vm.curso.titulo" ng-disabled="true">
                                        <field-error-label data-field="vm.form.titulo" data-field-label="Título" />
                                     </div>
                                 </div>
@@ -38,44 +38,60 @@
                                        <field-error-label data-field="vm.form.descripcion" data-field-label="Descripcion" />
                                     </div>
                                 </div>
+                               
                             </uib-accordion-group>
                         </uib-accordion>
                     </div>
                 
                     <div class="col-md-12">
                         <uib-accordion close-others="vm.accordion" class="ui-accordion">
-                            <uib-accordion-group is-open="vm.groupDocentes.isOpen" class="ui-accordion">
+                            <uib-accordion-group is-open="vm.groupTemas.isOpen" class="ui-accordion">
                                 <uib-accordion-heading>
                                     <div>
-                                        ALTA/BAJA DOCENTES
-                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupDocentes.isOpen, 'glyphicon-chevron-right': !vm.groupDocentes.isOpen}"></i>
+                                        ALTA/BAJA TEMAS
+                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupTemas.isOpen, 'glyphicon-chevron-right': !vm.groupTemas.isOpen}"></i>
                                     </div>
                                 </uib-accordion-heading>
                                 
                                 <div class="row top-buffer">
                                     <div class="col-md-12">
-                                        <div class="alert alert-warning" role="alert" data-ng-if="vm.noDataDocentes">
-                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen docentes cargados
+                                        <div class="alert alert-warning" role="alert" data-ng-if="vm.noDataTemas">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen temas cargados
                                         </div>
                                     </div>
                                 </div>
 
-                                <div data-ng-if="vm.docentes.length > 0">
-                                    <table data-ng-table="vm.docentesTableParams" class="table table-responsive table-condensed table-hover table-striped">
-                                        <tr ng-repeat="docente in $data">
-                                            <td class="col-md-3" data-title="'Legajo'" header-class="'text-left'">
+                                <div data-ng-if="vm.temas.length > 0">
+                                    <table data-ng-table="vm.temasTableParams" class="table table-responsive table-condensed table-hover table-striped">
+                                        <tr ng-repeat="tema in $data">
+                                            <td class="col-md-3" data-title="'Título'" header-class="'text-left'">
                                                 <div class="form-group col-md-12">
-                                                    {{docente.legajo}}
+                                                    {{tema.titulo}}
                                                 </div>
                                             </td>                                           
-                                            <td class="col-md-7" data-title="'Apellido y Nombre'" header-class="'text-left'">
+                                            <td class="col-md-7" data-title="'Descripción'" header-class="'text-left'">
                                                 <div class="form-group col-md-12">
-                                                    {{docente.usuario.apellido}}, {{docente.usuario.nombre}}
+                                                    {{tema.descripcion}}
                                                 </div>
-                                            </td>    
+                                            </td>
+                                            <td class="col-md-7" data-title="'Orden'" header-class="'text-left'">
+                                                <div class="form-group col-md-12">
+                                                    {{tema.descripcion}}
+                                                </div>
+                                            </td> 
+                                            <td class="col-md-7" data-title="'Predecesoras'" header-class="'text-left'">
+                                                <div class="form-group col-md-12">
+                                                    {{tema.predecesoras}}
+                                                </div>
+                                            </td>
+                                            <td class="col-md-7" data-title="'Sucesoras'" header-class="'text-left'">
+                                                <div class="form-group col-md-12">
+                                                    {{tema.sucesoras}}
+                                                </div>
+                                            </td>
                                             <td class="col-md-2" data-title="'Acciones'">
                                                <div class="form-group col-md-12" header-class="'text-right'">
-                                                   <button type="button" class="btn btn-sm" aria-label="Eliminar" data-ng-click="vm.eliminarDocente($index)">
+                                                   <button type="button" class="btn btn-sm" aria-label="Eliminar" data-ng-click="vm.eliminarTema($index)">
                                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                                                    </button>
                                                </div>
@@ -86,8 +102,8 @@
                                 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-info btn-sm pull-left" aria-label="Agregar" data-ng-click="vm.agregarDocente()">
-                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar
+                                        <button type="button" class="btn btn-info btn-sm pull-left" aria-label="Nuevo" data-ng-click="vm.agregarNuevoTema()">
+                                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo
                                         </button>
                                     </div>
                                 </div>                                
@@ -95,7 +111,7 @@
                             </uib-accordion-group>
                         </uib-accordion>
                     </div>
-
+<!--
                     <div class="col-md-12">
                         <uib-accordion close-others="vm.accordion" class="ui-accordion">
                             <uib-accordion-group is-open="vm.groupAlumnos.isOpen" class="ui-accordion">
@@ -149,7 +165,7 @@
                             </uib-accordion-group>
                         </uib-accordion>
                     </div>
-                
+                -->
                 </div>                    
                     
                 <div class="row">
@@ -173,3 +189,4 @@
         </div>
     </section>                       
 </div>
+

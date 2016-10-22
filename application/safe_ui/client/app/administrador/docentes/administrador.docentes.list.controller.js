@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('app')
+    angular.module('app.administrador.docentes')
         .controller('AdministradorDocentesCtrl', controller);
 
     controller.$inject = ['$q', 'messageBox','$state','AdminDocentes', 'logger', '$filter'];
@@ -107,18 +107,18 @@
         };        
         
         function puedeEliminar(docente){
-            if(docente.usuario.enabled === 'true'){
-                return false;
-            }else{
+            if(docente.usuario.enabled === true){
                 return true;
+            }else{
+                return false;
             }
         }
         
         function puedeRecuperar(docente){
-            if(docente.usuario.enabled === 'true'){
-                return true;
-            }else{
+            if(docente.usuario.enabled === true){
                 return false;
+            }else{
+                return true;
             }
         }
         
@@ -127,13 +127,22 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var docenteRemove = AdminDocentes.one(docente.id);  
-                        docenteRemove.remove().then(onSuccess, onError);
+                        var docenteRemove = AdminDocentes.one(docente.id);
+                        
+                        var docentePatch =
+                        {
+                            'usuario': {
+                                'enabled': false
+                            }
+                        };
+                
+                        docenteRemove.patch(docentePatch).then(onSuccess, onError);
                     }
                 });
             
             function onSuccess() {
                 logger.info('Registro eliminado');
+                $state.reload()
             }
 
             function onError(httpResponse) {
@@ -146,14 +155,22 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var docenteRecover = AdminDocentes.one(docente.id);  
-                        docenteRecover.recover().then(onSuccess, onError);
+                        var docenteRecover = AdminDocentes.one(docente.id); 
+                
+                        var docentePatch =
+                        {
+                            'usuario': {
+                                'enabled': true
+                            }
+                        };
+                
+                        docenteRecover.patch(docentePatch).then(onSuccess, onError);
                     }
                 });
 
-
             function onSuccess() {
                 logger.info('Registro recuperado');
+                $state.reload()
             }
 
             function onError(httpResponse) {

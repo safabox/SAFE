@@ -39,29 +39,29 @@
                             <th><div class="th">
                                 #
                                 <span class="fa fa-angle-up"
-                                      data-ng-click=" vm.order('nombre') "
-                                      data-ng-class="{active: vm.row == 'nombre'}"></span>
+                                      data-ng-click=" vm.order('id') "
+                                      data-ng-class="{active: vm.row == 'id'}"></span>
                                 <span class="fa fa-angle-down"
-                                      data-ng-click=" vm.order('-nombre') "
-                                      data-ng-class="{active: vm.row == '-nombre'}"></span>
-                            </div></th>
-                            <th><div class="th">
-                                Nombre y Apellido
-                                <span class="fa fa-angle-up"
-                                      data-ng-click=" vm.order('price') "
-                                      data-ng-class="{active: vm.row == 'price'}"></span>
-                                <span class="fa fa-angle-down"
-                                      data-ng-click=" vm.order('-price') "
-                                      data-ng-class="{active: vm.row == '-price'}"></span>
+                                      data-ng-click=" vm.order('-id') "
+                                      data-ng-class="{active: vm.row == '-id'}"></span>
                             </div></th>
                             <th><div class="th">
                                 Legajo
                                 <span class="fa fa-angle-up"
-                                      data-ng-click=" vm.order('sales') "
-                                      data-ng-class="{active: vm.row == 'sales'}"></span>
+                                      data-ng-click=" vm.order('legajo') "
+                                      data-ng-class="{active: vm.row == 'legajo'}"></span>
                                 <span class="fa fa-angle-down"
-                                      data-ng-click=" vm.order('-sales') "
-                                      data-ng-class="{active: vm.row == '-sales'}"></span>
+                                      data-ng-click=" vm.order('-legajo') "
+                                      data-ng-class="{active: vm.row == '-legajo'}"></span>
+                            </div></th>
+                            <th><div class="th">
+                                Nombre y Apellido
+                               <!-- <span class="fa fa-angle-up"
+                                      data-ng-click=" vm.order('nombre') "
+                                      data-ng-class="{active: vm.row == 'nombre'}"></span>
+                                <span class="fa fa-angle-down"
+                                      data-ng-click=" vm.order('-nombre') "
+                                      data-ng-class="{active: vm.row == '-nombre'}"></span> -->
                             </div></th>
                             <th><div class="th">
                                 Acciones
@@ -71,8 +71,8 @@
                     <tbody>
                         <tr ng-repeat="alumno in vm.currentPageStores" >
                             <td class="text-center">{{alumno.id}}</td>
-                            <td class="text-center">{{alumno.usuario.nombre}}, {{alumno.usuario.apellido}}</td>
                             <td class="text-center">{{alumno.legajo}}</td>
+                            <td class="text-center">{{alumno.usuario.nombre}}, {{alumno.usuario.apellido}}</td>
                             <td class="text-center">
                                 <button type="button" uib-tooltip="Editar" class="btn btn-xs btn-primary" aria-label="Editar" data-ui-sref="^.edit({ id: alumno.id })" ng-disabled="!(vm.puedeEliminar(alumno))">
                                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>

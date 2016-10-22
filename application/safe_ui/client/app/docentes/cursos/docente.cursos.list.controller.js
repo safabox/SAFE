@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    angular.module('app.administrador.cursos')
-        .controller('AdministradorCursosCtrl', controller);
+    angular.module('app.docente.cursos')
+        .controller('DocenteCursosCtrl', controller);
 
-    controller.$inject = ['$q', 'messageBox','$state','AdminCursos', 'logger', '$filter', 'debugModeEnabled'];
+    controller.$inject = ['$q', 'DocenteCursos', 'logger', '$filter', 'debugModeEnabled', 'UsuarioService'];
 
-    function controller($q, messageBox, $state, AdminCursos, logger, $filter, debugModeEnabled) {
+    function controller($q, DocenteCursos, logger, $filter, debugModeEnabled, UsuarioService) {
         var vm = this;
         vm.loading = true;
         vm.noData = true;
@@ -18,11 +18,6 @@
         vm.onOrderChange = onOrderChange;
         vm.search = search;
         vm.order = order;
-        vm.irNuevo = irNuevo;
-        vm.puedeEliminar = puedeEliminar;
-        vm.puedeRecuperar = puedeRecuperar;
-        vm.eliminar = eliminar;
-        vm.recuperar = recuperar;
         
         loadData();
         
@@ -31,15 +26,16 @@
             $q.all([getCursos()])
                 .then(onLoadComplete);
 
-            function getCursos(){        
-                return AdminCursos.getList().then(onSuccess, onError);
+            function getCursos(){
+                var cursos = DocenteCursos.one(UsuarioService.getUserCurrentDoc());
+                return cursos.getList('cursos').then(onSuccess, onError);
 
                 function onSuccess(response) {            
                     vm.cursos = response.plain();    
                     console.log(vm.cursos);
                 }        
                 function onError(httpResponse) {
-                    logger.error('No se pudieron obtener los Docentes', httpResponse);
+                    logger.error('No se pudieron obtener los Cursos del Docente', httpResponse);
                 }            
             }
 
@@ -65,11 +61,7 @@
                 };                
             }
         }
-        
-        function irNuevo() {
-            $state.go('admin.cursos.new');
-        }
-        
+                
         function select(page) {
             var end, start;
             start = (page - 1) * vm.numPerPage;
@@ -106,65 +98,6 @@
             vm.filteredStores = $filter('orderBy')(vm.cursos, rowName);
             return vm.onOrderChange();
         };        
-        
-        function puedeEliminar(curso){
-            if(curso.enabled === true){
-                return true;
-            }else{
-                return false;
-            }
-        }
-        
-        function puedeRecuperar(curso){
-            if(curso.enabled === true){
-                return false;
-            }else{
-                return true;
-            }
-        }
-        
-        
-        function eliminar(curso){
-            var title = '¿Desea eliminar el curso ' + curso.usuario.nombre + '?';
-            messageBox.showOkCancel(title)
-                .then(function (answer) {
-                    if (answer === 'ok') {
-                        var cursoRemove = AdminCursos.one(curso.id);  
-                        cursoRemove.remove().then(onSuccess, onError);
-                    }
-                });
-            
-            function onSuccess() {
-                logger.info('Registro eliminado');
-            }
-
-            function onError(httpResponse) {
-                logger.error('No se pudo eliminar el curso', httpResponse);
-            }
-        }
-        
-        function recuperar(curso){
-            var title = '¿Desea recuperar el curso ' + curso.usuario.nombre + '?';
-            messageBox.showOkCancel(title)
-                .then(function (answer) {
-                    if (answer === 'ok') {
-                        var cursoRecover = AdminCursos.one(curso.id);  
-                        cursoRecover.recover().then(onSuccess, onError);
-                    }
-                });
-
-
-            function onSuccess() {
-                logger.info('Registro recuperado');
-            }
-
-            function onError(httpResponse) {
-                logger.error('No se pudo recuperar el Curso', httpResponse);
-            }
-        }
-        
-        
-        
     }
 
 

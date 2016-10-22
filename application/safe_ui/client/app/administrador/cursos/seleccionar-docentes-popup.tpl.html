@@ -1,0 +1,59 @@
+<div class="modal-header">
+    <h2 class="modal-title">Seleccionar Docentes</h2>
+</div>
+
+<div class="modal-body">
+    <pre ng-if="vm.debug" style="max-height: 120px; overflow: scroll;">{{vm | json}}</pre>
+
+    <div data-ng-hide="vm.loading">
+        <!--<div class="row">
+            <div class="col-md-12">
+                <search-filter data-filters="vm.searchFilters" data-search="vm.search(filter)" />
+            </div>
+        </div>-->
+
+        <div class="row top-buffer">
+            <div class="col-md-12">
+                <div class="alert alert-warning" role="alert" data-ng-if="vm.noData">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen Docentes cargados
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table data-ng-table="vm.detallesTableParams" class="table table-responsive table-condensed table-hover table-striped" data-ng-hide="vm.noData">
+                    <tr ng-repeat="item in $data">
+                        <td data-title="''" header="vm.modoMultiple ? 'seleccionar-roles-popup/table/selectAll.html' : ''" header-class="'text-left'" ng-switch="vm.modoMultiple">
+                            <div ng-switch-when="true">
+                                <input class="checkbox" type="checkbox" name="itemSeleccionado" data-ng-model="item.seleccionado" ng-click="vm.seleccionarItem(item)" ng-disabled="item.deshabilitado" />
+                            </div>
+
+                            <div ng-switch-when="false">
+                                <input class="checkbox" type="radio" name="itemSeleccionado" data-ng-model="item.seleccionado" ng-click="vm.seleccionarItem(item)" ng-disabled="item.deshabilitado" />
+                            </div>
+                        </td>
+
+                        <td data-title="'Código'" data-sortable="'id'" header-class="'text-left'">
+                            {{item.id}}
+                        </td>
+                        <td data-title="'Nombre'" data-sortable="'nombre'" header-class="'text-left'">
+                            {{item.legajo}}
+                        </td>
+                        <td data-title="'Descripción'" header-class="'text-left'">
+                            {{item.usuario.apellido}}, {{item.usuario.nombre}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-disabled="!vm.seleccionValida" ng-click="vm.ok()">Aceptar</button>
+    <button type="button" class="btn btn-default" ng-click="vm.cancel()">Cancelar</button>
+</div>
+
+<script type="text/ng-template" id="seleccionar-roles-popup/table/selectAll.html">
+    <input type="checkbox" ng-model="vm.selectAll.checked" />
+</script>

@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('app')
-        .factory('UsuarioService', ['$localStorage', UsuarioService])
+        .factory('UsuarioService', ['$localStorage', 'jwtHelper', UsuarioService])
         .factory('AutorizacionService', ['UsuarioService', '$http', 'SystemConfig', AutorizacionService])
         .factory('PaginaService', ['UsuarioService', PaginaService]);
     
@@ -42,7 +42,7 @@
         
     }
     
-    function UsuarioService($localStorage) { 
+    function UsuarioService($localStorage, jwtHelper) { 
         if (!$localStorage.usuarioSafe) {
             reset();
         }
@@ -56,7 +56,8 @@
             
             isAlumno: isAlumno,
             isDocente: isDocente,
-            isAdmin: isAdmin,                                
+            isAdmin: isAdmin,
+            getUserCurrentDoc: getUserCurrentDoc,
         }
         function isAlumno() {
             return tieneRol(["ROLE_ALUMNO"]);
@@ -68,11 +69,16 @@
             return tieneRol(["ROLE_SUPER_ADMIN", "ROLE_ADMIN"]);
         }
         
-        function iniciar(username, token, roles) {
+        function iniciar(username, token, roles, idDocente, idAlumno) {
+            var tokenPayload = jwtHelper.decodeToken(token);
+            
             reset();
+            
             $localStorage.usuarioSafe.username = username;
             $localStorage.usuarioSafe.token = token;
             $localStorage.usuarioSafe.autenticado = true;
+            $localStorage.usuarioSafe.idDocente = idDocente;
+            $localStorage.usuarioSafe.idAlumno = idAlumno;
             agregarRoles(roles);
         }
         
@@ -109,6 +115,10 @@
                 if ($localStorage.usuarioSafe.roles.indexOf(rolesEvaluados[i]) > -1) return true;
             }
             return false;
+        }
+        
+        function getUserCurrentDoc(){
+            return $localStorage.usuarioSafe.idDocente;
         }
     }
 

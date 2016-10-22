@@ -9,100 +9,164 @@
         </div>
         
         <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.docente | json}}</pre>
-        <section class="panel panel-default">
-            <div class="panel-heading"><strong><span class="glyphicon glyphicon-th"></span> {{vm.subTitle}}</strong></div>
-            <div class="panel-body">
-                <form class="form-horizontal form-validation col-md-12" novalidate name="vm.form" data-ng-submit="vm.guardar()" novalidate>
-                <div class="row" data-ng-if="!vm.loading" data-confirm-on-exit="vm.form.$dirty">
+        
+        <div class="row" data-ng-if="!vm.loading" data-confirm-on-exit="vm.form.$dirty">
+            <form class="form-horizontal form-validation col-md-12" novalidate name="vm.form" data-ng-submit="vm.guardar()" novalidate>
+            
+                 <div class="row">
+                    <div class="col-md-12">
+                        <uib-accordion close-others="vm.accordion" class="ui-accordion">
+                            <uib-accordion-group is-open="vm.groupInfoGral.isOpen" class="ui-accordion">
+                                <uib-accordion-heading>
+                                    <div>
+                                        INFORMACION GENERAL
+                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupInfoGral.isOpen, 'glyphicon-chevron-right': !vm.groupInfoGral.isOpen}"></i>
+                                    </div>
+                                </uib-accordion-heading>
+
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="legajo">Legajo:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Legajo" name="legajo" data-ng-model="vm.docente.legajo" required>
+                                       <field-error-label data-field="vm.form.legajo" data-field-label="Legajo" />
+                                    </div>
+                                </div>
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="nombre">Nombre:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Nombre" name="nombre" data-ng-model="vm.docente.usuario.nombre" required>
+                                       <field-error-label data-field="vm.form.nombre" data-field-label="Nombre:" />
+                                    </div>
+                                </div>
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="apellido">Apellido:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Apellido" name="apellido" data-ng-model="vm.docente.usuario.apellido" required>
+                                       <field-error-label data-field="vm.form.apellido" data-field-label="Apellido:" />
+                                    </div>
+                                </div>
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="tipoDocumento">Tipo de Documento:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Tipo de Documento" name="tipoDocumento" data-ng-model="vm.docente.usuario.tipo_documento.codigo" >
+                                       <field-error-label data-field="vm.form.tipoDocumento" data-field-label="Tipo de Documento" />
+                                    </div>
+                                </div> 
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="numeroDocumento">Número de Documento:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Número de Documento" name="numeroDocumento" data-ng-model="vm.docente.usuario.numero_documento" required>
+                                       <field-error-label data-field="vm.form.numeroDocumento" data-field-label="Número de Documento" />
+                                    </div>
+                                </div>
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="genero">Genero:</label>
+                                    <div class="col-md-10">
+                                       <select class="form-control" placeholder="Genero" name="genero" data-ng-model="vm.docente.usuario.genero" ng-options="opt.id as opt.descripcion for opt in vm.generos"></select>
+                                       <field-error-label data-field="vm.form.genero" data-field-label="Genero" />
+                                    </div>
+                                </div>
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="email">Email:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="email" placeholder="Email@Email.com" name="email" data-ng-model="vm.docente.usuario.email" required>
+                                       <field-error-label data-field="vm.form.email" data-field-label="Email" />
+                                    </div>
+                                </div>      
+                            </uib-accordion-group>
+                        </uib-accordion>
+                    </div>
+                                
+                    <div class="col-md-12">
+                        <uib-accordion close-others="vm.accordion" class="ui-accordion">
+                            <uib-accordion-group is-open="vm.groupSeguridad.isOpen" class="ui-accordion">
+                                <uib-accordion-heading>
+                                    <div>
+                                        SEGURIDAD
+                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupSeguridad.isOpen, 'glyphicon-chevron-right': !vm.groupInfoGral.isOpen}"></i>
+                                    </div>
+                                </uib-accordion-heading>            
+                                
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="username">Nombre de Usuario:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Nombre de Usuario" name="username" data-ng-model="vm.docente.usuario.username" required>
+                                       <field-error-label data-field="vm.form.username" data-field-label="Nombre de Usuario" />
+                                    </div>
+                                </div>   
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="password">Clave:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="password" placeholder="Clave" id="password" name="password" data-ng-model="vm.docente.usuario.textPassword.first" required>
+                                       <field-error-label data-field="vm.form.password" data-field-label="Clave" />
+                                    </div>
+                                </div>         
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="confirmPassword">Confirmación:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="password" placeholder="Confirmación de Clave" name="confirmPassword" data-ng-model="vm.docente.usuario.textPassword.second" required>
+                                       <field-error-label data-field="vm.form.confirmPassword" data-field-label="Confirmación de Clave" />
+                                    </div>
+                                </div>                                        
+                            </uib-accordion-group>
+                        </uib-accordion>
+                    </div>                                
+                    
+                     <div class="col-md-12" ng-if="vm.editMode">
+                        <uib-accordion close-others="vm.accordion" class="ui-accordion">
+                            <uib-accordion-group is-open="vm.groupCursos.isOpen" class="ui-accordion">
+                                <uib-accordion-heading>
+                                    <div>
+                                        CURSOS
+                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupCursos.isOpen, 'glyphicon-chevron-right': !vm.groupInfoGral.isOpen}"></i>
+                                    </div>
+                                </uib-accordion-heading>
+                                
+                                <div data-ng-if="vm.docente.cursos.length > 0">
+                                    <table class="table table-bordered table-striped table-responsive" > 
+                                        <thead>
+                                            <tr>
+                                                <th><div class="th">
+                                                    #
+                                                </div></th>
+                                                <th><div class="th">
+                                                    Título 
+                                                </div></th>
+                                                <th><div class="th">
+                                                    Descripción 
+                                                </div></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="curso in vm.docente.cursos" >
+                                                <td class="text-center">{{curso.id}}</td>
+                                                <td class="text-center">{{curso.titulo}}</td>
+                                                <td class="text-center">{{curso.descripcion}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row" ng-if="vm.alumno.cursos.length === 0">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-warning" role="alert">
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> El alumno no tiene cursos asignados
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </uib-accordion-group>
+                        </uib-accordion>
+                    </div>
+                </div>                            
                 
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="legajo">Legajo:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="text" placeholder="Legajo" name="legajo" data-ng-model="vm.docente.legajo" required>
-                           <field-error-label data-field="vm.form.legajo" data-field-label="Legajo" />
-                        </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <error-list data-form="vm.form" data-labels="vm.fieldLabels" />
                     </div>
-                    
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="nombre">Nombre:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="text" placeholder="Nombre" name="nombre" data-ng-model="vm.docente.usuario.nombre" required>
-                           <field-error-label data-field="vm.form.nombre" data-field-label="Nombre:" />
-                        </div>
-                    </div>
+                </div>
 
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="apellido">Apellido:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="text" placeholder="Apellido" name="apellido" data-ng-model="vm.docente.usuario.apellido" required>
-                           <field-error-label data-field="vm.form.apellido" data-field-label="Apellido:" />
-                        </div>
-                    </div>
-
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="username">Nombre de Usuario:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="text" placeholder="Nombre de Usuario" name="username" data-ng-model="vm.docente.usuario.username" required>
-                           <field-error-label data-field="vm.form.username" data-field-label="Nombre de Usuario" />
-                        </div>
-                    </div>
-
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="tipoDocumento">Tipo de Documento:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="text" placeholder="Tipo de Documento" name="tipoDocumento" data-ng-model="vm.docente.usuario.tipoDocumento" >
-                           <field-error-label data-field="vm.form.tipoDocumento" data-field-label="Tipo de Documento" />
-                        </div>
-                    </div>                    
-
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="numeroDocumento">Número de Documento:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="text" placeholder="Número de Documento" name="numeroDocumento" data-ng-model="vm.docente.usuario.numeroDocumento" required>
-                           <field-error-label data-field="vm.form.numeroDocumento" data-field-label="Número de Documento" />
-                        </div>
-                    </div>
-
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="genero">Genero:</label>
-                        <div class="col-md-10">
-                           <select class="form-control" placeholder="Genero" name="genero" data-ng-model="vm.docente.usuario.genero" ng-options="opt.id as opt.descripcion for opt in vm.generos"></select>
-                           <field-error-label data-field="vm.form.genero" data-field-label="Genero" />
-                        </div>
-                    </div>
-
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="email">Email:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="email" placeholder="Email@Email.com" name="email" data-ng-model="vm.docente.usuario.email" required>
-                           <field-error-label data-field="vm.form.email" data-field-label="Email" />
-                        </div>
-                    </div>                    
-
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="password">Clave:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="password" placeholder="Clave" id="password" name="password" data-ng-model="vm.docente.usuario.textPassword.first" required>
-                           <field-error-label data-field="vm.form.password" data-field-label="Clave" />
-                        </div>
-                    </div>                      
-
-                    <div class="form-group" show-errors>
-                        <label class="col-md-2 control-label" for="confirmPassword">Confirmación:</label>
-                        <div class="col-md-10">
-                           <input class="form-control" type="password" placeholder="Confirmación de Clave" name="confirmPassword" data-ng-model="vm.docente.usuario.textPassword.second" required>
-                           <field-error-label data-field="vm.form.confirmPassword" data-field-label="Confirmación de Clave" />
-                        </div>
-                    </div>   
-                    
-                    <div class="row">
-                        <div class="col-md-offset-2 col-md-10">
-                            <error-list data-form="vm.form" data-labels="vm.fieldLabels" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
+                <div class="form-group">
+                    <div class="col-md-12">
                             <button type="submit" class="btn btn-primary" aria-label="Guardar" data-ng-disabled="vm.form.$invalid">
                                 <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Guardar
                             </button>
@@ -110,12 +174,10 @@
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
                             </button>
                         </div>
-                    </div>
-                </div>
-                </form>
-            </div>        
-        </section>    
-        
+                </div> 
+                
+            </form>
+        </div>
     </section>
     
 </div>

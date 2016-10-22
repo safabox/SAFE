@@ -7,6 +7,7 @@
         'ngAnimate',
         'ngAria',
         'ngMessages',
+        'ngTable',
         'ui.bootstrap.showErrors',
         'ui.validate',
 
@@ -23,7 +24,8 @@
         'ui.router',
         'ngStorage',
         'blockUI',
-       
+        'angular-jwt',
+        
         // Custom modules
         'app.nav',
         'app.i18n',
@@ -33,7 +35,12 @@
         'app.ui.form.validation',
         'app.page',
         'app.administrador',
-        'app.administrador.alumnos'
+        'app.administrador.alumnos',
+        'app.administrador.docentes',
+        'app.administrador.cursos',
+        'app.alumno',
+        'app.docente',
+        'app.docente.cursos'
         //'app.table',
         //'app.task',
         //'app.calendar'
