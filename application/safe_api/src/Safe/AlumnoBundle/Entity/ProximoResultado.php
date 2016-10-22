@@ -6,6 +6,7 @@ class ProximoResultado {
     const APROBADO_OBSERVACION = 'APROBADO_OBSERVACION';
     const DESAPROBADO = 'DESAPROBADO';
     const CURSANDO = 'CURSANDO';
+    const FINALIZADO = 'FINALIZADO';
            
     
     private $estado;

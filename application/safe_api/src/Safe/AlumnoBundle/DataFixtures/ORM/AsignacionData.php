@@ -50,6 +50,18 @@ class AsignacionData extends AlumnoData
         $manager->flush();
         $this->addReference('alumno12', $alumno12);
         
+        $alumno13 = $this->crearAlumno('alumno13', '13');
+        $manager->persist($alumno13->getUsuario());
+        $manager->persist($alumno13);                
+        $manager->flush();
+        $this->addReference('alumno13', $alumno13);
+        
+        $alumno14 = $this->crearAlumno('alumno14', '14');
+        $manager->persist($alumno14->getUsuario());
+        $manager->persist($alumno14);                
+        $manager->flush();
+        $this->addReference('alumno14', $alumno14);
+        
         $curso = new Curso();
         $curso->setInstituto($this->getReference('instituto'));
         $curso->setTitulo('Asignacion');
@@ -64,6 +76,7 @@ class AsignacionData extends AlumnoData
         $manager->flush();
         
         $manager->persist(new AlumnoEstadoTema($alumno, $tema1, true));
+        $manager->persist(new AlumnoEstadoTema($alumno14, $tema1, true));
         $manager->flush();
         
         
@@ -72,6 +85,8 @@ class AsignacionData extends AlumnoData
         $manager->persist($tema2);
         $manager->flush();
         
+        $manager->persist(new AlumnoEstadoTema($alumno14, $tema2, true));
+        $manager->flush();
         
         $tema3 = $this->crearTema("3", $curso);
         $tema3->getPredecesoras()->add($tema1);
@@ -79,6 +94,7 @@ class AsignacionData extends AlumnoData
         $manager->flush();
 
         $manager->persist(new AlumnoEstadoTema($alumno, $tema3, true));
+        $manager->persist(new AlumnoEstadoTema($alumno14, $tema3, true));
         $manager->flush();
 
         
@@ -86,30 +102,42 @@ class AsignacionData extends AlumnoData
         $tema4->getPredecesoras()->add($tema2);
         $manager->persist($tema4);
         $manager->flush();
+        
+        $manager->persist(new AlumnoEstadoTema($alumno14, $tema4, true, 'FINALIZADO'));
+        $manager->flush();
    
         $tema5 = $this->crearTema("5", $curso);
         $tema5->getPredecesoras()->add($tema3);
         $tema5->getPredecesoras()->add($tema4);
         $manager->persist($tema5);
         $manager->flush();
+        
+        $manager->persist(new AlumnoEstadoTema($alumno14, $tema5, true));
+        $manager->flush();
 
         $tema6 = $this->crearTema("6", $curso);
         $tema6->getPredecesoras()->add($tema4);
         $tema6->getPredecesoras()->add($tema5);
-        $manager->persist($tema4);
+        $manager->persist($tema6);
+        $manager->flush();
+        
+        $manager->persist(new AlumnoEstadoTema($alumno14, $tema6, true));
         $manager->flush();
         
         $concepto1 = $this->crearConcepto("1", $tema4, false);
         $manager->persist($concepto1);
         $manager->flush();
         
-
+        $manager->persist(new AlumnoEstadoConcepto($alumno13, $concepto1, true));
+        $manager->flush();
+        
         $concepto2 = $this->crearConcepto("2", $tema4);
         $concepto2->getPredecesoras()->add($concepto1);
         $manager->persist($concepto2);
         $manager->flush();
         
         $manager->persist(new AlumnoEstadoConcepto($alumno, $concepto2, false));
+        $manager->persist(new AlumnoEstadoConcepto($alumno13, $concepto2, true));
         $manager->flush();
 
 
@@ -119,6 +147,7 @@ class AsignacionData extends AlumnoData
         $manager->flush();
         
         $manager->persist(new AlumnoEstadoConcepto($alumno12, $concepto3, false));
+        $manager->persist(new AlumnoEstadoConcepto($alumno13, $concepto3, true));
         $manager->flush();
         
         $itemBank = new ItemBank();
@@ -180,6 +209,7 @@ class AsignacionData extends AlumnoData
         $manager->flush();
         
         $manager->persist(new AlumnoEstadoConcepto($alumno, $concepto4, true));
+        $manager->persist(new AlumnoEstadoConcepto($alumno13, $concepto4, true));
         $manager->flush();
 
 
@@ -189,7 +219,9 @@ class AsignacionData extends AlumnoData
         $manager->persist($concepto5);
         $manager->flush();
         
-     
+        $manager->persist(new AlumnoEstadoConcepto($alumno13, $concepto5, true));
+        $manager->flush();
+        
         
     }
 
@@ -249,6 +281,9 @@ class AsignacionData extends AlumnoData
         Actividad 2  deshabilitada
         Actividad 3  theta -1
         Actividad 4  theta 1
-
-     */
+     
+    Para el alumno 13 Tiene todo los conceptos cierra el tema.
+    Para el alumno 14 Tiene todo los conceptos el curso.
+    */
+    
 }

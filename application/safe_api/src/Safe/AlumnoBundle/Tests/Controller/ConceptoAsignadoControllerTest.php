@@ -8,7 +8,7 @@ use Safe\AlumnoBundle\Entity\ProximoResultado;
 
 use Doctrine\Common\Util\Debug;
 class ConceptoAsignadoControllerTest extends SafeTestController {
-    
+
     public function testGetProximo_conceptoAction() {
         //inicio
         $login = $this->loginAlumno("alumno10");                
@@ -29,9 +29,63 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         $proximoResultado = json_decode($response->getContent(), true);
         $expectedConcepto = $this->getConceptoByTitulo('3 concepto');
            
-        $this->assertCamposBasicosEquals($expectedConcepto, $proximoResultado['elemento']);
         $this->assertEquals(ProximoResultado::CURSANDO, $proximoResultado['estado']);
+        $this->assertCamposBasicosEquals($expectedConcepto, $proximoResultado['elemento']);
         
+    }
+    
+    public function testGetProximo_conceptoAction_conTodosLosConceptosFinalizados_retornaEstadoDelConceptoYRegistraCierreDelTema() {
+        //inicio
+        $login = $this->loginAlumno("alumno13");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('Asignacion');
+        $idCurso = $curso->getId();
+        $tema = $this->getTemaByTitulo('4 tema');
+        
+        //TODO remove this assert.
+        $this->assertNull($this->getEstadoTema($tema->getId(), $id));
+        
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptosget_alumno_curso_tema_proximo_concepto', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId() ,'_format' => 'json'));
+        
+        
+        //test
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $proximoResultado = json_decode($response->getContent(), true);
+        
+        
+        $this->assertEquals(ProximoResultado::FINALIZADO, $proximoResultado['estado']);
+        $this->assertNotNull($this->getEstadoTema($tema->getId(), $id));
+                
+    }
+
+    
+    public function testGetProximo_conceptoAction_conElTemaFinalizado_retornaEstadoDelConcepto() {
+        //inicio
+        $login = $this->loginAlumno("alumno14");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('Asignacion');
+        $idCurso = $curso->getId();
+        $tema = $this->getTemaByTitulo('4 tema');
+
+        
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptosget_alumno_curso_tema_proximo_concepto', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId() ,'_format' => 'json'));
+        
+        
+        //test
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $proximoResultado = json_decode($response->getContent(), true);
+
+        $this->assertEquals(ProximoResultado::FINALIZADO, $proximoResultado['estado']);        
     }
     
     public function testGetAction() {
@@ -116,6 +170,16 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         return $curso;
     }
     
-    
+    protected function getEstadoTema($idTema, $idAlumno) {
+        $estado =  $this->em
+            ->getRepository('SafeTemaBundle:AlumnoEstadoTema')            
+            ->findOneBy(array('tema'=>$idTema, 'alumno'=>$idAlumno))
+        ;
+        if ($estado != null) {
+            $this->em->detach($estado);
+        }
+        
+        return $estado;
+    }
     
 }

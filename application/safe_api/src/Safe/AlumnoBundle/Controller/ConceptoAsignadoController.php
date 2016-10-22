@@ -40,9 +40,9 @@ class ConceptoAsignadoController extends SafeRestAbstractController {
      */
     public function getProximo_conceptoAction($alumnoId, $cursoId, $temaId)
     {              
-        $concepto = $this->getConceptoAsignadoService()->proximoConcepto($temaId, $alumnoId);
+        $proximoResultado = $this->getConceptoAsignadoService()->proximoConcepto($temaId, $alumnoId);
         
-        return $this->generarRespuesta(new ProximoResultado(ProximoResultado::CURSANDO, $concepto),
+        return $this->generarRespuesta($proximoResultado,
                 Response::HTTP_OK,
                 array('Default', 'alumno_concepto_detalle'));
     }

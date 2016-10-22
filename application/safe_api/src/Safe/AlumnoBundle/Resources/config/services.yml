@@ -15,7 +15,7 @@ services:
         arguments: ["@safe_tema.repository.tema", "@safe_tema.repository.alumno.tema.estado"]    
     safe_alumno.service.concepto_asignado:
         class: Safe\AlumnoBundle\Service\ConceptoAsignadoService
-        arguments: ["@safe_tema.repository.concepto", "@safe_tema.repository.alumno.concepto.estado"]  
+        arguments: ["@safe_tema.repository.concepto", "@safe_alumno.repository.alumno", "@safe_tema.repository.tema", "@safe_tema.repository.alumno.concepto.estado", "@safe_tema.repository.alumno.tema.estado"]  
     safe_alumno.service.actividad_asignada:
         class: Safe\AlumnoBundle\Service\ActividadAsignadaService
         arguments: ["@safe_tema.repository.actividad", "@safe_alumno.repository.alumno", "@safe_tema.repository.concepto", "@safe_tema.repository.alumno.concepto.estado", "@safe_cat.service.cat"]     
