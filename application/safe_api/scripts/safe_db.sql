@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 21-10-2016 a las 02:44:25
+-- Tiempo de generación: 22-10-2016 a las 03:36:32
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -63,6 +63,19 @@ INSERT INTO `alumno` (`id`, `legajo`, `usuario_id`, `instituto_id`, `fechaCreaci
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `alumno_estado_tema`
+--
+
+CREATE TABLE `alumno_estado_tema` (
+  `id` int(11) NOT NULL,
+  `alumno_id` int(11) NOT NULL,
+  `tema_id` int(11) NOT NULL,
+  `finalizado` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cat_ability`
 --
 
@@ -102,7 +115,8 @@ CREATE TABLE `cat_item` (
   `d` double NOT NULL,
   `code` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
-  `updated` datetime NOT NULL
+  `updated` datetime NOT NULL,
+  `enabled` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -323,7 +337,8 @@ CREATE TABLE `docente` (
 --
 
 INSERT INTO `docente` (`id`, `curriculum`, `fechaModificacion`, `usuario_id`, `instituto_id`, `legajo`, `fechaCreacion`) VALUES
-(6, NULL, '2016-09-17 02:07:27', 15, 1, '11', '2016-09-17 02:07:27');
+(6, NULL, '2016-09-17 02:07:27', 15, 1, '11', '2016-09-17 02:07:27'),
+(7, '<h3>Educaci&oacute;n<h3> <ul><li>Instituto 1</li><li>Instituto 2</li></ul>', '2016-10-21 15:29:35', 17, 1, '1234510', '2016-10-21 15:29:34');
 
 -- --------------------------------------------------------
 
@@ -493,10 +508,11 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `username`, `username_canonical`, `email`, `email_canonical`, `enabled`, `salt`, `password`, `last_login`, `locked`, `expired`, `expires_at`, `confirmation_token`, `password_requested_at`, `roles`, `credentials_expired`, `credentials_expire_at`, `nombre`, `apellido`, `avatar`, `tipo_documento_id`, `numero_documento`, `genero`, `nacionalidad`) VALUES
-(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-10-21 02:28:54', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL),
-(14, 'alumno10', 'alumno10', 'alumno10@asdf.com', 'alumno10@asdf.com', 0, '95k7ar66q0ow8gscgw4wcss0sk4c8gg', 'OyAMZvesPQMpaGy7KZV1DdcR8yy3O8bNOADSoYukr5EyO662tmSNoHbSpAp5Lpt2HGo2fxB8VJhzV1iYMSWV/g==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'alumno10', 'apellido10', NULL, 1, '290001111', 'Masculino', NULL),
-(15, 'usuario11', 'usuario11', 'usuario11@asd.com', 'usuario11@asd.com', 0, '116kmbor3e1w4os80k4wcso40coogo8', 'bDnIvTx1Bb3pNOl2HpMUql8fxsz1MyNj2dOhXBtb5UVqPCz5E36B36AzGihlAsvLDI1p0MpPO+n3KUprV5/2rw==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'Docente11', 'Apellido11', NULL, 1, '30444711', 'Masculino', NULL),
-(16, 'usuario12', 'usuario12', 'test@test.com', 'test@test.com', 0, 'm52rvfamzj4koks40kgw4ggokccwc44', 'd2QeGc9fYlVIY7H/1lUEaP3xySPwCTCvXtXFtG+I9+TMtkmaLLgyNays1pS4jBlK9Bhqz6FNOKXQ/Vw/LP89cg==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'alumno12', 'apellido12', NULL, 1, '30444712', 'Masculino', NULL);
+(1, 'admin', 'admin', 'admin@safe.com', 'admin@safe.com', 1, '6lsk4s3xzukgos4wc8kkooc4g0gg0kw', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', '2016-10-21 15:08:17', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:16:"ROLE_SUPER_ADMIN";}', 0, NULL, 'admin_nombre', 'admin_apellido', NULL, 1, '20555777', NULL, NULL),
+(14, 'alumno10', 'alumno10', 'alumno10@asdf.com', 'alumno10@asdf.com', 0, '95k7ar66q0ow8gscgw4wcss0sk4c8gg', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'alumno10', 'apellido10', NULL, 1, '290001111', 'Masculino', NULL),
+(15, 'usuario11', 'usuario11', 'usuario11@asd.com', 'usuario11@asd.com', 0, '116kmbor3e1w4os80k4wcso40coogo8', 'fAz1MnIWmBmMm+MttEEuq6oABXfyFXsvMup1TMA6EokWvk7ARq3plY6gZDK6x25vVDmiWUkkSZEysf7sf8AdDA==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'Docente11', 'Apellido11', NULL, 1, '30444711', 'Masculino', NULL),
+(16, 'usuario12', 'usuario12', 'test@test.com', 'test@test.com', 0, 'm52rvfamzj4koks40kgw4ggokccwc44', 'd2QeGc9fYlVIY7H/1lUEaP3xySPwCTCvXtXFtG+I9+TMtkmaLLgyNays1pS4jBlK9Bhqz6FNOKXQ/Vw/LP89cg==', NULL, 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:11:"ROLE_ALUMNO";}', 0, NULL, 'alumno12', 'apellido12', NULL, 1, '30444712', 'Masculino', NULL),
+(17, 'test_docente', 'test_docente', 'jirafales@organizacion.org', 'jirafales@organizacion.org', 1, '8wc3d2cexr0gckswkg44kwgswc40sgs', '5VihoD/YXf1835OZfP+dOTzdqwLfK+NErW2bKKlIPkTg7/+ySY65btyAY0qWY5L7wD8HFMi7HOkgls2liwq5Sw==', '2016-10-21 15:31:20', 0, 0, NULL, NULL, NULL, 'a:1:{i:0;s:12:"ROLE_DOCENTE";}', 0, NULL, 'Ruben2', 'Aguirre2', NULL, 1, '22777555', 'Masculino', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -517,6 +533,14 @@ ALTER TABLE `alumno`
   ADD UNIQUE KEY `alumn_leg_uk` (`legajo`,`instituto_id`),
   ADD KEY `IDX_1435D52DDB38439E` (`usuario_id`),
   ADD KEY `IDX_1435D52D6C6EF28` (`instituto_id`);
+
+--
+-- Indices de la tabla `alumno_estado_tema`
+--
+ALTER TABLE `alumno_estado_tema`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_431606A6FC28E5EE` (`alumno_id`),
+  ADD KEY `IDX_431606A6A64A8A17` (`tema_id`);
 
 --
 -- Indices de la tabla `cat_ability`
@@ -716,6 +740,11 @@ ALTER TABLE `actividad`
 ALTER TABLE `alumno`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
+-- AUTO_INCREMENT de la tabla `alumno_estado_tema`
+--
+ALTER TABLE `alumno_estado_tema`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT de la tabla `cat_ability`
 --
 ALTER TABLE `cat_ability`
@@ -774,7 +803,7 @@ ALTER TABLE `curso`
 -- AUTO_INCREMENT de la tabla `docente`
 --
 ALTER TABLE `docente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `instituto`
 --
@@ -809,7 +838,7 @@ ALTER TABLE `tipo_documento`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- Restricciones para tablas volcadas
 --
@@ -826,6 +855,13 @@ ALTER TABLE `actividad`
 ALTER TABLE `alumno`
   ADD CONSTRAINT `FK_1435D52D6C6EF28` FOREIGN KEY (`instituto_id`) REFERENCES `instituto` (`id`),
   ADD CONSTRAINT `FK_1435D52DDB38439E` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`);
+
+--
+-- Filtros para la tabla `alumno_estado_tema`
+--
+ALTER TABLE `alumno_estado_tema`
+  ADD CONSTRAINT `FK_431606A6A64A8A17` FOREIGN KEY (`tema_id`) REFERENCES `tema` (`id`),
+  ADD CONSTRAINT `FK_431606A6FC28E5EE` FOREIGN KEY (`alumno_id`) REFERENCES `alumno` (`id`);
 
 --
 -- Filtros para la tabla `cat_ability`

@@ -52,7 +52,7 @@ class Curso
      *
      * @ORM\Column(name="descripcion", type="text", nullable=true)     
      * @Expose
-     * @Groups({"admin_detalle"}) 
+     * @Groups({"admin_detalle", "docente_detalle", "alumno_detalle"}) 
      */
     private $descripcion;
 
@@ -76,19 +76,24 @@ class Curso
      *
      * @ORM\ManyToMany(targetEntity="Safe\DocenteBundle\Entity\Docente", inversedBy="cursos")
      * @ORM\JoinTable(name="curso_docente")     
+     * @Expose
+     * @Groups({"docente_detalle", "alumno_detalle"})
      */
     private $docentes;
 
     /**
      * @ORM\ManyToMany(targetEntity="Safe\AlumnoBundle\Entity\Alumno", inversedBy="cursos")
-     * @ORM\JoinTable(name="curso_alumno")     
+     * @ORM\JoinTable(name="curso_alumno")
+     * @Expose
+     * @Groups({"docente_detalle", "alumno_detalle"})      
      */
     private $alumnos;
     
      /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="curso")
-     * 
+     * @Expose
+     * @Groups({"docente_detalle"})      
      */
     private $temas;
     

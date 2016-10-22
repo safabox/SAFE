@@ -1,19 +1,19 @@
 <?php
 
-namespace Safe\DocenteBundle\Tests\Controller;
+namespace Safe\AlumnoBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Doctrine\Common\Util\Debug;
-class CursoImpartidoControllerTest extends SafeTestController {
+class CursoAsignadoControllerTest extends SafeTestController {
 
-    
+        
     public function testGetAllAction() {
         //inicio
-        $login = $this->loginDocente();    
-        $cliente = $login['cliente'];
-        $id = $login['datos']['idDocente'];
-        $route =  $this->getUrl('api_1_docentes_cursosget_docente_cursos', array('id' => $id, '_format' => 'json'));
+        $login = $this->loginAlumno();                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $route =  $this->getUrl('api_1_alumnos_cursosget_alumno_cursos', array('id' => $id, '_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
@@ -22,6 +22,7 @@ class CursoImpartidoControllerTest extends SafeTestController {
         $response = $cliente->getResponse();
         $this->assertJsonResponse($response, 200);       
         $cursos = json_decode($response->getContent(), true);
+        
         $this->assertCount(2, $cursos);
         
         $curso = $cursos[0];
@@ -35,15 +36,15 @@ class CursoImpartidoControllerTest extends SafeTestController {
         $this->assertArrayNotHasKey('docentes', $curso, 'docentes no permitido en el listado');
         $this->assertArrayNotHasKey('alumnos', $curso, 'alumnos no permitido en el listado');
         $this->assertArrayNotHasKey('descripcion', $curso, 'alumnos no permitido en el listado');
-
     }
+    
     public function testGetAction() {
         //inicio
-        $login = $this->loginDocente();    
-        $cliente = $login['cliente'];
-        $id = $login['datos']['idDocente'];
+        $login = $this->loginAlumno();                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
         $idCurso = 1;
-        $route =  $this->getUrl('api_1_docentes_cursosget_docente_curso', array('docenteId' => $id, 'id' => $idCurso,'_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnos_cursosget_alumno_curso', array('docenteId' => $id, 'id' => $idCurso,'_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
@@ -58,13 +59,23 @@ class CursoImpartidoControllerTest extends SafeTestController {
         $this->assertEquals($expectedCurso->getTitulo(), $curso['titulo']);
         $this->assertEquals($expectedCurso->getDescripcion(), $curso['descripcion']);
         $this->assertEquals($expectedCurso->getFechaModificacion()->format(DATE_ISO8601), $curso['fecha_modificacion']);
-        $this->assertEquals($expectedCurso->getFechaCreacion()->format(DATE_ISO8601), $curso['fecha_creacion']);
+        $this->assertEquals($expectedCurso->getFechaCreacion()->format(DATE_ISO8601), $curso['fecha_creacion']);        
         
+                
         $this->assertEquals($expectedCurso->getDocentes()->count(), count($curso['docentes']));  
         $this->assertEquals($expectedCurso->getDocentes()->get(0)->getId(), $curso['docentes'][0]['id']);  
         
         $this->assertEquals($expectedCurso->getAlumnos()->count(), count($curso['alumnos']));        
         $this->assertEquals($expectedCurso->getAlumnos()->get(0)->getId(), $curso['alumnos'][0]['id']);
+    }
+    
+    protected function getAlumno($id) {
+        $alumno = $this->em
+            ->getRepository('SafeAlumnoBundle:Alumno')
+            ->find($id)
+        ;
+        $this->em->detach($alumno);
+        return $alumno;
     }
     
     protected function getCurso($id) {
@@ -75,5 +86,7 @@ class CursoImpartidoControllerTest extends SafeTestController {
         $this->em->detach($curso);
         return $curso;
     }
+    
+    
     
 }

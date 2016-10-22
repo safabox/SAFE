@@ -29,6 +29,12 @@ services:
         factory_method: getRepository
         arguments:
             - Safe\TemaBundle\Entity\Actividad          
+    safe_tema.repository.alumno.tema.estado:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Safe\TemaBundle\Entity\AlumnoEstadoTema            
     safe_tema.form.type.identificador_tema:
         class: Safe\TemaBundle\Form\IdentificadorTemaType
         arguments: ["@doctrine.orm.entity_manager"]

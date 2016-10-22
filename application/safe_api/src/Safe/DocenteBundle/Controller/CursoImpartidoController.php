@@ -1,18 +1,16 @@
 <?php
 namespace Safe\DocenteBundle\Controller;
-
-use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Request\ParamFetcherInterface;
-
-use JMS\Serializer\SerializationContext;
 
 use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+use Safe\CoreBundle\Controller\SafeRestAbstractController;
 
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
-class CursoImpartidoController extends FOSRestController {
+class CursoImpartidoController extends SafeRestAbstractController {
     /**
      * Lista todos los cusos impartidos por el docente.
      *
@@ -40,11 +38,10 @@ class CursoImpartidoController extends FOSRestController {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
-        
-        //$view = $this->view();
-        //$view->setSerializationContext(SerializationContext::create()->setGroups(array('docente_curso_listado')));
-       
-        return $this->getCursoImpartidoService()->findAll($id, $limit, $offset);
+        $cursos = $this->getCursoImpartidoService()->findAll($id, $limit, $offset);
+        return $this->generarRespuesta($cursos,
+                Response::HTTP_OK,
+                array('Default'));
     } 
     
     /**
@@ -70,12 +67,18 @@ class CursoImpartidoController extends FOSRestController {
     public function getCursoAction($docenteId, $id)
     {      
         $curso =  $this->getCursoImpartidoService()->getById($id);
-        return $curso;
+        return $this->generarRespuesta($curso,
+                Response::HTTP_OK,
+                array('Default', 'docente_detalle'));
     }
     
     
     private function getCursoImpartidoService() {
         
         return $this->container->get('safe_docente.service.curso_impartido');       
+    }
+    
+    protected function procesarEntidadValida($curso, $method = HttpMethod::POST){
+
     }
 }

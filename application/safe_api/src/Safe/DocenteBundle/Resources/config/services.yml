@@ -13,7 +13,7 @@ services:
         arguments: ["@safe_tema.repository.tema"]       
     safe_docente.service.concepto_impartido:
         class: Safe\DocenteBundle\Service\ConceptoImpartidoService
-        arguments: ["@safe_tema.repository.concepto"]               
+        arguments: ["@safe_tema.repository.concepto", "@safe_cat.service.cat"]               
     safe_docente.service.actividad_impartida:
         class: Safe\DocenteBundle\Service\ActividadImpartidaService
         arguments: ["@safe_tema.repository.actividad", "@safe_cat.service.cat"]                       
@@ -38,3 +38,8 @@ services:
             arguments: ["@doctrine.orm.entity_manager"]
             tags:
                 - { name: form.type }            
+    safe_docente.form.type.registracion.concepto.form:
+            class: Safe\DocenteBundle\Form\RegistracionConceptoFormType
+            arguments: ["@doctrine.orm.entity_manager"]
+            tags:
+                - { name: form.type }                        

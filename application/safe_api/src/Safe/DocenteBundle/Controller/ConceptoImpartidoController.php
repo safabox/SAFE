@@ -16,7 +16,9 @@ use Safe\CoreBundle\Http\HttpMethod;
 use Safe\CoreBundle\Controller\SafeRestAbstractController;
 
 use Safe\TemaBundle\Entity\Concepto;
+use Safe\DocenteBundle\Form\ConceptoForm;
 use Safe\DocenteBundle\Form\RegistracionConceptoType;
+use Safe\DocenteBundle\Form\RegistracionConceptoFormType;
 use Doctrine\Common\Util\Debug;
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class ConceptoImpartidoController extends SafeRestAbstractController {
@@ -92,7 +94,11 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
      *   "descripcion" : "sumar numeros" ,
      *   "orden:" 1,
      *   "predecesoras": ["13"],
-     *   "sucesoras": ["9", "10"]
+     *   "sucesoras": ["9", "10"],
+     *   "tipo": "RASH",
+     *   "rango": [-3, 3],
+     *   "metodo": "THETA_MLE",
+     *   "incremento": 0.1
      *  }
      * ```
      * @ApiDoc(          
@@ -108,10 +114,10 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
      */
     public function postConceptoAction(Request $request, $docenteId, $cursoId, $temaId) { 
        //TODO SECURITY
-        $concepto = new Concepto();
+        $conceptoForm = new ConceptoForm();
         $tema = $this->getTemaService()->getById($temaId);
-        $concepto->setTema($tema);
-        return $this->procesarRequest($request, RegistracionConceptoType::class, $concepto, HttpMethod::POST);        
+        $conceptoForm->setTema($tema);
+        return $this->procesarRequest($request, RegistracionConceptoFormType::class, $conceptoForm, HttpMethod::POST);        
         
     }
     
@@ -120,12 +126,16 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
      * 
      * #### Ejemplo del Request     
      * ```
-     * {
+     *  {
      *   "titulo" : "Suma",
-     *   "descripcion" : "Suma 2 numeros" ,
+     *   "descripcion" : "sumar numeros" ,
      *   "orden:" 1,
      *   "predecesoras": ["13"],
-     *   "sucesoras": ["9", "10"]
+     *   "sucesoras": ["9", "10"],
+     *   "tipo": "RASH",
+     *   "rango": [-3, 3],
+     *   "metodo": "THETA_MLE",
+     *   "incremento": 0.1
      *  }
      * ```
      * @ApiDoc(          
@@ -141,11 +151,13 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
      */
     public function putConceptoAction(Request $request, $docenteId, $cursoId, $temaId, $conceptoId) {                
         //TODO SECURITY
+        $conceptoForm = new ConceptoForm();
         $concepto = $this->getConceptoImpartidoService()->getById($conceptoId);            
         if ($concepto == null) {                      
             throw  $this->createNotFoundException("temaBundle.concepto.no_encontrado");
         }            
-        return $this->procesarRequest($request, RegistracionConceptoType::class, $concepto, HttpMethod::PUT); 
+        $conceptoForm->setConcepto($concepto);        
+        return $this->procesarRequest($request, RegistracionConceptoFormType::class, $conceptoForm, HttpMethod::PUT); 
     }
       
     private function getConceptoImpartidoService() {        
@@ -156,24 +168,32 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
         return $this->container->get('safe_tema.service.tema');       
     }
 
-    protected function procesarEntidadValida($curso, $method = HttpMethod::POST) {
+    protected function procesarEntidadValida($conceptoForm, $method = HttpMethod::POST) {
         if (HttpMethod::PUT == $method || HttpMethod::PATCH == $method) {
-            $predecesoras = $curso->getPredecesoras()->filter(
+            $predecesoras = $conceptoForm->getPredecesoras()->filter(
                 function($entry) {
                     return ($entry !== '' || $entry !== NULL);
                 }
             );
-            $sucesoras = $curso->getSucesoras()->filter(
+            $sucesoras = $conceptoForm->getSucesoras()->filter(
                 function($entry) {                    
                     return ($entry !== NULL && $entry !== '');
                 }
             );            
-            $curso->setPredecesoras($predecesoras);       
-            $curso->setSucesoras($sucesoras);       
+            $conceptoForm->setPredecesoras($predecesoras);       
+            $conceptoForm->setSucesoras($sucesoras);       
+            
+            $concepto = $conceptoForm->mergeConcepto($conceptoForm->getConcepto());
+            $itemBank = $conceptoForm->mergeItemBank($concepto->getItemBank());
+            $concepto->setItemBank($itemBank);                        
+        } else if (HttpMethod::POST == $method) {
+            $concepto = $conceptoForm->createConcepto();
+            $itemBank = $conceptoForm->createItemBank();
+            $concepto->setItemBank($itemBank);
         }
-        $this->getConceptoImpartidoService()->crearOActualizar($curso);
+        $this->getConceptoImpartidoService()->crearOActualizar($concepto);
         if (HttpMethod::POST == $method) {
-            return $this->generarRespuesta($curso, Response::HTTP_OK, array('Default', 'docente_concepto_detalle'));
+            return $this->generarRespuesta($concepto, Response::HTTP_OK, array('Default', 'docente_concepto_detalle'));
         }
         return $this->generarRepuestaNotContent();
     }

@@ -16,10 +16,14 @@ class ConceptoRepository extends \Doctrine\ORM\EntityRepository
         try {            
             if ($concepto->getId() != null) {
                 $this->actualizarListaSucesoras($concepto, $em);
-            }                   
-            
+            }                               
             $em->persist($concepto);                     
-            $em->flush();            
+            $em->flush();       
+            $itemBank = $concepto->getItemBank();
+            $itemBank->setCode($concepto->getId());            
+            $em->persist($itemBank);
+            $em->flush();       
+            
             $em->getConnection()->commit();
          } catch (Exception $ex) {
             $em->getConnection()->rollback();            

@@ -18,6 +18,7 @@ class ActividadRepository extends \Doctrine\ORM\EntityRepository
             $em->flush();   
             $item = $actividad->getItem();
             $item->setCode($actividad->getId());
+            $item->setEnabled($actividad->isHabilitado());
             $em->persist($item);
             $em->flush();       
             $em->getConnection()->commit();

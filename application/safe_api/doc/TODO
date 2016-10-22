@@ -1,0 +1,12 @@
+* Deshabilitar los item cuando se deshabilita la actividad. DONE
+* Proximo Tema para el alumno.
+* Proximo Concepto para el alumno.
+* Finalizacion de Tema/Conceptos/Actividades
+* Ordenar los tema por orden y por fecha de creacion.
+* Crear los resolvedores de actividad.
+* Actividades dinamicas (Cargue el resultado pero que no de por terminado el item)
+* Servicio para ordenar Temas y conceptos.
+* Control de integridad (seguridad) al editar los temas por parte del docente.
+* Control de acceso para los docentes y alumnos en los cursos
+* Validacion de los formularios del lado del backend.
+* Clonar cursos enteros.

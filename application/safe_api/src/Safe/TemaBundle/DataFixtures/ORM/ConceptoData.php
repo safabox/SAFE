@@ -6,7 +6,9 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Safe\TemaBundle\Entity\Concepto;
-
+use Safe\CatBundle\Entity\ItemBank;
+use Safe\CatBundle\Entity\ItemType;
+use Safe\CatBundle\Entity\ThetaEstimationMethodType;
 class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
 {
 
@@ -22,7 +24,12 @@ class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
         $concepto1->setOrden(1);
         $concepto1->setHabilitado(true);
         $manager->persist($concepto1);
+        $manager->flush();
 
+        $itemBank = new ItemBank();
+        $itemBank->setCode($concepto1->getId());
+        $manager->persist($itemBank);
+        
         $concepto2 = new Concepto();
         $concepto2->setTitulo("Segundo concepto sucesora de 1");
         $concepto2->setDescripcion("descripcion del segundo Concepto");
@@ -31,6 +38,11 @@ class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
         $concepto2->setOrden(1);
         $concepto2->setHabilitado(true);
         $manager->persist($concepto2);
+        $manager->flush();
+        
+        $itemBank = new ItemBank(ItemType::TWO_PL, array(-2,3), ThetaEstimationMethodType::THETA_MLE, 0.1);
+        $itemBank->setCode($concepto2->getId());
+        $manager->persist($itemBank);
         
         $concepto3 = new Concepto();
         $concepto3->setTitulo("tercer concepto sucesora de 1");
@@ -40,6 +52,11 @@ class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
         $concepto3->setOrden(1);
         $concepto3->setHabilitado(true);
         $manager->persist($concepto3);
+        $manager->flush();
+
+        $itemBank = new ItemBank();
+        $itemBank->setCode($concepto3->getId());
+        $manager->persist($itemBank);
 
         
         $concepto4 = new Concepto();
@@ -51,6 +68,12 @@ class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
         $concepto4->setOrden(1);
         $concepto4->setHabilitado(true);
         $manager->persist($concepto4);
+        $manager->flush();
+        
+        $itemBank = new ItemBank();
+        $itemBank->setCode($concepto4->getId());
+        $manager->persist($itemBank);
+
         
         $concepto5 = new Concepto();
         $concepto5->setTitulo("5 concepto");
@@ -59,7 +82,13 @@ class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
         $concepto5->setOrden(1);
         $concepto5->setHabilitado(true);
         $manager->persist($concepto5);
+        $manager->flush();
+        
+        $itemBank = new ItemBank();
+        $itemBank->setCode($concepto5->getId());
+        $manager->persist($itemBank);
 
+        
         $manager->flush();
 
         $this->addReference('curso-matematicas-tema1-concepto1', $concepto1);

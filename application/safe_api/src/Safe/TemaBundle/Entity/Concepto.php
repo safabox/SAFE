@@ -9,6 +9,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
+
+
+use Safe\CatBundle\Entity\ItemBank;
+use Safe\CatBundle\Entity\ItemType;
+use Safe\CatBundle\Entity\ThetaEstimationMethodType;
 
 /**
  * Concepto
@@ -111,6 +117,8 @@ class Concepto
      * @ORM\JoinColumn(name="tema_id", referencedColumnName="id", nullable=false)
      */
     private $tema;
+    
+    private $itemBank;
     
     
     public function __construct()
@@ -365,6 +373,72 @@ class Concepto
         $this->actividades = $actividades;
     }
 
+    function getItemBank() {
+        return $this->itemBank;
+    }
 
+    function setItemBank($itemBank) {
+        $this->itemBank = $itemBank;
+    }
+
+        
+    //Transient
+    /**
+     * @Groups({"docente_concepto_detalle"}) 
+     * @VirtualProperty 
+     * @return type string
+     */
+    public function getTipo() {
+        return ($this->itemBank != null) ? $this->itemBank->getItemType() : null;
+    }
+    
+    /**
+     * @Groups({"docente_concepto_detalle"}) 
+     * @VirtualProperty 
+     * @return type array
+     */
+    public function getRango() {
+        return ($this->itemBank != null) ? $this->itemBank->getItemRange() : null;
+    }
+    
+    /**
+     * @Groups({"docente_concepto_detalle"}) 
+     * @VirtualProperty 
+     * @return type string
+     */
+    public function getMetodo() {
+        return ($this->itemBank != null) ? $this->itemBank->getThetaEstimationMethod() : null;
+    }
+    /**
+     * @Groups({"docente_concepto_detalle"}) 
+     * @VirtualProperty 
+     * @return type float
+     */
+    public function getIncremento() {
+        return ($this->itemBank != null) ? $this->itemBank->getDiscretIncrement() : null;
+    }
+    
+/*    public function setTipo($tipo) {
+        $this->itemBank = ($this->itemBank == null) ? new ItemBank() : $this->itemBank;
+    }
+    
+    public function setRango($rango) {
+        $this->itemBank = ($this->itemBank == null) ? new ItemBank() : $this->itemBank;
+
+    }
+    
+    public function setMetodo($metodo) {
+        $this->itemBank = ($this->itemBank == null) ? new ItemBank() : $this->itemBank;
+
+        
+    }
+    public function setIncremento($incremento) {
+        $this->itemBank = ($this->itemBank == null) ? new ItemBank() : $this->itemBank;
+
+    }
+  */  
+    
+    
+    
 }
 

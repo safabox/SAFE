@@ -52,7 +52,7 @@ class Item
      * @ORM\Column(name="d", type="float", nullable=false)
      */
     private $d;
-
+    
     /**
      * @var \stdClass
      *
@@ -90,6 +90,14 @@ class Item
     private $updated;
 
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     *
+     */
+    private $enabled;
+    
     //https://en.wikipedia.org/wiki/Item_response_theory#IRT_models
     public function __construct($b=0, $a=1, $c=0, $d=1)
     {
@@ -98,6 +106,7 @@ class Item
         $this->b = $b;
         $this->c = $c;
         $this->d = $d;
+        $this->enabled = true;
     }
     /**
      * @ORM\PrePersist()
@@ -345,5 +354,15 @@ class Item
     {
         return $this->updated;
     }
+    
+    function isEnabled() {
+        return $this->enabled;
+    }
+
+    function setEnabled($enabled) {
+        $this->enabled = $enabled;
+    }
+
+
 }
 

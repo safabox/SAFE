@@ -91,7 +91,7 @@ class CATService {
 
             $itemBank = $item->getItemBank();
             $ability = $this->abilityRepository->findOneAbility($examinee->getCode(), $itemBank->getCode());
-            if (ThetaEstimationMethodType::THETA_ML == $itemBank->getThetaEstimationMethod()) {
+            if (ThetaEstimationMethodType::THETA_MLE == $itemBank->getThetaEstimationMethod()) {
                 $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorML($ability->getTheta(), $item->getItemsResults(), $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
             } else {
                 $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorNR($ability->getTheta(), $item->getItemsResults(), $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
@@ -142,6 +142,7 @@ class CATService {
         
         $query = $query->join('item.itemBank', 'ib')                                       
                        ->where('ib.code = :item_bank_code')
+                       ->andWhere('item.enabled = true')
                        ->andWhere($query->expr()->not($query->expr()->exists($queryItemResult->getDQL()))) 
                        ->setParameter('item_bank_code', $item_bank_code)
                        ->setParameter('examinee_code', $examinee_code) 

@@ -108,16 +108,26 @@ class Tema
     
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Safe\CursoBundle\Entity\Curso", inversedBy="items")
+     * @ORM\ManyToOne(targetEntity="Safe\CursoBundle\Entity\Curso", inversedBy="temas")
      * @ORM\JoinColumn(name="curso_id", referencedColumnName="id", nullable=false)
      */
     private $curso;
+    
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\AlumnoEstadoTema", mappedBy="tema")
+     * 
+     */
+    private $estadosAlumnos;
 
+    
     
     public function __construct()
     {
         $this->predecesoras = new ArrayCollection();
         $this->sucesoras = new ArrayCollection();
+        $this->estadosAlumnos = new ArrayCollection();
         $this->setFechaCreacion(new \DateTime());
         $this->habilitado = true;
         $this->orden = 0;
@@ -276,4 +286,13 @@ class Tema
     function setConceptos($conceptos) {
         $this->conceptos = $conceptos;
     } 
+   
+    function getEstadosAlumnos() {
+        return $this->estadosAlumnos;
+    }
+
+    function setEstadosAlumnos(\stdClass $estadosAlumnos) {
+        $this->estadosAlumnos = $estadosAlumnos;
+    }
+
 }

@@ -11,13 +11,17 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use Doctrine\Common\Persistence\ObjectManager;
 
 use Safe\TemaBundle\Form\IdentificadorConceptoType;
 use Safe\CoreBundle\Form\BooleanType;
-class RegistracionConceptoType extends AbstractType {
+use Safe\CatBundle\Form\RegistracionItemBankType;
+use Safe\CatBundle\Entity\ItemType;
+use Safe\CatBundle\Entity\ThetaEstimationMethodType;
+
+class RegistracionConceptoFormType extends AbstractType {
     private $manager;
 
     public function __construct(ObjectManager $manager)
@@ -40,6 +44,25 @@ class RegistracionConceptoType extends AbstractType {
                     'entry_type' => 'identificador_concepto',
                     'allow_add' => true,                        
                 ))
+                ->add('tipo', ChoiceType::class, array(
+                            'choices'  => array(
+                                    ItemType::RASH => ItemType::RASH,
+                                    ItemType::TWO_PL => ItemType::TWO_PL,
+                                    ItemType::THREE_Pl => ItemType::THREE_Pl,                                
+                            )
+                ))
+                ->add('rango', CollectionType::class, array(                
+                    'entry_type'   => NumberType::class,
+                    'allow_add' => true
+                ))
+                ->add('metodo', ChoiceType::class, 
+                        array(
+                            'choices'  => array(
+                                    ThetaEstimationMethodType::THETA_MLE => ThetaEstimationMethodType::THETA_MLE,
+                                    ThetaEstimationMethodType::THETA_NEWTON_RAPHSON => ThetaEstimationMethodType::THETA_NEWTON_RAPHSON,                                
+                            )
+                ))
+                ->add('incremento', NumberType::class)  
         ;
         
         
@@ -51,7 +74,7 @@ class RegistracionConceptoType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Safe\TemaBundle\Entity\Concepto',            
+            'data_class' => 'Safe\DocenteBundle\Form\ConceptoForm',            
         ));
     }
     

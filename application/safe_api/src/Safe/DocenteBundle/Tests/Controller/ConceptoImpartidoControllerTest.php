@@ -31,6 +31,11 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $this->assertArrayNotHasKey('predecesoras', $concepto, 'No se debe mostrar las predecesoras en el listado');
         $this->assertArrayNotHasKey('sucesoras', $concepto, 'No se debe mostrar las predecesoras en el listado');
 
+        $this->assertArrayNotHasKey('tipo', $concepto, 'No se debe mostrar el tipo en el listado');    
+        $this->assertArrayNotHasKey('rango', $concepto, 'No se debe mostrar el rango en el listado');
+        $this->assertArrayNotHasKey('metodo', $concepto, 'No se debe mostrar el metodo en el listado');
+        $this->assertArrayNotHasKey('incremento', $concepto, 'No se debe mostrar el incremento en el listado');
+
     }
     
     public function testGetAction() {
@@ -65,6 +70,10 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $sucesora = $concepto['sucesoras'][0];
         $expectedSucesora = $expectedConcepto->getSucesoras()->get(0);
         $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);                
+        $this->assertEquals('2PL', $concepto['tipo']);
+        $this->assertSame(array(-2, 3), $concepto['rango']);
+        $this->assertEquals('THETA_MLE', $concepto['metodo']);
+        $this->assertEquals(0.1, $concepto['incremento'],'', 0.1);
     }
     
     public function testPostAction() {
@@ -95,9 +104,14 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $sucesora = $concepto['sucesoras'][0];
         $expectedSucesora = $this->getConcepto($nuevoConcepto['sucesoras'][0]);
         $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);
+
+        $this->assertEquals('2PL', $concepto['tipo']);
+        $this->assertSame(array(-1, 1), $concepto['rango']);
+        $this->assertEquals('THETA_MLE', $concepto['metodo']);
+        $this->assertEquals(0.1, $concepto['incremento'],'', 0.1);
+
     }
-    
-    
+
     public function testPutAction() {
         //inicio
         $login = $this->loginDocente();    
@@ -109,7 +123,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         
         $conceptoDesactualizadoBBDD = $this->getConcepto($conceptoId);
         $conceptoAActualizar = $this->crearConceptoArray($conceptoDesactualizadoBBDD->getTitulo().' PUT', $conceptoDesactualizadoBBDD->getDescripcion().' PUT', 1, array(3), array(2));        
-        
+        $conceptoAActualizar['tipo'] = 'RASH';
         $content = json_encode($conceptoAActualizar);
         $route =  $this->getUrl('api_1_docentes_cursos_temas_conceptosput_docente_curso_tema_concepto', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, 'conceptoId' => $conceptoId, '_format' => 'json'));
   
@@ -132,8 +146,12 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $sucesora = $concepto->getSucesoras()->get(0);
         $expectedSucesora = $this->getConcepto($conceptoAActualizar['sucesoras'][0]);
         $this->assertEquals($expectedSucesora->getId(), $sucesora->getId());
+        
+        $itemBank = $this->getItemBank($concepto->getId());
+        $this->assertEquals('RASH', $itemBank->getItemType());
+   
     }
-    
+
     public function testPutAction_cambiarSucesorasYPredecesoras() {
         //inicio
         $login = $this->loginDocente();    
@@ -192,7 +210,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $concepto = $this->getConcepto($conceptoId);
         $this->assertNotTrue($concepto->isHabilitado());
     }
-    
+
     
         
     private function assertCamposBasicosEquals($expectedConcepto, $concepto) {
@@ -212,7 +230,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $this->assertArrayHasKey('fecha_modificacion', $concepto, 'Fecha de modificacion del tema no encontrada');
         $this->assertNotNull($concepto['fecha_modificacion'], 'Fecha de modificacion del tema invalida');
         $this->assertArrayHasKey('fecha_creacion', $concepto, 'Fecha de creacion del tema no encontrada');
-        $this->assertNotNull($concepto['fecha_creacion'], 'Fecha de creacion del tema invalida');        
+        $this->assertNotNull($concepto['fecha_creacion'], 'Fecha de creacion del tema invalida');     
     }
     
     protected function getConcepto($id) {
@@ -224,6 +242,15 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         return $concepto;
     }
     
+    protected function getItemBank($code) {
+        $itemBank =  $this->em
+            ->getRepository('SafeCatBundle:ItemBank')
+            ->findOneBy(array('code'=>$code))
+        ;
+        $this->em->detach($itemBank);
+        return $itemBank;
+    }
+    
     
     protected function crearConceptoArray($titulo, $descripcion, $orden, $predecesoras=array(), $sucesoras=array()) {        
         $dato = array(
@@ -233,6 +260,10 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
             'orden' => $orden,
             'predecesoras' => $predecesoras,
             'sucesoras' => $sucesoras,
+            'tipo' => '2PL',
+            'rango' => array(-1, 1),
+            'metodo' => 'THETA_MLE',
+            'incremento' => 0.1,
         );
         return $dato;
     }
