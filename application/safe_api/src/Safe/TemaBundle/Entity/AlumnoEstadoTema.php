@@ -24,10 +24,10 @@ class AlumnoEstadoTema
     /**
      * @var bool
      *
-     * @ORM\Column(name="aprobo", type="boolean")
+     * @ORM\Column(name="aprobado", type="boolean")
      *
      */
-    private $aprobo;
+    private $aprobado;
 
     /**
      * @var \stdClass
@@ -46,11 +46,20 @@ class AlumnoEstadoTema
     private $tema;
 
 
-    public function __construct($alumno, $tema, $aprobo = true)
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string")
+     *
+     */
+    private $estado;
+    
+    public function __construct($alumno, $tema, $aprobado = true, $estado = 'APROBADO')
     {
         $this->alumno = $alumno;
         $this->tema = $tema;
-        $this->aprobo = $aprobo;
+        $this->aprobado = $aprobado;
+        $this->estado = $estado;
     }  
     /**
      * Get id
@@ -62,14 +71,15 @@ class AlumnoEstadoTema
         return $this->id;
     }
 
-    function getAprobo() {
-        return $this->aprobo;
+    function isAprobado() {
+        return $this->aprobado;
     }
 
-    function setAprobo($aprobo) {
-        $this->aprobo = $aprobo;
+    function setAprobado($aprobado) {
+        $this->aprobado = $aprobado;
     }
 
+    
     
         /**
      * Set alumno
@@ -118,5 +128,15 @@ class AlumnoEstadoTema
     {
         return $this->tema;
     }
+    
+    function getEstado() {
+        return $this->estado;
+    }
+
+    function setEstado($estado) {
+        $this->estado = $estado;
+    }
+
+
 }
 

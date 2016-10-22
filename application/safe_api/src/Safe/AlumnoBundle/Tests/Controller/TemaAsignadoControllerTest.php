@@ -4,6 +4,8 @@ namespace Safe\AlumnoBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
+
+use Safe\AlumnoBundle\Entity\ProximoResultado;
 use Doctrine\Common\Util\Debug;
 class TemaAsignadoControllerTest extends SafeTestController {
     
@@ -22,11 +24,11 @@ class TemaAsignadoControllerTest extends SafeTestController {
         //validacion
         $response = $cliente->getResponse();
         $this->assertJsonResponse($response, 200);       
-        $tema = json_decode($response->getContent(), true);
+        $proximoResultado = json_decode($response->getContent(), true);
         $expectedTema = $this->getTemaByTitulo("4 tema");
            
-        $this->assertCamposBasicosEquals($expectedTema, $tema);
-        
+        $this->assertCamposBasicosEquals($expectedTema, $proximoResultado['elemento']);
+        $this->assertEquals(ProximoResultado::CURSANDO, $proximoResultado['estado']);
     }
     
     public function testGetAction() {

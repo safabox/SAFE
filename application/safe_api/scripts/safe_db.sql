@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 22-10-2016 a las 13:58:01
+-- Tiempo de generación: 22-10-2016 a las 18:39:37
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -70,7 +70,8 @@ CREATE TABLE `alumno_estado_tema` (
   `id` int(11) NOT NULL,
   `alumno_id` int(11) NOT NULL,
   `tema_id` int(11) NOT NULL,
-  `aprobo` tinyint(1) NOT NULL
+  `aprobado` tinyint(1) NOT NULL,
+  `estado` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -85,7 +86,8 @@ CREATE TABLE `cat_ability` (
   `item_bank_id` int(11) NOT NULL,
   `theta` double NOT NULL,
   `created` datetime NOT NULL,
-  `updated` datetime NOT NULL
+  `updated` datetime NOT NULL,
+  `theta_error` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -133,7 +135,8 @@ CREATE TABLE `cat_item_bank` (
   `theta_est_method` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `discret_increment` double NOT NULL,
   `created` datetime NOT NULL,
-  `updated` datetime NOT NULL
+  `updated` datetime NOT NULL,
+  `expected_theta` double NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

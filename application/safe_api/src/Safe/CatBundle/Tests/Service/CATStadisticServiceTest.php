@@ -11,7 +11,7 @@ class CATStadisticServiceTest extends SafeCATServiceTest {
         
         $result = $this->getInstance()->findAllExamineesStadistics();
         
-        $this->assertEquals(3, count($result));
+        $this->assertEquals(4, count($result));
         $examineeStadistic = $result[0];
         $this->assertEquals('1', $examineeStadistic->getCode());
         $this->assertEquals(1, count($examineeStadistic->getItemBankStadisticList()));

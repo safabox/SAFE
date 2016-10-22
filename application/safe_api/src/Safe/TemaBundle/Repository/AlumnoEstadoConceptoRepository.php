@@ -10,4 +10,10 @@ namespace Safe\TemaBundle\Repository;
  */
 class AlumnoEstadoConceptoRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function crearOActualizar($alumnoEstadoConcepto) {
+        $em = $this->getEntityManager();
+        $em->persist($alumnoEstadoConcepto);                 
+        $em->flush();   
+        return $alumnoEstadoConcepto;
+    }
 }

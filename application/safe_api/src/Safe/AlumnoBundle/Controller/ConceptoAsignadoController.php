@@ -12,6 +12,7 @@ use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Safe\CoreBundle\Controller\SafeRestAbstractController;
+use Safe\AlumnoBundle\Entity\ProximoResultado;
 use Doctrine\Common\Util\Debug;
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class ConceptoAsignadoController extends SafeRestAbstractController {
@@ -21,7 +22,7 @@ class ConceptoAsignadoController extends SafeRestAbstractController {
      * Obtiene el proximo concepto para el alumno.
      *
      * @ApiDoc(
-     *   output = "Safe\CursoBundle\Entity\Curso",
+     *   output = "Safe\TemaBundle\Entity\Concepto",
      *   statusCodes = {
      *     200 = "Petición resuelta correctamente",
      *     404 = "Curso no econtrado"
@@ -41,7 +42,7 @@ class ConceptoAsignadoController extends SafeRestAbstractController {
     {              
         $concepto = $this->getConceptoAsignadoService()->proximoConcepto($temaId, $alumnoId);
         
-        return $this->generarRespuesta($concepto,
+        return $this->generarRespuesta(new ProximoResultado(ProximoResultado::CURSANDO, $concepto),
                 Response::HTTP_OK,
                 array('Default', 'alumno_concepto_detalle'));
     }
@@ -50,7 +51,7 @@ class ConceptoAsignadoController extends SafeRestAbstractController {
      * Obtiene el detalle del concepto.
      *
      * @ApiDoc(
-     *   output = "Safe\CursoBundle\Entity\Curso",
+     *   output = "Safe\TemaBundle\Entity\Concepto",
      *   statusCodes = {
      *     200 = "Petición resuelta correctamente",
      *     404 = "Curso no econtrado"

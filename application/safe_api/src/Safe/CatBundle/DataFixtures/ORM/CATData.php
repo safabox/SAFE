@@ -38,19 +38,26 @@ class CATData extends AbstractFixture implements OrderedFixtureInterface
         $examinee3 = new Examinee();
         $examinee3->setCode($this->getReference('alumno3')->getId());
         $manager->persist($examinee3);
+        
+        $examinee4 = new Examinee();
+        $examinee4->setCode($this->getReference('alumno4')->getId());
+        $manager->persist($examinee4);
  
         
         $theta = 0;
         
-        $ability = new Ability($examinee, $itemBank, $theta);
+        $ability = new Ability($examinee, $itemBank, $theta, -0.1);
         $manager->persist($ability);
         $pastAbility = new PastAbility($ability);
         $pastAbility->setTheta(-1);
         $manager->persist($pastAbility);
-  
-        $ability3 = new Ability($examinee3, $itemBank, $theta);
+          
+        $ability3 = new Ability($examinee3, $itemBank, $theta, -0.5);
         $manager->persist($ability3);
   
+        $ability4= new Ability($examinee4, $itemBank, -1, 0.1);
+        $manager->persist($ability4);
+
         
         $items = array();
         $result = 0;
@@ -65,7 +72,7 @@ class CATData extends AbstractFixture implements OrderedFixtureInterface
                     $itemResult = ItemResult::fromItem($examinee, $item, $result);
                     $manager->persist($itemResult);
                     $result = ($result == 0) ? 1 : 0;
-                }
+                } 
                 //Add resut for Examinee3 (has all item finished)
                 $itemResult = ItemResult::fromItem($examinee3, $item, $result);
                 $manager->persist($itemResult);                

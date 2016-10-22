@@ -12,6 +12,8 @@ use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Safe\CoreBundle\Controller\SafeRestAbstractController;
+use Safe\AlumnoBundle\Entity\ProximoResultado;
+
 use Doctrine\Common\Util\Debug;
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class TemaAsignadoController extends SafeRestAbstractController {
@@ -21,7 +23,7 @@ class TemaAsignadoController extends SafeRestAbstractController {
      * Obtiene el detalle del curso asignado al alumno.
      *
      * @ApiDoc(
-     *   output = "Safe\CursoBundle\Entity\Curso",
+     *   output = "Safe\TemaBundle\Entity\Tema",
      *   statusCodes = {
      *     200 = "Petición resuelta correctamente",
      *     404 = "Curso no econtrado"
@@ -41,7 +43,7 @@ class TemaAsignadoController extends SafeRestAbstractController {
     {              
         $tema = $this->getTemaAsignadoService()->proximoTema($cursoId, $alumnoId);
         
-        return $this->generarRespuesta($tema,
+        return $this->generarRespuesta(new ProximoResultado(ProximoResultado::CURSANDO, $tema),
                 Response::HTTP_OK,
                 array('Default', 'alumno_tema_detalle'));
     }

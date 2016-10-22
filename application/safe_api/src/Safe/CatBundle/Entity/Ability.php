@@ -43,6 +43,13 @@ class Ability
      * @ORM\Column(name="theta", type="float", nullable=false)
      */
     private $theta;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="theta_error", type="float", nullable=false)
+     */
+    private $thetaError;
 
     /**
      *
@@ -65,12 +72,13 @@ class Ability
     private $updated;
 
 
-    public function __construct($examinee, $itemBank, $theta)
+    public function __construct($examinee, $itemBank, $theta, $thetaError=99)
     {
         $this->pastAbilities = new ArrayCollection();
         $this->examinee = $examinee;
         $this->itemBank = $itemBank;
         $this->theta = $theta;
+        $this->thetaError = $thetaError;
     }
     
     /**
@@ -242,6 +250,19 @@ class Ability
     public function getUpdated()
     {
         return $this->updated;
+    }
+    
+    function getThetaError() {
+        return $this->thetaError;
+    }
+
+    function setThetaError($thetaError) {
+        $this->thetaError = $thetaError;
+    }
+
+
+    function getUnsignedThetaError() {
+        return ($this->thetaError < 0) ? $this->thetaError * -1 : $this->thetaError;
     }
 }
 

@@ -44,6 +44,11 @@ class AsignacionData extends AlumnoData
         $manager->flush();
         $this->addReference('alumno11', $alumno11);
         
+        $alumno12 = $this->crearAlumno('alumno12', '12');
+        $manager->persist($alumno12->getUsuario());
+        $manager->persist($alumno12);                
+        $manager->flush();
+        $this->addReference('alumno12', $alumno12);
         
         $curso = new Curso();
         $curso->setInstituto($this->getReference('instituto'));
@@ -113,7 +118,11 @@ class AsignacionData extends AlumnoData
         $manager->persist($concepto3);
         $manager->flush();
         
+        $manager->persist(new AlumnoEstadoConcepto($alumno12, $concepto3, false));
+        $manager->flush();
+        
         $itemBank = new ItemBank();
+        $itemBank->setExpectedTheta(1);
         $itemBank->setCode($concepto3->getId());
         $manager->persist($itemBank);
         $manager->flush();
@@ -124,6 +133,15 @@ class AsignacionData extends AlumnoData
  
         $ability = new Ability($examinee, $itemBank, 0);
         $manager->persist($ability);
+        
+        
+        $examinee2 = new Examinee();
+        $examinee2->setCode($alumno11->getId());
+        $manager->persist($examinee2);
+ 
+        $ability = new Ability($examinee2, $itemBank, 1, 0.1);
+        $manager->persist($ability);
+        $manager->flush();
         
         $actividad1 = $this->crearActividad("1", $concepto3);
         $manager->persist($actividad1);

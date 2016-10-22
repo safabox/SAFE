@@ -44,6 +44,12 @@ class AlumnoData extends PerfilDataAbstract
         $manager->persist($alumno);
         $manager->flush();
         $this->addReference('alumno3', $alumno);
+        
+        $alumno = $this->crearAlumno('alumno4', '4');
+        $manager->persist($alumno->getUsuario());
+        $manager->persist($alumno);
+        $manager->flush();
+        $this->addReference('alumno4', $alumno);
     }
 
     public function getOrder() {

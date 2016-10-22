@@ -40,17 +40,25 @@ class AlumnoEstadoConcepto
     /**
      * @var bool
      *
-     * @ORM\Column(name="aprobo", type="boolean")
+     * @ORM\Column(name="aprobado", type="boolean")
      *
      */
-    private $aprobo;
+    private $aprobado;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="estado", type="string")
+     *
+     */
+    private $estado;
 
-    public function __construct($alumno, $concepto, $aprobo = true)
+    public function __construct($alumno, $concepto, $aprobado = true, $estado='APROBADO')
     {
         $this->alumno = $alumno;
         $this->concepto = $concepto;
-        $this->aprobo = $aprobo;
+        $this->aprobado = $aprobado;
+        $this->estado = $estado;
     } 
     
     /**
@@ -111,28 +119,20 @@ class AlumnoEstadoConcepto
         return $this->concepto;
     }
 
-    /**
-     * Set aprobo
-     *
-     * @param boolean $aprobo
-     *
-     * @return AlumnoConceptoEstado
-     */
-    public function setAprobo($aprobo)
-    {
-        $this->aprobo = $aprobo;
-
-        return $this;
+    function isAprobado() {
+        return $this->aprobado;
     }
 
-    /**
-     * Get aprobo
-     *
-     * @return bool
-     */
-    public function getAprobo()
-    {
-        return $this->aprobo;
+    function setAprobado($aprobado) {
+        $this->aprobado = $aprobado;
+    }
+    
+    function getEstado() {
+        return $this->estado;
+    }
+
+    function setEstado($estado) {
+        $this->estado = $estado;
     }
 }
 

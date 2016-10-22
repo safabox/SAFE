@@ -4,6 +4,8 @@ namespace Safe\AlumnoBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
+use Safe\AlumnoBundle\Entity\ProximoResultado;
+
 use Doctrine\Common\Util\Debug;
 class ConceptoAsignadoControllerTest extends SafeTestController {
     
@@ -24,11 +26,11 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         //validacion
         $response = $cliente->getResponse();
         $this->assertJsonResponse($response, 200);
-        $concepto = json_decode($response->getContent(), true);
+        $proximoResultado = json_decode($response->getContent(), true);
         $expectedConcepto = $this->getConceptoByTitulo('3 concepto');
            
-        
-        $this->assertCamposBasicosEquals($expectedConcepto, $concepto);
+        $this->assertCamposBasicosEquals($expectedConcepto, $proximoResultado['elemento']);
+        $this->assertEquals(ProximoResultado::CURSANDO, $proximoResultado['estado']);
         
     }
     

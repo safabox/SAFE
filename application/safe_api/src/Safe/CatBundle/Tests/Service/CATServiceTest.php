@@ -3,6 +3,7 @@ namespace Safe\CatBundle\Tests\Service;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 use Safe\CatBundle\Tests\Service\SafeCATServiceTest;
+use Safe\CatBundle\Entity\ExamineeTestStatus;
 use Doctrine\Common\Util\Debug;
 
 class CATServiceTest extends SafeCATServiceTest {
@@ -39,8 +40,26 @@ class CATServiceTest extends SafeCATServiceTest {
  
         $result = $this->getInstance()->getNextItemFor($itemBankCode, $examineeCode);
         
-        $this->assertNull($result);
+        $this->assertNull($result);        
+    }
+    
+    public function testGetExamineeStatusFor_withItemBankCodeAndExamineeCode_withRequeridedTheta_returnStatusWithPass(){
+        $itemBankCode = 1;
         
+        $examineeTestStatus = $this->getInstance()->getExamineeStatusFor($itemBankCode, 1);
+        
+        $this->assertEquals(ExamineeTestStatus::APPROVED, $examineeTestStatus->getStatus());
+        $this->assertEquals(-0.1, $examineeTestStatus->getEstimatedError(), '', 0);
+        
+        $examineeTestStatus = $this->getInstance()->getExamineeStatusFor($itemBankCode, 3);
+        
+        $this->assertEquals(ExamineeTestStatus::APPROVED_WITH_ERROR, $examineeTestStatus->getStatus());
+        $this->assertEquals(-0.5, $examineeTestStatus->getEstimatedError(), '', 0);
+
+        $examineeTestStatus = $this->getInstance()->getExamineeStatusFor($itemBankCode, 4);
+        
+        $this->assertEquals(ExamineeTestStatus::FAIL, $examineeTestStatus->getStatus());
+        $this->assertEquals(0.1, $examineeTestStatus->getEstimatedError(), '', 0);
     }
  
     public function testSave_with_examineeCodeAndItemCodeAndResult_saveItemResult() {

@@ -72,6 +72,13 @@ class ItemBank
     /**
      * @var float
      *
+     * @ORM\Column(name="expected_theta", type="float", nullable=false)
+     */
+    private $expectedTheta;
+    
+    /**
+     * @var float
+     *
      * @ORM\Column(name="discret_increment", type="float", nullable=false)
      */
     private $discretIncrement;
@@ -90,7 +97,7 @@ class ItemBank
      */
     private $updated;
 
-    public function __construct($itemType = ItemType::RASH, $itemRange = array(-3,3), $thetaEstimationMethod = ThetaEstimationMethodType::THETA_NEWTON_RAPHSON, $discretIncrement = 0.25)
+    public function __construct($itemType = ItemType::RASH, $itemRange = array(-3,3), $thetaEstimationMethod = ThetaEstimationMethodType::THETA_NEWTON_RAPHSON, $expectedTheta=0, $discretIncrement = 0.25)
     {
         $this->items = new ArrayCollection();
         $this->abilities = new ArrayCollection();
@@ -98,6 +105,7 @@ class ItemBank
         $this->itemRange = $itemRange;
         $this->thetaEstimationMethod = $thetaEstimationMethod;
         $this->discretIncrement = $discretIncrement;
+        $this->expectedTheta = $expectedTheta;
     }   
     
     /**
@@ -288,8 +296,12 @@ class ItemBank
         $this->discretIncrement = $discretIncrement;
     }
 
+    function getExpectedTheta() {
+        return $this->expectedTheta;
+    }
 
-
-
+    function setExpectedTheta($expectedTheta) {
+        $this->expectedTheta = $expectedTheta;
+    }
 }
 

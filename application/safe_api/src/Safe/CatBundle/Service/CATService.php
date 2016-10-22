@@ -14,6 +14,7 @@ use Safe\CatBundle\Entity\ItemBank;
 use Safe\CatBundle\Entity\ItemResult;
 use Safe\CatBundle\Entity\ThetaEstimation;
 use Safe\CatBundle\Entity\ThetaEstimationMethodType;
+use Safe\CatBundle\Entity\ExamineeTestStatus;
 
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityManager;
@@ -80,6 +81,21 @@ class CATService {
         return $nextItem;
     }
     
+    public function getExamineeStatusFor($item_bank_code, $examinee_code) {
+        $ability = $this->getOrCreateAbility($examinee_code, $item_bank_code);
+        $itemBank = $this->getItemBankByCode($item_bank_code);
+        $examineeTestStatus = new ExamineeTestStatus(ExamineeTestStatus::FAIL, $ability->getThetaError(), $itemBank->getDiscretIncrement());
+        
+        if ($ability->getTheta() >= $itemBank->getExpectedTheta()) {
+            if ($ability->getUnsignedThetaError() <= $itemBank->getDiscretIncrement()){
+                $examineeTestStatus->setStatus(ExamineeTestStatus::APPROVED);
+            } else {
+                $examineeTestStatus->setStatus(ExamineeTestStatus::APPROVED_WITH_ERROR);
+            }
+        }
+        return $examineeTestStatus;
+    }
+    
     public function registerResult($examinee_code, $item_code, $result) {
         
         $this->entityManager->getConnection()->beginTransaction();
@@ -98,6 +114,7 @@ class CATService {
             }
             
             $ability->updateTheta($thetaEstimation->getTheta());
+            $ability->setThetaError($thetaEstimation->getStandarError());
 
             $this->abilityRepository->save($ability);
             $this->entityManager->getConnection()->commit();

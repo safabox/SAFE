@@ -18,7 +18,7 @@ services:
         arguments: ["@safe_tema.repository.concepto", "@safe_tema.repository.alumno.concepto.estado"]  
     safe_alumno.service.actividad_asignada:
         class: Safe\AlumnoBundle\Service\ActividadAsignadaService
-        arguments: ["@safe_tema.repository.actividad", "@safe_cat.service.cat"]     
+        arguments: ["@safe_tema.repository.actividad", "@safe_alumno.repository.alumno", "@safe_tema.repository.concepto", "@safe_tema.repository.alumno.concepto.estado", "@safe_cat.service.cat"]     
     safe_alumno.repository.alumno:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

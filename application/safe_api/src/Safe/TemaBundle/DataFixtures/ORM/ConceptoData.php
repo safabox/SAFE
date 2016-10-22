@@ -40,7 +40,7 @@ class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
         $manager->persist($concepto2);
         $manager->flush();
         
-        $itemBank = new ItemBank(ItemType::TWO_PL, array(-2,3), ThetaEstimationMethodType::THETA_MLE, 0.1);
+        $itemBank = new ItemBank(ItemType::TWO_PL, array(-2,3), ThetaEstimationMethodType::THETA_MLE, 0, 0.1);
         $itemBank->setCode($concepto2->getId());
         $manager->persist($itemBank);
         
