@@ -46,6 +46,36 @@ class ConceptoAsignadoController extends SafeRestAbstractController {
                 array('Default', 'alumno_concepto_detalle'));
     }
     
+    /**
+     * Obtiene el detalle del concepto.
+     *
+     * @ApiDoc(
+     *   output = "Safe\CursoBundle\Entity\Curso",
+     *   statusCodes = {
+     *     200 = "Petición resuelta correctamente",
+     *     404 = "Curso no econtrado"
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="page")
+     *
+     * @param int     $alumnoId      id del alumno.
+     * @param int     $cursoId      id del curso.
+     * @param int     $conceptoId      id del concepto.
+     *
+     * @return object
+     *
+     * @throws NotFoundHttpException cuando no existe el curso.
+     */
+    public function getConceptoAction($alumnoId, $cursoId, $temaId, $conceptoId)
+    {              
+        $concepto = $this->getConceptoAsignadoService()->getById($conceptoId);
+        
+        return $this->generarRespuesta($concepto,
+                Response::HTTP_OK,
+                array('Default', 'alumno_concepto_detalle'));
+    }
+    
     
     private function getConceptoAsignadoService() {
         return $this->container->get('safe_alumno.service.concepto_asignado');

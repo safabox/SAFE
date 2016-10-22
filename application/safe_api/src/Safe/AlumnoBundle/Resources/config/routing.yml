@@ -20,4 +20,9 @@ safe_alumno_curso_tema_concepto:
     type: rest
     parent:   safe_alumno_curso_tema
     resource: "Safe\AlumnoBundle\Controller\ConceptoAsignadoController"
-    name_prefix:  api_1_alumnos_cursos_temas_conceptos # naming collision    
+    name_prefix:  api_1_alumnos_cursos_temas_conceptos # naming collision 
+safe_alumno_curso_tema_concepto_actividad:
+    type: rest
+    parent:   safe_alumno_curso_tema
+    resource: "Safe\AlumnoBundle\Controller\ActividadAsignadaController"
+    name_prefix:  api_1_alumnos_cursos_temas_conceptos_actividades # naming collision      

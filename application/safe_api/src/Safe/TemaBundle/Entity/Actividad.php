@@ -53,7 +53,7 @@ class Actividad
      *
      * @ORM\Column(name="ejercicio", type="json")
      * @Expose
-     * @Groups({"docente_actividad_detalle"})
+     * @Groups({"docente_actividad_detalle", "alumno_actividad_detalle"})
      */
     private $ejercicio;
     

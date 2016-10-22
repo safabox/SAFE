@@ -1,4 +1,7 @@
+* Proxima actividad para el alumno.
+* Creacion de una nueva Habilidad para el alumno cuando es la primera vez que busca en el itemBank.
 * Finalizacion de Tema/Conceptos/Actividades
+* Mostrar estado de los Temas/Conceptos
 * Obtener la proxima actividad automaticamente desde el curso.
 * Obtener el listado de temas/conceptos como alumno.
 * Crear los resolvedores de actividad.

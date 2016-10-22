@@ -10,7 +10,7 @@ use Safe\CatBundle\Entity\Item;
 use Safe\CatBundle\Entity\ItemResult;
 use Safe\CatBundle\Entity\Examinee;
 use Safe\CatBundle\Entity\Ability;
-use \Safe\CatBundle\Entity\PastAbility;
+use Safe\CatBundle\Entity\PastAbility;
 
 
 use Doctrine\Common\Util\Debug;

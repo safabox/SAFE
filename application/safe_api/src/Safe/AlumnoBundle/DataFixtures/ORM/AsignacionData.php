@@ -11,9 +11,18 @@ use Safe\AlumnoBundle\Entity\Alumno;
 use Safe\CursoBundle\Entity\Curso;
 use Safe\TemaBundle\Entity\Tema;
 use Safe\TemaBundle\Entity\Concepto;
+use Safe\TemaBundle\Entity\Actividad;
 use Safe\TemaBundle\Entity\AlumnoEstadoTema;
 use Safe\TemaBundle\Entity\AlumnoEstadoConcepto;
+use Safe\CatBundle\Entity\ItemBank;
+use Safe\CatBundle\Entity\Item;
+use Safe\CatBundle\Entity\ItemType;
+use Safe\CatBundle\Entity\ThetaEstimationMethodType;
 
+use Safe\CatBundle\Entity\Ability;
+use Safe\CatBundle\Entity\PastAbility;
+use Safe\CatBundle\Entity\Examinee;
+use Safe\CatBundle\Entity\ItemResult;
 
 class AsignacionData extends AlumnoData
 {    
@@ -103,8 +112,50 @@ class AsignacionData extends AlumnoData
         $concepto3->getPredecesoras()->add($concepto2);
         $manager->persist($concepto3);
         $manager->flush();
-
-
+        
+        $itemBank = new ItemBank();
+        $itemBank->setCode($concepto3->getId());
+        $manager->persist($itemBank);
+        $manager->flush();
+        
+        $examinee = new Examinee();
+        $examinee->setCode($alumno->getId());
+        $manager->persist($examinee);
+ 
+        $ability = new Ability($examinee, $itemBank, 0);
+        $manager->persist($ability);
+        
+        $actividad1 = $this->crearActividad("1", $concepto3);
+        $manager->persist($actividad1);
+        $manager->flush();
+        
+        $item = $this->crearItem($actividad1, $itemBank, 1);
+        $itemResult = ItemResult::fromItem($examinee, $item, 1);
+        $manager->persist($item);
+        $manager->persist($itemResult);
+        $manager->flush();
+        
+        $actividad2 = $this->crearActividad("2", $concepto3, false);
+        $manager->persist($actividad2);
+        $manager->flush();
+        
+        $actividad3 = $this->crearActividad("3", $concepto3);
+        $manager->persist($actividad3);
+        $manager->flush();
+        
+        $item = $this->crearItem($actividad3, $itemBank, -1);
+        $manager->persist($item);
+        $manager->flush();
+        
+        $actividad4 = $this->crearActividad("4", $concepto3);
+        $manager->persist($actividad4);
+        $manager->flush();
+        
+        $item = $this->crearItem($actividad4, $itemBank, 1);
+        $manager->persist($item);
+        $manager->flush();
+        
+        
         $concepto4 = $this->crearConcepto("4", $tema4);
         $concepto4->getPredecesoras()->add($concepto2);
         $manager->persist($concepto4);
@@ -149,15 +200,37 @@ class AsignacionData extends AlumnoData
         return $concepto;
     }
     
+    public function crearActividad($numero, $concepto, $habilitado=true, $ejercicio=array(), $descripcion='descripcion de la actividad') {
+        $actividad = new Actividad($numero." actividad");
+        $actividad->setDescripcion($descripcion);
+        $actividad->setConcepto($concepto);
+        $actividad->setHabilitado($habilitado);        
+        $actividad->setEjercicio($ejercicio);
+        return $actividad;
+    }
+    
+    public function crearItem($actividad, $itemBank, $dificultad) {
+        $item = new Item($dificultad);
+        $item->setItemBank($itemBank);
+        $item->setCode($actividad->getId());
+        return $item;
+    }
+    
     /*
      Tema1(OK)->Tema2(Deshabilitado)     Tema4(Orden 100) ->Tema5() ->Tema6
      Tema1(OK)->Tema3(OK)                      ->Tema5 ->Tema6
 
      Tema4:
-      Concepto1(Deshabilitado)-> concepto2(OK) -> Concepto 3 (orden 10)
-      Concepto1(Deshabilitado)-> concepto2(OK) -> Concepto 4 (OK)
-      Concepto1(Deshabilitado)-> concepto2(OK) -> Concepto 5 (orden 8)
-      Concepto1(Deshabilitado)-> concepto2(OK) -> Concepto 3 -> Concepto 5 
+        Concepto1(Deshabilitado)-> concepto2(OK) -> Concepto 3 (orden 10)
+        Concepto1(Deshabilitado)-> concepto2(OK) -> Concepto 4 (OK)
+        Concepto1(Deshabilitado)-> concepto2(OK) -> Concepto 5 (orden 8)
+        Concepto1(Deshabilitado)-> concepto2(OK) -> Concepto 3 -> Concepto 5 
+
+     Concepto 3
+        Actividad 1. resuelta bien theta 1
+        Actividad 2  deshabilitada
+        Actividad 3  theta -1
+        Actividad 4  theta 1
 
      */
 }

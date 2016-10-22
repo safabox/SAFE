@@ -32,6 +32,32 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         
     }
     
+    public function testGetAction() {
+        //inicio
+        $login = $this->loginAlumno("alumno10");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('Asignacion');
+        $idCurso = $curso->getId();
+        $tema = $this->getTemaByTitulo('4 tema');
+        $expectedConcepto = $this->getConceptoByTitulo('3 concepto');
+        
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptosget_alumno_curso_tema_concepto', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $expectedConcepto->getId() ,'_format' => 'json'));
+        
+        //test
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $concepto = json_decode($response->getContent(), true);
+        
+           
+        
+        $this->assertCamposBasicosEquals($expectedConcepto, $concepto);
+        
+    }
+    
     private function assertCamposBasicosEquals($expectedConcepto, $concepto) {
         $this->assertEquals($expectedConcepto->getId(), $concepto['id']);
         $this->assertEquals($expectedConcepto->getTitulo(), $concepto['titulo']);
