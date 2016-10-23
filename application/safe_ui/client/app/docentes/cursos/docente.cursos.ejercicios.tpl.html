@@ -25,13 +25,20 @@
                         <div class="col-md-10" >
                             <table data-ng-table="vm.respuestasTableParams" class="table table-responsive table-condensed table-hover table-striped">
                                 <tr ng-repeat="respuesta in $data">
-                                    <td class="col-md-10" data-title="'Respuestas'" header-class="'text-left'">
-                                        <input class="form-control" type="text" ng-model="respuesta.texto"  required />
+                                    <td class="col-md-8" data-title="'Opciones'" header-class="'text-left'">
+                                        <input class="form-control" type="text" placeholder="Completar Opción" name="opcion" ng-model="respuesta.texto"  required />                                       
                                     </td>
-                                    <td data-title="'Acciones'" header-class="'text-left'">                          
-                                        <button type="button" ng-if="!vm.readOnly" class="btn" aria-label="Eliminar" data-ng-click="vm.eliminarRespuesta($index)" >
-                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                        </button>
+                                    <td class="col-md-2" data-title="'Correcta/s'" header-class="'text-left'">        
+                                        <div style="padding-top: 6px; ">
+                                            <label class="ui-checkbox"><input name="checkbox1" type="checkbox" ng-model="respuesta.correcta" value="option1" ><span></span></label>
+                                        </div>  
+                                    </td>
+                                    <td class="col-md-2" data-title="'Eliminar'" header-class="'text-left'">              
+                                        <div style="padding-top: 6px; ">
+                                            <button  type="button" class="btn btn-xs btn-primary" aria-label="Eliminar" data-ng-click="vm.eliminarRespuesta($index)">
+                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
@@ -44,7 +51,7 @@
                     </div>
                 </div>
 
-                <div class="form-group" >
+                <!--<div class="form-group" >
                     <label class="col-md-2 control-label" for="pregunta">Seleccionar Correcta: </label>
                     <div style="margin-left: 15px;" class="col-md-5 alert alert-warning" role="alert" data-ng-if="vm.model.respuestas.length === 0">
                         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen Respuestas cargadas
@@ -63,28 +70,42 @@
                             </table>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group" >
-                    <label class="col-md-2 control-label" for="pregunta">Vista Previa: </label>
-
-                        <div data-ng-if="vm.model.respuestas.length > 0">
-                        <div class="col-md-6" > <!-- vm.respuestasTableParams -->
-                            
-                            <div ta-bind ng-model="vm.model.pregunta"></div>
-                            <table class="table table-bordered table-striped table-responsive" >                                
-                                <tbody>
-                                    <tr ng-repeat="opciones in vm.model.respuestas" >
-                                        <td class="text-center">{{opciones.texto}}</td>
-                                        <td class="text-center"><input type="checkbox" ng-model="respuesta.correcto.nuevo" /></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            
-                        </div>
-                    </div>
-                </div> 
+                </div>-->
                 
+                <div data-ng-if="vm.model.respuestas.length > 0 && vm.model.respuestas[0].texto !== '' && vm.model.pregunta !== ''">
+                    <div class="form-group" >
+                        <uib-accordion class="col-md-10 col-md-offset-2" close-others="vm.accordion" class="ui-accordion">
+                            <uib-accordion-group is-open="vm.groupVistaPrevia.isOpen" class="ui-accordion">
+                                <uib-accordion-heading>
+                                    <div>
+                                        Vista Previa
+                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupVistaPrevia.isOpen, 'glyphicon-chevron-right': !vm.groupVistaPrevia.isOpen}"></i>
+                                    </div>
+                                </uib-accordion-heading>
+                                <div class="form-group" >
+                                    <div data-ng-if="vm.model.respuestas.length > 0">
+                                        <div class="col-md-12"> 
+
+                                            <div ta-bind ng-model="vm.model.pregunta"></div>
+                                            <table class="table table-stripe" >                                
+                                                <tbody>
+                                                    <tr ng-repeat="opciones in vm.model.respuestas" >
+                                                        <td class="col-md-10 text-left">{{opciones.texto}}</td>
+                                                        <td class="col-md-2 text-center">
+                                                            <div style="padding-top: 6px; padding-left: 25px;">
+                                                                <label class="ui-checkbox"><input name="checkbox1" type="checkbox" ng-model="respuesta.correcta.nuevo" value="option1" ><span></span></label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </uib-accordion-group>
+                        </uib-accordion>      
+                    </div>
+                </div>
             </div>
 
             <!-- Multiple Choice - Matriz de Seleccion -->
