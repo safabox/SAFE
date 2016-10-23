@@ -17,9 +17,14 @@
     function controller(_, debugModeEnabled, NgTableParams) {
         var vm = this;
         vm.debug = debugModeEnabled;
+        
+        vm.groupVistaPrevia = { isOpen: false };
+        
+        vm.model.respuestas = [];
+        
         vm.agregarRespuesta = agregarRespuesta;
         vm.eliminarRespuesta= eliminarRespuesta;
-        vm.model.respuestas = [];
+
         
         vm.respuestasTableParams = new NgTableParams({
             page: 1,
@@ -36,8 +41,10 @@
             vm.toolbar =    [
                                 ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
                                 ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
-                                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent']
+                                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+                                ['html', 'insertImage','insertLink', 'insertVideo', 'wordcount', 'charcount']
                             ];
+            vm.model.pregunta = '';
         }
         
         function getData() {
@@ -45,7 +52,12 @@
         }
         
         function agregarRespuesta(){
-            vm.model.respuestas.push({texto:'',correcta:false, textoCorrecto: 'Verdadero', textoIncorrecto:'Falso'});
+            if(vm.model.tipo === 1) {
+                vm.model.respuestas.push({texto:'',correcta:false});
+            }else {
+                vm.model.respuestas.push({texto:'',correcta:false, textoCorrecto: 'Verdadero', textoIncorrecto:'Falso'});
+            }
+            
         }
         
         function eliminarRespuesta(idx) {

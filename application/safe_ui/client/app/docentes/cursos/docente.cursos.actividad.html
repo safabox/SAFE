@@ -8,7 +8,7 @@
             </div>
         </div>    
         
-        <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.ejerciciosSeleccionados | json}}</pre>
+        <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.actividad | json}}</pre>
         
         <div class="row" data-ng-if="!vm.loading" data-confirm-on-exit="vm.form.$dirty">            
             <form class="form-horizontal form-validation col-md-12" novalidate name="vm.form" data-ng-submit="vm.guardar()" novalidate>               
@@ -34,7 +34,7 @@
                                 <div class="form-group" show-errors>
                                     <label class="col-md-2 control-label" for="descripcion">Descripción:</label>
                                     <div class="col-md-10">
-                                       <input class="form-control" type="text" placeholder="Descripción" name="descripcion" data-ng-model="vm.actuvidad.descripcion" required>
+                                       <input class="form-control" type="text" placeholder="Descripción" name="descripcion" data-ng-model="vm.actividad.descripcion" required>
                                        <field-error-label data-field="vm.form.descripcion" data-field-label="Descripcion" />
                                     </div>
                                 </div>
@@ -42,7 +42,7 @@
                                 <div class="form-group" show-errors>
                                     <label class="col-md-2 control-label" for="descripcion">Dificultad</label>
                                     <div class="col-md-10">
-                                       <input class="form-control" type="number" placeholder="Dificultad" name="dificultad" data-ng-model="vm.actuvidad.dificultad" required>
+                                       <input class="form-control" type="number" placeholder="Dificultad" name="dificultad" data-ng-model="vm.actividad.dificultad" required>
                                        <field-error-label data-field="vm.form.dificultad" data-field-label="Dificultad" />
                                     </div>
                                 </div>                                
@@ -61,23 +61,22 @@
                                     </div>
                                 </uib-accordion-heading>
                                 
-                                <div data-ng-if="vm.ejerciciosSeleccionados.length === 0">
+                                <div data-ng-if="vm.actividad.ejercicio.length === 0">
                                     <div class="form-group" show-errors>
                                         <div class="col-md-12">
                                             <div class="input-group" >
                                                 <span class="input-group-addon">Agregar Ejercicio:</span>
-                                                <select class="form-control" placeholder="tipo" name="tipo" data-ng-model="vm.ejercicioSeleccionado" ng-options="opt as opt.descripcion for opt in vm.ejerciciosDisponibles" ></select>
+                                                <select class="form-control" placeholder="tipo" name="tipo" data-ng-model="vm.ejercicio" ng-options="ejer as ejer.descripcion for ejer in vm.ejerciciosDisponibles" ></select>
                                                 <span class="input-group-btn">
-                                                    <button type="button" class="btn btn-primary" aria-label="Agregar" data-ng-click="vm.agregarEjercicio(vm.ejercicioSeleccionado)" ng-disabled="!vm.ejercicioSeleccionado">Agregar</button>
+                                                    <button type="button" class="btn btn-primary" aria-label="Agregar" data-ng-click="vm.agregarEjercicio(vm.ejercicio)" ng-disabled="!vm.ejercicio">Agregar</button>
                                                 </span>
                                             </div>
                                         </div>                                    
                                     </div>                            
                                 </div>
-                                
-                            
+                                                            
                                 <uib-accordion close-others="false">
-                                    <uib-accordion-group is-open="vm.groupEjercicio.isOpen" class="ui-accordion" ng-repeat="formulaModel in vm.ejerciciosSeleccionados">
+                                    <uib-accordion-group is-open="vm.groupEjercicio.isOpen" class="ui-accordion" ng-repeat="formulaModel in vm.actividad.ejercicio">
                                         <uib-accordion-heading>
                                             <div>
                                                 {{formulaModel.descripcion}}
@@ -89,6 +88,7 @@
                                         </uib-accordion-heading>
 
                                         <docente-cursos-ejercicios ng-model="formulaModel"></docente-cursos-ejercicios>
+                                        
                                     </uib-accordion-group>
                                 </uib-accordion>
                                 
@@ -97,6 +97,12 @@
                     </div>
                 
                 </div> 
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <error-list data-form="vm.form" data-labels="vm.fieldLabels" />
+                    </div>
+                </div>
                 
                 <div class="form-group">
                     <div class="col-md-12">

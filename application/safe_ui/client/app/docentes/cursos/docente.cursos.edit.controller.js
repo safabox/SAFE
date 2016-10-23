@@ -4,9 +4,9 @@
     angular.module('app.docente.cursos')
         .controller('DocenteCursosEdit', controller);
 
-    controller.$inject = ['_', '$q', 'DocenteCursos', '$state', 'logger', 'debugModeEnabled', '$stateParams', 'UsuarioService']; 
+    controller.$inject = ['_', '$q', 'DocenteCursos', '$state', 'logger', 'debugModeEnabled', '$stateParams', 'UsuarioService', 'NgTableParams']; 
     
-    function controller(_, $q, DocenteCursos, $state, logger, debugModeEnabled, $stateParams, UsuarioService) {
+    function controller(_, $q, DocenteCursos, $state, logger, debugModeEnabled, $stateParams, UsuarioService, NgTableParams) {
         
         var vm = this;
         vm.loading = true;
@@ -23,6 +23,15 @@
             { name: 'titulo', label: 'Título' },
             { name: 'descripcion', label: 'Descripción' },
         ];
+        
+        vm.temasTableParams = new NgTableParams({
+            page: 1,
+            count: 10
+        }, {
+            total: 0,
+            counts: [10, 20, 50, 100],
+            getData: getTemasTabla
+        });        
         
         activate();
         
@@ -47,6 +56,18 @@
                         logger.error('No se pudo obtener el Curso', httpResponse);
                     }         
                 }
+                
+                function cargarTemas(){
+                    var tema = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', $stateParams.id).one('temas');
+                    return tema.get().then(onSuccess, onError);
+                    
+                    function onSuccess(response){
+                        vm.temas = response.plain();
+                    }
+                    function onError(httpResponse) {
+                        logger.error('No se pudo obtener los temas del curso', httpResponse);
+                    }                    
+                }
 
                 function onLoadComplete() {
                     vm.loading = false;
@@ -70,6 +91,13 @@
         
         function agregarNuevoTema() {
             
+        }
+        
+        function getTemasTabla(params) {
+            params.total(vm.temas.length);
+
+            var result = vm.temas.slice((params.page() - 1) * params.count(), params.page() * params.count());
+            return result;              
         }
         
         
