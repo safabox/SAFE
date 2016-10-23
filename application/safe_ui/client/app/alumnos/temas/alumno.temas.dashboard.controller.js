@@ -9,6 +9,7 @@
         vm.loading = true;
         vm.goBack = goBack;
         vm.goConcepto = goConcepto;
+        vm.goActividad = goActividad;
         $q.all([])
             .then(onLoadComplete);
         
@@ -20,6 +21,9 @@
         }
         function goConcepto() {
              $state.go('alumno.concepto.dashboard');
+        }
+        function goActividad() {
+             $state.go('alumno.actividad.home');
         }
 
 

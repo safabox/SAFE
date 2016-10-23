@@ -69,6 +69,25 @@
                     roles: ["ROLE_ALUMNO"],
                     params: {error: null}
                 }
+            },            
+            {
+                state: 'alumno.actividad',
+                config: {
+                    abstract: true,
+                    url: '/actividad',
+                    template: '<ui-view/>'
+                }
+            },
+            {
+                state: 'alumno.actividad.home',
+                config: {
+                    url: '/home',
+                    templateUrl: path + 'app/alumnos/actividades/actividad.home.html',
+                    controller: 'AlumnoActividadHomeCtrl',
+                    controllerAs: 'vm',
+                    roles: ["ROLE_ALUMNO"],
+                    params: {error: null}
+                }
             }
         ];
     }
