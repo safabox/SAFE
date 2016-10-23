@@ -2,10 +2,135 @@
     .safe-cursor {
         cursor: pointer;
     }
+    .safe-breadcrumb .breadcrumb {
+        background-color: white;
+        margin-bottom: 5px;
+        margin-top: -10px;
+    }
     
+    .safe-actividad {
+        background-color: white;
+    }
+    .text-center .safe-actividad {
+        margin-top: -8px;
+    }
+    .safe-actividad .safe-panel-top {
+        padding: 8px;
+    }
+    .safe-actividad-intro .safe-panel-img { 
+        margin-top: -65px;
+        margin-left: 10px;
+        float: left;        
+        border-radius: 50%;
+        border: 8px solid #fff;
+        width: 125px;
+        height: 125px;
+        line-height: 80px;
+        text-align: center;
+        font-size: 58px;
+        text-shadow: -6px 8px 5px rgba(0, 0, 0, 0.3);
+    }
+    .safe-panel-img img{
+        width: 100%;
+        max-width: 100%;
+    }
+    .safe-btn-group button {
+        margin-left: 5px;
+    }
+    .safe-modal-header .modal-header {
+        padding: 10px;
+    }
 </style>
 <div class="page page-dashboard" data-ng-controller="AlumnoActividadHomeCtrl">
-    <h1>Actividad</h1>
+    <div class="safe-breadcrumb">
+        <ol class="breadcrumb">
+            <li><a href="">Matem&aacute;ticas</a></li>
+            <li><a href="">Intruducci&oacute;n a la matem&aacute;ticas</a></li>
+            <li class="active"><a href="">Sumas</a></li>
+        </ol>
+    </div>  
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="safe-actividad">
+                <div class="safe-panel-top bg-primary">
+                    <div class="text-center">
+                        <h3 class="ng-binding">Actividad</h3>
+                    </div>
+                </div>                
+                <div class="safe-actividad-intro">
+                    
+                    <div class="safe-panel-img bg-primary safe-cursor"  ng-click="vm.viewConcept()"  uib-tooltip="Haz click en mi imagen para saber en que estamos trabajando" tooltip-placement="right">
+                        <img alt="" src="images/bots/safe_masculino_1.svg" class="img-circle">
+                    </div>
+                    
+                    <div class="safe-texto" data-slim-scroll data-scroll-height="150px">
+                        <h2>Esto es una prueba de html!</h2>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet auctor ligula, non commodo sapien. Donec sapien mi, elementum sit amet dui eget, eleifend egestas ex. Quisque quis molestie elit. Vivamus rhoncus iaculis porttitor. In hac habitasse platea dictumst. Vestibulum convallis vitae ante sed blandit. Morbi pellentesque mattis sapien, vitae dapibus enim ornare vitae.
+                        </p>
+                        <p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li style="color: blue;">Super Easy <b>Theming</b> Options</li><li>Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li>Doesn't Use an iFrame</li><li>Works with Firefox, Chrome, and IE8+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p>
+                    </div>
+                </div>
+                <div class="safe-ejercicio">
+                    <section class="panel panel-default">
+                        <div class="panel-heading"><span class="fa fa-pencil-square-o"></span> Resolver</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h3>¿C&uacute;al es la capital de Argentina?</h3>
+                                    <ul class="task-list list-unstyled">
+                                        <li>
+                                            <span class="view">
+                                                <input type="checkbox" class="toggle-task">
+                                                <label >La Plata</label>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="view">
+                                                <input type="checkbox" class="toggle-task">
+                                                <label >Ciudad Aut&oacute;noma de Buenos Aires</label>
+                                            </span>
+                                        </li>
+                                        <li>
+                                            <span class="view">
+                                                <input type="checkbox" class="toggle-task">
+                                                <label >R&iacute;o Negro</label>
+                                            </span>
+                                        </li>
+                                    </ul>              
+                                </div>                                
+                            </div>
+                        </div>
+                    </section>                    
+                </div>
+                <div class='pull-right safe-btn-group'>
+                    <button type="button" class="btn btn-suceess btn-lg" ng-click='vm.goBack()'>Volver</button>
+                    <button type="button" class="btn btn-primary btn-lg">Enviar</button>
+                    
+                </div>
+            </section>
+        </div>
+    </div>
 </div>
   
-  
+<script type="text/ng-template" id="concepto.html">
+    <div class="safe-modal-header modal-header btn-info">
+        <h3>Concepto</h3>
+    </div>
+    <div class="modal-body">
+        <div class="safe-texto" data-slim-scroll data-scroll-height="300px">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet auctor ligula, non commodo sapien. Donec sapien mi, elementum sit amet dui eget, eleifend egestas ex. Quisque quis molestie elit. Vivamus rhoncus iaculis porttitor. In hac habitasse platea dictumst. Vestibulum convallis vitae ante sed blandit. Morbi pellentesque mattis sapien, vitae dapibus enim ornare vitae.</p>
+
+        <p>Nam sed pellentesque velit, sed gravida massa. Aliquam vel pellentesque dolor. Sed nisi lacus, consequat nec elit ac, sagittis rutrum enim. In sollicitudin pellentesque ante, viverra finibus libero imperdiet sit amet. Maecenas porta est quis finibus facilisis. Maecenas ac feugiat velit, eu malesuada orci. Nulla ornare justo vitae orci faucibus cursus. Sed consectetur ante gravida ex iaculis viverra. Morbi quis ligula pretium, suscipit felis at, condimentum nisi. Quisque auctor nunc id lacus ultrices, eu pretium orci sodales. Nulla facilisi. Maecenas non ex magna. Nullam justo metus, faucibus et augue in, ultrices pulvinar enim. Praesent id quam lorem.</p>
+
+        <p>Mauris ut odio justo. Cras leo nibh, pharetra vitae mattis non, porta ut diam. Proin ac ullamcorper tortor. Sed id nulla erat. Donec nisl justo, cursus eu arcu in, blandit tincidunt nibh. Mauris tincidunt scelerisque dui, a accumsan purus finibus non. Nulla ut erat purus. Maecenas elementum posuere sem ut venenatis.</p>
+
+        <p>Integer vitae dolor facilisis, consectetur neque sed, pellentesque justo. Phasellus vehicula mauris in suscipit bibendum. Sed laoreet ultricies purus sit amet dignissim. Aliquam eu accumsan est. Pellentesque mollis convallis mi. Vivamus blandit, lorem id efficitur pretium, mi ante efficitur ligula, vitae vehicula mauris purus id tortor. Praesent et ipsum in metus dapibus convallis id sed nulla. Maecenas blandit at neque vel eleifend. Maecenas vel enim consequat, faucibus mi nec, eleifend enim. Nulla sit amet congue tellus. Ut aliquet nisi eros, vitae egestas justo rutrum ac. Nunc est libero, euismod ut auctor a, lacinia eget felis. Integer non egestas nunc. Vivamus suscipit in eros blandit tempor.</p>
+
+        <p>Nulla ut massa vestibulum, consectetur arcu et, pellentesque mi. Sed fermentum ligula at augue bibendum lobortis. Aenean molestie efficitur dui et pretium. Proin turpis magna, iaculis at viverra sed, gravida bibendum nibh. Maecenas sapien lacus, aliquam non urna sed, pellentesque mollis nibh. Cras eu dapibus libero, vitae hendrerit lectus. Proin at nunc dictum, ultricies lectus rutrum, ultricies dui. Pellentesque mattis efficitur ligula, ac fringilla neque. Duis vitae lectus nibh. Etiam maximus luctus ornare. Sed quis ipsum lacus. Quisque porta, nibh scelerisque pharetra ultricies, urna metus ultrices leo, nec commodo velit purus a enim. Morbi dolor erat, hendrerit quis nulla eu, sollicitudin placerat diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et lacus ut tortor ornare lobortis vel in ipsum. Etiam pulvinar tellus in lectus hendrerit, sed porta nisl posuere.</p>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click='cancel()'>Listo</button>        
+    </div>
+</script>  
