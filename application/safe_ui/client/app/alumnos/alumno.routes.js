@@ -31,6 +31,44 @@
                     roles: ["ROLE_ALUMNO"],
                     params: {error: null}
                 }
+            },
+            {
+                state: 'alumno.tema',
+                config: {
+                    abstract: true,
+                    url: '/tema',
+                    template: '<ui-view/>'
+                }
+            },
+            {
+                state: 'alumno.tema.dashboard',
+                config: {
+                    url: '/dashboard',
+                    templateUrl: path + 'app/alumnos/temas/tema.dashboard.html',
+                    controller: 'AlumnoTemaDashboardCtrl',
+                    controllerAs: 'vm',
+                    roles: ["ROLE_ALUMNO"],
+                    params: {error: null}
+                }
+            },
+            {
+                state: 'alumno.concepto',
+                config: {
+                    abstract: true,
+                    url: '/concepto',
+                    template: '<ui-view/>'
+                }
+            },
+            {
+                state: 'alumno.concepto.dashboard',
+                config: {
+                    url: '/dashboard',
+                    templateUrl: path + 'app/alumnos/conceptos/concepto.dashboard.html',
+                    controller: 'AlumnoConceptoDashboardCtrl',
+                    controllerAs: 'vm',
+                    roles: ["ROLE_ALUMNO"],
+                    params: {error: null}
+                }
             }
         ];
     }

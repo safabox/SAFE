@@ -1,0 +1,130 @@
+<style>
+    .safe-cursor {
+        cursor: pointer;
+    }
+    .safe-tema-item  {
+        cursor: pointer;
+    }
+    .safe-tema-item:hover {
+        -webkit-box-shadow: 10px 10px 17px -8px rgba(96,205,155,1);
+        -moz-box-shadow: 10px 10px 17px -8px rgba(96,205,155,1);
+        box-shadow: 10px 10px 17px -8px rgba(96,205,155,1);
+    }
+    .safe-logro-placehoder {
+        display: block;
+        text-align: center;
+        color: #b6b6b6;
+    }
+    .safe-logro-placehoder span {
+        border: 3px dashed; 
+    }
+    .btn-group-lg.safe-btn-group-lg > .btn{
+        
+    }
+    .safe-btn-nav .safe-btn-icon {
+        vertical-align: sub;
+    }
+    .safe-btn-nav .safe-btn-icon.safe-left {
+        margin-right: 4px;
+    }
+    .safe-btn-nav .safe-btn-icon.safe-right {
+        margin-left: 4px;
+    }
+    
+    .safe-btn-nav .safe-text {
+        font-size: 16px;
+    }
+</style>
+<div class="page page-dashboard" data-ng-controller="AlumnoTemaDashboardCtrl">
+    <div class="row">
+        <div class="col-sm-12 col-md-8">
+            <div class="panel panel-profile">
+                <div class="panel-heading bg-success clearfix">
+                    <h3>Matem&aacute;tica</h3>
+                </div>                
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <div class="btn-groups btn-group-lg safe-btn-group-lg safe-btn-nav">
+                <button class="btn btn-inverse" ng-click="vm.goBack()"><span class="safe-btn-icon safe-left fa fa-arrow-circle-left fa-2x"></span><span class="safe-text">Volver</span></button>
+                <button class="btn btn-danger"><span class="safe-text">Ir a la actividad</span><span class="safe-btn-icon safe-right fa fa-arrow-circle-right fa-2x"></span></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel mini-box safe-tema-item" ng-click="vm.goConcepto()">
+                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-primary-light">
+                            <i class="glyphicon glyphicon-list-alt"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h3">Sumas y restas</p>
+                            <p class="text-muted">1 + 1 = 2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel mini-box safe-tema-item" ng-click="vm.goConcepto()">
+                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-primary-light">
+                            <i class="glyphicon glyphicon-list-alt"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h3">Multiplicaciones y divisiones</p>
+                            <p class="text-muted">X %</p>
+                        </div>
+                    </div> 
+                </div>
+                <div class="col-sm-12">
+                    <div class="panel mini-box bg-body" uib-tooltip="Debes terminar los otros temas para poder avanzar." tooltip-placement="top">
+                        <span class="btn-icon btn-icon-round btn-icon-lg-alt">
+                            <i class="glyphicon glyphicon-list-alt"></i>
+                        </span>
+                        <div class="box-info">
+                            <p class="size-h3">Pol&iacute;gonos</p>
+                            <p class="text-muted">Cuadrados, tri&aacute;ngulo, etc</p>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-profile">
+                <div class="panel-heading bg-info clearfix">
+                    <span  class="pull-left profile safe-cursor" uib-tooltip="En este listado pod&eacute;s ver todos los temas que terminaste de este curso." tooltip-placement="right">
+                        <img alt="" src="images/bots/safe_masculino_1.svg" class="img-circle img80_80">
+                    </span>
+                    <h3 class="ng-binding">Tus Logros</h3>                    
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="btn-icon btn-icon-round btn-icon-sm  btn-gap-v bg-warning">
+                            <i class="fa fa-trophy "></i>
+                        </span>                        
+                       <strong> N&uacute;meros</strong>
+                    </li>
+                    <li class="list-group-item">
+                       <span class="btn-icon btn-icon-round btn-icon-sm  btn-gap-v bg-warning">
+                            <i class="fa fa-trophy "></i>
+                        </span>  
+                       <strong> Figuras</strong>
+                    </li>                    
+                </ul>
+                <!-- Agregar cuando no haya ningun logro aun
+                <div class="panel-body">
+                     <span class="safe-logro-placehoder">
+                          <span class="fa-stack fa-5x">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                          </span>
+                     </span>                        
+                </div>
+                -->
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+  
