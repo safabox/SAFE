@@ -21,6 +21,7 @@ class ActividadData extends AbstractFixture implements OrderedFixtureInterface
         $actividad1->setConcepto($this->getReference('curso-matematicas-tema1-concepto1'));
         $actividad1->setHabilitado(true);        
         $actividad1->setEjercicio(array('atributo_1' => 'Esto es un atributo'));
+        $actividad1->setResultado(array('resultado_atributo_1' => 'Esto es el resultado valido para un atributo'));
         $manager->persist($actividad1);
         $manager->flush();
     
@@ -38,6 +39,10 @@ class ActividadData extends AbstractFixture implements OrderedFixtureInterface
             'atributo_1' => 'Esto es un atributo',
             'atributo_2' => null
         ));
+        $actividad2->setResultado(array(
+            'resultado_atributo_1' => 'Esto es un atributo',
+            'resultado_atributo_2' => null
+        ));
         $manager->persist($actividad2);
         $manager->flush();
         
@@ -51,6 +56,7 @@ class ActividadData extends AbstractFixture implements OrderedFixtureInterface
         $actividad3->setConcepto($this->getReference('curso-matematicas-tema1-concepto1'));
         $actividad3->setHabilitado(true);
         $actividad3->setEjercicio(array('atributo_1' => 'Esto es un atributo'));        
+        $actividad3->setResultado(array('resultado_atributo_1' => 'Esto es un atributo'));        
         $manager->persist($actividad3);
         $manager->flush();
         
@@ -64,6 +70,7 @@ class ActividadData extends AbstractFixture implements OrderedFixtureInterface
         $actividad4->setConcepto($this->getReference('curso-matematicas-tema1-concepto1'));
         $actividad4->setHabilitado(true);
         $actividad4->setEjercicio(array('atributo_1' => 'Esto es un atributo'));
+        $actividad4->setResultado(array('resultado_atributo_1' => 'Esto es un atributo'));
         $manager->persist($actividad4);
         $manager->flush();
         
@@ -77,6 +84,7 @@ class ActividadData extends AbstractFixture implements OrderedFixtureInterface
         $actividad5->setConcepto($this->getReference('curso-matematicas-tema1-concepto1'));
         $actividad5->setHabilitado(true);
         $actividad5->setEjercicio(array('atributo_1' => 'Esto es un atributo'));
+        $actividad5->setResultado(array('resultado_atributo_1' => 'Esto es un atributo'));
         $manager->persist($actividad5);
         $manager->flush();
         

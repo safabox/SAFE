@@ -64,6 +64,7 @@ class ActividadImpartidaControllerTest extends SafeTestController {
         
         $this->assertCamposBasicosEquals($expectedActividad, $actividad);   
         $this->assertArrayHasKey('ejercicio', $actividad, 'Ejercicio de la actividad no encontrada');
+        $this->assertArrayHasKey('resultado', $actividad, 'Resultado de la actividad no encontrada');
         
         $this->assertArrayHasKey('dificultad', $actividad);
         $this->assertArrayHasKey('discriminador', $actividad);
@@ -104,6 +105,7 @@ class ActividadImpartidaControllerTest extends SafeTestController {
         $this->assertCamposBasicos($actividad);
         
         $this->assertSame($nuevaActividad['ejercicio'], $actividad['ejercicio']);
+        $this->assertSame($nuevaActividad['resultado'], $actividad['resultado']);
          
         $this->assertEquals(1.1, $actividad['dificultad'], '', 0.1);
         $this->assertEquals(2, $actividad['discriminador'], '', 0);
@@ -149,6 +151,7 @@ class ActividadImpartidaControllerTest extends SafeTestController {
         $this->assertEquals($nuevaActividad['titulo'], $actividadActualizada->getTitulo());
         $this->assertEquals($nuevaActividad['descripcion'], $actividadActualizada->getDescripcion());
         $this->assertSame($nuevaActividad['ejercicio'], $actividadActualizada->getEjercicio());
+        $this->assertSame($nuevaActividad['resultado'], $actividadActualizada->getResultado());
         $this->assertEquals($nuevaActividad['habilitado'], $actividadActualizada->isHabilitado());
     }      
     private function assertCamposBasicosEquals($expectedActividad, $actividad) {
@@ -188,6 +191,7 @@ class ActividadImpartidaControllerTest extends SafeTestController {
             'descripcion' => $descripcion,
             'habilitado' => true,
             'ejercicio' => $ejercicio,
+            'resultado' => array('resultado_ejercicio' => $ejercicio),
             'dificultad' => $dificultad,
             'discriminador' => $discriminador,
             'azar' => $azar,

@@ -50,6 +50,14 @@ class Curso
     /**
      * @var string
      *
+     * @ORM\Column(name="copete", type="text", nullable=true)
+     * @Expose
+     */
+    private $copete;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="descripcion", type="text", nullable=true)     
      * @Expose
      * @Groups({"admin_detalle", "docente_detalle", "alumno_curso_detalle"}) 
@@ -257,7 +265,15 @@ class Curso
         return $this;
     }
 
-    /**
+    function getCopete() {
+        return $this->copete;
+    }
+
+    function setCopete($copete) {
+        $this->copete = $copete;
+    }
+
+        /**
      * Get temas
      *
      * @return Collection

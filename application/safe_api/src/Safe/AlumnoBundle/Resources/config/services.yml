@@ -9,7 +9,7 @@ services:
         arguments: ["@safe_alumno.repository.alumno"]
     safe_alumno.service.curso_asignado:
         class: Safe\AlumnoBundle\Service\CursoAsignadoService
-        arguments: ["@safe_curso.repository.curso"]
+        arguments: ["@doctrine.orm.default_entity_manager", "@safe_curso.repository.curso"]
     safe_alumno.service.tema_asignado:
         class: Safe\AlumnoBundle\Service\TemaAsignadoService
         arguments: ["@safe_tema.repository.tema", "@safe_alumno.repository.alumno", "@safe_curso.repository.curso", "@safe_tema.repository.alumno.tema.estado", "@safe_tema.repository.alumno.curso.estado"]    

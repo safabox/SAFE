@@ -8,7 +8,43 @@ use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Safe\AlumnoBundle\Entity\ProximoResultado;
 use Doctrine\Common\Util\Debug;
 class TemaAsignadoControllerTest extends SafeTestController {
-    
+    /*
+    public function testGetTemasAction() {
+        $login = $this->loginAlumno("alumno10");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('Asignacion');
+        $idCurso = $curso->getId();
+        $route =  $this->getUrl('api_1_alumnos_cursos_temasget_alumno_curso_temas', array('alumnoId' => $id, 'cursoId' => $idCurso,'_format' => 'json'));
+        
+        //test
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);       
+        $temas = json_decode($response->getContent(), true);
+        
+        $this->assertArrayHasKey('disponibles', $temas, 'temas disponibles no encontrado');
+        $this->assertArrayHasKey('bloqueados', $temas, 'temas bloqueados no encontrado');
+        $this->assertArrayHasKey('finalizados', $temas, 'temas finalizados no encontrado');
+        
+        $this->assertEquals(2, $temas['disponibles']);
+        $this->assertEquals(1, $temas['bloqueados']);
+        $this->assertEquals(2, $temas['finalizados']);
+        
+        $temaDisponibles = $temas['disponibles'][0];
+        $this->assertCamposBasicos($temaDisponibles['tema']);
+        $this->assertTrue("CURSANDO", $temaDisponibles['estado']);
+
+        $temaBloqueados = $temas['bloqueados'][0];
+        $this->assertCamposBasicos($temaBloqueados['bloqueados']);        
+        $this->assertTrue("CURSANDO", $temaDisponibles['estado']);
+
+        $temaFinalizados = $temas['finalizados'][0];
+        $this->assertCamposBasicos($temaFinalizados['finalizados']);                
+    }
+    */
     public function testGetProximo_temaAction() {
         //inicio
         $login = $this->loginAlumno("alumno10");                

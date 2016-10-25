@@ -40,6 +40,14 @@ class Tema
     /**
      * @var string
      *
+     * @ORM\Column(name="copete", type="text", nullable=true)
+     * @Expose
+     */
+    private $copete;
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="descripcion", type="text", nullable=true)
      * @Expose
      */
@@ -294,5 +302,14 @@ class Tema
     function setEstadosAlumnos(\stdClass $estadosAlumnos) {
         $this->estadosAlumnos = $estadosAlumnos;
     }
+
+    function getCopete() {
+        return $this->copete;
+    }
+
+    function setCopete($copete) {
+        $this->copete = $copete;
+    }
+
 
 }

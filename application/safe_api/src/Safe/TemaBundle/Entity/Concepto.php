@@ -43,6 +43,14 @@ class Concepto
      * @Expose
      */
     private $titulo;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="copete", type="text", nullable=true)
+     * @Expose
+     */
+    private $copete;
 
     /**
      * @var string
@@ -396,7 +404,15 @@ class Concepto
         $this->estadosAlumnos = $estadosAlumnos;
     }
 
-        
+    function getCopete() {
+        return $this->copete;
+    }
+
+    function setCopete($copete) {
+        $this->copete = $copete;
+    }
+
+            
     //Transient
     /**
      * @Groups({"docente_concepto_detalle"}) 

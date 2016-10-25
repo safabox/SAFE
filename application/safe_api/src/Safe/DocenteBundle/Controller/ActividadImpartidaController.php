@@ -185,10 +185,13 @@ class ActividadImpartidaController extends SafeRestAbstractController {
     
     private function validarRequestData($data) {
         if (!array_key_exists('titulo', $data)) {
-            return array('resultado' => false, 'mensaje' => $this->traducir("perfilBundle.actividad.titulo.vacio"));
+            return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.titulo.vacio"));
         }
         if (!array_key_exists('ejercicio', $data)) {
-            return array('resultado' => false, 'mensaje' => $this->traducir("perfilBundle.actividad.ejercicio.vacio"));
+            return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.ejercicio.vacio"));
+        }
+        if (!array_key_exists('resultado', $data)) {
+            return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.resultado.vacio"));
         }
         return array('resultado' => true);
     }

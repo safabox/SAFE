@@ -222,6 +222,13 @@ class AsignacionData extends AlumnoData
         $manager->persist(new AlumnoEstadoConcepto($alumno13, $concepto5, true));
         $manager->flush();
         
+        $alumnoMat = $this->getReference('alumno1');
+        $tema1Mat = $this->getReference('curso-matematicas-tema1');
+        $tema5Mat = $this->getReference('curso-matematicas-tema5');
+        
+        $manager->persist(new AlumnoEstadoTema($alumnoMat, $tema1Mat, true));
+        $manager->persist(new AlumnoEstadoTema($alumnoMat, $tema5Mat, true));
+        $manager->flush();
         
     }
 
@@ -256,6 +263,7 @@ class AsignacionData extends AlumnoData
         $actividad->setConcepto($concepto);
         $actividad->setHabilitado($habilitado);        
         $actividad->setEjercicio($ejercicio);
+        $actividad->setResultado(array('resultado' => $ejercicio));
         return $actividad;
     }
     

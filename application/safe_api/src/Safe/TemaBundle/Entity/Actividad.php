@@ -51,11 +51,20 @@ class Actividad
     /**
      * @var json
      *
-     * @ORM\Column(name="ejercicio", type="json")
+     * @ORM\Column(name="ejercicio", type="json", nullable=false)
      * @Expose
      * @Groups({"docente_actividad_detalle", "alumno_actividad_detalle"})
      */
     private $ejercicio;
+    
+    /**
+     * @var json
+     *
+     * @ORM\Column(name="resultado", type="json", nullable=false)
+     * @Expose
+     * @Groups({"docente_actividad_detalle"})
+     */
+    private $resultado;
     
      /**
      * @var bool
@@ -93,10 +102,11 @@ class Actividad
      */
     private $item;
     
-    public function __construct($titulo, $ejercicio = array(), $descripcion = '', $habilitado = true)
+    public function __construct($titulo, $ejercicio = array(), $resultado = array(), $descripcion = '', $habilitado = true)
     {
         $this->titulo = $titulo;
         $this->ejercicio = $ejercicio;
+        $this->resultado = $resultado;
         $this->descripcion = $descripcion;
         $this->habilitado = $habilitado;
         $this->setFechaCreacion(new \DateTime());
@@ -193,6 +203,16 @@ class Actividad
         return $this->ejercicio;
     }
     
+    function getResultado() {
+        return $this->resultado;
+    }
+
+    function setResultado($resultado) {
+        $this->resultado = $resultado;
+        return $this;
+    }
+
+    
     function isHabilitado() {
         return $this->habilitado;
     }
@@ -273,6 +293,6 @@ class Actividad
     public function getD() {
         return ($this->item != null) ? $this->item->getD() : null;
     }
-    
+        
 }
 

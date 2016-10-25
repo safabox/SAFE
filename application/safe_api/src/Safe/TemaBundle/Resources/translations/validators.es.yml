@@ -18,4 +18,6 @@ temaBundle:
             vacio: El titulo es obligatorio
             max: El nombre no puede superar los {{ limit }} caracteres            
         ejercicio:
-            vacio: El titulo es obligatorio
+            vacio: El ejercicio es obligatorio
+        resultado:
+            vacio: La resoluciòn del ejercicio es obligatorio
