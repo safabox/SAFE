@@ -81,6 +81,35 @@ class ConceptoAsignadoController extends SafeRestAbstractController {
     }
     
     /**
+     * Obtiene la proxima actividad para el alumno.
+     *
+     * @ApiDoc(
+     *   output = "Safe\AlumnoBundle\Entity\ConceptoProximaActividad",
+     *   statusCodes = {
+     *     200 = "Petición resuelta correctamente",
+     *     404 = "Curso no econtrado"
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="page")
+     *
+     * @param int     $alumnoId      id del alumno.
+     * @param int     $cursoId      id del curso.
+     *
+     * @return object
+     *
+     * @throws NotFoundHttpException cuando no existe el curso.
+     */
+    public function getProxima_actividadAction($alumnoId, $cursoId, $temaId)
+    {              
+        $proximoResultado = $this->getConceptoAsignadoService()->proximaActividad($temaId, $alumnoId);
+        
+        return $this->generarRespuesta($proximoResultado,
+                Response::HTTP_OK,
+                array('Default', 'alumno_concepto_detalle', 'alumno_actividad_detalle'));
+    }
+    
+    /**
      * Obtiene el detalle del concepto.
      *
      * @ApiDoc(

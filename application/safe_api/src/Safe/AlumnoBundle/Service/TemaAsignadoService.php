@@ -13,6 +13,8 @@ use Safe\AlumnoBundle\Entity\ProximoResultado;
 use Safe\TemaBundle\Service\TemaService;
 use Safe\AlumnoBundle\Entity\TemasAsignados;
 use Safe\AlumnoBundle\Entity\TemaFinalizado;
+use Safe\AlumnoBundle\Entity\TemaProximaActividad;
+use Safe\AlumnoBundle\Service\ConceptoAsignadoService;
 
 use Doctrine\Common\Util\Debug;
 class TemaAsignadoService extends TemaService {
@@ -25,17 +27,22 @@ class TemaAsignadoService extends TemaService {
     
     private $alumnoEstadoCursoRepository;
     
+    private $conceptoAsignadoService;
+    
     public function __construct(TemaRepository $temaRepository, 
             AlumnoRepository $alumnoRepository,
             CursoRepository $cursoRepository,
             AlumnoEstadoTemaRepository $alumnoEstadoTemaRepository,
-            AlumnoEstadoCursoRepository $alumnoEstadoCursoRepository)
+            AlumnoEstadoCursoRepository $alumnoEstadoCursoRepository,
+            ConceptoAsignadoService $conceptoAsignadoService
+            )
     {
         parent::__construct($temaRepository);
         $this->alumnoEstadoTemaRepository = $alumnoEstadoTemaRepository;
         $this->alumnoRepository = $alumnoRepository;
         $this->cursoRepository = $cursoRepository;
         $this->alumnoEstadoCursoRepository = $alumnoEstadoCursoRepository;
+        $this->conceptoAsignadoService = $conceptoAsignadoService;
         
     }
     
@@ -89,6 +96,16 @@ class TemaAsignadoService extends TemaService {
 
         return new ProximoResultado(ProximoResultado::FINALIZADO);
         
+    }
+    
+    public function proximaActividad($cursoId, $alumnoId) {
+        $proximoTemaDisponible = $this->proximoTema($cursoId, $alumnoId);
+        if (ProximoResultado::CURSANDO != $proximoTemaDisponible->getEstado()) {
+            return new TemaProximaActividad($proximoTemaDisponible, null, null);
+        }
+        $temaId = $proximoTemaDisponible->getElemento()->getId();
+        $proximoConceptoActividad = $this->conceptoAsignadoService->proximaActividad($temaId, $alumnoId);
+        return new TemaProximaActividad($proximoTemaDisponible, $proximoConceptoActividad->getConcepto(), $proximoConceptoActividad->getActividad());
     }
     
     private function getAlumnoEstadoTema($alumnoId, $temaId) {

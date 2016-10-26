@@ -14,6 +14,8 @@ use Safe\TemaBundle\Entity\AlumnoEstadoTema;
 use Doctrine\Common\Util\Debug;
 use Safe\AlumnoBundle\Entity\ConceptoFinalizado;
 use Safe\AlumnoBundle\Entity\ConceptosAsignados;
+use Safe\AlumnoBundle\Entity\ConceptoProximaActividad;
+use Safe\AlumnoBundle\Service\ActividadAsignadaService;
 class ConceptoAsignadoService extends ConceptoService {
 
     private $alumnoRepository;
@@ -24,10 +26,13 @@ class ConceptoAsignadoService extends ConceptoService {
     
     private $alumnoEstadoTemaRepository;
     
+    private $actividadAsignadaService;
+    
     public function __construct(ConceptoRepository $conceptoRepository,
             AlumnoRepository $alumnoRepository, TemaRepository $temaRepository, 
             AlumnoEstadoConceptoRepository $alumnoEstadoConceptoRepository,
-            AlumnoEstadoTemaRepository $alumnoEstadoTemaRepository
+            AlumnoEstadoTemaRepository $alumnoEstadoTemaRepository,
+            ActividadAsignadaService $actividadAsignadaService            
             )
     {
         parent::__construct($conceptoRepository);
@@ -35,6 +40,7 @@ class ConceptoAsignadoService extends ConceptoService {
         $this->alumnoRepository = $alumnoRepository;
         $this->temaRepository = $temaRepository;
         $this->alumnoEstadoTemaRepository = $alumnoEstadoTemaRepository;
+        $this->actividadAsignadaService = $actividadAsignadaService;
     }
     
     public function findAll($alumnoId, $temaId, $limit = null, $offset = 0) {
@@ -88,6 +94,15 @@ class ConceptoAsignadoService extends ConceptoService {
 
         return new ProximoResultado(ProximoResultado::FINALIZADO);
         
+    }
+    
+    public function proximaActividad($temaId, $alumnoId) {
+        $proximoConceptoDisponible = $this->proximoConcepto($temaId, $alumnoId);
+        if (ProximoResultado::CURSANDO != $proximoConceptoDisponible->getEstado()) {
+            return new ConceptoProximaActividad($proximoConceptoDisponible, null);
+        }
+        $proximaActividad = $this->actividadAsignadaService->proximaActividad($proximoConceptoDisponible->getElemento()->getId(), $alumnoId);
+        return new ConceptoProximaActividad($proximoConceptoDisponible, $proximaActividad);
     }
     
     private function getAlumnoEstadoConcepto($alumnoId, $conceptoId) {

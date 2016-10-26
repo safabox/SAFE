@@ -83,6 +83,35 @@ class TemaAsignadoController extends SafeRestAbstractController {
     }
     
     /**
+     * Obtiene la proxima actividad para el alumno.
+     *
+     * @ApiDoc(
+     *   output = "Safe\CursoBundle\Entity\Actividad",
+     *   statusCodes = {
+     *     200 = "Petición resuelta correctamente",
+     *     404 = "Curso no econtrado"
+     *   }
+     * )
+     *
+     * @Annotations\View(templateVar="page")
+     *
+     * @param int     $alumnoId      id del alumno.
+     * @param int     $cursoId      id del curso.
+     *
+     * @return object
+     *
+     * @throws NotFoundHttpException cuando no existe el curso.
+     */
+    public function getProxima_actividadAction($alumnoId, $cursoId)
+    {              
+         $proximoResultado = $this->getTemaAsignadoService()->proximaActividad($cursoId, $alumnoId);
+        
+        return $this->generarRespuesta($proximoResultado,
+                Response::HTTP_OK,
+                array('Default', 'alumno_tema_detalle', 'alumno_concepto_detalle', 'alumno_actividad_detalle'));
+    }
+    
+    /**
      * Obtiene el detalle del tema asignado al alumno.
      *
      * @ApiDoc(
