@@ -62,8 +62,7 @@ class CATService {
     
     public function getNextItemFor($item_bank_code, $examinee_code) {
         $ability = $this->getOrCreateAbility($examinee_code, $item_bank_code);
-        $items = $this->findAvailableItem($item_bank_code, $examinee_code);
-        
+        $items = $this->findAvailableItem($item_bank_code, $examinee_code);        
         $maxInformation = null;
         $nextItem = null;
         foreach ($items as $item) {
@@ -105,14 +104,13 @@ class CATService {
             $item->addResult($examinee, $result);
             $this->itemRepository->save($item);       
 
-            $itemBank = $item->getItemBank();
-            $ability = $this->abilityRepository->findOneAbility($examinee->getCode(), $itemBank->getCode());
+            $itemBank = $item->getItemBank();            
+            $ability = $this->abilityRepository->findOneAbility($examinee->getCode(), $itemBank->getCode());            
             if (ThetaEstimationMethodType::THETA_MLE == $itemBank->getThetaEstimationMethod()) {
                 $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorML($ability->getTheta(), $item->getItemsResults(), $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
             } else {
                 $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorNR($ability->getTheta(), $item->getItemsResults(), $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
             }
-            
             $ability->updateTheta($thetaEstimation->getTheta());
             $ability->setThetaError($thetaEstimation->getStandarError());
 

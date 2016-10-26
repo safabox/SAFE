@@ -24,7 +24,6 @@ use Safe\CatBundle\Entity\PastAbility;
 use Safe\CatBundle\Entity\Examinee;
 use Safe\CatBundle\Entity\ItemResult;
 use Safe\TemaBundle\Entity\TipoActividad;
-
 class AsignacionData extends AlumnoData
 {    
     /**
@@ -158,12 +157,13 @@ class AsignacionData extends AlumnoData
         $manager->flush();
         
         $examinee = new Examinee();
-        $examinee->setCode($alumno->getId());
+        $examinee->setCode($this->getReference('alumno10')->getId());
         $manager->persist($examinee);
+        $manager->flush();
  
         $ability = new Ability($examinee, $itemBank, 0);
         $manager->persist($ability);
-        
+        $manager->flush();
         
         $examinee2 = new Examinee();
         $examinee2->setCode($alumno11->getId());
@@ -220,6 +220,24 @@ class AsignacionData extends AlumnoData
         $manager->persist($concepto5);
         $manager->flush();
         
+        $actividad15 = $this->crearActividad("15", $concepto5);
+        $manager->persist($actividad15);
+        $manager->flush();
+        
+        
+        $itemBank = new ItemBank();
+        $itemBank->setExpectedTheta(1);
+        $itemBank->setCode($concepto5->getId());
+        $manager->persist($itemBank);
+        $manager->flush();
+        
+        $ability = new Ability($examinee, $itemBank, 0);        
+        $manager->persist($ability);
+        $manager->flush();
+        
+        $item = $this->crearItem($actividad15, $itemBank, 1);
+        $manager->persist($item);
+        $manager->flush();        
         $manager->persist(new AlumnoEstadoConcepto($alumno13, $concepto5, true));
         $manager->flush();
         

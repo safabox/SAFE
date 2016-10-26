@@ -42,11 +42,12 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $curso = $this->getCursoByTitulo('Asignacion');
         $idCurso = $curso->getId();
         $tema = $this->getTemaByTitulo('4 tema');
-        $concepto = $this->getConceptoByTitulo('3 concepto');
-        
-        $resultadoActividad = $this->crearActividadResultadoArray(array('respuesta' => 'true'));
+        $concepto = $this->getConceptoByTitulo('5 concepto');
+        $actividad = $this->getActividadByTitulo('15 actividad');
+        $actividadId = $actividad->getId();
+        $resultadoActividad = $this->crearActividadResultadoArray($actividadId, array('respuesta' => 'true'));
         $content = json_encode($resultadoActividad);
-        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadespost_alumno_curso_tema_resultado', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId(), 'actividadId' => $actividadId ,'_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadespost_alumno_curso_tema_resultado', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId(),'_format' => 'json'));
         
         $cliente->request('POST', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
         
@@ -54,9 +55,10 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $response = $cliente->getResponse();
         $this->assertJsonResponse($response, 200);
         $estado = json_decode($response->getContent(), true);
-        
+                
         $this->assertEquals(ResultadoEvaluacion::APROBADO, $estado['resultado']);
-        $this->assertEquals(ResultadoEvaluacion::APROBADO_OBSERVACION, $estado['proximo']['estado']);
+        $this->assertEquals(ResultadoEvaluacion::APROBADO_OBSERVACION, $estado['proxima_actividad']['estado']);
+        
     }
    
     public function testGetProximo_actividad_Action_ConAlumnoConHabilidadLograda_RetornaEstadoAprobado_Y_GeneraUnNuevoEstadoDeAprobacion() {
@@ -112,8 +114,7 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $estadoConceptoDespues = $this->getEstadoConcepto($concepto->getId(), $id);
         $this->assertEquals($estadoConceptoAntes, $estadoConceptoDespues);
     }
-    
-    
+
     
     private function assertCamposBasicosEquals($expectedActividad, $actividad) {
         $this->assertEquals($expectedActividad->getId(), $actividad['id']);
@@ -185,8 +186,9 @@ class ActividadAsignadaControllerTest extends SafeTestController {
     }
     
     
-    protected function crearActividadResultadoArray($resultado = array()) {
+    protected function crearActividadResultadoArray($actividadId, $resultado = array()) {
         $dato = array(
+            'actividadId' => $actividadId,
             'resultado' => $resultado
         );
         return $dato;

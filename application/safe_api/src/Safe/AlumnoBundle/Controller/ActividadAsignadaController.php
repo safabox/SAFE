@@ -66,14 +66,16 @@ class ActividadAsignadaController extends SafeRestAbstractController {
      * @param Request $request the request object
      *     
      */
-    public function postResultadoAction($alumnoId, $cursoId, $temaId, $conceptoId, $actividadId)
+    public function postResultadoAction(Request $request, $alumnoId, $cursoId, $temaId, $conceptoId)
     {              
         $data = json_decode($request->getContent(), true);
+        
         $validacion = $this->validarRequestData($data);
         if (!$validacion['resultado']) {
             return $this->generarRepuestaBadRequest($validacion['mensaje']);
         }
-        $proximoResultado = $this->getActividadAsignadaService()->registrarResultado($actividadId, $data['resultado']);        
+        $actividadId = $data['actividadId'];        
+        $proximoResultado = $this->getActividadAsignadaService()->registrarResultado($alumnoId, $conceptoId, $actividadId, $data['resultado']);        
         return $this->generarRespuesta($proximoResultado,
                 Response::HTTP_OK,
                 array('Default', 'alumno_actividad_detalle'));
@@ -91,6 +93,9 @@ class ActividadAsignadaController extends SafeRestAbstractController {
     private function validarRequestData($data) {
         if (!array_key_exists('resultado', $data)) {
             return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.resultado.vacio"));
+        }
+         if (!array_key_exists('actividadId', $data)) {
+            return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.identificador.vacio"));
         }
         return array('resultado' => true);
     }
