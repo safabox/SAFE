@@ -11,6 +11,8 @@ use Safe\TemaBundle\Service\ActividadService;
 use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 use Safe\TemaBundle\Entity\AlumnoEstadoConcepto;
 use Safe\CatBundle\Entity\ExamineeTestStatus;
+use Safe\TemaBundle\Entity\Evaluador\EvaluadorActividad;
+use Safe\TemaBundle\Entity\Evaluador\EvaluadorFactory;
 use Doctrine\Common\Util\Debug;
 class ActividadAsignadaService extends ActividadService {
 
@@ -32,6 +34,14 @@ class ActividadAsignadaService extends ActividadService {
         $this->conceptoRepository = $conceptoRepository;
         $this->alumnoEstadoConceptoRepository = $alumnoEstadoConceptoRepository;
         $this->catService = $catService;
+    }
+    
+    public function registrarResultado($actividadId, $resultado) {
+        $actividad = $this->getById($actividadId);
+        $evaluador = EvaluadorFactory::crearEvaluador($actividad->getTipo());
+        $resultadoEvaluacion = $evaluador->evaluar($actividad->getResultado(), $resultado);
+        
+        //$this->$catService->
     }
     
     public function proximaActividad($conceptoId, $alumnoId) {
