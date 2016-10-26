@@ -4,7 +4,7 @@ namespace Safe\AlumnoBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 
 use Doctrine\Common\Util\Debug;
 class ConceptoAsignadoControllerTest extends SafeTestController {
@@ -68,7 +68,7 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         $proximoResultado = json_decode($response->getContent(), true);
         $expectedConcepto = $this->getConceptoByTitulo('3 concepto');
            
-        $this->assertEquals(ProximoResultado::CURSANDO, $proximoResultado['estado']);
+        $this->assertEquals(ResultadoEvaluacion::CURSANDO, $proximoResultado['estado']);
         $this->assertCamposBasicosEquals($expectedConcepto, $proximoResultado['elemento']);
         
     }
@@ -97,7 +97,7 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         $proximoResultado = json_decode($response->getContent(), true);
         
         
-        $this->assertEquals(ProximoResultado::FINALIZADO, $proximoResultado['estado']);
+        $this->assertEquals(ResultadoEvaluacion::FINALIZADO, $proximoResultado['estado']);
         $this->assertNotNull($this->getEstadoTema($tema->getId(), $id));
                 
     }
@@ -124,7 +124,7 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         $this->assertJsonResponse($response, 200);
         $proximoResultado = json_decode($response->getContent(), true);
 
-        $this->assertEquals(ProximoResultado::FINALIZADO, $proximoResultado['estado']);        
+        $this->assertEquals(ResultadoEvaluacion::FINALIZADO, $proximoResultado['estado']);        
     }
     
     public function testGetAction() {
@@ -153,6 +153,37 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         
     }
     
+     public function testGetProxima_actividadAction() {
+        //inicio
+        $login = $this->loginAlumno("alumno10");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('Asignacion');
+        $idCurso = $curso->getId();
+        $tema = $this->getTemaByTitulo('4 tema');
+        
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptosget_alumno_curso_tema_proxima_actividad', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId() ,'_format' => 'json'));
+        
+        //test
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $resultado = json_decode($response->getContent(), true);
+        $expectedConcepto = $this->getConceptoByTitulo('3 concepto');
+           
+        $this->assertEquals(ResultadoEvaluacion::CURSANDO, $resultado['concepto']['estado']);
+        $this->assertCamposBasicosEquals($expectedConcepto, $resultado['concepto']['elemento']);
+        
+        $expectedActividad = $this->getActividadByTitulo('4 actividad');
+        $this->assertEquals(ResultadoEvaluacion::CURSANDO, $resultado['actividad']['estado']);
+        $this->assertActividadCamposBasicosEquals($expectedActividad, $resultado['actividad']['elemento']);
+        $this->assertArrayHasKey('ejercicio', $resultado['actividad']['elemento'], 'Ejercicio de la actividad no encontrada');
+        
+        
+    }
+    
     private function assertCamposBasicosEquals($expectedConcepto, $concepto) {
         $this->assertEquals($expectedConcepto->getId(), $concepto['id']);
         $this->assertEquals($expectedConcepto->getTitulo(), $concepto['titulo']);
@@ -161,6 +192,15 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         $this->assertEquals($expectedConcepto->getFechaModificacion()->format(DATE_ISO8601), $concepto['fecha_modificacion']);
         $this->assertEquals($expectedConcepto->getFechaCreacion()->format(DATE_ISO8601), $concepto['fecha_creacion']);        
         $this->assertEquals($expectedConcepto->getOrden(), $concepto['orden']);       
+    }
+     private function assertActividadCamposBasicosEquals($expectedActividad, $actividad) {
+        $this->assertEquals($expectedActividad->getId(), $actividad['id']);
+        $this->assertEquals($expectedActividad->getTitulo(), $actividad['titulo']);
+        $this->assertSame($expectedActividad->getEjercicio(), $actividad['ejercicio']);
+        $this->assertEquals($expectedActividad->getDescripcion(), $actividad['descripcion']);
+        $this->assertEquals($expectedActividad->isHabilitado(), $actividad['habilitado']);
+        $this->assertEquals($expectedActividad->getFechaModificacion()->format(DATE_ISO8601), $actividad['fecha_modificacion']);
+        $this->assertEquals($expectedActividad->getFechaCreacion()->format(DATE_ISO8601), $actividad['fecha_creacion']);        
     }
     
     private function assertCamposBasicos($concepto){
@@ -199,6 +239,16 @@ class ConceptoAsignadoControllerTest extends SafeTestController {
         $this->em->detach($tema);
         return $tema;
     }
+    
+     protected function getActividadByTitulo($titulo) {
+        $actividad =  $this->em
+            ->getRepository('SafeTemaBundle:Actividad')            
+            ->findOneBy(array('titulo'=>$titulo))
+        ;
+        $this->em->detach($actividad);
+        return $actividad;
+    }
+    
     
     protected function getCursoByTitulo($titulo) {
         $curso =  $this->em

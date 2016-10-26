@@ -8,11 +8,13 @@ use Safe\TemaBundle\Repository\AlumnoEstadoCursoRepository;
 use Safe\AlumnoBundle\Repository\AlumnoRepository;
 use Safe\CursoBundle\Repository\CursoRepository;
 use Safe\TemaBundle\Entity\AlumnoEstadoCurso;
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 
 use Safe\TemaBundle\Service\TemaService;
 use Safe\AlumnoBundle\Entity\TemasAsignados;
 use Safe\AlumnoBundle\Entity\TemaFinalizado;
+use Safe\AlumnoBundle\Entity\TemaProximaActividad;
+use Safe\AlumnoBundle\Service\ConceptoAsignadoService;
 
 use Doctrine\Common\Util\Debug;
 class TemaAsignadoService extends TemaService {
@@ -25,17 +27,22 @@ class TemaAsignadoService extends TemaService {
     
     private $alumnoEstadoCursoRepository;
     
+    private $conceptoAsignadoService;
+    
     public function __construct(TemaRepository $temaRepository, 
             AlumnoRepository $alumnoRepository,
             CursoRepository $cursoRepository,
             AlumnoEstadoTemaRepository $alumnoEstadoTemaRepository,
-            AlumnoEstadoCursoRepository $alumnoEstadoCursoRepository)
+            AlumnoEstadoCursoRepository $alumnoEstadoCursoRepository,
+            ConceptoAsignadoService $conceptoAsignadoService
+            )
     {
         parent::__construct($temaRepository);
         $this->alumnoEstadoTemaRepository = $alumnoEstadoTemaRepository;
         $this->alumnoRepository = $alumnoRepository;
         $this->cursoRepository = $cursoRepository;
         $this->alumnoEstadoCursoRepository = $alumnoEstadoCursoRepository;
+        $this->conceptoAsignadoService = $conceptoAsignadoService;
         
     }
     
@@ -60,7 +67,7 @@ class TemaAsignadoService extends TemaService {
             if (count($estados) > 0) {
                 $estado = $estados[0]->getEstado();
             } else {
-                $estado = ProximoResultado::FINALIZADO;
+                $estado = ResultadoEvaluacion::FINALIZADO;
             }
             $finalizadosConEstados[] = new TemaFinalizado($tema, $estado);
         }
@@ -71,24 +78,34 @@ class TemaAsignadoService extends TemaService {
     public function proximoTema($cursoId, $alumnoId) {
         $alumnoEstadoCurso = $this->alumnoEstadoCursoRepository->findOneBy(array('curso'=> $cursoId, 'alumno' => $alumnoId));
         if ($alumnoEstadoCurso != null) {
-            return new ProximoResultado($alumnoEstadoCurso->getEstado());
+            return new ResultadoEvaluacion($alumnoEstadoCurso->getEstado());
         }        
         $result = $this->obtenerHabilitados($alumnoId, $cursoId);
         foreach ($result as $tema) {
             $predecesorasFinalizadas = $this->countPredecesorasFinalizadas($tema, $alumnoId);
             $cantidadPredecesoras = $tema->getPredecesoras()->count();
             if ($predecesorasFinalizadas >= $cantidadPredecesoras) {
-                return new ProximoResultado(ProximoResultado::CURSANDO, $tema);
+                return new ResultadoEvaluacion(ResultadoEvaluacion::CURSANDO, $tema);
             }
         }
         
         $curso = $this->cursoRepository->find($cursoId);
         $alumno = $this->alumnoRepository->find($alumnoId);
-        $alumnoEstadoCurso = new AlumnoEstadoCurso($alumno, $curso, true, ProximoResultado::FINALIZADO);
+        $alumnoEstadoCurso = new AlumnoEstadoCurso($alumno, $curso, true, ResultadoEvaluacion::FINALIZADO);
         $this->alumnoEstadoCursoRepository->crearOActualizar($alumnoEstadoCurso);
 
-        return new ProximoResultado(ProximoResultado::FINALIZADO);
+        return new ResultadoEvaluacion(ResultadoEvaluacion::FINALIZADO);
         
+    }
+    
+    public function proximaActividad($cursoId, $alumnoId) {
+        $proximoTemaDisponible = $this->proximoTema($cursoId, $alumnoId);
+        if (ResultadoEvaluacion::CURSANDO != $proximoTemaDisponible->getEstado()) {
+            return new TemaProximaActividad($proximoTemaDisponible, null, null);
+        }
+        $temaId = $proximoTemaDisponible->getElemento()->getId();
+        $proximoConceptoActividad = $this->conceptoAsignadoService->proximaActividad($temaId, $alumnoId);
+        return new TemaProximaActividad($proximoTemaDisponible, $proximoConceptoActividad->getConcepto(), $proximoConceptoActividad->getActividad());
     }
     
     private function getAlumnoEstadoTema($alumnoId, $temaId) {

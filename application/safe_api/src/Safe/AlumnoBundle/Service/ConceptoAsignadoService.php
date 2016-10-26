@@ -9,11 +9,13 @@ use Safe\TemaBundle\Repository\TemaRepository;
 
 use Safe\TemaBundle\Service\ConceptoService;
 
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 use Safe\TemaBundle\Entity\AlumnoEstadoTema;
 use Doctrine\Common\Util\Debug;
 use Safe\AlumnoBundle\Entity\ConceptoFinalizado;
 use Safe\AlumnoBundle\Entity\ConceptosAsignados;
+use Safe\AlumnoBundle\Entity\ConceptoProximaActividad;
+use Safe\AlumnoBundle\Service\ActividadAsignadaService;
 class ConceptoAsignadoService extends ConceptoService {
 
     private $alumnoRepository;
@@ -24,10 +26,13 @@ class ConceptoAsignadoService extends ConceptoService {
     
     private $alumnoEstadoTemaRepository;
     
+    private $actividadAsignadaService;
+    
     public function __construct(ConceptoRepository $conceptoRepository,
             AlumnoRepository $alumnoRepository, TemaRepository $temaRepository, 
             AlumnoEstadoConceptoRepository $alumnoEstadoConceptoRepository,
-            AlumnoEstadoTemaRepository $alumnoEstadoTemaRepository
+            AlumnoEstadoTemaRepository $alumnoEstadoTemaRepository,
+            ActividadAsignadaService $actividadAsignadaService            
             )
     {
         parent::__construct($conceptoRepository);
@@ -35,6 +40,7 @@ class ConceptoAsignadoService extends ConceptoService {
         $this->alumnoRepository = $alumnoRepository;
         $this->temaRepository = $temaRepository;
         $this->alumnoEstadoTemaRepository = $alumnoEstadoTemaRepository;
+        $this->actividadAsignadaService = $actividadAsignadaService;
     }
     
     public function findAll($alumnoId, $temaId, $limit = null, $offset = 0) {
@@ -58,7 +64,7 @@ class ConceptoAsignadoService extends ConceptoService {
             if (count($estados) > 0) {
                 $estado = $estados[0]->getEstado();
             } else {
-                $estado = ProximoResultado::FINALIZADO;
+                $estado = ResultadoEvaluacion::FINALIZADO;
             }
             $finalizadosConEstados[] = new ConceptoFinalizado($concepto, $estado);
         }
@@ -71,23 +77,32 @@ class ConceptoAsignadoService extends ConceptoService {
         
         $alumnoEstadoTema = $this->alumnoEstadoTemaRepository->findOneBy(array('tema'=> $temaId, 'alumno' => $alumnoId));
         if ($alumnoEstadoTema != null) {
-            return new ProximoResultado($alumnoEstadoTema->getEstado());
+            return new ResultadoEvaluacion($alumnoEstadoTema->getEstado());
         }
         $result = $this->obtenerHabilitados($alumnoId, $temaId);
         foreach ($result as $concepto) {
             $predecesorasFinalizadas = $this->countPredecesorasFinalizadas($concepto, $alumnoId);
             $cantidadPredecesoras = $concepto->getPredecesoras()->count();
             if ($predecesorasFinalizadas >= $cantidadPredecesoras) {
-                return new ProximoResultado(ProximoResultado::CURSANDO, $concepto);
+                return new ResultadoEvaluacion(ResultadoEvaluacion::CURSANDO, $concepto);
             }
         }
         $tema = $this->temaRepository->find($temaId);
         $alumno = $this->alumnoRepository->find($alumnoId);
-        $alumnoEstadoTema = new AlumnoEstadoTema($alumno, $tema, true, ProximoResultado::FINALIZADO);
+        $alumnoEstadoTema = new AlumnoEstadoTema($alumno, $tema, true, ResultadoEvaluacion::FINALIZADO);
         $this->alumnoEstadoTemaRepository->crearOActualizar($alumnoEstadoTema);
 
-        return new ProximoResultado(ProximoResultado::FINALIZADO);
+        return new ResultadoEvaluacion(ResultadoEvaluacion::FINALIZADO);
         
+    }
+    
+    public function proximaActividad($temaId, $alumnoId) {
+        $proximoConceptoDisponible = $this->proximoConcepto($temaId, $alumnoId);
+        if (ResultadoEvaluacion::CURSANDO != $proximoConceptoDisponible->getEstado()) {
+            return new ConceptoProximaActividad($proximoConceptoDisponible, null);
+        }
+        $proximaActividad = $this->actividadAsignadaService->proximaActividad($proximoConceptoDisponible->getElemento()->getId(), $alumnoId);
+        return new ConceptoProximaActividad($proximoConceptoDisponible, $proximaActividad);
     }
     
     private function getAlumnoEstadoConcepto($alumnoId, $conceptoId) {
