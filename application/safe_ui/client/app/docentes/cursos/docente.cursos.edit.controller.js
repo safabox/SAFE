@@ -14,7 +14,6 @@
         vm.editMode = ($state.includes('**.edit'));
         vm.noDataTemas = true; 
         vm.agregarNuevoTema = agregarNuevoTema;
-        //vm.editarTema = editarTema;
         vm.eliminarTema = eliminarTema;
         vm.puedeEliminar = puedeEliminar;
         vm.puedeRecuperar = puedeRecuperar;
@@ -92,15 +91,7 @@
                 $state.reload();
             }
         }
-        /*
-        function editarTema(id) {
-            CrearTemaPopup.show(vm.curso.id, UsuarioService.getUserCurrentDoc(), vm.curso.temas, vm.curso, true, id).then(onClose);
-            
-            function onClose() {
-                $state.reload();
-            }
-        }
-        */
+
         function getTemasTabla(params) {
             params.total(vm.curso.temas.length);
 

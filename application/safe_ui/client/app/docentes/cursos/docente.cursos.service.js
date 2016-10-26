@@ -18,7 +18,7 @@
             var newEntity = {
                 titulo: titulo, 
                 descripcion: descripcion,
-                coperte: copete,
+                copete: copete,
                 orden: orden,
                 predecesoras: predecesoras,
                 habilitado: true,
