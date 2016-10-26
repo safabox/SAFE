@@ -86,8 +86,8 @@ class IrtEquations {
     public static function estimateNewThetaWithStandarErrorNR($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3)) {      
         $numerator = 0;
         $denominator = 0;
-        if (count($itemsResult) <= 1) {
-             return array($theta, 999, 999);
+        if (count($itemsResult) <= 1) {             
+             new ThetaEstimation($theta, 999, 999);
         }
         foreach ($itemsResult as $itemResult) {
             $p = IrtEquations::probP($theta, $itemResult);

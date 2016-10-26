@@ -35,7 +35,8 @@
     "angular-block-ui": "0.2.2",
     "angular-messages": "~1.5.8",
     "angular-bootstrap-show-errors": "~2.3.0",
-    "angular-ui-validate": "~1.2.2"
+    "angular-ui-validate": "~1.2.2",
+	"angular": ">=1.0.8"
   },
   "devDependencies": {
     "bourbon": "~4.2.0",

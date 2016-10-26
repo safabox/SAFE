@@ -23,3 +23,5 @@ temaBundle:
             vacio: La resoluciòn del ejercicio es obligatorio
         tipo:
             vacio: La resoluciòn del ejercicio es obligatorio
+        identificador:
+            vacio: Falta el identificador de la actividad

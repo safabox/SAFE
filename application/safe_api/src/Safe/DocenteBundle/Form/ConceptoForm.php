@@ -32,6 +32,13 @@ class ConceptoForm
      * @Expose
      */
     private $titulo;
+    
+    /**
+     * @var string
+     *
+     * @Expose
+     */
+    private $copete;
 
     /**
      * @var string
@@ -299,7 +306,13 @@ class ConceptoForm
     }
 
     
+    function getCopete() {
+        return $this->copete;
+    }
 
+    function setCopete($copete) {
+        $this->copete = $copete;
+    }
     
 }
 

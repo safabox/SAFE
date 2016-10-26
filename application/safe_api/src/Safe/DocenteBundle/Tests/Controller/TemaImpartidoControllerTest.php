@@ -69,7 +69,7 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $cliente = $login['cliente'];
         $id = $login['datos']['idDocente'];
         $cursoId = 1;
-        $nuevoTema = $this->crearTemaArray('Tema Test 1', 'Descripcion Test 1', 1, array(1,2), array(3));
+        $nuevoTema = $this->crearTemaArray('Tema Test 1', 'copete 1','Descripcion Test 1', 1, array(1,2), array(3));
         $content = json_encode($nuevoTema);
         $route =  $this->getUrl('api_1_docentes_cursos_temaspost_docente_curso_tema', array('docenteId' => $id, 'cursoId' => $cursoId,'_format' => 'json'));
   
@@ -102,7 +102,7 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $temaId = 1;
         
         $temaDesactualizadoBBDD = $this->getTema($temaId);
-        $temaAActualizar = $this->crearTemaArray($temaDesactualizadoBBDD->getTitulo().' PUT', $temaDesactualizadoBBDD->getDescripcion().' PUT', 1, array(3), array(2));        
+        $temaAActualizar = $this->crearTemaArray($temaDesactualizadoBBDD->getTitulo().' PUT', $temaDesactualizadoBBDD->getCopete().' PUT',  $temaDesactualizadoBBDD->getDescripcion().' PUT', 1, array(3), array(2));        
         
         $content = json_encode($temaAActualizar);
         $route =  $this->getUrl('api_1_docentes_cursos_temasput_docente_curso_tema', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, '_format' => 'json'));
@@ -137,7 +137,7 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $temaId = 3;
         
         $temaDesactualizadoBBDD = $this->getTema($temaId);
-        $temaAActualizar = $this->crearTemaArray($temaDesactualizadoBBDD->getTitulo().' PUT', $temaDesactualizadoBBDD->getDescripcion().' PUT', 1, array(4), array());        
+        $temaAActualizar = $this->crearTemaArray($temaDesactualizadoBBDD->getTitulo().' PUT', $temaDesactualizadoBBDD->getCopete().' PUT', $temaDesactualizadoBBDD->getDescripcion().' PUT', 1, array(4), array());        
         
         $content = json_encode($temaAActualizar);
         $route =  $this->getUrl('api_1_docentes_cursos_temasput_docente_curso_tema', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, '_format' => 'json'));
@@ -169,7 +169,7 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $temaId = 1;
         
         
-        $temaAActualizar = $this->crearTemaArray('Baja logica', 'Baja logica descripcoin', 1, array(), array());        
+        $temaAActualizar = $this->crearTemaArray('Baja logica', 'Baja copete', 'Baja logica descripcoin', 1, array(), array());        
         $temaAActualizar['habilitado'] = false;
         
         $content = json_encode($temaAActualizar);
@@ -224,9 +224,10 @@ class TemaImpartidoControllerTest extends SafeTestController {
         ;
     }
     
-    protected function crearTemaArray($titulo, $descripcion, $orden, $predecesoras=array(), $sucesoras=array()) {        
+    protected function crearTemaArray($titulo, $copete, $descripcion, $orden, $predecesoras=array(), $sucesoras=array()) {        
         $dato = array(
             'titulo' => $titulo,
+            'copete' => $copete,
             'descripcion' => $descripcion,
             'habilitado' => true,
             'orden' => $orden,

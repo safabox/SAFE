@@ -1,7 +1,7 @@
 <?php
 namespace Safe\AlumnoBundle\Entity;
 
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 class ConceptosAsignados {
     private $disponibles;
     private $bloqueados;

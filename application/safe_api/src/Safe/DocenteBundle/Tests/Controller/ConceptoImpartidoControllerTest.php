@@ -83,7 +83,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $id = $login['datos']['idDocente'];
         $cursoId = 1;
         $temaId = 1;
-        $nuevoConcepto = $this->crearConceptoArray('Tema Test 1', 'Descripcion Test 1', 1, array(1,2), array(3));
+        $nuevoConcepto = $this->crearConceptoArray('Tema Test 1', 'copete 1','Descripcion Test 1', 1, array(1,2), array(3));
         $content = json_encode($nuevoConcepto);
         $route =  $this->getUrl('api_1_docentes_cursos_temas_conceptospost_docente_curso_tema_concepto', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, '_format' => 'json'));
   
@@ -122,7 +122,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $conceptoId = 1;
         
         $conceptoDesactualizadoBBDD = $this->getConcepto($conceptoId);
-        $conceptoAActualizar = $this->crearConceptoArray($conceptoDesactualizadoBBDD->getTitulo().' PUT', $conceptoDesactualizadoBBDD->getDescripcion().' PUT', 1, array(3), array(2));        
+        $conceptoAActualizar = $this->crearConceptoArray($conceptoDesactualizadoBBDD->getTitulo().' PUT', $conceptoDesactualizadoBBDD->getCopete().' PUT',$conceptoDesactualizadoBBDD->getDescripcion().' PUT', 1, array(3), array(2));        
         $conceptoAActualizar['tipo'] = 'RASH';
         $content = json_encode($conceptoAActualizar);
         $route =  $this->getUrl('api_1_docentes_cursos_temas_conceptosput_docente_curso_tema_concepto', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, 'conceptoId' => $conceptoId, '_format' => 'json'));
@@ -162,7 +162,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $conceptoId = 3;
         
         $conceptoDesactualizadoBBDD = $this->getConcepto($conceptoId);
-        $conceptoAActualizar = $this->crearConceptoArray($conceptoDesactualizadoBBDD->getTitulo().' PUT', $conceptoDesactualizadoBBDD->getDescripcion().' PUT', 1, array(4), array());        
+        $conceptoAActualizar = $this->crearConceptoArray($conceptoDesactualizadoBBDD->getTitulo().' PUT', $conceptoDesactualizadoBBDD->getCopete(),$conceptoDesactualizadoBBDD->getDescripcion().' PUT', 1, array(4), array());        
         
         $content = json_encode($conceptoAActualizar);
         $route =  $this->getUrl('api_1_docentes_cursos_temas_conceptosput_docente_curso_tema_concepto', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, 'conceptoId' => $conceptoId, '_format' => 'json'));
@@ -195,7 +195,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $conceptoId = 1;
         
         
-        $conceptoAActualizar = $this->crearConceptoArray('Baja logica', 'Baja logica descripcoin', 1, array(), array());        
+        $conceptoAActualizar = $this->crearConceptoArray('Baja logica', 'baja copete','Baja logica descripcoin', 1, array(), array());        
         $conceptoAActualizar['habilitado'] = false;
         
         $content = json_encode($conceptoAActualizar);
@@ -252,9 +252,10 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
     }
     
     
-    protected function crearConceptoArray($titulo, $descripcion, $orden, $predecesoras=array(), $sucesoras=array()) {        
+    protected function crearConceptoArray($titulo, $copete, $descripcion, $orden, $predecesoras=array(), $sucesoras=array()) {        
         $dato = array(
             'titulo' => $titulo,
+            'copete' => $copete,
             'descripcion' => $descripcion,
             'habilitado' => true,
             'orden' => $orden,

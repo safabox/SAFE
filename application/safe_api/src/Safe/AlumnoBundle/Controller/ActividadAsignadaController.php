@@ -12,7 +12,7 @@ use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Safe\CoreBundle\Controller\SafeRestAbstractController;
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 use Doctrine\Common\Util\Debug;
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class ActividadAsignadaController extends SafeRestAbstractController {
@@ -46,6 +46,41 @@ class ActividadAsignadaController extends SafeRestAbstractController {
                 array('Default', 'alumno_actividad_detalle'));
     }
     
+    /**
+     * Registra un resultado de la actividad.
+     * 
+     * #### Ejemplo del Request     
+     * ```
+     * {
+     *   "resultado" : [],
+     *  }
+     * ```
+     * @ApiDoc(          
+     *   output="Safe\TemaBundle\Entity\Actividad",
+     *   statusCodes = {
+     *     204 = "Entidad creadad correctamente",
+     *     400 = "Hubo un error al crear la entidad"
+     *   }
+     * )
+     *
+     * @param Request $request the request object
+     *     
+     */
+    public function postResultadoAction(Request $request, $alumnoId, $cursoId, $temaId, $conceptoId)
+    {              
+        $data = json_decode($request->getContent(), true);
+        
+        $validacion = $this->validarRequestData($data);
+        if (!$validacion['resultado']) {
+            return $this->generarRepuestaBadRequest($validacion['mensaje']);
+        }
+        $actividadId = $data['actividadId'];        
+        $proximoResultado = $this->getActividadAsignadaService()->registrarResultado($alumnoId, $conceptoId, $actividadId, $data['resultado']);        
+        return $this->generarRespuesta($proximoResultado,
+                Response::HTTP_OK,
+                array('Default', 'alumno_actividad_detalle'));
+    }
+    
     
     private function getActividadAsignadaService() {
         return $this->container->get('safe_alumno.service.actividad_asignada');
@@ -53,5 +88,15 @@ class ActividadAsignadaController extends SafeRestAbstractController {
     
     protected function procesarEntidadValida($curso, $method = HttpMethod::POST){
 
+    }
+    
+    private function validarRequestData($data) {
+        if (!array_key_exists('resultado', $data)) {
+            return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.resultado.vacio"));
+        }
+         if (!array_key_exists('actividadId', $data)) {
+            return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.identificador.vacio"));
+        }
+        return array('resultado' => true);
     }
 }

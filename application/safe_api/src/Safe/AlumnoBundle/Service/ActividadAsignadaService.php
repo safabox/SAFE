@@ -8,9 +8,12 @@ use Safe\TemaBundle\Repository\ConceptoRepository;
 use Safe\CatBundle\Service\CATService;
 
 use Safe\TemaBundle\Service\ActividadService;
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 use Safe\TemaBundle\Entity\AlumnoEstadoConcepto;
 use Safe\CatBundle\Entity\ExamineeTestStatus;
+use Safe\TemaBundle\Entity\Evaluador\EvaluadorActividad;
+use Safe\TemaBundle\Entity\Evaluador\EvaluadorFactory;
+use Safe\AlumnoBundle\Entity\ResultadoActividad;
 use Doctrine\Common\Util\Debug;
 class ActividadAsignadaService extends ActividadService {
 
@@ -34,30 +37,44 @@ class ActividadAsignadaService extends ActividadService {
         $this->catService = $catService;
     }
     
+    public function registrarResultado($alumnoId, $conceptoId, $actividadId, $resultado) {
+        
+        $actividad = $this->getById($actividadId);
+        $evaluador = EvaluadorFactory::crearEvaluador($actividad->getTipo());
+        $resultadoActividad = $evaluador->evaluar($actividad->getResultado(), $resultado);
+        $itemResult = ($resultadoActividad) ? 1 : 0;
+        $this->catService->registerResult($alumnoId, $actividadId, $itemResult);
+        
+        $estadoActividad = ($resultadoActividad) ? ResultadoEvaluacion::APROBADO : ResultadoEvaluacion::DESAPROBADO;
+        
+        $proximoResultado = $this->proximaActividad($conceptoId, $alumnoId);
+        return new ResultadoActividad($estadoActividad, $proximoResultado);       
+    }
+    
     public function proximaActividad($conceptoId, $alumnoId) {
-        $proximoResultado = new ProximoResultado();
+        $proximoResultado = new ResultadoEvaluacion();
         $alumnoEstadoConcepto = $this->alumnoEstadoConceptoRepository->findOneBy(array('alumno'=>$alumnoId, 'concepto'=>$conceptoId));
         if ($alumnoEstadoConcepto != null) {
-           return new ProximoResultado($alumnoEstadoConcepto->getEstado());
+           return new ResultadoEvaluacion($alumnoEstadoConcepto->getEstado());
         }
         
-        $examineeTestStatus = $this->catService->getExamineeStatusFor($conceptoId, $alumnoId);
+        $examineeTestStatus = $this->catService->getExamineeStatusFor($conceptoId, $alumnoId);        
         
-        $estado = ProximoResultado::APROBADO;
+        $estado = ResultadoEvaluacion::APROBADO;
         if (ExamineeTestStatus::APPROVED != $examineeTestStatus->getStatus()) {           
             $item = $this->catService->getNextItemFor($conceptoId, $alumnoId);
             if ($item != null){
                $actividad = $this->getById($item->getCode()); 
                $proximoResultado->setElemento($actividad);
-               $estado = ProximoResultado::CURSANDO;
+               $estado = ResultadoEvaluacion::CURSANDO;
             } else {
-               $estado = (ExamineeTestStatus::FAIL == $examineeTestStatus->getStatus()) ? ProximoResultado::DESAPROBADO : ProximoResultado::APROBADO_OBSERVACION;
+               $estado = (ExamineeTestStatus::FAIL == $examineeTestStatus->getStatus()) ? ResultadoEvaluacion::DESAPROBADO : ResultadoEvaluacion::APROBADO_OBSERVACION;
             }
         }
-        if ($estado != ProximoResultado::CURSANDO) {
+        if ($estado != ResultadoEvaluacion::CURSANDO) {
             $alumno = $this->alumnoRepository->find($alumnoId);
             $concepto = $this->conceptoRepository->find($conceptoId);
-            $aprobado = (ProximoResultado::DESAPROBADO != $estado);
+            $aprobado = (ResultadoEvaluacion::DESAPROBADO != $estado);
             $alumnoEstadoConcepto = new AlumnoEstadoConcepto($alumno, $concepto, $aprobado, $estado);
             $this->alumnoEstadoConceptoRepository->crearOActualizar($alumnoEstadoConcepto);
         }
