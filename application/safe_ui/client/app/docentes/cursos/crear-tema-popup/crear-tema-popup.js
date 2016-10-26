@@ -13,7 +13,7 @@
             show: show,
         };
 
-        function show(cursoId, docenteId, temas, curso, editMode, idTema) {
+        function show(cursoId, docenteId, temas, curso) {
             var deferred = $q.defer();
 
             var modalInstance = $uibModal.open({
@@ -26,8 +26,6 @@
                     docenteId: function () { return docenteId; },
                     temas: function () { return temas; },
                     curso: function () { return curso; },
-                    editMode: function () { return editMode; },
-                    idTema: function () { return idTema; },
                 }
             });
 

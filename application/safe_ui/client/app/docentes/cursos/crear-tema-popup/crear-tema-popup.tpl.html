@@ -15,10 +15,17 @@
         <div class="form-group" show-errors>
             <label class="col-md-2 control-label" for="descripcion">Descripción:</label>
             <div class="col-md-10">
-                <input class="form-control" type="text" placeholder="Descripción" name="descripcion" maxlength="200" data-ng-model="vm.descripcion" required>
+                <input class="form-control" type="text" placeholder="Descripción corta" name="descripcion" maxlength="200" data-ng-model="vm.descripcion" required>
             </div>
         </div>
 
+        <div class="form-group" show-errors>
+            <label class="col-md-2 control-label" for="copete">Copete</label>
+            <div class="col-md-10">
+                <textarea class="form-control" rows="3" placeholder="Copete" name="copete" maxlength="500" data-ng-model="vm.copete" required></textarea>
+            </div>
+        </div>        
+        
         <div class="form-group" show-errors>
             <label class="col-md-2 control-label" for="orden">Orden:</label>
             <div class="col-md-10">
@@ -27,13 +34,11 @@
         </div>
         
         <div class="form-group">
-            <label class="col-md-2 control-label" for="tiposCliente">Temas Predecesores:</label>
-            <div class="col-md-10">
-                <checkbox-list name="temasPredecesores" data-ng-model="vm.predecesoras" data-items="vm.temas" data-value-field="tipo" data-label-field="predecesoras" data-columns="3" />
-            </div>
+            <label class="col-md-2 control-label" for="predecesoras">Predecesoras:</label>
+            <label class="col-md-2" ng-repeat="tema in vm.cursoTemas">
+                <input type="checkbox" checklist-model="vm.predecesoras" checklist-value="tema.id"> {{tema.titulo}}
+            </label>
         </div>
-
-    </div>
 
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary" data-ng-disabled="form.$invalid">Aceptar</button>

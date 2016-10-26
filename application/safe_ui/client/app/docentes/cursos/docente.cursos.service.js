@@ -14,24 +14,19 @@
         svc.new = createNewEntity;
         return svc;
         
-        function createNewEntity (titulo, descripcion, orden, predecesoras, cursoId, docenteId, temaId, editMode) {
+        function createNewEntity (titulo, descripcion, copete, orden, predecesoras, cursoId, docenteId) {
             var newEntity = {
                 titulo: titulo, 
-                descripcion: descripcion, 
+                descripcion: descripcion,
+                coperte: copete,
                 orden: orden,
                 predecesoras: predecesoras,
                 habilitado: true,
             };
-            
-            var putTema = svc.one(docenteId).one('cursos', cursoId).one('temas', temaId);  
+
             var postTema = svc.one(docenteId).one('cursos', cursoId);
-            
-            if(editMode) {
-                return putTema.customPUT(newEntity);
-            }else {
-                return postTema.post('temas' , newEntity);
-            }
-            
+
+            return postTema.post('temas' , newEntity);
         }
         
     }

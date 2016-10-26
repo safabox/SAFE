@@ -25,6 +25,7 @@
         'ngStorage',
         'blockUI',
         'angular-jwt',
+        'checklist-model',
         
         // Custom modules
         'app.nav',

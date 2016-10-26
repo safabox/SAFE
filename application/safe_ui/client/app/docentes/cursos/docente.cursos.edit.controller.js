@@ -14,7 +14,7 @@
         vm.editMode = ($state.includes('**.edit'));
         vm.noDataTemas = true; 
         vm.agregarNuevoTema = agregarNuevoTema;
-        vm.editarTema = editarTema;
+        //vm.editarTema = editarTema;
         vm.eliminarTema = eliminarTema;
         vm.puedeEliminar = puedeEliminar;
         vm.puedeRecuperar = puedeRecuperar;
@@ -92,7 +92,7 @@
                 $state.reload();
             }
         }
-        
+        /*
         function editarTema(id) {
             CrearTemaPopup.show(vm.curso.id, UsuarioService.getUserCurrentDoc(), vm.curso.temas, vm.curso, true, id).then(onClose);
             
@@ -100,29 +100,16 @@
                 $state.reload();
             }
         }
-        
+        */
         function getTemasTabla(params) {
             params.total(vm.curso.temas.length);
 
             var result = vm.curso.temas.slice((params.page() - 1) * params.count(), params.page() * params.count());
             return result;              
         }
-        
-        
+                
         function guardar() {
-            
-            /*
-            
-            function onSuccess() {
-                logger.info('Curso Guardado');
-                vm.form.$dirty = false;
-                goBack();
-            }
-            function onError(httpResponse) {
-                console.log(httpResponse);
-                logger.error('No se pudo guardar el Curso', httpResponse);
-            }
-             */ 
+            goBack();
         }
         
         function eliminarTema(tema) {
@@ -197,15 +184,9 @@
             }
         }
         
-        
         function goBack() {
             $state.go('^.list');
         }
-        
-        function cancel() {
-            goBack();
-        }
-        
     }
 })(); 
 
