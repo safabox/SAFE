@@ -2,8 +2,8 @@
 parameters:
     database_host: 127.0.0.1
     database_port: 3306
-    database_name: safe_db
-    database_user: safe_db_rw
+    database_name: safaboxc_safe_db
+    database_user: safaboxc_safe_db
     database_password: grupo5508
     mailer_transport: smtp
     mailer_host: 127.0.0.1
