@@ -19,7 +19,7 @@ class CursoAsignadoController extends SafeRestAbstractController {
      * Lista todos los cusos asignados al alumno
      *
      * @ApiDoc(     
-     *   output = "array<Safe\CursoBundle\Entity\Curso>",
+     *   output = "array<Safe\AlumnoBundle\Entity\CursoAsignado>",
      *   statusCodes = {
      *     200 = "Petición resuelta correctamente"
      *   }

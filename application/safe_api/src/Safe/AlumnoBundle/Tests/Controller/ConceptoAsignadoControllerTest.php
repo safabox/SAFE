@@ -9,6 +9,45 @@ use Safe\AlumnoBundle\Entity\ProximoResultado;
 use Doctrine\Common\Util\Debug;
 class ConceptoAsignadoControllerTest extends SafeTestController {
 
+    public function testGetTemasAction() {
+        $login = $this->loginAlumno("alumno10");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('Asignacion');
+        $idCurso = $curso->getId();
+        $tema = $this->getTemaByTitulo('4 tema');
+        
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptosget_alumno_curso_tema_conceptos', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId() ,'_format' => 'json'));
+        
+        $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $conceptos = json_decode($response->getContent(), true);
+        
+        $this->assertArrayHasKey('disponibles', $conceptos, 'temas disponibles no encontrado');
+        $this->assertArrayHasKey('bloqueados', $conceptos, 'temas bloqueados no encontrado');
+        $this->assertArrayHasKey('finalizados', $conceptos, 'temas finalizados no encontrado');
+        
+        $this->assertEquals(1, count($conceptos['disponibles']));
+        $this->assertEquals(1, count($conceptos['bloqueados']));
+        $this->assertEquals(2, count($conceptos['finalizados']));
+        
+        $conceptoDisponible = $conceptos['disponibles'][0];
+        $this->assertCamposBasicos($conceptoDisponible);
+        $this->assertEquals("3 concepto", $conceptoDisponible['titulo']);
+        
+        $conceptoBloqueado = $conceptos['bloqueados'][0];
+        $this->assertCamposBasicos($conceptoBloqueado);        
+        $this->assertEquals("5 concepto", $conceptoBloqueado['titulo']);
+    
+        $conceptoFinalizado = $conceptos['finalizados'][0]['concepto'];
+        $this->assertCamposBasicos($conceptoFinalizado);
+        $estado = $conceptos['finalizados'][0]['estado'];
+        $this->assertEquals('APROBADO', $estado);
+    }
+    
     public function testGetProximo_conceptoAction() {
         //inicio
         $login = $this->loginAlumno("alumno10");                

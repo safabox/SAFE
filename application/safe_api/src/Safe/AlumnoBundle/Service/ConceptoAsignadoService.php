@@ -12,6 +12,8 @@ use Safe\TemaBundle\Service\ConceptoService;
 use Safe\AlumnoBundle\Entity\ProximoResultado;
 use Safe\TemaBundle\Entity\AlumnoEstadoTema;
 use Doctrine\Common\Util\Debug;
+use Safe\AlumnoBundle\Entity\ConceptoFinalizado;
+use Safe\AlumnoBundle\Entity\ConceptosAsignados;
 class ConceptoAsignadoService extends ConceptoService {
 
     private $alumnoRepository;
@@ -35,35 +37,43 @@ class ConceptoAsignadoService extends ConceptoService {
         $this->alumnoEstadoTemaRepository = $alumnoEstadoTemaRepository;
     }
     
+    public function findAll($alumnoId, $temaId, $limit = null, $offset = 0) {
+        $result = $this->obtenerHabilitados($alumnoId, $temaId, true, $limit, $offset);
+        $finalizados = $this->obtenerHabilitados($alumnoId, $temaId, false, $limit, $offset);
+        $disponibles = array();
+        $bloqueados = array();
+        
+        foreach ($result as $concepto) {
+            $predecesorasFinalizadas = $this->countPredecesorasFinalizadas($concepto, $alumnoId);
+            $cantidadPredecesoras = $concepto->getPredecesoras()->count();
+            if ($predecesorasFinalizadas >= $cantidadPredecesoras) {
+                $disponibles[] = $concepto;
+            } else {
+                $bloqueados[] = $concepto;
+            }
+        }
+        $finalizadosConEstados = array();
+        foreach($finalizados as $finalizado) {
+            $estados = $this->getAlumnoEstadoConcepto($alumnoId, $finalizado->getId());
+            if (count($estados) > 0) {
+                $estado = $estados[0]->getEstado();
+            } else {
+                $estado = ProximoResultado::FINALIZADO;
+            }
+            $finalizadosConEstados[] = new ConceptoFinalizado($concepto, $estado);
+        }
+        
+        return new ConceptosAsignados($disponibles, $bloqueados, $finalizadosConEstados);
+    }
+    
+    
     public function proximoConcepto($temaId, $alumnoId) {
         
         $alumnoEstadoTema = $this->alumnoEstadoTemaRepository->findOneBy(array('tema'=> $temaId, 'alumno' => $alumnoId));
         if ($alumnoEstadoTema != null) {
             return new ProximoResultado($alumnoEstadoTema->getEstado());
         }
-        
-        $queryConceptoFinalizado = $this->alumnoEstadoConceptoRepository->createQueryBuilder('alumnoEstadoConcepto')
-                                                       ->join('alumnoEstadoConcepto.alumno', 'alu') 
-                                                       ->where('alu.id = :alumnoId')
-                                                       ->andWhere('alumnoEstadoConcepto.concepto = concepto')
-                                                       
-                                                       ;
-        
-        $query = $this->conceptoRepository->createQueryBuilder('concepto');
-        
-        $query = $query->join('concepto.tema', 'tema')
-                       ->join('tema.curso', 'curso')
-                       ->join('curso.alumnos', 'alumno')
-                       ->where('tema.id = :temaId')
-                       ->andWhere('alumno.id = :alumnoId')
-                       ->andWhere('concepto.habilitado = true')
-                       ->andWhere($query->expr()->not($query->expr()->exists($queryConceptoFinalizado->getDQL())))                       
-                       ->setParameter('temaId', $temaId)
-                       ->setParameter('alumnoId', $alumnoId)
-                       ->addOrderBy('concepto.orden', 'ASC')
-                       ->addOrderBy('concepto.fechaCreacion', 'ASC')
-                 ;
-        $result = $query->getQuery()->getResult();
+        $result = $this->obtenerHabilitados($alumnoId, $temaId);
         foreach ($result as $concepto) {
             $predecesorasFinalizadas = $this->countPredecesorasFinalizadas($concepto, $alumnoId);
             $cantidadPredecesoras = $concepto->getPredecesoras()->count();
@@ -78,6 +88,18 @@ class ConceptoAsignadoService extends ConceptoService {
 
         return new ProximoResultado(ProximoResultado::FINALIZADO);
         
+    }
+    
+    private function getAlumnoEstadoConcepto($alumnoId, $conceptoId) {
+        $query = $this->alumnoEstadoConceptoRepository->createQueryBuilder('alumnoEstadoConcepto')
+                                               ->join('alumnoEstadoConcepto.alumno', 'alu')
+                                               ->join('alumnoEstadoConcepto.concepto', 'concepto')
+                                               ->where('alu.id = :alumnoId')
+                                               ->andWhere('concepto.id = :conceptoId')
+                                               ->setParameter('alumnoId', $alumnoId)
+                                               ->setParameter('conceptoId', $conceptoId);
+               
+        return $query->getQuery()->getResult();
     }
     
     protected function countPredecesorasFinalizadas($concepto, $alumnoId) {
@@ -99,6 +121,43 @@ class ConceptoAsignadoService extends ConceptoService {
                        ->setParameter('conceptoId', $concepto->getId());
         
         return $query->getQuery()->getSingleScalarResult();
+    }
+    
+    private function obtenerHabilitados($alumnoId, $temaId, $disponible = true, $limit = null, $offset = 0) {
+        $queryConceptoFinalizado = $this->createQueryConceptoFinalizado();        
+        $query = $this->conceptoRepository->createQueryBuilder('concepto');
+        
+        $query = $query->join('concepto.tema', 'tema')
+                       ->join('tema.curso', 'curso')
+                       ->join('curso.alumnos', 'alumno')
+                       ->where('tema.id = :temaId')
+                       ->andWhere('alumno.id = :alumnoId')
+                       ->andWhere('concepto.habilitado = true');
+                       if ($disponible) {
+                        $query = $query->andWhere($query->expr()->not($query->expr()->exists($queryConceptoFinalizado->getDQL())));                       
+                       } else {
+                        $query = $query->andWhere($query->expr()->exists($queryConceptoFinalizado->getDQL()));                          
+                       }
+                       
+                       $query->setParameter('temaId', $temaId)
+                       ->setParameter('alumnoId', $alumnoId)
+                       ->addOrderBy('concepto.orden', 'ASC')
+                       ->addOrderBy('concepto.fechaCreacion', 'ASC');
+                 
+                       if ($limit != null) {
+                            $offset = ($offset == null) ? 0 : $offset;
+                            $query = $query->setMaxResults($limit)
+                                  ->setFirstResult($limit * $offset);
+                       }  
+        $result = $query->getQuery()->getResult();
+        return $result;
+    }
+    
+    private function createQueryConceptoFinalizado() {
+            return $this->alumnoEstadoConceptoRepository->createQueryBuilder('alumnoEstadoConcepto')
+                                               ->join('alumnoEstadoConcepto.alumno', 'alu') 
+                                               ->where('alu.id = :alumnoId')
+                                               ->andWhere('alumnoEstadoConcepto.concepto = concepto');
     }
 
 }

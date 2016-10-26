@@ -1,18 +1,18 @@
 <?php
+
 namespace Safe\AlumnoBundle\Entity;
 
-use Safe\AlumnoBundle\Entity\ProximoResultado;
-class TemaAsignado {
+class TemaFinalizado {
     private $tema;
     
     private $estado;
 
-    function __construct($tema, $estado = ProximoResultado::CURSANDO) {
+    function __construct($tema, $estado) {
         $this->tema = $tema;
         $this->estado = $estado;
     }
 
-    
+
     function getTema() {
         return $this->tema;
     }
@@ -28,4 +28,7 @@ class TemaAsignado {
     function setEstado($estado) {
         $this->estado = $estado;
     }
+
+
+    
 }

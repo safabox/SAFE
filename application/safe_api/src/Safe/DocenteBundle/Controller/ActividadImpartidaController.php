@@ -193,6 +193,9 @@ class ActividadImpartidaController extends SafeRestAbstractController {
         if (!array_key_exists('resultado', $data)) {
             return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.resultado.vacio"));
         }
+        if (!array_key_exists('tipo', $data)) {
+            return array('resultado' => false, 'mensaje' => $this->traducir("temaBundle.actividad.tipo.vacio"));
+        }
         return array('resultado' => true);
     }
     

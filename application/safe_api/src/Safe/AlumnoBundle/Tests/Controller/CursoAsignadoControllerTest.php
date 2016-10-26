@@ -42,7 +42,7 @@ class CursoAsignadoControllerTest extends SafeTestController {
         $this->assertEquals(2, $cursos[0]['cant_temas_resueltos']);
     }
     
-    /*
+
     public function testGetAction() {
         //inicio
         $login = $this->loginAlumno();                
@@ -73,8 +73,6 @@ class CursoAsignadoControllerTest extends SafeTestController {
         $this->assertEquals($expectedCurso->getAlumnos()->count(), count($curso['alumnos']));        
         $this->assertEquals($expectedCurso->getAlumnos()->get(0)->getId(), $curso['alumnos'][0]['id']);
     }
-    
-     */
     
     protected function getAlumno($id) {
         $alumno = $this->em

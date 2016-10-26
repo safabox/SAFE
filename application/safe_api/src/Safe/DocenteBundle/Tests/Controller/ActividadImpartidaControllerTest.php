@@ -5,6 +5,7 @@ namespace Safe\DocenteBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Doctrine\Common\Util\Debug;
+use Safe\TemaBundle\Entity\TipoActividad;
 class ActividadImpartidaControllerTest extends SafeTestController {
 
     public function testGetAllAction() {
@@ -158,6 +159,8 @@ class ActividadImpartidaControllerTest extends SafeTestController {
         $this->assertEquals($expectedActividad->getId(), $actividad['id']);
         $this->assertEquals($expectedActividad->getTitulo(), $actividad['titulo']);
         $this->assertSame($expectedActividad->getEjercicio(), $actividad['ejercicio']);
+        $this->assertSame($expectedActividad->getResultado(), $actividad['resultado']);
+        $this->assertSame($expectedActividad->getTipo(), $actividad['tipo']);
         $this->assertEquals($expectedActividad->getDescripcion(), $actividad['descripcion']);
         $this->assertEquals($expectedActividad->isHabilitado(), $actividad['habilitado']);
         $this->assertEquals($expectedActividad->getFechaModificacion()->format(DATE_ISO8601), $actividad['fecha_modificacion']);
@@ -169,6 +172,7 @@ class ActividadImpartidaControllerTest extends SafeTestController {
         $this->assertArrayHasKey('titulo', $actividad, 'Titulo de la actividad no encontrado');
         $this->assertArrayHasKey('fecha_modificacion', $actividad, 'Fecha de modificacion de la actividad no encontrada');
         $this->assertArrayHasKey('habilitado', $actividad, 'Estado del actividad no encontrada');
+        $this->assertArrayHasKey('tipo', $actividad, 'Tipo actividad no encontrada');
         $this->assertNotNull($actividad['fecha_modificacion'], 'Fecha de modificacion de la actividad invalida');
         $this->assertArrayHasKey('fecha_creacion', $actividad, 'Fecha de creacion de la actividad no encontrada');
         $this->assertNotNull($actividad['fecha_creacion'], 'Fecha de creacion de la actividad invalida');        
@@ -192,6 +196,7 @@ class ActividadImpartidaControllerTest extends SafeTestController {
             'habilitado' => true,
             'ejercicio' => $ejercicio,
             'resultado' => array('resultado_ejercicio' => $ejercicio),
+            'tipo' => TipoActividad::MULTIPLE_CHOICE,
             'dificultad' => $dificultad,
             'discriminador' => $discriminador,
             'azar' => $azar,

@@ -17,6 +17,39 @@ use Doctrine\Common\Util\Debug;
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html
 class ConceptoAsignadoController extends SafeRestAbstractController {
      
+    /**
+     * Lista todos los conceptos asignados al alumno
+     *
+     * @ApiDoc(     
+     *   output = "array<Safe\AlumnoBundle\Entity\ConceptoAsignado>",
+     *   statusCodes = {
+     *     200 = "Petición resuelta correctamente"
+     *   }
+     * )
+     *
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Número de página.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="Cantidad de elementos a retornar.")
+     *
+     * @Annotations\View(
+     *  templateVar="pages"
+     * )
+     *
+     * @param Request               $alumnoId      id del alumno.
+     * @param ParamFetcherInterface $paramFetcher param fetcher service
+     *
+     * @return array
+     */
+    public function getConceptosAction($alumnoId, $cursoId, $temaId, ParamFetcherInterface $paramFetcher)
+    {
+        $offset = $paramFetcher->get('offset');
+        $offset = null == $offset ? 0 : $offset;
+        $limit = $paramFetcher->get('limit');
+        
+        
+        return $this->generarRespuesta($this->getConceptoAsignadoService()->findAll($alumnoId, $temaId, $limit, $offset),
+                Response::HTTP_OK,
+                array('Default'));
+    }
     
     /**
      * Obtiene el proximo concepto para el alumno.

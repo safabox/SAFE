@@ -11,6 +11,9 @@ use Safe\TemaBundle\Entity\AlumnoEstadoCurso;
 use Safe\AlumnoBundle\Entity\ProximoResultado;
 
 use Safe\TemaBundle\Service\TemaService;
+use Safe\AlumnoBundle\Entity\TemasAsignados;
+use Safe\AlumnoBundle\Entity\TemaFinalizado;
+
 use Doctrine\Common\Util\Debug;
 class TemaAsignadoService extends TemaService {
 
@@ -36,34 +39,41 @@ class TemaAsignadoService extends TemaService {
         
     }
     
+    public function findAll($alumnoId, $cursoId, $limit = null, $offset = 0) {
+        $result = $this->obtenerHabilitados($alumnoId, $cursoId, true, $limit, $offset);
+        $finalizados = $this->obtenerHabilitados($alumnoId, $cursoId, false, $limit, $offset);
+        $disponibles = array();
+        $bloqueados = array();
+        
+        foreach ($result as $tema) {
+            $predecesorasFinalizadas = $this->countPredecesorasFinalizadas($tema, $alumnoId);
+            $cantidadPredecesoras = $tema->getPredecesoras()->count();
+            if ($predecesorasFinalizadas >= $cantidadPredecesoras) {
+                $disponibles[] = $tema;
+            } else {
+                $bloqueados[] = $tema;
+            }
+        }
+        $finalizadosConEstados = array();
+        foreach($finalizados as $finalizado) {
+            $estados = $this->getAlumnoEstadoTema($alumnoId, $finalizado->getId());
+            if (count($estados) > 0) {
+                $estado = $estados[0]->getEstado();
+            } else {
+                $estado = ProximoResultado::FINALIZADO;
+            }
+            $finalizadosConEstados[] = new TemaFinalizado($tema, $estado);
+        }
+        
+        return new TemasAsignados($disponibles, $bloqueados, $finalizadosConEstados);
+    }
+    
     public function proximoTema($cursoId, $alumnoId) {
         $alumnoEstadoCurso = $this->alumnoEstadoCursoRepository->findOneBy(array('curso'=> $cursoId, 'alumno' => $alumnoId));
         if ($alumnoEstadoCurso != null) {
             return new ProximoResultado($alumnoEstadoCurso->getEstado());
-        }
-        
-        $queryTemaFinalizado = $this->alumnoEstadoTemaRepository->createQueryBuilder('alumnoEstadoTema')
-                                                       ->join('alumnoEstadoTema.alumno', 'alu') 
-                                                       ->where('alu.id = :alumnoId')
-                                                       ->andWhere('alumnoEstadoTema.tema = tema')
-                                                       
-                                                       ;
-        
-        $query = $this->temaRepository->createQueryBuilder('tema');
-        
-        $query = $query->join('tema.curso', 'curso')                                       
-                       ->join('curso.alumnos', 'alumno')
-                       //->leftjoin('tema.predecesoras', 'predecesora')
-                       ->where('curso.id = :cursoId')
-                       ->andWhere('alumno.id = :alumnoId')
-                       ->andWhere('tema.habilitado = true')
-                       ->andWhere($query->expr()->not($query->expr()->exists($queryTemaFinalizado->getDQL())))                       
-                       ->setParameter('cursoId', $cursoId)
-                       ->setParameter('alumnoId', $alumnoId)
-                       ->addOrderBy('tema.orden', 'ASC')
-                       ->addOrderBy('tema.fechaCreacion', 'ASC')
-                 ;
-        $result = $query->getQuery()->getResult();
+        }        
+        $result = $this->obtenerHabilitados($alumnoId, $cursoId);
         foreach ($result as $tema) {
             $predecesorasFinalizadas = $this->countPredecesorasFinalizadas($tema, $alumnoId);
             $cantidadPredecesoras = $tema->getPredecesoras()->count();
@@ -81,11 +91,20 @@ class TemaAsignadoService extends TemaService {
         
     }
     
-    protected function countPredecesorasFinalizadas($tema, $alumnoId) {
-        $queryTemaFinalizado = $this->alumnoEstadoTemaRepository->createQueryBuilder('alumnoEstadoTema')
-                                               ->join('alumnoEstadoTema.alumno', 'alu') 
+    private function getAlumnoEstadoTema($alumnoId, $temaId) {
+        $query = $this->alumnoEstadoTemaRepository->createQueryBuilder('alumnoEstadoTema')
+                                               ->join('alumnoEstadoTema.alumno', 'alu')
+                                               ->join('alumnoEstadoTema.tema', 'tema')
                                                ->where('alu.id = :alumnoId')
-                                               ->andWhere('alumnoEstadoTema.tema = tema');
+                                               ->andWhere('tema.id = :temaId')
+                                               ->setParameter('alumnoId', $alumnoId)
+                                               ->setParameter('temaId', $temaId);
+               
+        return $query->getQuery()->getResult();
+    }
+        
+    private function countPredecesorasFinalizadas($tema, $alumnoId) {
+        $queryTemaFinalizado = $this->createQueryTemaFinalizado();
         
         $query = $this->temaRepository->createQueryBuilder('tema');
         
@@ -101,5 +120,43 @@ class TemaAsignadoService extends TemaService {
         
         return $query->getQuery()->getSingleScalarResult();
     }
+    
+    private function obtenerHabilitados($alumnoId, $cursoId, $disponible = true, $limit = null, $offset = 0) {
+        $queryTemaFinalizado = $this->createQueryTemaFinalizado();
+        $query = $this->temaRepository->createQueryBuilder('tema');
+        
+        $query = $query->join('tema.curso', 'curso')                                       
+                       ->join('curso.alumnos', 'alumno')
+                       //->leftjoin('tema.predecesoras', 'predecesora')
+                       ->where('curso.id = :cursoId')
+                       ->andWhere('alumno.id = :alumnoId')
+                       ->andWhere('tema.habilitado = true');
+                       if ($disponible) {
+                        $query = $query->andWhere($query->expr()->not($query->expr()->exists($queryTemaFinalizado->getDQL())));                          
+                       } else {
+                        $query = $query->andWhere($query->expr()->exists($queryTemaFinalizado->getDQL()));                          
+                       }
+                       
+        $query = $query->setParameter('cursoId', $cursoId)
+                       ->setParameter('alumnoId', $alumnoId)
+                       ->addOrderBy('tema.orden', 'ASC')
+                       ->addOrderBy('tema.fechaCreacion', 'ASC');
+                      if ($limit != null) {
+                            $offset = ($offset == null) ? 0 : $offset;
+                            $query = $query->setMaxResults($limit)
+                                  ->setFirstResult($limit * $offset);
+                       }   
+        
+        $result = $query->getQuery()->getResult();
+        return $result;
+    }
+    private function createQueryTemaFinalizado() {
+            return $this->alumnoEstadoTemaRepository->createQueryBuilder('alumnoEstadoTema')
+                                               ->join('alumnoEstadoTema.alumno', 'alu') 
+                                               ->where('alu.id = :alumnoId')
+                                               ->andWhere('alumnoEstadoTema.tema = tema');
+
+    }
+
 
 }

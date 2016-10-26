@@ -8,7 +8,7 @@ use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Safe\AlumnoBundle\Entity\ProximoResultado;
 use Doctrine\Common\Util\Debug;
 class TemaAsignadoControllerTest extends SafeTestController {
-    /*
+    
     public function testGetTemasAction() {
         $login = $this->loginAlumno("alumno10");                
         $cliente = $login['cliente'];                
@@ -25,26 +25,29 @@ class TemaAsignadoControllerTest extends SafeTestController {
         $this->assertJsonResponse($response, 200);       
         $temas = json_decode($response->getContent(), true);
         
+        //Debug::dump($temas, 3);
+        
         $this->assertArrayHasKey('disponibles', $temas, 'temas disponibles no encontrado');
         $this->assertArrayHasKey('bloqueados', $temas, 'temas bloqueados no encontrado');
         $this->assertArrayHasKey('finalizados', $temas, 'temas finalizados no encontrado');
         
-        $this->assertEquals(2, $temas['disponibles']);
-        $this->assertEquals(1, $temas['bloqueados']);
-        $this->assertEquals(2, $temas['finalizados']);
+        $this->assertEquals(1, count($temas['disponibles']));
+        $this->assertEquals(2, count($temas['bloqueados']));
+        $this->assertEquals(2, count($temas['finalizados']));
         
-        $temaDisponibles = $temas['disponibles'][0];
-        $this->assertCamposBasicos($temaDisponibles['tema']);
-        $this->assertTrue("CURSANDO", $temaDisponibles['estado']);
+        $temaDisponible = $temas['disponibles'][0];
+        $this->assertCamposBasicos($temaDisponible);
 
-        $temaBloqueados = $temas['bloqueados'][0];
-        $this->assertCamposBasicos($temaBloqueados['bloqueados']);        
-        $this->assertTrue("CURSANDO", $temaDisponibles['estado']);
-
-        $temaFinalizados = $temas['finalizados'][0];
-        $this->assertCamposBasicos($temaFinalizados['finalizados']);                
+        $temaBloqueado = $temas['bloqueados'][0];
+        $this->assertCamposBasicos($temaBloqueado);        
+    
+        $temaFinalizado = $temas['finalizados'][0]['tema'];
+        $this->assertCamposBasicos($temaFinalizado);
+        $estado = $temas['finalizados'][0]['estado'];
+        $this->assertEquals('FINALIZADO', $estado);
     }
-    */
+    
+    
     public function testGetProximo_temaAction() {
         //inicio
         $login = $this->loginAlumno("alumno10");                
@@ -112,7 +115,6 @@ class TemaAsignadoControllerTest extends SafeTestController {
         $this->assertCamposBasicosEquals($expectedTema, $tema);
         
     }
-    
     
     private function assertCamposBasicosEquals($expectedTema, $tema) {
         $this->assertEquals($expectedTema->getId(), $tema['id'], "Id del tema");

@@ -20,6 +20,40 @@ class TemaAsignadoController extends SafeRestAbstractController {
      
     
     /**
+     * Lista todos los temas asignados al alumno
+     *
+     * @ApiDoc(     
+     *   output = "array<Safe\AlumnoBundle\Entity\TemaAsignado>",
+     *   statusCodes = {
+     *     200 = "Petición resuelta correctamente"
+     *   }
+     * )
+     *
+     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Número de página.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="Cantidad de elementos a retornar.")
+     *
+     * @Annotations\View(
+     *  templateVar="pages"
+     * )
+     *
+     * @param Request               $alumnoId      id del alumno.
+     * @param ParamFetcherInterface $paramFetcher param fetcher service
+     *
+     * @return array
+     */
+    public function getTemasAction($alumnoId, $cursoId, ParamFetcherInterface $paramFetcher)
+    {
+        $offset = $paramFetcher->get('offset');
+        $offset = null == $offset ? 0 : $offset;
+        $limit = $paramFetcher->get('limit');
+        
+        
+        return $this->generarRespuesta($this->getTemaAsignadoService()->findAll($alumnoId, $cursoId, $limit, $offset),
+                Response::HTTP_OK,
+                array('Default'));
+    } 
+    
+    /**
      * Obtiene el detalle del curso asignado al alumno.
      *
      * @ApiDoc(

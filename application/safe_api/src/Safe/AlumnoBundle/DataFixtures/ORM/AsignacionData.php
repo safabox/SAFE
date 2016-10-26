@@ -23,6 +23,7 @@ use Safe\CatBundle\Entity\Ability;
 use Safe\CatBundle\Entity\PastAbility;
 use Safe\CatBundle\Entity\Examinee;
 use Safe\CatBundle\Entity\ItemResult;
+use Safe\TemaBundle\Entity\TipoActividad;
 
 class AsignacionData extends AlumnoData
 {    
@@ -263,6 +264,7 @@ class AsignacionData extends AlumnoData
         $actividad->setConcepto($concepto);
         $actividad->setHabilitado($habilitado);        
         $actividad->setEjercicio($ejercicio);
+        $actividad->setTipo(TipoActividad::MULTIPLE_CHOICE);
         $actividad->setResultado(array('resultado' => $ejercicio));
         return $actividad;
     }

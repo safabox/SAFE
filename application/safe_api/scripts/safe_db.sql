@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 25-10-2016 a las 03:12:02
+-- Tiempo de generación: 26-10-2016 a las 02:18:27
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 5.6.21
 
@@ -35,7 +35,8 @@ CREATE TABLE `actividad` (
   `habilitado` tinyint(1) NOT NULL,
   `fechaCreacion` datetime DEFAULT NULL,
   `fechaModificacion` datetime DEFAULT NULL,
-  `resultado` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json)'
+  `resultado` longtext COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '(DC2Type:json)',
+  `tipo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------

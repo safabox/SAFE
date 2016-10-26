@@ -12,6 +12,7 @@ use JMS\Serializer\Annotation\Type;
 use JMS\Serializer\Annotation\SerializedName;
 
 use Safe\CatBundle\Entity\Item;
+use Safe\TemaBundle\Entity\TipoActividad;
 /**
  * Actividad
  *
@@ -39,6 +40,15 @@ class Actividad
      * @Expose
      */
     private $titulo;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tipo", type="string", length=100, nullable=false)
+     * @Expose
+     */
+    private $tipo;
 
     /**
      * @var string
@@ -102,13 +112,14 @@ class Actividad
      */
     private $item;
     
-    public function __construct($titulo, $ejercicio = array(), $resultado = array(), $descripcion = '', $habilitado = true)
+    public function __construct($titulo, $ejercicio = array(), $resultado = array(), $tipo = TipoActividad::MULTIPLE_CHOICE ,$descripcion = '', $habilitado = true)
     {
         $this->titulo = $titulo;
         $this->ejercicio = $ejercicio;
         $this->resultado = $resultado;
         $this->descripcion = $descripcion;
         $this->habilitado = $habilitado;
+        $this->tipo = $tipo;
         $this->setFechaCreacion(new \DateTime());
     }   
     
@@ -246,7 +257,15 @@ class Actividad
     }
 
 
-    //Transient
+    function getTipo() {
+        return $this->tipo;
+    }
+
+    function setTipo($tipo) {
+        $this->tipo = $tipo;
+    }
+
+        //Transient
     public function getItem() {
         return $this->item;
     }
@@ -293,6 +312,6 @@ class Actividad
     public function getD() {
         return ($this->item != null) ? $this->item->getD() : null;
     }
-        
+            
 }
 

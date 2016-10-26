@@ -21,3 +21,5 @@ temaBundle:
             vacio: El ejercicio es obligatorio
         resultado:
             vacio: La resoluciòn del ejercicio es obligatorio
+        tipo:
+            vacio: La resoluciòn del ejercicio es obligatorio
