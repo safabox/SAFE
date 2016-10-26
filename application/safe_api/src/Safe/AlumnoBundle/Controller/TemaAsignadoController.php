@@ -12,7 +12,7 @@ use FOS\RestBundle\Controller\Annotations;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 use Safe\CoreBundle\Controller\SafeRestAbstractController;
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 
 use Doctrine\Common\Util\Debug;
 //http://symfony.com/doc/current/bundles/FOSRestBundle/param_fetcher_listener.html

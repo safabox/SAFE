@@ -29,6 +29,7 @@ class RegistracionTemaType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titulo', TextType::class)
+                ->add('copete', TextareaType::class)
                 ->add('descripcion', TextareaType::class)
                 ->add('orden', NumberType::class)
                 ->add('habilitado', BooleanType::class)  

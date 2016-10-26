@@ -26,6 +26,12 @@ class ActividadImpartidaService extends ActividadService {
         return $actividad;
     }
     
+    public function registrarResultado($actividadId, $resultado) {
+        $actividad = $this->getById($actividadId);
+        
+        
+    }
+    
     public function crearActividad($actividadArray, $concepto) {
         $actividad = new Actividad($actividadArray['titulo'], $actividadArray['ejercicio'], $actividadArray['resultado'], $actividadArray['tipo'], $actividadArray['descripcion'], $this->getBoolean($actividadArray['habilitado']));
         $actividad->setConcepto($concepto);  

@@ -9,7 +9,7 @@ use Safe\TemaBundle\Repository\TemaRepository;
 
 use Safe\TemaBundle\Service\ConceptoService;
 
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 use Safe\TemaBundle\Entity\AlumnoEstadoTema;
 use Doctrine\Common\Util\Debug;
 use Safe\AlumnoBundle\Entity\ConceptoFinalizado;
@@ -64,7 +64,7 @@ class ConceptoAsignadoService extends ConceptoService {
             if (count($estados) > 0) {
                 $estado = $estados[0]->getEstado();
             } else {
-                $estado = ProximoResultado::FINALIZADO;
+                $estado = ResultadoEvaluacion::FINALIZADO;
             }
             $finalizadosConEstados[] = new ConceptoFinalizado($concepto, $estado);
         }
@@ -77,28 +77,28 @@ class ConceptoAsignadoService extends ConceptoService {
         
         $alumnoEstadoTema = $this->alumnoEstadoTemaRepository->findOneBy(array('tema'=> $temaId, 'alumno' => $alumnoId));
         if ($alumnoEstadoTema != null) {
-            return new ProximoResultado($alumnoEstadoTema->getEstado());
+            return new ResultadoEvaluacion($alumnoEstadoTema->getEstado());
         }
         $result = $this->obtenerHabilitados($alumnoId, $temaId);
         foreach ($result as $concepto) {
             $predecesorasFinalizadas = $this->countPredecesorasFinalizadas($concepto, $alumnoId);
             $cantidadPredecesoras = $concepto->getPredecesoras()->count();
             if ($predecesorasFinalizadas >= $cantidadPredecesoras) {
-                return new ProximoResultado(ProximoResultado::CURSANDO, $concepto);
+                return new ResultadoEvaluacion(ResultadoEvaluacion::CURSANDO, $concepto);
             }
         }
         $tema = $this->temaRepository->find($temaId);
         $alumno = $this->alumnoRepository->find($alumnoId);
-        $alumnoEstadoTema = new AlumnoEstadoTema($alumno, $tema, true, ProximoResultado::FINALIZADO);
+        $alumnoEstadoTema = new AlumnoEstadoTema($alumno, $tema, true, ResultadoEvaluacion::FINALIZADO);
         $this->alumnoEstadoTemaRepository->crearOActualizar($alumnoEstadoTema);
 
-        return new ProximoResultado(ProximoResultado::FINALIZADO);
+        return new ResultadoEvaluacion(ResultadoEvaluacion::FINALIZADO);
         
     }
     
     public function proximaActividad($temaId, $alumnoId) {
         $proximoConceptoDisponible = $this->proximoConcepto($temaId, $alumnoId);
-        if (ProximoResultado::CURSANDO != $proximoConceptoDisponible->getEstado()) {
+        if (ResultadoEvaluacion::CURSANDO != $proximoConceptoDisponible->getEstado()) {
             return new ConceptoProximaActividad($proximoConceptoDisponible, null);
         }
         $proximaActividad = $this->actividadAsignadaService->proximaActividad($proximoConceptoDisponible->getElemento()->getId(), $alumnoId);

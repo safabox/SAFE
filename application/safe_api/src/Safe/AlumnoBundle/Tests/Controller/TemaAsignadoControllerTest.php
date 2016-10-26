@@ -5,7 +5,7 @@ namespace Safe\AlumnoBundle\Tests\Controller;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
 
-use Safe\AlumnoBundle\Entity\ProximoResultado;
+use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 use Doctrine\Common\Util\Debug;
 class TemaAsignadoControllerTest extends SafeTestController {
     
@@ -66,7 +66,7 @@ class TemaAsignadoControllerTest extends SafeTestController {
         $proximoResultado = json_decode($response->getContent(), true);
         $expectedTema = $this->getTemaByTitulo("4 tema");
         
-        $this->assertEquals(ProximoResultado::CURSANDO, $proximoResultado['estado']);
+        $this->assertEquals(ResultadoEvaluacion::CURSANDO, $proximoResultado['estado']);
         $this->assertCamposBasicosEquals($expectedTema, $proximoResultado['elemento']);
         
     }
@@ -88,7 +88,7 @@ class TemaAsignadoControllerTest extends SafeTestController {
         $this->assertJsonResponse($response, 200);       
         $proximoResultado = json_decode($response->getContent(), true);
 
-        $this->assertEquals(ProximoResultado::FINALIZADO, $proximoResultado['estado']);
+        $this->assertEquals(ResultadoEvaluacion::FINALIZADO, $proximoResultado['estado']);
         $this->assertNotNull($this->getEstadoCurso($idCurso, $id));
     }
     
@@ -139,16 +139,16 @@ class TemaAsignadoControllerTest extends SafeTestController {
         $resultado = json_decode($response->getContent(), true);
       
         $expectedTema = $this->getTemaByTitulo("4 tema");        
-        $this->assertEquals(ProximoResultado::CURSANDO, $resultado['tema']['estado']);
+        $this->assertEquals(ResultadoEvaluacion::CURSANDO, $resultado['tema']['estado']);
         $this->assertCamposBasicosEquals($expectedTema, $resultado['tema']['elemento']);
         
         $expectedConcepto = $this->getConceptoByTitulo('3 concepto');           
-        $this->assertEquals(ProximoResultado::CURSANDO, $resultado['concepto']['estado']);
+        $this->assertEquals(ResultadoEvaluacion::CURSANDO, $resultado['concepto']['estado']);
         $this->assertCamposBasicosEquals($expectedConcepto, $resultado['concepto']['elemento']);
         
         
         $expectedActividad = $this->getActividadByTitulo('4 actividad');
-        $this->assertEquals(ProximoResultado::CURSANDO, $resultado['actividad']['estado']);
+        $this->assertEquals(ResultadoEvaluacion::CURSANDO, $resultado['actividad']['estado']);
         $this->assertActividadCamposBasicosEquals($expectedActividad, $resultado['actividad']['elemento']);
         $this->assertArrayHasKey('ejercicio', $resultado['actividad']['elemento'], 'Ejercicio de la actividad no encontrada');
         

@@ -1,7 +1,7 @@
 <?php
 namespace Safe\AlumnoBundle\Entity;
 
-class ProximoResultado {
+class ResultadoEvaluacion {
     const APROBADO = 'APROBADO';
     const APROBADO_OBSERVACION = 'APROBADO_OBSERVACION';
     const DESAPROBADO = 'DESAPROBADO';
@@ -15,7 +15,7 @@ class ProximoResultado {
         
     private $elemento;
     
-    function __construct($estado = ProximoResultado::CURSANDO, $elemento=null, $mensaje='') {
+    function __construct($estado = ResultadoEvaluacion::CURSANDO, $elemento=null, $mensaje='') {
         $this->elemento = $elemento;        
         $this->estado = $estado;
         $this->mensaje = $mensaje;        
