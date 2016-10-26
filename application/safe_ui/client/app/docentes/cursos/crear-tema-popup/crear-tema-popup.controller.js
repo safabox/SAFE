@@ -5,9 +5,9 @@
         .module('app.crear-tema-popup')
         .controller('CrearTemaPopupController', controller);
 
-    controller.$inject = ['_', '$q', 'cursoId', 'docenteId', 'temas', 'debugModeEnabled', '$uibModalInstance', 'logger', 'DocenteCursos', 'curso', 'editMode', 'idTema'];
+    controller.$inject = ['_', '$q', 'cursoId', 'docenteId', 'temas', 'debugModeEnabled', '$uibModalInstance', 'logger', 'DocenteCursos', 'curso'];
 
-    function controller(_, $q, cursoId, docenteId, temas, debugModeEnabled, $uibModalInstance, logger, DocenteCursos, curso, editMode, idTema) {
+    function controller(_, $q, cursoId, docenteId, temas, debugModeEnabled, $uibModalInstance, logger, DocenteCursos, curso) {
         var vm = this;
         vm.loading = true;
         vm.debug = debugModeEnabled;
@@ -16,9 +16,8 @@
         vm.docenteId = docenteId;
         vm.temas = temas;
         vm.curso = curso;
-        vm.editMode = editMode;
-        vm.idTema = idTema;
-
+        vm.predecesoras = [];
+                
         vm.ok = ok;
         vm.cancel = cancel;
 
@@ -28,7 +27,7 @@
             loadData();
             
             function loadData() {
-                $q.all([cargarTema()])
+                $q.all([cargarTema(), cargarTemasCurso()])
                     .then(onLoadComplete);
                 
                 function cargarTema(){
@@ -43,25 +42,29 @@
                     }        
                 }
                 
+                function cargarTemasCurso(){
+                    var curso = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas');
+                    
+                    return  curso.get().then(onSuccess, onError);
+
+                    function onSuccess(response) {            
+                        vm.cursoTemas = response.plain();     
+                    }        
+                    function onError(httpResponse) {
+                        logger.error('No se pudo obtener los datos del tema', httpResponse);
+                    }        
+                    
+                }
+                
                 function onLoadComplete() {
                     vm.loading = false;
-                    
-                    if(vm.editMode) {
-                        vm.title = 'Editar Tema';
-                        vm.titulo = vm.tema.titulo;
-                        vm.descripcion = vm.tema.descripcion;
-                        vm.orden = vm.tema.orden;
-                        vm.predecesoras = vm.tema.predecesoras;
-                    }                    
-                    else {
-                        vm.title = 'Crear Tema';
-                    }
+                    vm.title = 'Crear Tema';
                 }                
             }
         }
 
         function ok() {
-            DocenteCursos.new(vm.titulo, vm.descripcion, vm.orden, vm.predecesoras, vm.cursoId, vm.docenteId, vm.idTema, vm.editMode).then(onSuccess, onError);
+            DocenteCursos.new(vm.titulo, vm.descripcion, vm.copete, vm.orden, vm.predecesoras, vm.cursoId, vm.docenteId).then(onSuccess, onError);
 
             function onSuccess(response) {
                 logger.info('Se guardó el tema');

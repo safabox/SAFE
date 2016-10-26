@@ -1,0 +1,65 @@
+<div class="page" data-ng-controller="ActividadCursosEdit" data-ng-hide="vm.loading">
+
+    <section class="invoice-container" id="invoice">
+
+        <div class="row">
+            <div class="col-md-9">
+                <p class="size-h1">{{vm.title}}</p>
+            </div>
+        </div>  
+    
+        <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.tema | json}}</pre>
+        
+        <div class="row" data-ng-if="!vm.loading" data-confirm-on-exit="vm.form.$dirty"> 
+            <form class="form-horizontal form-validation col-md-12" novalidate name="vm.form" data-ng-submit="vm.guardar()" novalidate>   
+                <div class="row">
+                    <div class="col-md-12">
+                        <uib-accordion close-others="vm.accordion" class="ui-accordion">
+                            <uib-accordion-group is-open="vm.groupInfoGral.isOpen" class="ui-accordion">
+                                <uib-accordion-heading>
+                                    <div>
+                                        INFORMACION GENERAL
+                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupInfoGral.isOpen, 'glyphicon-chevron-right': !vm.groupInfoGral.isOpen}"></i>
+                                    </div>
+                                </uib-accordion-heading> 
+                                
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="titulo">Título</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Título" name="titulo" data-ng-model="vm.tema.titulo" required>
+                                       <field-error-label data-field="vm.form.titulo" data-field-label="Título" />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="descripcion">Descripción:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Descripción" name="descripcion" data-ng-model="vm.tema.descripcion" required>
+                                       <field-error-label data-field="vm.form.descripcion" data-field-label="Descripcion" />
+                                    </div>
+                                </div>
+                            </uib-accordion-group>
+                        </uib-accordion>
+                    </div>  
+                </div> 
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <error-list data-form="vm.form" data-labels="vm.fieldLabels" />
+                    </div>
+                </div>                    
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary" aria-label="Guardar" data-ng-disabled="vm.form.$invalid">
+                            <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Guardar
+                        </button>
+                        <button type="button" class="btn btn-default" aria-label="Cancelar" data-ng-click="vm.cancel()">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar
+                        </button>
+                    </div>
+                </div>    
+            </form>                            
+        </div>                  
+    </section>                  
+</div>
