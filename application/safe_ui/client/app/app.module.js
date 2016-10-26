@@ -40,7 +40,8 @@
         'app.administrador.cursos',
         'app.alumno',
         'app.docente',
-        'app.docente.cursos'
+        'app.docente.cursos',
+        'app.crear-tema-popup'
         //'app.table',
         //'app.task',
         //'app.calendar'
