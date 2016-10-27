@@ -50,27 +50,6 @@
                         </button>
                     </div>
                 </div>
-
-                <!--<div class="form-group" >
-                    <label class="col-md-2 control-label" for="pregunta">Seleccionar Correcta: </label>
-                    <div style="margin-left: 15px;" class="col-md-5 alert alert-warning" role="alert" data-ng-if="vm.model.respuestas.length === 0">
-                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen Respuestas cargadas
-                    </div>
-                    <div data-ng-if="vm.model.respuestas.length > 0">
-                        <div class="col-md-10" >
-                            <table data-ng-table="vm.respuestasTableParams" class="table table-responsive table-condensed table-hover table-striped">
-                                <tr ng-repeat="respuesta in $data">
-                                    <td class="col-md-10" data-title="'Respuestas'" header-class="'text-left'">
-                                        <input class="form-control" type="text" ng-model="respuesta.texto"  ng-disabled="true" />
-                                    </td>
-                                    <td data-title="'Correcta/s'" header-class="'text-left'">                          
-                                        <input type="checkbox" ng-model="respuesta.correcta" required />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>-->
                 
                 <div data-ng-if="vm.model.respuestas.length > 0 && vm.model.respuestas[0].texto !== '' && vm.model.pregunta !== ''">
                     <div class="form-group" >
@@ -127,7 +106,7 @@
                             <div class="col-md-10" >
                                 <table data-ng-table="vm.respuestasTableParams" class="table table-responsive table-condensed table-hover table-striped">
                                     <tr ng-repeat="respuesta in $data">
-                                        <td class="col-md-6" data-title="'Posibles Afirmaciones'" header-class="'text-left'">
+                                        <td class="col-md-6" data-title="'Descripciones'" header-class="'text-left'">
                                             <input class="form-control" type="text" ng-model="respuesta.texto"  required />
                                         </td>
                                         <td class="col-md-2" data-title="'Verdadero'" header-class="'text-center'">
@@ -155,36 +134,6 @@
                             </button>
                         </div>
                     </div>
-
-                    <!--<div class="form-group" >
-                        <label class="col-md-2 control-label" for="pregunta">Opciones: </label>
-                        <div style="margin-left: 15px;" class="col-md-5 alert alert-warning" role="alert" data-ng-if="vm.model.respuestas.length === 0">
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen Respuestas cargadas
-                        </div>
-                        <div data-ng-if="vm.model.respuestas.length > 0">
-                            <div class="col-md-10" >
-                                <table data-ng-table="vm.respuestasTableParams" class="table table-responsive table-condensed table-hover table-striped">
-                                    <tr ng-repeat="respuesta in $data">
-                                        <td class="col-md-8" data-title="'Seleccionar Respuesta correcta'" header-class="'text-left'">
-                                            <input class="form-control" type="text" ng-model="respuesta.texto" ng-disabled="true" />
-                                        </td>
-                                        <td class="col-md-2" data-title="''" header-class="'text-right'">
-                                            <p >Verdadero</p> <input class="form-control" type="text" ng-model="respuesta.textoCorrecto" ng-disabled="true" />
-                                        </td>
-                                        <td data-title="''" header-class="'text-left'">                          
-                                            <input type="checkbox" ng-model="respuesta.correcto" required />
-                                        </td>
-                                        <td class="col-md-2" data-title="''" header-class="'text-right'">
-                                            <p>Falso</p> <input class="form-control" type="text" ng-model="respuesta.textoIncorrecto" ng-disabled="true" />
-                                        </td>
-                                        <td data-title="''" header-class="'text-left'">                          
-                                            <input type="checkbox" ng-model="respuesta.incorrecto" required />
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>-->
                 
                     <div data-ng-if="vm.model.respuestas.length > 0 && vm.model.respuestas[0].texto !== '' && vm.model.pregunta !== ''">
                         <div class="form-group" >
