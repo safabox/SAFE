@@ -13,14 +13,14 @@
         discriminador: 0,
         azar: 0,
         d: 1.7,
-        tipo: 'MULTIPLE',
+        tipo: 'MULTIPLE_CHOICE',
     };
     
     var concepto = {
-        tipo: 'RALPH',
+        tipo: 'RASH',
         rango: [-3,3],
-        metodo: 'NR',
-        incremento: 0.25,
+        metodo: 'THETA_NEWTON_RAPHSON',
+        incremento: 0.5,
     };    
     
     angular
