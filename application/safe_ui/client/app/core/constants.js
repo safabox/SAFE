@@ -21,8 +21,8 @@
         rango: [-3,3],
         metodo: 'NR',
         incremento: 0.25,
-    };        
-
+    };    
+    
     angular
         .module('app')
         .constant('debugModeEnabled', debugModeEnabled)

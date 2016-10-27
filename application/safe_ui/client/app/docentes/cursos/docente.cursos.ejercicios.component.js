@@ -55,7 +55,7 @@
             if(vm.model.tipo === 1) {
                 vm.model.respuestas.push({texto:'',correcta:false});
             }else {
-                vm.model.respuestas.push({texto:'',correcta:false, textoCorrecto: 'Verdadero', textoIncorrecto:'Falso'});
+                vm.model.respuestas.push({texto:'',verdadero:false,falso:false});
             }
             
         }

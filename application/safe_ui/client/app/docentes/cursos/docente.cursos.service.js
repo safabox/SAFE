@@ -14,6 +14,7 @@
         svc.new = createNewEntity;
         svc.newConcepto = createNewConcepto;
         svc.newActividad = createNewActivadad;
+        svc.editAct = editActividad;
         return svc;
         
         function createNewEntity (titulo, descripcion, copete, orden, predecesoras, cursoId, docenteId) {
@@ -43,18 +44,49 @@
                 metodo: metodo,
                 incremento: incremento,
             };
-            console.log(newEntity);
+
             var postConcepto = svc.one(docenteId).one('cursos', cursoId).one('temas', temaId);
 
             return postConcepto.post('conceptos' , newEntity);
         }
         
-        function createNewActivadad (cursoId, docenteId, temaId, conceptoId) {
-            var newEntity = {};
+        function createNewActivadad (titulo, descripcion, ejercicio, resultado, dificultad, discriminador, azar, d, tipo, cursoId, docenteId, temaId, conceptoId) {
+            var newEntity = {
+                titulo: titulo, 
+                descripcion: descripcion,
+                ejercicio: ejercicio, 
+                resultado: resultado,
+                dificultad: dificultad,
+                discriminador: discriminador,
+                azar: azar,
+                d: d,
+                tipo: tipo,      
+                habilitado: true,
+            };
             
              var postActividad = svc.one(docenteId).one('cursos', cursoId).one('temas', temaId).one('conceptos', conceptoId);
 
             return postActividad.post('actividads' , newEntity);
+        }
+ 
+        function editActividad (titulo, descripcion, ejercicio, resultado, dificultad, discriminador, azar, d, tipo, cursoId, docenteId, temaId, conceptoId, actividadId) {
+            
+            var editEntity = {
+                titulo: titulo, 
+                descripcion: descripcion,
+                ejercicio: ejercicio, 
+                resultado: resultado,
+                dificultad: dificultad,
+                discriminador: discriminador,
+                azar: azar,
+                d: d,
+                tipo: tipo,      
+                habilitado: true,
+            };
+            
+             var putActividad = svc.one(docenteId).one('cursos', cursoId).one('temas', temaId).one('conceptos', conceptoId).one('actividads', actividadId);
+
+            return putActividad.customPUT(editEntity);
         }
         
     }

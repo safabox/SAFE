@@ -12,11 +12,11 @@ body > input.ta-hidden-input {
 }
 
 /* add generic styling for the editor */
-.ui-editor {
+.ui-editor-concepto {
 
     .ta-toolbar {
         //margin: 0 0 10px;
-
+        
         > .btn-group {
             margin-bottom: 5px;
         }        
@@ -29,8 +29,8 @@ body > input.ta-hidden-input {
     }
 
     .ta-editor.ta-html, .ta-scroll-window.form-control {
-        min-height: 100px;
-        height: 100px;
+        min-height: 300px;
+        height: 300px;
         overflow: auto;
         font-family: inherit;
         font-size: 100%;

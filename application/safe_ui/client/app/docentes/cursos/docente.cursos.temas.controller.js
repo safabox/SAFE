@@ -99,6 +99,12 @@
                 
                 vm.cantidadConceptos = _.size(vm.conceptos);                
                 if(vm.cantidadConceptos !== 0) vm.noDataConceptos = false; 
+                
+                _.forEach(vm.cursoTema, function(value) {
+                    if(value.id == vm.temaId) {
+                        vm.cursoTema.splice(value,1);
+                    }
+                });
             }
             
             function setTitle() {
