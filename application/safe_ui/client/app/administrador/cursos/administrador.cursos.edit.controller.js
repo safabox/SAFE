@@ -240,8 +240,8 @@
             }
             
             _.forEach(vm.docentes, guardarDocentes);
-            function guardarDocentes(alumno) {
-                cursoPatch.docentes.push(alumno.id);
+            function guardarDocentes(docente) {
+                cursoPatch.docentes.push(docente.id);
             }
             
             if (vm.editMode) {   

@@ -2,5 +2,5 @@
     'use strict';
 
     angular
-        .module('app.crear-tema-popup', []);
+        .module('app.crear-concepto-popup', []);
 })();

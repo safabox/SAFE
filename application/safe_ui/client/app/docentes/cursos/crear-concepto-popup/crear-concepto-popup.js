@@ -2,8 +2,8 @@
     'use strict';
 
     angular
-        .module('app.crear-tema-popup')
-        .service('CrearTemaPopup', service);
+        .module('app.crear-concepto-popup')
+        .service('CrearConceptoPopup', service);
 
     service.$inject = ['$uibModal', '$q'];
 
@@ -13,19 +13,19 @@
             show: show,
         };
 
-        function show(cursoId, docenteId, temas, curso) {
+        function show(cursoId, docenteId, temaId, conceptoId) {
             var deferred = $q.defer();
 
             var modalInstance = $uibModal.open({
                 size: 'lg',
-                templateUrl: 'app/docentes/cursos/crear-tema-popup/crear-tema-popup.tpl.html',
-                controller: 'CrearTemaPopupController',
+                templateUrl: 'app/docentes/cursos/crear-concepto-popup/crear-concepto-popup.tpl.html',
+                controller: 'CrearConceptoPopupController',
                 controllerAs: 'vm',
                 resolve: {
                     cursoId: function () { return cursoId; },
                     docenteId: function () { return docenteId; },
-                    temas: function () { return temas; },
-                    curso: function () { return curso; },
+                    temaId: function () { return temaId; },
+                    conceptoId: function () { return conceptoId; },
                 }
             });
 
