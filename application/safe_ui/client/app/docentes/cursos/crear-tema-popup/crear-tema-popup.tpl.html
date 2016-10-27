@@ -13,19 +13,19 @@
         </div>
 
         <div class="form-group" show-errors>
+            <label class="col-md-2 control-label" for="copete">Descripción Corta:</label>
+            <div class="col-md-10">
+                <input class="form-control" placeholder="Descripción corta" name="copete" maxlength="250" data-ng-model="vm.copete" required>
+            </div>
+        </div>  
+        
+        <div class="form-group" show-errors>
             <label class="col-md-2 control-label" for="descripcion">Descripción:</label>
             <div class="col-md-10">
-                <input class="form-control" type="text" placeholder="Descripción corta" name="descripcion" maxlength="200" data-ng-model="vm.descripcion" required>
+                <textarea class="form-control" rows="3" type="text" placeholder="Descripción" name="descripcion" maxlength="500" data-ng-model="vm.descripcion" required></textarea>
             </div>
         </div>
 
-        <div class="form-group" show-errors>
-            <label class="col-md-2 control-label" for="copete">Copete</label>
-            <div class="col-md-10">
-                <textarea class="form-control" rows="3" placeholder="Copete" name="copete" maxlength="500" data-ng-model="vm.copete" required></textarea>
-            </div>
-        </div>        
-        
         <div class="form-group" show-errors>
             <label class="col-md-2 control-label" for="orden">Orden:</label>
             <div class="col-md-10">
@@ -39,6 +39,9 @@
                 <div style="padding-left: 15px;">
                     <input type="checkbox" checklist-model="vm.predecesoras" checklist-value="tema.id">&nbsp; {{tema.titulo}} <br />
                 </div>
+            </div>
+            <div class="col-md-4" style="padding-top: 7px;" data-ng-if="vm.cursoTemas.length === 0">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen conceptos cargados
             </div>
         </div>
 

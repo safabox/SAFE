@@ -4,9 +4,9 @@
     angular.module('app.docente.cursos')
         .controller('TemaCursosEdit', controller);
 
-    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams' ]; 
+    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams', 'CrearConceptoPopup' ]; 
     
-    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams) {
+    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams, CrearConceptoPopup) {
         var vm = this;
         vm.debug = debugModeEnabled;
         vm.loading = true;
@@ -18,7 +18,11 @@
             { name: 'titulo', label: 'Título' },
             { name: 'descripcion', label: 'Descripción' },
         ];
-
+        
+        vm.docenteId = UsuarioService.getUserCurrentDoc();
+        vm.cursoId = $stateParams.idCurso;
+        vm.temaId = $stateParams.id;
+            
         vm.agregarNuevoConcepto = agregarNuevoConcepto;
         vm.eliminarConcepto = eliminarConcepto;
         vm.puedeEliminar = puedeEliminar;
@@ -46,7 +50,7 @@
                 .then(onLoadComplete);       
             
             function cargaTema() {
-                var tema = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', $stateParams.idCurso).one('temas', $stateParams.id);  
+                var tema = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId);  
                 return  tema.get().then(onSuccess, onError);
 
                 function onSuccess(response) {            
@@ -58,7 +62,7 @@
             }
             
             function cargarTemasCurso(){
-                var curso = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', $stateParams.idCurso).one('temas');
+                var curso = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas');
 
                 return  curso.get().then(onSuccess, onError);
 
@@ -71,7 +75,7 @@
             }
             
             function cargaConceptosTema() {
-                var conceptos = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', $stateParams.idCurso).one('temas', $stateParams.id).one('conceptos');
+                var conceptos = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('conceptos');
                 
                 return conceptos.get().then(onSuccess, onError);
 
@@ -79,7 +83,7 @@
                     vm.conceptos = response.plain();     
                 }        
                 function onError(httpResponse) {
-                    logger.error('No se pudo obtener los datos del tema', httpResponse);
+                    logger.error('No se pudo obtener los conceptos del tema', httpResponse);
                 }                     
             }
             
@@ -110,28 +114,33 @@
         }
         
         function agregarNuevoConcepto() {
-            /*CrearTemaPopup.show(vm.curso.id, UsuarioService.getUserCurrentDoc(), vm.curso.temas, vm.curso, false).then(onClose);
+            CrearConceptoPopup.show(vm.cursoId, vm.docenteId, vm.temaId).then(onClose);
             
             function onClose() {
                 $state.reload();
-            }*/
+            }
         }
         
         function eliminarConcepto(concepto) {
-           /* var title = '¿Desea eliminar el conpecto ' + concepto.titulo + '?, perderá la configuración de predecesoras y orden.';
+            var title = '¿Desea eliminar el conpecto ' + concepto.titulo + '?, perderá la configuración de predecesoras y orden.';
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var temaRemove = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', vm.curso.id).one('temas', tema.id);  
-                        var temaPut =
+                        var conceptoRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id);  
+                        var conceptoPut =
                         {
-                            titulo: tema.titulo, 
-                            descripcion: tema.descripcion, 
-                            orden: tema.orden,
-                            predecesoras: [],
+                            titulo: concepto.titulo, 
+                            descripcion: concepto.descripcion,
+                            copete: concepto.copete, 
+                            orden: concepto.orden,
+                            predecesoras: concepto.predecesoras,
+                            tipo: concepto.tipo,
+                            rango: concepto.rango,
+                            metodo: concepto.metodo,
+                            incremento: concepto.incremento,
                             habilitado: false,
                         };                
-                        temaRemove.customPUT(temaPut).then(onSuccess, onError); 
+                        conceptoRemove.customPUT(conceptoPut).then(onSuccess, onError); 
                     }
                 });
             
@@ -141,25 +150,30 @@
             }
 
             function onError(httpResponse) {
-                logger.error('No se pudo eliminar el tema', httpResponse);
-            }            */
+                logger.error('No se pudo eliminar el concepto', httpResponse);
+            } 
         }
 
         function recuperarConcepto(concepto) {
-          /*  var title = '¿Desea recuperar el tema ' + tema.titulo + '?';
+            var title = '¿Desea recuperar el concepto ' + concepto.titulo + '?';
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var temaRecuperar = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', vm.curso.id).one('temas', tema.id);  
-                        var temaPut =
+                        var conceptoRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id);  
+                        var conceptoPut =
                         {
-                            titulo: tema.titulo, 
-                            descripcion: tema.descripcion, 
-                            orden: tema.orden,
-                            predecesoras: [],
-                            habilitado: true,
-                        };                
-                        temaRecuperar.customPUT(temaPut).then(onSuccess, onError); 
+                            titulo: concepto.titulo, 
+                            descripcion: concepto.descripcion,
+                            copete: concepto.copete, 
+                            orden: concepto.orden,
+                            predecesoras: concepto.predecesoras,
+                            tipo: concepto.tipo,
+                            rango: concepto.rango,
+                            metodo: concepto.metodo,
+                            incremento: concepto.incremento,
+                            habilitado: false,
+                        };                            
+                        conceptoRecupero.customPUT(conceptoPut).then(onSuccess, onError); 
                     }
                 });
             
@@ -169,8 +183,8 @@
             }
 
             function onError(httpResponse) {
-                logger.error('No se pudo recuperar el tema', httpResponse);
-            }  */
+                logger.error('No se pudo recuperar el concepto', httpResponse);
+            }  
         }           
         
         function puedeEliminar(concepto){
@@ -190,6 +204,28 @@
         }
         
         function guardar() {
+            var putEntity = {
+                titulo: vm.tema.titulo, 
+                descripcion: vm.tema.descripcion,
+                copete: vm.tema.copete,
+                orden: vm.tema.orden,
+                predecesoras: vm.tema.predecesoras,
+                habilitado: true,
+            };
+            
+            var tema = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId);
+            
+            tema.customPUT(putEntity).then(onSuccess,onError);
+            
+            function onSuccess() {
+                logger.info('Tema Guardado');
+                vm.form.$dirty = false;
+                goBack();
+            }
+            function onError(httpResponse) {
+                console.log(httpResponse);
+                logger.error('No se pudo guardar el tema', httpResponse);
+            }
             
         }
         

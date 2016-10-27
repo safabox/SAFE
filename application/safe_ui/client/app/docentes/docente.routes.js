@@ -80,7 +80,26 @@
                     controllerAs: 'vm',    
                     params: {error: null}
                 }
-            },           
+            }, 
+            {
+                state: 'docente.cursos.tema.concepto',
+                config: {
+                    abstract: true,
+                    url: '',
+                    template: '<ui-view/>'
+                }
+            },  
+            {
+                state: 'docente.cursos.tema.concepto.edit',
+                config: {
+                    url: '/cursos/tema/:id&:idTema&:idCurso',
+                    templateUrl: path + 'app/docentes/cursos/docente.cursos.temas.concepto.html',
+                    roles: ["ROLE_DOCENTE"],
+                    controller: 'TemaConceptoCursosEdit',
+                    controllerAs: 'vm',    
+                    params: {error: null}
+                }
+            }, 
             {
                 state: 'docente.cursos.actividad',
                 config: {

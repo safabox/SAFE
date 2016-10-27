@@ -25,7 +25,6 @@
                     cursoId: function () { return cursoId; },
                     docenteId: function () { return docenteId; },
                     temaId: function () { return temaId; },
-                    conceptoId: function () { return conceptoId; },
                 }
             });
 

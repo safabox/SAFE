@@ -11,20 +11,20 @@
                 <field-error-label data-field="form.titulo" data-field-label="Título" />
             </div>
         </div>
-
+        
+        <div class="form-group" show-errors>
+            <label class="col-md-2 control-label" for="copete">Descripción corta: </label>
+            <div class="col-md-10">
+                <input class="form-control" placeholder="Descripción corta" name="copete" maxlength="250" data-ng-model="vm.copete" required>
+            </div>
+        </div> 
+        
         <div class="form-group" show-errors>
             <label class="col-md-2 control-label" for="descripcion">Descripción:</label>
             <div class="col-md-10">
-                <input class="form-control" type="text" placeholder="Descripción corta" name="descripcion" maxlength="200" data-ng-model="vm.descripcion" required>
+                <textarea class="form-control" rows="3" type="text" placeholder="Descripción" name="descripcion" maxlength="500" data-ng-model="vm.descripcion" required></textarea>
             </div>
-        </div>
-
-        <div class="form-group" show-errors>
-            <label class="col-md-2 control-label" for="copete">Copete</label>
-            <div class="col-md-10">
-                <textarea class="form-control" rows="3" placeholder="Copete" name="copete" maxlength="500" data-ng-model="vm.copete" required></textarea>
-            </div>
-        </div>        
+        </div>     
         
         <div class="form-group" show-errors>
             <label class="col-md-2 control-label" for="orden">Orden:</label>
@@ -35,9 +35,12 @@
         
         <div class="form-group">
             <label class="col-md-2 control-label" for="predecesoras">Predecesoras:</label>
-            <label class="col-md-2" ng-repeat="tema in vm.cursoTemas">
-                <input type="checkbox" checklist-model="vm.predecesoras" checklist-value="tema.id"> {{tema.titulo}}
+            <label class="col-md-2" ng-repeat="concepto in vm.temaConceptos">
+                <input type="checkbox" checklist-model="vm.predecesoras" checklist-value="concepto.id"> {{concepto.titulo}}
             </label>
+            <div class="col-md-4" style="padding-top: 7px;" data-ng-if="vm.temaConceptos.length === 0">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen conceptos cargados
+            </div>
         </div>
 
     <div class="modal-footer">

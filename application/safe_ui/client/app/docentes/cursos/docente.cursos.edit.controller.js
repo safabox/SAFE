@@ -13,6 +13,8 @@
         vm.debug = debugModeEnabled;
         vm.editMode = ($state.includes('**.edit'));
         vm.noDataTemas = true; 
+        vm.docenteId = UsuarioService.getUserCurrentDoc();
+        
         vm.agregarNuevoTema = agregarNuevoTema;
         vm.eliminarTema = eliminarTema;
         vm.puedeEliminar = puedeEliminar;
@@ -50,7 +52,7 @@
                     .then(onLoadComplete);
 
                 function cargarCurso(){     
-                    var curso = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', $stateParams.id);  
+                    var curso = DocenteCursos.one(vm.docenteId).one('cursos', $stateParams.id);  
                     return  curso.get().then(onSuccess, onError);
 
                     function onSuccess(response) {            
@@ -78,14 +80,14 @@
             
             function setTitle() {
                 if (vm.editMode) {
-                    vm.title = 'Editar Curso ' + $stateParams.id;
+                    vm.title = 'Editar Curso ';
                     vm.subTitle = 'MODIFICACION CURSO';
                 }
             }            
         }
         
         function agregarNuevoTema() {
-            CrearTemaPopup.show(vm.curso.id, UsuarioService.getUserCurrentDoc(), vm.curso.temas, vm.curso, false).then(onClose);
+            CrearTemaPopup.show(vm.curso.id, vm.docenteId, vm.curso.temas, vm.curso, false).then(onClose);
             
             function onClose() {
                 $state.reload();
@@ -108,7 +110,7 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var temaRemove = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', vm.curso.id).one('temas', tema.id);  
+                        var temaRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.curso.id).one('temas', tema.id);  
                         var temaPut =
                         {
                             titulo: tema.titulo, 
@@ -136,7 +138,7 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var temaRecuperar = DocenteCursos.one(UsuarioService.getUserCurrentDoc()).one('cursos', vm.curso.id).one('temas', tema.id);  
+                        var temaRecuperar = DocenteCursos.one(vm.docenteId).one('cursos', vm.curso.id).one('temas', tema.id);  
                         var temaPut =
                         {
                             titulo: tema.titulo, 

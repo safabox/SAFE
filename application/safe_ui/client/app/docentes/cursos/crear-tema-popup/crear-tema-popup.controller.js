@@ -27,20 +27,8 @@
             loadData();
             
             function loadData() {
-                $q.all([cargarTema(), cargarTemasCurso()])
+                $q.all([cargarTemasCurso()])
                     .then(onLoadComplete);
-                
-                function cargarTema(){
-                    var tema = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.idTema);  
-                    return  tema.get().then(onSuccess, onError);
-
-                    function onSuccess(response) {            
-                        vm.tema = response.plain();     
-                    }        
-                    function onError(httpResponse) {
-                        logger.error('No se pudo obtener los datos del tema', httpResponse);
-                    }        
-                }
                 
                 function cargarTemasCurso(){
                     var curso = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas');

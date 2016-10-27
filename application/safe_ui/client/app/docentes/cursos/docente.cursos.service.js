@@ -43,7 +43,7 @@
                 metodo: metodo,
                 incremento: incremento,
             };
-            
+            console.log(newEntity);
             var postConcepto = svc.one(docenteId).one('cursos', cursoId).one('temas', temaId);
 
             return postConcepto.post('conceptos' , newEntity);

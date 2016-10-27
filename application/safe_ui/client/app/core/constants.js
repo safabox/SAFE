@@ -15,14 +15,21 @@
         d: 1.7,
         tipo: 'MULTIPLE',
     };
-        
+    
+    var concepto = {
+        tipo: 'RALPH',
+        rango: [-3,3],
+        metodo: 'NR',
+        incremento: 0.25,
+    };        
 
     angular
         .module('app')
         .constant('debugModeEnabled', debugModeEnabled)
         .constant('fieldPattern', fieldPattern)
         .constant('accordion', accordion)
-        .constant('configIRT', configIRT);
+        .constant('configIRT', configIRT)
+        .constant('concepto', concepto);
 })();
 
 
