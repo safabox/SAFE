@@ -10,8 +10,8 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-set global innodb_file_format = BARRACUDA;
-set global innodb_large_prefix = ON;
+-- set global innodb_file_format = BARRACUDA;
+-- set global innodb_large_prefix = ON;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -212,7 +212,7 @@ CREATE TABLE `cat_past_ability` (
 CREATE TABLE `classification__category` (
   `id` int(11) NOT NULL,
   `parent_id` int(11) DEFAULT NULL,
-  `context` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `context` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `media_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` tinyint(1) NOT NULL,
@@ -231,7 +231,7 @@ CREATE TABLE `classification__category` (
 
 CREATE TABLE `classification__collection` (
   `id` int(11) NOT NULL,
-  `context` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `context` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `media_id` int(11) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` tinyint(1) NOT NULL,
@@ -263,7 +263,7 @@ CREATE TABLE `classification__context` (
 
 CREATE TABLE `classification__tag` (
   `id` int(11) NOT NULL,
-  `context` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `context` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -657,7 +657,7 @@ ALTER TABLE `cat_past_ability`
 ALTER TABLE `classification__category`
   ADD PRIMARY KEY (`id`),
   ADD KEY `IDX_43629B36727ACA70` (`parent_id`),
-  ADD KEY `IDX_43629B36E25D857E` (`context`),
+  ADD KEY `IDX_43629B36E25D857E` (context(100)),
   ADD KEY `IDX_43629B36EA9FDD75` (`media_id`);
 
 --
@@ -665,23 +665,23 @@ ALTER TABLE `classification__category`
 --
 ALTER TABLE `classification__collection`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `tag_collection` (`slug`,`context`),
-  ADD KEY `IDX_A406B56AE25D857E` (`context`),
+  ADD UNIQUE KEY `tag_collection` (slug(100),context(100)),
+  ADD KEY `IDX_A406B56AE25D857E` (context(100)),
   ADD KEY `IDX_A406B56AEA9FDD75` (`media_id`);
 
 --
 -- Indices de la tabla `classification__context`
 --
 ALTER TABLE `classification__context`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (id(100));
 
 --
 -- Indices de la tabla `classification__tag`
 --
 ALTER TABLE `classification__tag`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `tag_context` (`slug`,`context`),
-  ADD KEY `IDX_CA57A1C7E25D857E` (`context`);
+  ADD UNIQUE KEY `tag_context` (slug(100),context(100)),
+  ADD KEY `IDX_CA57A1C7E25D857E` (context(100));
 
 --
 -- Indices de la tabla `concepto`
@@ -735,7 +735,7 @@ ALTER TABLE `docente`
 --
 ALTER TABLE `instituto`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UNIQ_2A805CCE832CBC66` (`razonSocial`);
+  ADD UNIQUE KEY `UNIQ_2A805CCE832CBC66` (razonSocial(100));
 
 --
 -- Indices de la tabla `media__gallery`
@@ -779,16 +779,16 @@ ALTER TABLE `tema_dependencia`
 ALTER TABLE `tipo_documento`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `UNIQ_54DF918920332D99` (`codigo`),
-  ADD UNIQUE KEY `UNIQ_54DF9189A02A2F00` (`descripcion`);
+  ADD UNIQUE KEY `UNIQ_54DF9189A02A2F00` (descripcion(100));
 
 --
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `UNIQ_2265B05D92FC23A8` (`username_canonical`),
-  ADD UNIQUE KEY `UNIQ_2265B05DA0D96FBF` (`email_canonical`),
-  ADD UNIQUE KEY `user_uk` (`nombre`,`apellido`),
+  ADD UNIQUE KEY `UNIQ_2265B05D92FC23A8` (username_canonical(100)),
+  ADD UNIQUE KEY `UNIQ_2265B05DA0D96FBF` (email_canonical(100)),
+  ADD UNIQUE KEY `user_uk` (nombre(100), apellido(100)),
   ADD UNIQUE KEY `user_doc_uk` (`tipo_documento_id`,`numero_documento`),
   ADD KEY `IDX_2265B05DF6939175` (`tipo_documento_id`);
 
@@ -983,23 +983,23 @@ ALTER TABLE `cat_past_ability`
 --
 -- Filtros para la tabla `classification__category`
 --
-ALTER TABLE `classification__category`
-  ADD CONSTRAINT `FK_43629B36727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `classification__category` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `FK_43629B36E25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`),
-  ADD CONSTRAINT `FK_43629B36EA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media__media` (`id`) ON DELETE SET NULL;
+-- ALTER TABLE `classification__category`
+--   ADD CONSTRAINT `FK_43629B36727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `classification__category` (`id`) ON DELETE CASCADE,
+--   ADD CONSTRAINT `FK_43629B36E25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`),
+--  ADD CONSTRAINT `FK_43629B36EA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media__media` (`id`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `classification__collection`
 --
-ALTER TABLE `classification__collection`
-  ADD CONSTRAINT `FK_A406B56AE25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`),
-  ADD CONSTRAINT `FK_A406B56AEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media__media` (`id`) ON DELETE SET NULL;
+-- ALTER TABLE `classification__collection`
+--   ADD CONSTRAINT `FK_A406B56AE25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`),
+--   ADD CONSTRAINT `FK_A406B56AEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media__media` (`id`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `classification__tag`
 --
-ALTER TABLE `classification__tag`
-  ADD CONSTRAINT `FK_CA57A1C7E25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`);
+-- ALTER TABLE `classification__tag`
+ --  ADD CONSTRAINT `FK_CA57A1C7E25D857E` FOREIGN KEY (`context`) REFERENCES `classification__context` (`id`);
 
 --
 -- Filtros para la tabla `concepto`
