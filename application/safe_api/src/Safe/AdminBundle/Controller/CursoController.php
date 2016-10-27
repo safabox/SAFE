@@ -30,7 +30,7 @@ class CursoController extends SafeRestAbstractController {
      * )
      *
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Número de página.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="Cantidad de elementos a retornar.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", nullable=true, description="Cantidad de elementos a retornar.")
      *
      * @Annotations\View(
      *  templateVar="pages"

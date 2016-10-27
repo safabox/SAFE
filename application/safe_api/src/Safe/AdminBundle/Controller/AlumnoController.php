@@ -30,7 +30,7 @@ class AlumnoController extends SafeRestAbstractController {
      * )
      *
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Número de página.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="Cantidad de elementos a retornar.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", nullable=true, description="Cantidad de elementos a retornar.")
      *
      * @Annotations\View(
      *  templateVar="pages"
@@ -46,7 +46,6 @@ class AlumnoController extends SafeRestAbstractController {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
-        
         return $this->generarRespuesta($this->getAlumnoService()->findAll($limit, $offset),
                 Response::HTTP_OK,
                 array('Default', 'admin_listado'));
