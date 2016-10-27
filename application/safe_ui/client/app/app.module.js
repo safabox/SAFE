@@ -43,6 +43,7 @@
         'app.docente',
         'app.docente.cursos',
         'app.crear-tema-popup'
+        //'app.crear-concepto-popup'
         //'app.table',
         //'app.task',
         //'app.calendar'

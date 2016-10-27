@@ -51,7 +51,7 @@
                         vm.cursoTemas = response.plain();     
                     }        
                     function onError(httpResponse) {
-                        logger.error('No se pudo obtener los datos del tema', httpResponse);
+                        logger.error('No se pudo obtener los temas del curso', httpResponse);
                     }        
                     
                 }

@@ -33,7 +33,7 @@
             count: 10
         }, {
             total: 0,
-            counts: [10, 20, 50, 100],
+            counts: [8, 10, 20, 50, 100],
             getData: getTemasTabla
         });        
         

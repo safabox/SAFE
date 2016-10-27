@@ -2,20 +2,20 @@
     'use strict';
 
     angular
-        .module('app.crear-tema-popup')
-        .controller('CrearTemaPopupController', controller);
+        .module('app.crear-concepto-popup')
+        .controller('CrearConceptoPopupController', controller);
 
-    controller.$inject = ['_', '$q', 'cursoId', 'docenteId', 'temas', 'debugModeEnabled', '$uibModalInstance', 'logger', 'DocenteCursos', 'curso'];
+    controller.$inject = ['_', '$q', 'cursoId', 'docenteId', 'temaId', 'conceptoId', 'debugModeEnabled', '$uibModalInstance', 'logger', 'DocenteCursos'];
 
-    function controller(_, $q, cursoId, docenteId, temas, debugModeEnabled, $uibModalInstance, logger, DocenteCursos, curso) {
+    function controller(_, $q, cursoId, docenteId, temaId, conceptoId, debugModeEnabled, $uibModalInstance, logger, DocenteCursos) {
         var vm = this;
         vm.loading = true;
         vm.debug = debugModeEnabled;
 
         vm.cursoId = cursoId;
         vm.docenteId = docenteId;
-        vm.temas = temas;
-        vm.curso = curso;
+        vm.temaId = temaId;
+        vm.conceptoId = conceptoId;
         vm.predecesoras = [];
                 
         vm.ok = ok;
@@ -27,45 +27,45 @@
             loadData();
             
             function loadData() {
-                $q.all([cargarTema(), cargarTemasCurso()])
+                $q.all([cargarConcepto(), cargarConceptosTema()])
                     .then(onLoadComplete);
                 
-                function cargarTema(){
-                    var tema = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.idTema);  
+                function cargarConcepto(){
+                    var tema = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.idTema).one('conceptos', vm.conceptoId);  
                     return  tema.get().then(onSuccess, onError);
 
                     function onSuccess(response) {            
-                        vm.tema = response.plain();     
+                        vm.concepto = response.plain();     
                     }        
                     function onError(httpResponse) {
-                        logger.error('No se pudo obtener los datos del tema', httpResponse);
+                        logger.error('No se pudo obtener los datos del concepto', httpResponse);
                     }        
                 }
                 
-                function cargarTemasCurso(){
-                    var curso = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas');
+                function cargarConceptosTema(){
+                    var temaConceptos = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.idTema).one('conceptos');
                     
-                    return  curso.get().then(onSuccess, onError);
+                    return  temaConceptos.get().then(onSuccess, onError);
 
                     function onSuccess(response) {            
-                        vm.cursoTemas = response.plain();     
+                        vm.temaConceptos = response.plain();     
                     }        
                     function onError(httpResponse) {
-                        logger.error('No se pudo obtener los datos del tema', httpResponse);
+                        logger.error('No se pudo obtener los conceptos del tema', httpResponse);
                     }        
                     
                 }
                 
                 function onLoadComplete() {
                     vm.loading = false;
-                    vm.title = 'Crear Tema';
+                    vm.title = 'Crear Concepto';
                 }                
             }
         }
 
         function ok() {
-            DocenteCursos.new(vm.titulo, vm.descripcion, vm.copete, vm.orden, vm.predecesoras, vm.cursoId, vm.docenteId).then(onSuccess, onError);
-
+            DocenteCursos.newConcepto(vm.titulo, vm.descripcion, vm.copete, vm.orden, vm.predecesoras, vm.tipo, vm.rango, vm.metodo, vm.incremento, vm.cursoId, vm.docenteId, vm.temaId).then(onSuccess, onError);
+            
             function onSuccess(response) {
                 logger.info('Se guardó el tema');
                 $uibModalInstance.close(response);

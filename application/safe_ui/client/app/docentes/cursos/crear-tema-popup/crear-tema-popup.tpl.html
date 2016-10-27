@@ -35,9 +35,11 @@
         
         <div class="form-group">
             <label class="col-md-2 control-label" for="predecesoras">Predecesoras:</label>
-            <label class="col-md-2" ng-repeat="tema in vm.cursoTemas">
-                <input type="checkbox" checklist-model="vm.predecesoras" checklist-value="tema.id"> {{tema.titulo}}
-            </label>
+            <div  class="col-md-offset-2" ng-repeat="tema in vm.cursoTemas">
+                <div style="padding-left: 15px;">
+                    <input type="checkbox" checklist-model="vm.predecesoras" checklist-value="tema.id">&nbsp; {{tema.titulo}} <br />
+                </div>
+            </div>
         </div>
 
     <div class="modal-footer">
