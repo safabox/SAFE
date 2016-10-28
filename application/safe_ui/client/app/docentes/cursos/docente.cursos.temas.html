@@ -9,6 +9,7 @@
         </div>  
     
         <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.tema | json}}</pre>
+        <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.conceptos | json}}</pre>
         
         <div class="row" data-ng-if="!vm.loading" data-confirm-on-exit="vm.form.$dirty"> 
             <form class="form-horizontal form-validation col-md-12" novalidate name="vm.form" data-ng-submit="vm.guardar()" novalidate>   
