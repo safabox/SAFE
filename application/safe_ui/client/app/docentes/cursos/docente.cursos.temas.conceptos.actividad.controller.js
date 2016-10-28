@@ -9,7 +9,7 @@
     function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, configIRT, DocenteCursos, UsuarioService) {
         var vm = this;
         vm.debug = debugModeEnabled;
-        vm.editMode = ($state.includes('**.edit'));
+        vm.editMode = ($state.includes('**.editAct'));
         vm.loading = true;
         
         vm.docenteId = UsuarioService.getUserCurrentDoc();
@@ -50,18 +50,20 @@
         function activate() {
             $q.all([cargaActividad()])
                 .then(onLoadComplete);       
-            
+           
             function cargaActividad() {
-                var actividad = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('conceptos', vm.conceptoId).one('actividads', vm.actividadId);  
-                
+
                 if(vm.editMode){
-                    return  actividad.get().then(onSuccess, onError);
-                }else {
+                    var actividad = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('conceptos', vm.conceptoId).one('actividads', vm.actividadId);  
+                    return actividad.get().then(onSuccess, onError);
+                } else {
                     return 0;
                 }
-
+                
+                
+                
                 function onSuccess(response) {            
-                    vm.actividad = response.plain();     
+                    vm.actividad = response.plain(); 
                 }        
                 function onError(httpResponse) {
                     logger.error('No se pudo obtener la actividad', httpResponse);
@@ -71,11 +73,10 @@
             function onLoadComplete() {
                 vm.loading = false;                
                 
-                
                 if (vm.editMode){
                     vm.title = 'Editar Actividad ';
                     vm.subTitle = 'MODIFICACION CURSO';
-                    setConfigIrt();                    
+                    setConfigIrt();          
                 }
                 else{
                     vm.title = 'Nueva Actividad';                    
@@ -90,7 +91,7 @@
                     vm.actividad.azar = configIRT.azar;
                     vm.actividad.d = configIRT.d;
                     vm.actividad.tipo = configIRT.tipo;                    
-                }
+                }                
             }                      
         }
         
@@ -123,7 +124,7 @@
             }
 
             function onError() {
-                logger.error('No se pudo guardar el concepto');
+                logger.error('No se pudo guardar la actividad');
             }
         }
         
