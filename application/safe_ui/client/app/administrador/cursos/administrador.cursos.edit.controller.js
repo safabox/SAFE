@@ -15,6 +15,7 @@
         vm.noDataAlumnos = true;
         vm.noDataDocentes = true;
         
+        
         vm.agregarAlumno = agregarAlumno;
         vm.eliminarAlumno = eliminarAlumno;       
         vm.agregarDocente = agregarDocente;
@@ -232,6 +233,7 @@
                 'descripcion': vm.curso.descripcion,
                 'docentes': [],
                 'alumnos': [],
+                'habilitado':1
             };
 
             _.forEach(vm.alumnos, guardarAlumnos);

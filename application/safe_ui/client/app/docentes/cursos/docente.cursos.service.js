@@ -32,7 +32,7 @@
             return postTema.post('temas' , newEntity);
         }
         
-        function createNewConcepto (titulo, descripcion, copete, orden, predecesoras, tipo, rango, metodo, incremento, cursoId, docenteId, temaId ) {
+        function createNewConcepto (titulo, descripcion, copete, orden, predecesoras, tipo, rango, metodo, incremento, cursoId, docenteId, temaId,habilitado ) {
             var newEntity = {
                 titulo: titulo, 
                 descripcion: descripcion,
@@ -43,6 +43,7 @@
                 rango: rango,
                 metodo: metodo,
                 incremento: incremento,
+                habilitado: habilitado,
             };
 
             var postConcepto = svc.one(docenteId).one('cursos', cursoId).one('temas', temaId);
