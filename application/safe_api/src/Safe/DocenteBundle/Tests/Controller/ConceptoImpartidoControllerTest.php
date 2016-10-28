@@ -57,7 +57,6 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $this->assertJsonResponse($response, 200);
         $concepto = json_decode($response->getContent(), true);
         $expectedConcepto = $this->getConcepto($conceptoId);
-           
         
         $this->assertCamposBasicosEquals($expectedConcepto, $concepto);
         

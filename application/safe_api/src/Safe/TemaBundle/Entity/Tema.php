@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\MaxDepth;
+
 
 /**
  * Tema
@@ -87,6 +89,7 @@ class Tema
      * @ORM\OrderBy({"orden" = "ASC"})
      * @Expose
      * @Groups({"docente_tema_detalle", "alumno_tema_detalle"})
+     * @MaxDepth(2)
      */
     private $predecesoras;
 
@@ -95,6 +98,7 @@ class Tema
      * @ORM\OrderBy({"orden" = "ASC"}) 
      * @Expose
      * @Groups({"docente_tema_detalle", "alumno_tema_detalle"}) 
+     * @MaxDepth(2)
      */
     private $sucesoras;
     

@@ -7,7 +7,7 @@ use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Doctrine\Common\Util\Debug;
 class TemaImpartidoControllerTest extends SafeTestController {
 
-    
+     
     public function testGetAllAction() {
         //inicio
         $login = $this->loginDocente();    
@@ -31,7 +31,7 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $this->assertArrayNotHasKey('sucesoras', $tema, 'No se debe mostrar las predecesoras en el listado');
 
     }
-    
+   
     public function testGetAction() {
         //inicio
         $login = $this->loginDocente();    
@@ -51,7 +51,6 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $expectedTema = $this->getTema($temaId);
            
         $this->assertCamposBasicosEquals($expectedTema, $tema);
-        
         $this->assertCount($expectedTema->getPredecesoras()->count(), $tema['predecesoras']);        
         $predecesora = $tema['predecesoras'][0];
         $expectedPredecesora = $expectedTema->getPredecesoras()->get(0);
@@ -184,6 +183,8 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $tema = $this->getTema($temaId);
         $this->assertNotTrue($tema->isHabilitado());
     }
+     
+    
     
     
     

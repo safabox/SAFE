@@ -15,6 +15,7 @@ use JMS\Serializer\Annotation\VirtualProperty;
 use Safe\CatBundle\Entity\ItemBank;
 use Safe\CatBundle\Entity\ItemType;
 use Safe\CatBundle\Entity\ThetaEstimationMethodType;
+use JMS\Serializer\Annotation\MaxDepth;
 
 /**
  * Concepto
@@ -101,6 +102,7 @@ class Concepto
      * @ORM\OrderBy({"orden" = "ASC"})
      * @Expose
      * @Groups({"docente_concepto_detalle" })
+     * @MaxDepth(2)
      */
     private $predecesoras;
 
@@ -109,6 +111,7 @@ class Concepto
      * @ORM\OrderBy({"orden" = "ASC"}) 
      * @Expose
      * @Groups({"docente_concepto_detalle"}) 
+     * @MaxDepth(2)
      */
     private $sucesoras;
 

@@ -21,7 +21,7 @@ abstract class SafeRestAbstractController extends FOSRestController {
     public function generarRespuesta($result, $responseStatusCode = Response::HTTP_OK, $groups = null) {        
         $view = $this->view($result, $responseStatusCode);
         if ($groups != null) {            
-            $view->setSerializationContext(SerializationContext::create()->setGroups($groups));
+            $view->setSerializationContext(SerializationContext::create()->setGroups($groups)->enableMaxDepthChecks());
         }                
         return $this->handleView($view);
     }
