@@ -4,9 +4,9 @@
     angular.module('app.docente.cursos')
         .controller('TemaCursosEdit', controller);
 
-    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams', 'CrearConceptoPopup' ]; 
+    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams', 'CrearConceptoPopup', 'messageBox', 'concepto' ]; 
     
-    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams, CrearConceptoPopup) {
+    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams, CrearConceptoPopup, messageBox, concepto) {
         var vm = this;
         vm.debug = debugModeEnabled;
         vm.loading = true;
@@ -127,19 +127,19 @@
             }
         }
         
-        function eliminarConcepto(concepto) {
-            var title = '¿Desea eliminar el conpecto ' + concepto.titulo + '?, perderá la configuración de predecesoras y orden.';
+        function eliminarConcepto(conc) {
+            var title = '¿Desea eliminar el conpecto ' + conc.titulo + '?, perderá la configuración de predecesoras y orden.';
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
                         var conceptoRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id);  
                         var conceptoPut =
                         {
-                            titulo: concepto.titulo, 
-                            descripcion: concepto.descripcion,
-                            copete: concepto.copete, 
-                            orden: concepto.orden,
-                            predecesoras: concepto.predecesoras,
+                            titulo: conc.titulo, 
+                            descripcion: conc.descripcion,
+                            copete: conc.copete, 
+                            orden: conc.orden,
+                            predecesoras: conc.predecesoras,
                             tipo: concepto.tipo,
                             rango: concepto.rango,
                             metodo: concepto.metodo,
@@ -160,19 +160,19 @@
             } 
         }
 
-        function recuperarConcepto(concepto) {
-            var title = '¿Desea recuperar el concepto ' + concepto.titulo + '?';
+        function recuperarConcepto(conc) {
+            var title = '¿Desea recuperar el concepto ' + conc.titulo + '?';
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
                         var conceptoRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id);  
                         var conceptoPut =
                         {
-                            titulo: concepto.titulo, 
-                            descripcion: concepto.descripcion,
-                            copete: concepto.copete, 
-                            orden: concepto.orden,
-                            predecesoras: concepto.predecesoras,
+                            titulo: conc.titulo, 
+                            descripcion: conc.descripcion,
+                            copete: conc.copete, 
+                            orden: conc.orden,
+                            predecesoras: conc.predecesoras,
                             tipo: concepto.tipo,
                             rango: concepto.rango,
                             metodo: concepto.metodo,

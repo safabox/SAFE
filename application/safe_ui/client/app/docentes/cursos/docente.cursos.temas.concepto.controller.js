@@ -4,9 +4,9 @@
     angular.module('app.docente.cursos')
         .controller('TemaConceptoCursosEdit', controller);
 
-    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams' ]; 
+    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams', 'messageBox' ]; 
     
-    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams) {
+    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams, messageBox) {
         var vm = this;
         vm.debug = debugModeEnabled;
         vm.loading = true;

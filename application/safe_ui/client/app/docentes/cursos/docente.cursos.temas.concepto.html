@@ -56,11 +56,13 @@
                                                                 
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="predecesoras">Predecesoras:</label>
-                                    <label class="col-md-2" ng-repeat="concepto in vm.conpceptosTema">
-                                        <input type="checkbox" checklist-model="vm.concepto.predecesoras" checklist-value="concepto.id"> {{concepto.titulo}}
-                                    </label>
+                                    <div  class="col-md-offset-2" ng-repeat="concepto in vm.conpceptosTema">
+                                        <div style="padding-left: 15px;">
+                                            <input type="checkbox" checklist-model="vm.concepto.predecesoras" checklist-value="tema.id">&nbsp; {{concepto.titulo}} <br />
+                                        </div>
+                                    </div>  
                                     <div class="col-md-4" style="padding-top: 7px;" data-ng-if="vm.conpceptosTema.length === 0">
-                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen conceptos cargados
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> No existen Conceptos cargados
                                     </div>
                                 </div>
                                 
