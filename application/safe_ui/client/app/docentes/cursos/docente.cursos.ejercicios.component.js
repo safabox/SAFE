@@ -9,6 +9,7 @@
             controllerAs: 'vm',
             bindings: {
                 model: '=ngModel',
+                editMode: '=editMode',
             },
         });
 
@@ -20,7 +21,9 @@
         
         vm.groupVistaPrevia = { isOpen: false };
         
-        vm.model.respuestas = [];
+        if(!vm.editMode){
+            vm.model.respuestas = [];
+        }
         
         vm.agregarRespuesta = agregarRespuesta;
         vm.eliminarRespuesta= eliminarRespuesta;
@@ -44,7 +47,7 @@
                                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
                                 ['html', 'insertImage','insertLink', 'insertVideo', 'wordcount', 'charcount']
                             ];
-            vm.model.pregunta = '';
+            //vm.model.pregunta = '';
         }
         
         function getData() {

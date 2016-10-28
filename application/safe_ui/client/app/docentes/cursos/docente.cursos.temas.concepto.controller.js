@@ -4,9 +4,9 @@
     angular.module('app.docente.cursos')
         .controller('TemaConceptoCursosEdit', controller);
 
-    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams', 'messageBox' ]; 
+    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams', 'messageBox', 'concepto', 'configIRT' ]; 
     
-    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams, messageBox) {
+    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams, messageBox, concepto, configIRT) {
         var vm = this;
         vm.debug = debugModeEnabled;
         vm.loading = true;
@@ -70,7 +70,7 @@
                     vm.conpceptosTema = response.plain();     
                 }        
                 function onError(httpResponse) {
-                    logger.error('No se pudo obtener los datos del tema', httpResponse);
+                    logger.error('No se pudo obtener los datos de los conceptos', httpResponse);
                 }        
             }
             
@@ -133,7 +133,7 @@
                 .then(function (answer) {
                     if (answer === 'ok') {
                         var actividadRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id).one('actividads', actividad.id);  
-                        var actividadPut =
+                        var actividadPath =
                         {
                             titulo: actividad.titulo, 
                             descripcion: actividad.descripcion,
@@ -146,7 +146,7 @@
                             tipo: actividad.tipo,      
                             habilitado: false,
                         };                
-                        actividadRemove.customPUT(actividadPut).then(onSuccess, onError); 
+                        actividadPath.path(actividadPut).then(onSuccess, onError); 
                     }
                 });
             
@@ -156,7 +156,7 @@
             }
 
             function onError(httpResponse) {
-                logger.error('No se pudo eliminar el concepto', httpResponse);
+                logger.error('No se pudo eliminar la actividad', httpResponse);
             } 
         }
 

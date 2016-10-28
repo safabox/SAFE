@@ -100,18 +100,18 @@
                     params: {error: null}
                 }
             }, 
-            {
+           /* {
                 state: 'docente.cursos.tema.concepto.actividad',
                 config: {
                     abstract: true,
                     url: '',
                     template: '<ui-view/>'
                 }
-            },
+            },*/
             {
-                state: 'docente.cursos.tema.concepto.actividad.new',
+                state: 'docente.cursos.tema.concepto.newAct',
                 config: {
-                    url: '/cursos/tema/concepto/actividad/:idCurso&:idTema&:idConcepto',
+                    url: '/cursos/tema/concepto/actividad/new/:id&:idCurso&:idTema&:idConcepto',
                     templateUrl: path + 'app/docentes/cursos/docente.cursos.temas.conceptos.actividad.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'ActividadCursosEdit',
@@ -120,10 +120,10 @@
                 }
             },              
             {
-                state: 'docente.cursos.tema.concepto.actividad.edit',
+                state: 'docente.cursos.tema.concepto.editAct',
                 config: {
                     url: '/cursos/tema/concepto/actividad/:id&:idCurso&:idTema&:idConcepto',
-                    templateUrl: path + 'app/docentes/cursos/docente.cursos.actividad.html',
+                    templateUrl: path + 'app/docentes/cursos/docente.cursos.temas.conceptos.actividad.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'ActividadCursosEdit',
                     controllerAs: 'vm',    
