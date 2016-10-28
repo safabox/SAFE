@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <parameters>
+        <parameter key="sonata.media.resizer.simple.class">Sonata\MediaBundle\Resizer\SimpleResizer</parameter>
+        <parameter key="sonata.media.resizer.square.class">Sonata\MediaBundle\Resizer\SquareResizer</parameter>
+        <parameter key="sonata.media.adapter.image.gd.class">Imagine\Gd\Imagine</parameter>
+        <parameter key="sonata.media.adapter.image.imagick.class">Imagine\Imagick\Imagine</parameter>
+        <parameter key="sonata.media.adapter.image.gmagick.class">Imagine\Gmagick\Imagine</parameter>
+    </parameters>
+    <services>
+        <!-- CDN abstraction service -->
+        <service id="sonata.media.cdn.server" class="Sonata\MediaBundle\CDN\Server">
+            <argument/>
+        </service>
+        <service id="sonata.media.cdn.panther" class="Sonata\MediaBundle\CDN\PantherPortal">
+            <argument/>
+            <argument/>
+            <argument/>
+            <argument/>
+        </service>
+        <service id="sonata.media.cdn.cloudfront" class="Sonata\MediaBundle\CDN\CloudFront">
+            <argument/>
+            <argument/>
+            <argument/>
+            <argument/>
+        </service>
+        <service id="sonata.media.cdn.fallback" class="Sonata\MediaBundle\CDN\Fallback">
+            <argument/>
+            <argument/>
+        </service>
+    </services>
+</container>

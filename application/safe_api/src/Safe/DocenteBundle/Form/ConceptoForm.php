@@ -150,6 +150,7 @@ class ConceptoForm
         $concepto->setPredecesoras($this->predecesoras);
         $concepto->setSucesoras($this->sucesoras);
         $concepto->setTema($this->tema);
+        $concepto->setCopete($this->copete);
         
         return $concepto;
     }
