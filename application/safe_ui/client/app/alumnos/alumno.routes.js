@@ -43,7 +43,7 @@
             {
                 state: 'alumno.tema.dashboard',
                 config: {
-                    url: '/dashboard',
+                    url: '/:cursoId/dashboard/:background',
                     templateUrl: path + 'app/alumnos/temas/tema.dashboard.html',
                     controller: 'AlumnoTemaDashboardCtrl',
                     controllerAs: 'vm',
@@ -62,7 +62,7 @@
             {
                 state: 'alumno.concepto.dashboard',
                 config: {
-                    url: '/dashboard',
+                    url: '/:cursoId/:temaId/dashboard/:background',
                     templateUrl: path + 'app/alumnos/conceptos/concepto.dashboard.html',
                     controller: 'AlumnoConceptoDashboardCtrl',
                     controllerAs: 'vm',

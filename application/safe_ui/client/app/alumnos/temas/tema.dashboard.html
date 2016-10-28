@@ -48,7 +48,7 @@
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <div class="panel panel-profile">
-                <div class="panel-heading bg-success clearfix">
+                <div class="panel-heading clearfix bg-{{vm.background}}">
                     <h3>Matem&aacute;ticas</h3>
                 </div>                
             </div>
@@ -68,6 +68,36 @@
         </div>
     </div>
     <div class="row">
+        <div class="col-md-4" ng-repeat="tema in vm.temaGroup.disponibles">
+            <div class="card bg-white">
+                <div class="card-content white-text">     
+                    <div>
+                        <h3 class="safe-tema-titulo" uib-tooltip="{{tema.titulo}}">{{tema.titulo}}</h3>
+                    </div>
+                    
+                    <div data-slim-scroll data-scroll-height="100px">
+                     {{tema.copete}}   
+                    </div>
+                </div>
+                <button type="button" class="btn btn-lg safe-btn-play btn-{{vm.background}}" data-ui-sref="alumno.concepto.dashboard({cursoId: vm.cursoId, temaId: tema.id, background: vm.background})">
+                   <span class="fa fa-play-circle fa-2x"></span>
+                </button>                    
+            </div> 
+        </div>
+        <div class="col-md-4" ng-repeat="tema in vm.temaGroup.bloqueados">
+            <div class="card bg-white" uib-tooltip="Debes finalizar los otros temas para aprender este tema">
+                <div class="card-content white-text safe-disabled" >
+                    <h3 class="safe-tema-titulo" uib-tooltip="{{tema.titulo}}">{{tema.titulo}}</h3>
+                    <div data-slim-scroll data-scroll-height="100px">
+                       {{tema.copete}}  
+                    </div>
+                </div>
+                <button type="button" class="btn btn-dark btn-lg safe-btn-play" data-ui-sref="alumno.concepto.dashboard({cursoId: vm.cursoId, temaId: tema.id, background: vm.background})">
+                   <span class="fa fa-play-circle fa-2x"></span>
+                </button>                    
+            </div> 
+        </div>
+        <!--
         <div class="col-md-4">
             <div class="card bg-white">
                 <div class="card-content white-text">     
@@ -123,6 +153,7 @@
                 </button>                    
             </div> 
         </div>
+        -->
         
         <div class="col-md-4">
             <div class="card bg-white safe-cursor" ng-click="vm.goBack()" uib-tooltip="Ver otros cursos">

@@ -48,6 +48,34 @@
 </style>
 <div class="page page-dashboard" data-ng-controller="AlumnoDashboardCtrl">
     <div class="row">
+        <div class="col-md-4" ng-repeat="item in vm.cursos">
+            <section class="panel panel-box safe-cursor" data-ui-sref="alumno.tema.dashboard({ cursoId: item.curso.id, background: item.background})">
+                <div class="panel-top bg-{{item.background}}">
+                    <div class="text-left">
+                        {{item.curso.titulo}}
+                    </div>
+                    <div class="divider divider-xl"></div>
+                    <div class="divider divider-xl"></div>
+                </div>
+                <div class="panel-icon bg-{{item.background}}">
+                    <i class="glyphicon" ng-class="{'glyphicon-ok': vm.hasFinished(item), 'glyphicon-list-alt': !vm.hasFinished(item)}"></i>
+                </div>
+                <div class="panel-bottom bg-reverse">
+                    <ul class="list-justified text-center">
+                        <li>
+                            <p class="size-h3">{{item.cant_temas}}</p>
+                            <p class="text-muted">Temas</p>
+                        </li>
+                        <li>
+                            <p class="size-h3">{{item.cant_temas_resueltos}}</p>
+                            <p class="text-muted">Temas resueltos</p>
+                        </li>
+                    </ul>
+                </div>
+            </section>        
+        </div>
+        <!--
+        
         <div class="col-md-4">
             <section class="panel panel-box safe-cursor" ng-click='vm.goCurso()'>
                 <div class="panel-top  bg-success">
@@ -151,7 +179,7 @@
                     </ul>
                 </div>
             </section>        
-        </div>
+        </div>-->
     </div>    
 </div>
 <div class="safe-help safe-right" ng-hide='!vm.bot'>

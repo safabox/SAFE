@@ -3,7 +3,7 @@
 
     angular
         .module('app.alumno')
-        .factory('Alumno', factory);
+        .factory('AlumnoService', factory);
 
     factory.$inject = ['Restangular'];
 

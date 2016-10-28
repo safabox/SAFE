@@ -58,6 +58,7 @@
             isDocente: isDocente,
             isAdmin: isAdmin,
             getUserCurrentDoc: getUserCurrentDoc,
+            getUserCurrentAlumnoId: getUserCurrentAlumnoId
         }
         function isAlumno() {
             return tieneRol(["ROLE_ALUMNO"]);
@@ -119,6 +120,9 @@
         
         function getUserCurrentDoc(){
             return $localStorage.usuarioSafe.idDocente;
+        }
+        function getUserCurrentAlumnoId(){
+            return $localStorage.usuarioSafe.idAlumno;
         }
     }
 
