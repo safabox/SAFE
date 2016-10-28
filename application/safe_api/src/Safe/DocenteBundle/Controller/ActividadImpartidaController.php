@@ -50,7 +50,7 @@ class ActividadImpartidaController extends SafeRestAbstractController {
         
         return $this->generarRespuesta($this->getActividadImpartidaService()->findAll($conceptoId, $limit, $offset),
                 Response::HTTP_OK,
-                array('Default'));
+                array('Default', 'docente_actividad_detalle'));
     }
     
     /**
