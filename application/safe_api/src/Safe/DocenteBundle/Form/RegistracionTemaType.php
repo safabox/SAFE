@@ -38,10 +38,6 @@ class RegistracionTemaType extends AbstractType {
                     'allow_add' => true,        
                     
                 ))
-                ->add('sucesoras',  CollectionType::class, array(
-                    'entry_type' => 'identificador_tema',
-                    'allow_add' => true,                        
-                ))
         ;
         
         
@@ -53,7 +49,8 @@ class RegistracionTemaType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Safe\TemaBundle\Entity\Tema',            
+            'data_class' => 'Safe\TemaBundle\Entity\Tema',    
+            'allow_extra_fields' => true
         ));
     }
     

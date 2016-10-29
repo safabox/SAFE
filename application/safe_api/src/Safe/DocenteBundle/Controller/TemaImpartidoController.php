@@ -121,8 +121,7 @@ class TemaImpartidoController extends SafeRestAbstractController {
      *   "titulo" : "Suma",
      *   "descripcion" : "<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>" ,
      *   "orden:" 1,
-     *   "predecesoras": ["13"],
-     *   "sucesoras": ["9", "10"]
+     *   "predecesoras": ["13"]
      *  }
      * ```
      * @ApiDoc(          
@@ -144,6 +143,38 @@ class TemaImpartidoController extends SafeRestAbstractController {
         }            
         return $this->procesarRequest($request, RegistracionTemaType::class, $tema, HttpMethod::PUT);         
     }
+    
+    /**
+     * Actualiza un atributo del tema.
+     * 
+     * #### Ejemplo del Request     
+     * ```
+     * {
+     *   "titulo" : "Suma",
+     *   "descripcion" : "<h1>Curso inical de matemáticas</h1> <p>El objetivo del curso...</p>" ,
+     *   "orden:" 1,
+     *   "predecesoras": ["13"],
+     *  }
+     * ```
+     * @ApiDoc(          
+     *   output="Safe\TemaBundle\Entity\Tema",
+     *   statusCodes = {
+     *     204 = "Entidad creadad correctamente",
+     *     400 = "Hubo un error al crear la entidad"
+     *   }
+     * )
+     *
+     * @param Request $request the request object
+     *     
+     */
+    public function patchTemaAction(Request $request, $docenteId, $cursoId, $temaId) {                
+        //TODO SECURITY
+        $tema = $this->getTemaImpartidoService()->getById($temaId);            
+        if ($tema == null) {                      
+            throw  $this->createNotFoundException("temaBundle.tema.no_encontrado");
+        }            
+        return $this->procesarRequest($request, RegistracionTemaType::class, $tema, HttpMethod::PATCH);         
+    }
       
     private function getTemaImpartidoService() {        
         return $this->container->get('safe_docente.service.tema_impartido');       
@@ -160,13 +191,7 @@ class TemaImpartidoController extends SafeRestAbstractController {
                     return ($entry !== '' || $entry !== NULL);
                 }
             );
-            $sucesoras = $tema->getSucesoras()->filter(
-                function($entry) {                    
-                    return ($entry !== NULL && $entry !== '');
-                }
-            );            
             $tema->setPredecesoras($predecesoras);       
-            $tema->setSucesoras($sucesoras);       
         }
         $this->getTemaImpartidoService()->crearOActualizar($tema);
         if (HttpMethod::POST == $method) {

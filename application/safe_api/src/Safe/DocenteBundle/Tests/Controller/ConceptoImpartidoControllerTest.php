@@ -7,7 +7,7 @@ use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Doctrine\Common\Util\Debug;
 class ConceptoImpartidoControllerTest extends SafeTestController {
 
-    
+ 
     public function testGetAllAction() {
         //inicio
         $login = $this->loginDocente();    
@@ -65,10 +65,10 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $expectedPredecesora = $expectedConcepto->getPredecesoras()->get(0);
         $this->assertCamposBasicosEquals($expectedPredecesora, $predecesora);
         
-        $this->assertCount($expectedConcepto->getSucesoras()->count(), $concepto['sucesoras']);       
-        $sucesora = $concepto['sucesoras'][0];
-        $expectedSucesora = $expectedConcepto->getSucesoras()->get(0);
-        $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);                
+//        $this->assertCount($expectedConcepto->getSucesoras()->count(), $concepto['sucesoras']);       
+//        $sucesora = $concepto['sucesoras'][0];
+//        $expectedSucesora = $expectedConcepto->getSucesoras()->get(0);
+//        $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);                
         $this->assertEquals('2PL', $concepto['tipo']);
         $this->assertSame(array(-2, 3), $concepto['rango']);
         $this->assertEquals('THETA_MLE', $concepto['metodo']);
@@ -100,9 +100,9 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $expectedPredecesora = $this->getConcepto($nuevoConcepto['predecesoras'][0]);
         $this->assertCamposBasicosEquals($expectedPredecesora, $predecesora);
         
-        $sucesora = $concepto['sucesoras'][0];
-        $expectedSucesora = $this->getConcepto($nuevoConcepto['sucesoras'][0]);
-        $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);
+//        $sucesora = $concepto['sucesoras'][0];
+//        $expectedSucesora = $this->getConcepto($nuevoConcepto['sucesoras'][0]);
+//        $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);
 
         $this->assertEquals('2PL', $concepto['tipo']);
         $this->assertSame(array(-1, 1), $concepto['rango']);
@@ -141,17 +141,17 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $expectedPredecesora = $this->getConcepto($conceptoAActualizar['predecesoras'][0]);
         $this->assertEquals($expectedPredecesora->getId(), $predecesora->getId());
                 
-        $this->assertEquals(1, $concepto->getSucesoras()->count());
-        $sucesora = $concepto->getSucesoras()->get(0);
-        $expectedSucesora = $this->getConcepto($conceptoAActualizar['sucesoras'][0]);
-        $this->assertEquals($expectedSucesora->getId(), $sucesora->getId());
+//        $this->assertEquals(1, $concepto->getSucesoras()->count());
+//        $sucesora = $concepto->getSucesoras()->get(0);
+//        $expectedSucesora = $this->getConcepto($conceptoAActualizar['sucesoras'][0]);
+//        $this->assertEquals($expectedSucesora->getId(), $sucesora->getId());
         
         $itemBank = $this->getItemBank($concepto->getId());
         $this->assertEquals('RASH', $itemBank->getItemType());
    
     }
 
-    public function testPutAction_cambiarSucesorasYPredecesoras() {
+    public function testPutAction_cambiarPredecesoras() {
         //inicio
         $login = $this->loginDocente();    
         $cliente = $login['cliente'];
@@ -181,7 +181,10 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $expectedPredecesora = $this->getConcepto($conceptoAActualizar['predecesoras'][0]);
         $this->assertEquals($expectedPredecesora->getId(), $predecesora->getId());
                 
-        $this->assertEquals(0, $concepto->getSucesoras()->count());
+        $conceptoSucesoraId = 4;
+        $conceptoSucesora = $this->getConcepto($conceptoSucesoraId);
+        $this->assertEquals(2, $conceptoSucesora->getPredecesoras()->count());        
+        $this->assertExisteConcepto($concepto, $conceptoSucesora->getPredecesoras());   
     }
     
     public function testPutAction_bajaLogica() {
@@ -209,6 +212,70 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $concepto = $this->getConcepto($conceptoId);
         $this->assertNotTrue($concepto->isHabilitado());
     }
+    
+    public function testPatchAction() {
+        //inicio
+        $login = $this->loginDocente();    
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'];
+        $cursoId = 1;
+        $temaId = 1;
+        $conceptoId = 3;
+        
+        $conceptoDesactualizadoBBDD = $this->getConcepto($conceptoId);
+        $conceptoAActualizar = array(
+            'titulo' => $conceptoDesactualizadoBBDD->getTitulo().' PATCH',
+            'habilitado' => false
+        );
+        $content = json_encode($conceptoAActualizar);
+        $route =  $this->getUrl('api_1_docentes_cursos_temas_conceptospatch_docente_curso_tema_concepto', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, 'conceptoId' => $conceptoId, '_format' => 'json'));
+  
+        //test
+        $cliente->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
+        $concepto = $this->getConcepto($conceptoId);
+        $this->assertEquals($conceptoAActualizar['titulo'], $concepto->getTitulo());
+        $this->assertEquals($conceptoDesactualizadoBBDD->getDescripcion(), $concepto->getDescripcion());
+        $this->assertEquals($conceptoAActualizar['habilitado'], $concepto->isHabilitado());
+    }
+
+    public function testPatchAction_cambiarPredesoras() {
+        //inicio
+        $login = $this->loginDocente();    
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'];
+        $cursoId = 1;
+        $temaId = 1;
+        $conceptoId = 3;
+        
+        $conceptoDesactualizadoBBDD = $this->getConcepto($conceptoId);
+        $conceptoAActualizar = array(
+            'predecesoras' => array(4)
+        );
+        $content = json_encode($conceptoAActualizar);
+        $route =  $this->getUrl('api_1_docentes_cursos_temas_conceptospatch_docente_curso_tema_concepto', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, 'conceptoId' => $conceptoId, '_format' => 'json'));
+  
+        //test
+        $cliente->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
+        $concepto = $this->getConcepto($conceptoId);
+       
+        $this->assertEquals(1, $concepto->getPredecesoras()->count());        
+        $predecesora = $concepto->getPredecesoras()->get(0);
+        $expectedPredecesora = $this->getConcepto($conceptoAActualizar['predecesoras'][0]);
+        $this->assertEquals($expectedPredecesora->getId(), $predecesora->getId());
+                
+        $conceptoSucesoraId = 4;
+        $conceptoSucesora = $this->getConcepto($conceptoSucesoraId);
+        $this->assertEquals(2, $conceptoSucesora->getPredecesoras()->count());        
+        $this->assertExisteConcepto($concepto, $conceptoSucesora->getPredecesoras()); 
+    }
 
     
         
@@ -230,6 +297,15 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $this->assertNotNull($concepto['fecha_modificacion'], 'Fecha de modificacion del tema invalida');
         $this->assertArrayHasKey('fecha_creacion', $concepto, 'Fecha de creacion del tema no encontrada');
         $this->assertNotNull($concepto['fecha_creacion'], 'Fecha de creacion del tema invalida');     
+    }
+    
+    private function assertExisteConcepto($conceptoEsperado, $array) {
+        foreach ($array as $concepto) {
+            if ($concepto->getId() == $conceptoEsperado->getId()) {
+                return;
+            }
+        }
+        $this->assertTrue(false, 'No se encontro el tema');
     }
     
     protected function getConcepto($id) {

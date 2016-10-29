@@ -56,10 +56,10 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $expectedPredecesora = $expectedTema->getPredecesoras()->get(0);
         $this->assertCamposBasicosEquals($expectedPredecesora, $predecesora);
         
-        $this->assertCount($expectedTema->getSucesoras()->count(), $tema['sucesoras']);       
-        $sucesora = $tema['sucesoras'][0];
-        $expectedSucesora = $expectedTema->getSucesoras()->get(0);
-        $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);                
+//        $this->assertCount($expectedTema->getSucesoras()->count(), $tema['sucesoras']);       
+//        $sucesora = $tema['sucesoras'][0];
+//        $expectedSucesora = $expectedTema->getSucesoras()->get(0);
+//        $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);                
     }
      
     public function testPostAction() {
@@ -86,9 +86,9 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $expectedPredecesora = $this->getTema($nuevoTema['predecesoras'][0]);
         $this->assertCamposBasicosEquals($expectedPredecesora, $predecesora);
         
-        $sucesora = $tema['sucesoras'][0];
-        $expectedSucesora = $this->getTema($nuevoTema['sucesoras'][0]);
-        $this->assertCamposBasicosEquals($expectedSucesora, $sucesora);
+        //$sucesora = $tema['sucesoras'][0];
+        //$expectedSucesora = $this->getTema($nuevoTema['sucesoras'][0]);
+        //$this->assertCamposBasicosEquals($expectedSucesora, $sucesora);
     }
     
     
@@ -121,13 +121,70 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $expectedPredecesora = $this->getTema($temaAActualizar['predecesoras'][0]);
         $this->assertEquals($expectedPredecesora->getId(), $predecesora->getId());
                 
-        $this->assertEquals(1, $tema->getSucesoras()->count());
-        $sucesora = $tema->getSucesoras()->get(0);
-        $expectedSucesora = $this->getTema($temaAActualizar['sucesoras'][0]);
-        $this->assertEquals($expectedSucesora->getId(), $sucesora->getId());
+        //$this->assertEquals(1, $tema->getSucesoras()->count());
+        //$sucesora = $tema->getSucesoras()->get(0);
+        //$expectedSucesora = $this->getTema($temaAActualizar['sucesoras'][0]);
+        //$this->assertEquals($expectedSucesora->getId(), $sucesora->getId());
     }
     
-    public function testPutAction_cambiarSucesorasYPredecesoras() {
+    public function testPatchAction() {
+        //inicio
+        $login = $this->loginDocente();    
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'];
+        $cursoId = 1;
+        $temaId = 1;
+        
+        $temaDesactualizadoBBDD = $this->getTema($temaId);
+        
+        $temaAActualizar = array('titulo' => $temaDesactualizadoBBDD->getTitulo().' PATCH', 'habilitado' => false);
+        
+        $content = json_encode($temaAActualizar);
+        $route =  $this->getUrl('api_1_docentes_cursos_temaspatch_docente_curso_tema', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, '_format' => 'json'));
+  
+        //test
+        $cliente->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
+        $tema = $this->getTema($temaId);
+        $this->assertEquals($temaAActualizar['titulo'], $tema->getTitulo());
+        $this->assertEquals($temaDesactualizadoBBDD->getDescripcion(), $tema->getDescripcion());
+        $this->assertFalse($tema->isHabilitado());
+      
+    }
+    
+    public function testPatchPredecesorasAction() {
+        //inicio
+        $login = $this->loginDocente();    
+        $cliente = $login['cliente'];
+        $id = $login['datos']['idDocente'];
+        $cursoId = 1;
+        $temaId = 1;
+        
+        $temaDesactualizadoBBDD = $this->getTema($temaId);
+        
+        $temaAActualizar = array('predecesoras' => array(3));
+        
+        $content = json_encode($temaAActualizar);
+        $route =  $this->getUrl('api_1_docentes_cursos_temaspatch_docente_curso_tema', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, '_format' => 'json'));
+  
+        //test
+        $cliente->request('PATCH', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertEquals(204, $response->getStatusCode(), 'Se esperaba status code 204 en vez de '.$response->getStatusCode());
+        $tema = $this->getTema($temaId);
+        
+        $this->assertEquals(1, $tema->getPredecesoras()->count());        
+        $predecesora = $tema->getPredecesoras()->get(0);
+        $expectedPredecesora = $this->getTema($temaAActualizar['predecesoras'][0]);
+        $this->assertEquals($expectedPredecesora->getId(), $predecesora->getId());
+    }
+    
+    public function testPutAction_cambiarPredecesoras() {
         //inicio
         $login = $this->loginDocente();    
         $cliente = $login['cliente'];
@@ -156,7 +213,12 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $expectedPredecesora = $this->getTema($temaAActualizar['predecesoras'][0]);
         $this->assertEquals($expectedPredecesora->getId(), $predecesora->getId());
                 
-        $this->assertEquals(0, $tema->getSucesoras()->count());
+        //$this->assertEquals(0, $tema->getSucesoras()->count());
+        
+        $temaSucesoraId = 4;
+        $temaSucesora = $this->getTema($temaSucesoraId);
+        $this->assertEquals(2, $temaSucesora->getPredecesoras()->count());        
+        $this->assertExisteTema($tema, $temaSucesora->getPredecesoras());   
     }
     
     public function testPutAction_bajaLogica() {
@@ -207,6 +269,15 @@ class TemaImpartidoControllerTest extends SafeTestController {
         $this->assertNotNull($tema['fecha_modificacion'], 'Fecha de modificacion del tema invalida');
         $this->assertArrayHasKey('fecha_creacion', $tema, 'Fecha de creacion del tema no encontrada');
         $this->assertNotNull($tema['fecha_creacion'], 'Fecha de creacion del tema invalida');        
+    }
+    
+    private function assertExisteTema($temaEsperado, $array) {
+        foreach ($array as $tema) {
+            if ($tema->getId() == $temaEsperado->getId()) {
+                return;
+            }
+        }
+        $this->assertTrue(false, 'No se encontro el tema');
     }
     
     protected function getTema($id) {

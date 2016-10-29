@@ -94,7 +94,6 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
      *   "descripcion" : "sumar numeros" ,
      *   "orden:" 1,
      *   "predecesoras": ["13"],
-     *   "sucesoras": ["9", "10"],
      *   "tipo": "RASH",
      *   "rango": [-3, 3],
      *   "metodo": "THETA_MLE",
@@ -131,7 +130,6 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
      *   "descripcion" : "sumar numeros" ,
      *   "orden:" 1,
      *   "predecesoras": ["13"],
-     *   "sucesoras": ["9", "10"],
      *   "tipo": "RASH",
      *   "rango": [-3, 3],
      *   "metodo": "THETA_MLE",
@@ -159,6 +157,44 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
         $conceptoForm->setConcepto($concepto);        
         return $this->procesarRequest($request, RegistracionConceptoFormType::class, $conceptoForm, HttpMethod::PUT); 
     }
+    
+    /**
+     * Actualiza un atributo de  concepto
+     * 
+     * #### Ejemplo del Request     
+     * ```
+     *  {
+     *   "titulo" : "Suma",
+     *   "descripcion" : "sumar numeros" ,
+     *   "orden:" 1,
+     *   "predecesoras": ["13"],
+     *   "tipo": "RASH",
+     *   "rango": [-3, 3],
+     *   "metodo": "THETA_MLE",
+     *   "incremento": 0.1
+     *  }
+     * ```
+     * @ApiDoc(          
+     *   output="Safe\TemaBundle\Entity\Concepto",
+     *   statusCodes = {
+     *     204 = "Entidad creadad correctamente",
+     *     400 = "Hubo un error al crear la entidad"
+     *   }
+     * )
+     *
+     * @param Request $request the request object
+     *     
+     */
+    public function patchConceptoAction(Request $request, $docenteId, $cursoId, $temaId, $conceptoId) {                
+        //TODO SECURITY
+        $conceptoForm = new ConceptoForm();
+        $concepto = $this->getConceptoImpartidoService()->getById($conceptoId);    
+        if ($concepto == null) {                      
+            throw  $this->createNotFoundException("temaBundle.concepto.no_encontrado");
+        }            
+        $conceptoForm->setConcepto($concepto);        
+        return $this->procesarRequest($request, RegistracionConceptoFormType::class, $conceptoForm, HttpMethod::PATCH); 
+    }
       
     private function getConceptoImpartidoService() {        
         return $this->container->get('safe_docente.service.concepto_impartido');       
@@ -174,18 +210,12 @@ class ConceptoImpartidoController extends SafeRestAbstractController {
                 function($entry) {
                     return ($entry !== '' || $entry !== NULL);
                 }
-            );
-            $sucesoras = $conceptoForm->getSucesoras()->filter(
-                function($entry) {                    
-                    return ($entry !== NULL && $entry !== '');
-                }
-            );            
-            $conceptoForm->setPredecesoras($predecesoras);       
-            $conceptoForm->setSucesoras($sucesoras);       
-            
+            );      
+            $conceptoForm->setPredecesoras($predecesoras);                                 
             $concepto = $conceptoForm->mergeConcepto($conceptoForm->getConcepto());
             $itemBank = $conceptoForm->mergeItemBank($concepto->getItemBank());
             $concepto->setItemBank($itemBank);                        
+            
         } else if (HttpMethod::POST == $method) {
             $concepto = $conceptoForm->createConcepto();
             $itemBank = $conceptoForm->createItemBank();

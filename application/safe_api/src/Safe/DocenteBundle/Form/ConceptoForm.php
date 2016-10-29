@@ -159,7 +159,7 @@ class ConceptoForm
         $this->tipo = $itemBank->getItemType();
         $this->rango = $itemBank->getItemRange();
         $this->metodo = $itemBank->getThetaEstimationMethod();
-        $this->incrementeo = $itemBank->getDiscretIncrement();
+        $this->incremento = $itemBank->getDiscretIncrement();
     }
     
     public function createItemBank() {

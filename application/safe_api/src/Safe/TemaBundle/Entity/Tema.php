@@ -96,9 +96,6 @@ class Tema
     /**
      * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="predecesoras")
      * @ORM\OrderBy({"orden" = "ASC"}) 
-     * @Expose
-     * @Groups({"docente_tema_detalle", "alumno_tema_detalle"}) 
-     * @MaxDepth(2)
      */
     private $sucesoras;
     

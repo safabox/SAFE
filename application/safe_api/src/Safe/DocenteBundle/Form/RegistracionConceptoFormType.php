@@ -40,11 +40,7 @@ class RegistracionConceptoFormType extends AbstractType {
                     'entry_type' => 'identificador_concepto',
                     'allow_add' => true,        
                     
-                ))
-                ->add('sucesoras',  CollectionType::class, array(
-                    'entry_type' => 'identificador_concepto',
-                    'allow_add' => true,                        
-                ))
+                ))        
                 ->add('tipo', ChoiceType::class, array(
                             'choices'  => array(
                                     ItemType::RASH => ItemType::RASH,
@@ -75,7 +71,8 @@ class RegistracionConceptoFormType extends AbstractType {
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Safe\DocenteBundle\Form\ConceptoForm',            
+            'data_class' => 'Safe\DocenteBundle\Form\ConceptoForm',          
+            'allow_extra_fields' => true
         ));
     }
     

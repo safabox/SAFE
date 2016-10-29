@@ -109,9 +109,6 @@ class Concepto
     /**
      * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Concepto", mappedBy="predecesoras")
      * @ORM\OrderBy({"orden" = "ASC"}) 
-     * @Expose
-     * @Groups({"docente_concepto_detalle"}) 
-     * @MaxDepth(2)
      */
     private $sucesoras;
 
