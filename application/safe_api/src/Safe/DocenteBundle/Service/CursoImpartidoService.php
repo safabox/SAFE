@@ -2,16 +2,20 @@
 namespace Safe\DocenteBundle\Service;
 
 use Safe\CursoBundle\Repository\CursoRepository;
+use Safe\CursoBundle\Service\CursoService;
+use Doctrine\ORM\EntityManager;
+class CursoImpartidoService extends CursoService {
 
-class CursoImpartidoService {
-    private $cursoRepository;
-
-    public function __construct(CursoRepository $cursoRepository)
+    private $entityManager;
+    
+    public function __construct(EntityManager $entityManager, CursoRepository $cursoRepository)
     {
-        $this->cursoRepository = $cursoRepository;
+        parent::__construct($cursoRepository);
+        $this->entityManager = $entityManager;
     }
     
-    public function findAll($docenteId, $limit, $offset) {
+    
+    public function findAllByDocente($docenteId, $limit, $offset) {
         //return $this->cursoRepository->findBy(array('docente' => $docenteId), null, $limit, $offset);
         
         $query = $this->cursoRepository->createQueryBuilder('curso')
@@ -23,12 +27,23 @@ class CursoImpartidoService {
             $offset = ($offset == null) ? 0 : $offset;
             $query->setMaxResults($limit)
                   ->setFirstResult($limit * $offset);
-        }        
-         return $query->getResult();
+        }
+        foreach ($query->getResult() as $curso) {
+            $alumnosFinalizados = $this->countAlumnosFinalizados($curso);
+            $curso->setCantAlumnosFinalizados($alumnosFinalizados);
+        }
+        return $query->getResult();
     }
-        
-    public function getById($id) {
-        return $this->cursoRepository->find($id);
+    
+    private function countAlumnosFinalizados($curso) {
+         $query = $this->cursoRepository->createQueryBuilder('curso')
+                 ->select('count(curso.id)')
+                 ->join('curso.estadosAlumnos', 'estados')
+                 ->where('estados.aprobado = true')
+                 ->andWhere('curso.id = :idCurso') 
+                 ->setParameter('idCurso', $curso->getId()) 
+                 ->getQuery();
+       
+         return $query->getSingleScalarResult();
     }
-
 }

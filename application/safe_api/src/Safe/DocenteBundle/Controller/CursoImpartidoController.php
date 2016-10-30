@@ -38,10 +38,10 @@ class CursoImpartidoController extends SafeRestAbstractController {
         $offset = $paramFetcher->get('offset');
         $offset = null == $offset ? 0 : $offset;
         $limit = $paramFetcher->get('limit');
-        $cursos = $this->getCursoImpartidoService()->findAll($id, $limit, $offset);
+        $cursos = $this->getCursoImpartidoService()->findAllByDocente($id, $limit, $offset);
         return $this->generarRespuesta($cursos,
                 Response::HTTP_OK,
-                array('Default'));
+                array('Default', 'docente_curso_list'));
     } 
     
     /**

@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -125,6 +126,9 @@ class Curso
      * 
      */
     private $estadosAlumnos;
+    
+    
+    private $cantAlumnosFinalizados;
 
     public function __construct()
     {
@@ -133,6 +137,7 @@ class Curso
         $this->estadosAlumnos = new ArrayCollection();
         $this->habilitado = true;
         $this->setFechaCreacion(new \DateTime());
+        $this->cantAlumnosFinalizados = 0;
     }
     
     /**
@@ -316,4 +321,28 @@ class Curso
     function setEstadosAlumnos($estadosAlumnos) {
         $this->estadosAlumnos = $estadosAlumnos;
     }
+    
+    //Transient
+     /**
+     * @Groups({"docente_curso_list"}) 
+     * @VirtualProperty 
+     * @return type string
+     */
+    function getCantAlumnos() {
+        return $this->alumnos->count();
+    }
+     /**
+     * @Groups({"docente_curso_list"}) 
+     * @VirtualProperty 
+     * @return type string
+     */
+    function getCantAlumnosFinalizados() {
+        return $this->cantAlumnosFinalizados;
+    }
+
+    function setCantAlumnosFinalizados($cantAlumnosFinalizados) {
+        $this->cantAlumnosFinalizados = $cantAlumnosFinalizados;
+    }
+
+
 }

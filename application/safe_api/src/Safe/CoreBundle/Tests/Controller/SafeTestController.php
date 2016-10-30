@@ -25,6 +25,7 @@ class SafeTestController extends WebTestCase {
                           'Safe\TemaBundle\DataFixtures\ORM\ActividadData',
                           'Safe\CatBundle\DataFixtures\ORM\CATData',
                           'Safe\AlumnoBundle\DataFixtures\ORM\AsignacionData',
+                          'Safe\DocenteBundle\DataFixtures\ORM\DocenteEstadisticaData',
             
                           
             );

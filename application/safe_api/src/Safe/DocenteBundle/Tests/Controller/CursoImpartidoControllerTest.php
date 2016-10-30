@@ -22,7 +22,7 @@ class CursoImpartidoControllerTest extends SafeTestController {
         $response = $cliente->getResponse();
         $this->assertJsonResponse($response, 200);       
         $cursos = json_decode($response->getContent(), true);
-        $this->assertCount(3, $cursos);
+        $this->assertCount(4, $cursos);
         
         $curso = $cursos[0];
         $this->assertArrayHasKey('id', $curso, 'id del curso no encontrado');
@@ -36,6 +36,19 @@ class CursoImpartidoControllerTest extends SafeTestController {
         $this->assertArrayNotHasKey('alumnos', $curso, 'alumnos no permitido en el listado');
         $this->assertArrayNotHasKey('descripcion', $curso, 'alumnos no permitido en el listado');
 
+        //Estadistica 1
+        $curso = $this->getCursoFromArray('Estadistica 1', $cursos);
+        $this->assertNotNull($curso);
+        $this->assertEquals(3, $curso['cant_alumnos'], 'No coinciden la cantidad de alumnos');
+        $this->assertEquals(1, $curso['cant_alumnos_finalizados'], 'No coinciden la cantidad de alumnos finalizados');
+    }
+    
+    protected function getCursoFromArray($titulo, $cursos) {
+         foreach ($cursos as $curso) {
+             if ($curso['titulo'] == $titulo) {
+                 return $curso;
+             }
+         }
     }
     public function testGetAction() {
         //inicio

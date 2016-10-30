@@ -6,7 +6,7 @@ use Safe\CursoBundle\Repository\CursoRepository;
 use Safe\CoreBundle\Exception\IllegalArgumentException;
 
 class CursoService {
-    private $cursoRepository;
+    protected $cursoRepository;
 
     public function __construct(CursoRepository $cursoRepository)
     {
