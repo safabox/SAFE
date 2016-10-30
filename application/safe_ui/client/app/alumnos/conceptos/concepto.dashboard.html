@@ -5,10 +5,26 @@
     .safe-tema-item  {
         cursor: pointer;
     }
-    .safe-tema-item:hover {
+  /*  .safe-tema-item:hover {
         -webkit-box-shadow: 10px 10px 17px -8px rgba(96,205,155,1);
         -moz-box-shadow: 10px 10px 17px -8px rgba(96,205,155,1);
         box-shadow: 10px 10px 17px -8px rgba(96,205,155,1);
+    }  
+    */
+     .safe-tema-item:hover {
+        -webkit-box-shadow: 10px 10px 17px -8px rgba(0,0,0,1);
+        -moz-box-shadow: 10px 10px 17px -8px rgba(0,0,0,1);
+        box-shadow: 10px 10px 17px -8px rgba(0,0,0,1);
+    }
+    .mini-box.safe-tema-item, .mini-box.safe-tema-proximamente, .mini-box.safe-tema-item-blocked {
+        padding: 18px;
+    }
+    .safe-tema-proximamente {
+        border: 3px dashed;
+        background: none;
+    }
+    .safe-tema-proximamente span {
+        margin-right: 5px;
     }
     .safe-logro-placehoder {
         display: block;
@@ -22,11 +38,18 @@
     .safe-btn-actividad button {
         width: 100%;
         padding: 10px;
-    }
-    
+    }    
     .safe-btn-actividad  .safe-text {
         font-size: 24px;
         margin-right: 15px;
+    }
+    .safe-btn-actividad .safe-actividad-disabled {
+        cursor: not-allowed;
+        opacity: .50;        
+    }
+    .safe-btn-actividad .safe-actividad-disabled:hover {
+        background-color: #E87352;
+        border-color: #e5613b;       
     }
 </style>
 <div class="page page-dashboard" data-ng-controller="AlumnoConceptoDashboardCtrl">
@@ -34,13 +57,13 @@
         <div class="col-sm-12 col-md-8">
             <div class="panel panel-profile">
                 <div class="panel-heading bg-success clearfix">
-                    <h3>Introducci&oacute;n a la matem&aacute;tica</h3>
+                    <h3>{{vm.tema.titulo}}</h3>
                 </div>                
             </div>
         </div>
         <div class="col-sm-12 col-md-4">
             <div class="safe-btn-actividad">
-                <button class="btn btn-danger" ng-click="vm.goActividad()">
+                <button class="btn btn-danger" ng-click="vm.goActividad()" ng-class="{'disabled, safe-actividad-disabled': !vm.hasConceptosHabilitados}">
                     <span class="safe-text">Ir a la actividad</span>
                     <span class="safe-btn-icon safe-right fa fa-arrow-circle-right fa-4x"></span>
                 </button>
@@ -50,8 +73,21 @@
     <div class="row">        
         <div class="col-sm-8">
             <div class="row">
+                <div class="col-sm-12">
+                    <div class="panel mini-box safe-tema-proximamente" ng-hide="vm.hasConceptos">
+                        <span class="fa-stack fa-3x">
+                          <i class="fa fa-circle fa-stack-2x"></i>
+                          <i class="fa fa-cubes fa-stack-1x fa-inverse"></i>
+                        </span>
+
+                        <div class="box-info">
+                            <p class="size-h3">Pr&oacute;ximamente</p>
+                            <p class="text-muted">Pr&oacute;ximamente los temas que aprender&aacute;s</p>
+                        </div>
+                    </div> 
+                </div>   
                 <div class="col-sm-12" ng-repeat="concepto in vm.conceptoGroup.disponibles">
-                    <div class="panel mini-box safe-tema-item" ng-click="vm.goActividad()">
+                    <div class="panel mini-box safe-tema-item" ng-click="vm.goProximaActividad(concepto)">
                         <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-{{background}}">
                             <i class="glyphicon glyphicon-list-alt"></i>
                         </span>
@@ -62,58 +98,13 @@
                     </div>
                 </div>
                 <div class="col-sm-12" ng-repeat="concepto in vm.conceptoGroup.bloqueados">
-                    <div class="panel mini-box bg-body" uib-tooltip="Debes terminar los otros temas para poder avanzar." tooltip-placement="top">
+                    <div class="panel mini-box bg-body safe-tema-item-blocked" uib-tooltip="Debes terminar los otros temas para poder avanzar." tooltip-placement="top">
                         <span class="btn-icon btn-icon-round btn-icon-lg-alt">
                             <i class="glyphicon glyphicon-list-alt"></i>
                         </span>
                         <div class="box-info">
                              <p class="size-h3">{{concepto.titulo}}</p>
                             <p class="text-muted">{{concepto.copete}}</p>
-                        </div>
-                    </div> 
-                </div>
-                <div class="col-sm-12">
-                    <div class="panel mini-box safe-tema-item" data-ui-sref="alumno.tema.dashboard({ cursoId: vm.cursoId, background: vm.background})">
-                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-primary-light">
-                            <i class="fa fa-arrow-left"></i>
-                        </span>
-                        <div class="box-info">
-                            <p class="size-h3">Volver</p>
-                            <p class="text-muted">Ver otros temas</p>
-                        </div>
-                    </div> 
-                </div>   
-                <!--
-                <div class="col-sm-12">
-                    <div class="panel mini-box safe-tema-item" ng-click="vm.goActividad()">
-                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-success">
-                            <i class="glyphicon glyphicon-list-alt"></i>
-                        </span>
-                        <div class="box-info">
-                            <p class="size-h3">Sumas y restas</p>
-                            <p class="text-muted">1 + 1 = 2</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-12">
-                    <div class="panel mini-box safe-tema-item" ng-click="vm.goActividad()">
-                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-success">
-                            <i class="glyphicon glyphicon-list-alt"></i>
-                        </span>
-                        <div class="box-info">
-                            <p class="size-h3">Multiplicaciones y divisiones</p>
-                            <p class="text-muted">X %</p>
-                        </div>
-                    </div> 
-                </div>
-                <div class="col-sm-12">
-                    <div class="panel mini-box bg-body" uib-tooltip="Debes terminar los otros temas para poder avanzar." tooltip-placement="top">
-                        <span class="btn-icon btn-icon-round btn-icon-lg-alt">
-                            <i class="glyphicon glyphicon-list-alt"></i>
-                        </span>
-                        <div class="box-info">
-                            <p class="size-h3">Pol&iacute;gonos</p>
-                            <p class="text-muted">Cuadrados, tri&aacute;ngulo, etc</p>
                         </div>
                     </div> 
                 </div>
@@ -127,8 +118,7 @@
                             <p class="text-muted">Ver otros temas</p>
                         </div>
                     </div> 
-                </div>      
-                -->
+                </div>                  
             </div>
         </div>
         <div class="col-sm-4">

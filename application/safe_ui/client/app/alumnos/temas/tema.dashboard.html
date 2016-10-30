@@ -43,24 +43,28 @@
         font-size: 24px;
         margin-right: 15px;
     }
+    .safe-btn-actividad .safe-actividad-disabled {
+        cursor: not-allowed;
+        opacity: .50;        
+    }
+    .safe-btn-actividad .safe-actividad-disabled:hover {
+        background-color: #E87352;
+        border-color: #e5613b;       
+    }
 </style>
 <div class="page page-dashboard" data-ng-controller="AlumnoTemaDashboardCtrl">
     <div class="row">
         <div class="col-sm-12 col-md-8">
             <div class="panel panel-profile">
                 <div class="panel-heading clearfix bg-{{vm.background}}">
-                    <h3>Matem&aacute;ticas</h3>
+                    <h3>{{vm.curso.titulo}}</h3>
                 </div>                
             </div>
         </div>
         <div class="col-sm-12 col-md-4">
-            <!--<div class="btn-groups btn-group-lg safe-btn-group-lg safe-btn-nav">
-                <button class="btn btn-inverse" ng-click="vm.goBack()"><span class="safe-btn-icon safe-left fa fa-arrow-circle-left fa-2x"></span><span class="safe-text">Volver</span></button>
-                <button class="btn btn-danger"><span class="safe-text">Ir a la actividad</span><span class="safe-btn-icon safe-right fa fa-arrow-circle-right fa-2x"></span></button>
-            </div>-->
             
             <div class="safe-btn-actividad">
-                <button class="btn btn-danger" ng-click="vm.goActividad()">
+                <button class="btn btn-danger" ng-click="vm.goActividad()"  ng-class="{'disabled, safe-actividad-disabled': !vm.hasTemasHabilitados}">
                     <span class="safe-text">Ir a la actividad</span>
                     <span class="safe-btn-icon safe-right fa fa-arrow-circle-right fa-4x"></span>
                 </button>
@@ -79,7 +83,7 @@
                      {{tema.copete}}   
                     </div>
                 </div>
-                <button type="button" class="btn btn-lg safe-btn-play btn-{{vm.background}}" data-ui-sref="alumno.concepto.dashboard({cursoId: vm.cursoId, temaId: tema.id, background: vm.background})">
+                <button type="button" class="btn btn-lg safe-btn-play btn-{{vm.background}}" ng-click="vm.goConcepto(tema)">
                    <span class="fa fa-play-circle fa-2x"></span>
                 </button>                    
             </div> 
@@ -92,68 +96,12 @@
                        {{tema.copete}}  
                     </div>
                 </div>
-                <button type="button" class="btn btn-dark btn-lg safe-btn-play" data-ui-sref="alumno.concepto.dashboard({cursoId: vm.cursoId, temaId: tema.id, background: vm.background})">
+                <button type="button" class="btn btn-dark btn-lg safe-btn-play">
                    <span class="fa fa-play-circle fa-2x"></span>
                 </button>                    
             </div> 
         </div>
-        <!--
-        <div class="col-md-4">
-            <div class="card bg-white">
-                <div class="card-content white-text">     
-                    <div>
-                        <h3 class="safe-tema-titulo" uib-tooltip="Introducci&oacute;n a las matem&aacute;ticas">Introducci&oacute;n a las matem&aacute;ticas</h3>
-                    </div>
-                    
-                    <div data-slim-scroll data-scroll-height="100px">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime, tenetur, repellat obcaecati unde esse doloribus accusamus exercitationem vitae corporis blanditiis aspernatur quibusdam porro rerum voluptatum quos eligendi necessitatibus enim! Maiores, doloribus, fuga, perspiciatis cupiditate aperiam repellendus natus nisi recusandae rerum optio consectetur nemo reprehenderit nesciunt molestiae at. Molestiae, nesciunt inventore dignissimos itaque exercitationem vero aliquam provident aperiam repudiandae nostrum. Ipsa, possimus, natus culpa magni rem iusto ut quisquam cupiditate aspernatur nemo sed aliquam quam illum illo quos dolor animi ipsum dolorem sunt beatae officia facere voluptatem omnis! Sapiente, illo voluptatibus amet omnis optio labore nesciunt porro facere praesentium laudantium molestiae voluptas eos incidunt quod nulla. Provident, debitis, odit qui ab facere adipisci laborum ea necessitatibus sapiente voluptatibus minima inventore veritatis unde nemo ipsa quisquam dolorum autem et minus repudiandae nostrum aliquam numquam aperiam similique vero delectus maiores non aliquid laboriosam eius impedit cum vel a corporis consequuntur natus earum suscipit. Repellat, laborum, cupiditate aperiam distinctio vero dolor est quibusdam sit rerum expedita tempore reiciendis quidem quisquam deserunt autem pariatur eos fugiat qui hic temporibus ullam dicta voluptatem sequi at iusto! Accusamus, iure, optio temporibus molestiae ab dolor blanditiis veritatis corporis eius reiciendis sed molestias obcaecati dolorem similique rerum illo excepturi.</p>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-success btn-lg safe-btn-play" ng-click="vm.goConcepto()">
-                   <span class="fa fa-play-circle fa-2x"></span>
-                </button>                    
-            </div> 
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-white">
-                <div class="card-content white-text">                    
-                    <h3 class="safe-tema-titulo" >&Aacute;lgebra</h3>
-                    <div data-slim-scroll data-scroll-height="100px">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-success btn-lg safe-btn-play" ng-click="vm.goConcepto()">
-                   <span class="fa fa-play-circle fa-2x"></span>
-                </button>                    
-            </div> 
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-white">
-                <div class="card-content white-text">
-                    <h3 class="safe-tema-titulo ">Geometr&iacute;a</h3>
-                    <div data-slim-scroll data-scroll-height="100px">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime, tenetur, repellat obcaecati unde esse doloribus accusamus exercitationem vitae corporis blanditiis aspernatur quibusdam porro rerum voluptatum quos eligendi necessitatibus enim! Maiores, doloribus, fuga, perspiciatis cupiditate aperiam repellendus natus nisi recusandae rerum optio consectetur nemo reprehenderit nesciunt molestiae at. Molestiae, nesciunt inventore dignissimos itaque exercitationem vero aliquam provident aperiam repudiandae nostrum. Ipsa, possimus, natus culpa magni rem iusto ut quisquam cupiditate aspernatur nemo sed aliquam quam illum illo quos dolor animi ipsum dolorem sunt beatae officia facere voluptatem omnis! Sapiente, illo voluptatibus amet omnis optio labore nesciunt porro facere praesentium laudantium molestiae voluptas eos incidunt quod nulla. Provident, debitis, odit qui ab facere adipisci laborum ea necessitatibus sapiente voluptatibus minima inventore veritatis unde nemo ipsa quisquam dolorum autem et minus repudiandae nostrum aliquam numquam aperiam similique vero delectus maiores non aliquid laboriosam eius impedit cum vel a corporis consequuntur natus earum suscipit. Repellat, laborum, cupiditate aperiam distinctio vero dolor est quibusdam sit rerum expedita tempore reiciendis quidem quisquam deserunt autem pariatur eos fugiat qui hic temporibus ullam dicta voluptatem sequi at iusto! Accusamus, iure, optio temporibus molestiae ab dolor blanditiis veritatis corporis eius reiciendis sed molestias obcaecati dolorem similique rerum illo excepturi.</p>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-success btn-lg safe-btn-play" ng-click="vm.goConcepto()">
-                   <span class="fa fa-play-circle fa-2x"></span>
-                </button>                    
-            </div> 
-        </div>
-        <div class="col-md-4">
-            <div class="card bg-white" uib-tooltip="Debes finalizar los otros temas para aprender este tema">
-                <div class="card-content white-text safe-disabled" >
-                    <h3 class="safe-tema-titulo ">C&aacute;lculo avanzado</h3>
-                    <div data-slim-scroll data-scroll-height="100px">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime, tenetur, repellat obcaecati unde esse doloribus accusamus exercitationem vitae corporis blanditiis aspernatur quibusdam porro rerum voluptatum quos eligendi necessitatibus enim! Maiores, doloribus, fuga, perspiciatis cupiditate aperiam repellendus natus nisi recusandae rerum optio consectetur nemo reprehenderit nesciunt molestiae at. Molestiae, nesciunt inventore dignissimos itaque exercitationem vero aliquam provident aperiam repudiandae nostrum. Ipsa, possimus, natus culpa magni rem iusto ut quisquam cupiditate aspernatur nemo sed aliquam quam illum illo quos dolor animi ipsum dolorem sunt beatae officia facere voluptatem omnis! Sapiente, illo voluptatibus amet omnis optio labore nesciunt porro facere praesentium laudantium molestiae voluptas eos incidunt quod nulla. Provident, debitis, odit qui ab facere adipisci laborum ea necessitatibus sapiente voluptatibus minima inventore veritatis unde nemo ipsa quisquam dolorum autem et minus repudiandae nostrum aliquam numquam aperiam similique vero delectus maiores non aliquid laboriosam eius impedit cum vel a corporis consequuntur natus earum suscipit. Repellat, laborum, cupiditate aperiam distinctio vero dolor est quibusdam sit rerum expedita tempore reiciendis quidem quisquam deserunt autem pariatur eos fugiat qui hic temporibus ullam dicta voluptatem sequi at iusto! Accusamus, iure, optio temporibus molestiae ab dolor blanditiis veritatis corporis eius reiciendis sed molestias obcaecati dolorem similique rerum illo excepturi.</p>
-                    </div>
-                </div>
-                <button type="button" class="btn btn-dark btn-lg safe-btn-play"  disabled >
-                   <span class="fa fa-play-circle fa-2x"></span>
-                </button>                    
-            </div> 
-        </div>
-        -->
+      
         
         <div class="col-md-4">
             <div class="card bg-white safe-cursor" ng-click="vm.goBack()" uib-tooltip="Ver otros cursos">

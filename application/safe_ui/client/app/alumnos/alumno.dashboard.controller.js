@@ -49,8 +49,8 @@
         function onLoadComplete() {
             vm.loading = false;
         }
-        function goCurso(curso) {
-            $state.go('alumno.tema.dashboard');
+        function goCurso(item) {            
+            $state.go('alumno.curso.tema.dashboard', { cursoId: item.curso.id, background: item.background, data: item.curso});
         }
 
         function closeBot() {

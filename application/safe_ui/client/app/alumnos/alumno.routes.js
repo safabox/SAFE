@@ -29,45 +29,52 @@
                     controller: 'AlumnoDashboardCtrl',
                     controllerAs: 'vm',
                     roles: ["ROLE_ALUMNO"],
-                    params: {error: null}
                 }
             },
             {
-                state: 'alumno.tema',
+                state: 'alumno.curso',
                 config: {
                     abstract: true,
-                    url: '/tema',
+                    url: '/curso',
                     template: '<ui-view/>'
                 }
             },
             {
-                state: 'alumno.tema.dashboard',
+                state: 'alumno.curso.tema',
                 config: {
-                    url: '/:cursoId/dashboard/:background',
+                    abstract: true,
+                    url: '/:cursoId/tema',
+                    template: '<ui-view/>'
+                }
+            },
+            {
+                state: 'alumno.curso.tema.dashboard',
+                config: {
+                    url: '/dashboard/:background',
                     templateUrl: path + 'app/alumnos/temas/tema.dashboard.html',
                     controller: 'AlumnoTemaDashboardCtrl',
                     controllerAs: 'vm',
                     roles: ["ROLE_ALUMNO"],
-                    params: {error: null}
+                    params: {error: null, data: null}
                 }
             },
             {
-                state: 'alumno.concepto',
+                state: 'alumno.curso.tema.concepto',
                 config: {
                     abstract: true,
-                    url: '/concepto',
+                    url: '/:temaId/concepto',
                     template: '<ui-view/>'
                 }
             },
             {
-                state: 'alumno.concepto.dashboard',
+                state: 'alumno.curso.tema.concepto.dashboard',
                 config: {
-                    url: '/:cursoId/:temaId/dashboard/:background',
+                    url: '/dashboard/:background',
                     templateUrl: path + 'app/alumnos/conceptos/concepto.dashboard.html',
                     controller: 'AlumnoConceptoDashboardCtrl',
                     controllerAs: 'vm',
                     roles: ["ROLE_ALUMNO"],
-                    params: {error: null}
+                    params: {error: null, data: null}
                 }
             },            
             {
@@ -86,7 +93,7 @@
                     controller: 'AlumnoActividadHomeCtrl',
                     controllerAs: 'vm',
                     roles: ["ROLE_ALUMNO"],
-                    params: {error: null}
+                    params: {error: null, data: null, background: null}
                 }
             }
         ];

@@ -44,9 +44,9 @@
 <div class="page page-dashboard" data-ng-controller="AlumnoActividadHomeCtrl">
     <div class="safe-breadcrumb">
         <ol class="breadcrumb">
-            <li><a href="">Matem&aacute;ticas</a></li>
-            <li><a href="">Intruducci&oacute;n a la matem&aacute;ticas</a></li>
-            <li class="active"><a href="">Sumas</a></li>
+            <li><a href="" ng-click="vm.goBack()">{{vm.curso.titulo}}</a></li>
+            <li><a href="" ng-click="vm.goBack()">{{vm.tema.titulo}}</a></li>
+            <li class="active" ng-click="vm.goBack()"><a href="">{{vm.concepto.titulo}}</a></li>
         </ol>
     </div>  
     <div class="row">
@@ -54,7 +54,7 @@
             <section class="safe-actividad">
                 <div class="safe-panel-top bg-primary">
                     <div class="text-center">
-                        <h3 class="ng-binding">Actividad</h3>
+                        <h3 class="ng-binding">{{vm.actividad.titulo}}</h3>
                     </div>
                 </div>                
                 <div class="safe-actividad-intro">
@@ -64,11 +64,7 @@
                     </div>
                     
                     <div class="safe-texto" data-slim-scroll data-scroll-height="150px">
-                        <h2>Esto es una prueba de html!</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet auctor ligula, non commodo sapien. Donec sapien mi, elementum sit amet dui eget, eleifend egestas ex. Quisque quis molestie elit. Vivamus rhoncus iaculis porttitor. In hac habitasse platea dictumst. Vestibulum convallis vitae ante sed blandit. Morbi pellentesque mattis sapien, vitae dapibus enim ornare vitae.
-                        </p>
-                        <p>textAngular is a super cool WYSIWYG Text Editor directive for AngularJS</p><p><b>Features:</b></p><ol><li>Automatic Seamless Two-Way-Binding</li><li style="color: blue;">Super Easy <b>Theming</b> Options</li><li>Simple Editor Instance Creation</li><li>Safely Parses Html for Custom Toolbar Icons</li><li>Doesn't Use an iFrame</li><li>Works with Firefox, Chrome, and IE8+</li></ol><p><b>Code at GitHub:</b> <a href="https://github.com/fraywing/textAngular">Here</a> </p>
+                        {{vm.actividad.descripcion}}
                     </div>
                 </div>
                 <div class="safe-ejercicio">
@@ -77,6 +73,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-sm-12">
+                                    {{vm.actividad.ejercicio}}
                                     <h3>¿C&uacute;al es la capital de Argentina?</h3>
                                     <ul class="task-list list-unstyled">
                                         <li>
@@ -104,7 +101,7 @@
                     </section>                    
                 </div>
                 <div class='pull-right safe-btn-group'>
-                    <button type="button" class="btn btn-suceess btn-lg" ng-click='vm.goBack()'>Volver</button>
+                    <button type="button" class="btn btn-suceess btn-lg" ng-click="vm.goBack()">Volver</button>
                     <button type="button" class="btn btn-primary btn-lg">Enviar</button>
                     
                 </div>

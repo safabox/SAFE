@@ -49,7 +49,7 @@
 <div class="page page-dashboard" data-ng-controller="AlumnoDashboardCtrl">
     <div class="row">
         <div class="col-md-4" ng-repeat="item in vm.cursos">
-            <section class="panel panel-box safe-cursor" data-ui-sref="alumno.tema.dashboard({ cursoId: item.curso.id, background: item.background})">
+            <section class="panel panel-box safe-cursor" ng-click="vm.goCurso(item)">
                 <div class="panel-top bg-{{item.background}}">
                     <div class="text-left">
                         {{item.curso.titulo}}
@@ -74,112 +74,7 @@
                 </div>
             </section>        
         </div>
-        <!--
         
-        <div class="col-md-4">
-            <section class="panel panel-box safe-cursor" ng-click='vm.goCurso()'>
-                <div class="panel-top  bg-success">
-                    <div class="text-left">
-                        Matem&aacute;ticas
-                    </div>
-                    <div class="divider divider-xl"></div>
-                    <div class="divider divider-xl"></div>
-                </div>
-                <div class="panel-icon bg-success">
-                    <i class="glyphicon glyphicon-ok"></i>
-                </div>
-                <div class="panel-bottom bg-reverse">
-                    <ul class="list-justified text-center">
-                        <li>
-                            <p class="size-h3">679</p>
-                            <p class="text-muted">Temas</p>
-                        </li>
-                        <li>
-                            <p class="size-h3">575</p>
-                            <p class="text-muted">Temas resueltos</p>
-                        </li>
-                    </ul>
-                </div>
-            </section>        
-        </div>
-        <div class="col-md-4">
-            <section class="panel panel-box safe-cursor" ng-click='vm.goCurso()'>
-                <div class="panel-top bg-primary">
-                    <div class="text-left">
-                        Lenguas
-                    </div>
-                    <div class="divider divider-xl"></div>
-                    <div class="divider divider-xl"></div>
-                </div>
-                <div class="panel-icon bg-primary">
-                    <i class="glyphicon glyphicon-list-alt"></i>
-                </div>
-                <div class="panel-bottom bg-reverse">
-                    <ul class="list-justified text-center">
-                        <li>
-                            <p class="size-h3">679</p>
-                            <p class="text-muted">Temas</p>
-                        </li>
-                        <li>
-                            <p class="size-h3">575</p>
-                            <p class="text-muted">Temas resueltos</p>
-                        </li>
-                    </ul>
-                </div>
-            </section>        
-        </div>
-        <div class="col-md-4">
-            <section class="panel panel-box safe-cursor" ng-click='vm.goCurso()'>
-                <div class="panel-top bg-warning">
-                    <div class="text-left">
-                        Ciencias Sociales
-                    </div>
-                    <div class="divider divider-xl"></div>
-                    <div class="divider divider-xl"></div>
-                </div>
-                <div class="panel-icon bg-warning">
-                    <i class="glyphicon glyphicon-list-alt"></i>
-                </div>
-                <div class="panel-bottom bg-reverse">
-                    <ul class="list-justified text-center">
-                        <li>
-                            <p class="size-h3">679</p>
-                            <p class="text-muted">Temas</p>
-                        </li>
-                        <li>
-                            <p class="size-h3">575</p>
-                            <p class="text-muted">Temas resueltos</p>
-                        </li>
-                    </ul>
-                </div>
-            </section>        
-        </div>
-        <div class="col-md-4">
-            <section class="panel panel-box safe-cursor" ng-click='vm.goCurso()'>
-                <div class="panel-top bg-danger">
-                    <div class="text-left">
-                        Historia
-                    </div>
-                    <div class="divider divider-xl"></div>
-                    <div class="divider divider-xl"></div>
-                </div>
-                <div class="panel-icon bg-danger">
-                    <i class="glyphicon glyphicon-list-alt"></i>
-                </div>
-                <div class="panel-bottom bg-reverse">
-                    <ul class="list-justified text-center">
-                        <li>
-                            <p class="size-h3">679</p>
-                            <p class="text-muted">Temas</p>
-                        </li>
-                        <li>
-                            <p class="size-h3">575</p>
-                            <p class="text-muted">Temas resueltos</p>
-                        </li>
-                    </ul>
-                </div>
-            </section>        
-        </div>-->
     </div>    
 </div>
 <div class="safe-help safe-right" ng-hide='!vm.bot'>
