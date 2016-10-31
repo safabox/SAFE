@@ -41,7 +41,7 @@
         padding: 10px;
     }
 </style>
-<div class="page page-dashboard" data-ng-controller="AlumnoActividadHomeCtrl">
+<div class="page page-dashboard" data-ng-controller="AlumnoActividadHomeCtrl as vm">
     <div class="safe-breadcrumb">
         <ol class="breadcrumb">
             <li><a href="" ng-click="vm.goBack()">{{vm.curso.titulo}}</a></li>
@@ -72,29 +72,8 @@
                         <div class="panel-heading"><span class="fa fa-pencil-square-o"></span> Resolver</div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-12">
-                                    {{vm.actividad.ejercicio}}
-                                    <h3>¿C&uacute;al es la capital de Argentina?</h3>
-                                    <ul class="task-list list-unstyled">
-                                        <li>
-                                            <span class="view">
-                                                <input type="checkbox" class="toggle-task">
-                                                <label >La Plata</label>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="view">
-                                                <input type="checkbox" class="toggle-task">
-                                                <label >Ciudad Aut&oacute;noma de Buenos Aires</label>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="view">
-                                                <input type="checkbox" class="toggle-task">
-                                                <label >R&iacute;o Negro</label>
-                                            </span>
-                                        </li>
-                                    </ul>              
+                                <div class="col-sm-12" >
+                                    <div ng-include="'multiplechoice.html'"></div>
                                 </div>                                
                             </div>
                         </div>
@@ -102,14 +81,26 @@
                 </div>
                 <div class='pull-right safe-btn-group'>
                     <button type="button" class="btn btn-suceess btn-lg" ng-click="vm.goBack()">Volver</button>
-                    <button type="button" class="btn btn-primary btn-lg">Enviar</button>
+                    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.enviar()">Enviar</button>
                     
                 </div>
             </section>
         </div>
     </div>
 </div>
-  
+
+<script type="text/ng-template" id="multiplechoice.html">
+    <div>Titulo: {{vm.actividad.ejercicio[0].pregunta}}</div>
+    <ul class="task-list list-unstyled">
+        <li ng-repeat="opcion in vm.actividad.ejercicio[0].respuestas">
+            <span class="view">
+                <input type="checkbox" class="toggle-task" ng-model="opcion.selected">
+                <label>{{opcion.texto}}</label>
+            </span>
+        </li>
+    </ul>  
+</script>
+
 <script type="text/ng-template" id="concepto.html">
     <div class="safe-modal-header modal-header btn-info">
         <h3>Concepto</h3>
