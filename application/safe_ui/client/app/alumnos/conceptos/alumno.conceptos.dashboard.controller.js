@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('app.alumno')
-        .controller('AlumnoConceptoDashboardCtrl', ['$scope', '$state', '$q', '$stateParams', 'AlumnoService', 'UsuarioService', AlumnoConceptoDashboardCtrl])
+        .controller('AlumnoConceptoDashboardCtrl', ['$scope', '$state', '$q', '$stateParams', 'logger','AlumnoService', 'UsuarioService', AlumnoConceptoDashboardCtrl])
 
-    function AlumnoConceptoDashboardCtrl($scope, $state, $q, $stateParams, AlumnoService, UsuarioService) {
+    function AlumnoConceptoDashboardCtrl($scope, $state, $q, $stateParams, logger, AlumnoService, UsuarioService) {
         var vm = this;
         vm.loading = true;
         vm.goBack = goBack;
@@ -17,7 +17,7 @@
         vm.hasConceptosFinalizados = false;
         vm.hasConceptosHabilitados = false;
         vm.goProximaActividad = goProximaActividad;
-
+        vm.loadData = loadData;
         
         
         loadData();
@@ -59,6 +59,7 @@
 
             function onSuccess(response) {            
                 var responseData = response.plain();
+                
                 var pageParams = {background: vm.background, data: {curso: vm.curso, tema: vm.tema, concepto: responseData.concepto.elemento, actividad: responseData.actividad.elemento}};
                 $state.go('alumno.actividad.home', pageParams);
             }        
@@ -75,8 +76,14 @@
 
             function onSuccess(response) {            
                 var responseData = response.plain();
-                var pageParams = {background: vm.background, data: {curso: vm.curso, tema: vm.tema, concepto: concepto, actividad: responseData.actividad.elemento}};
-                $state.go('alumno.actividad.home', pageParams);
+                if (responseData.estado === 'CURSANDO') {
+                    var pageParams = {background: vm.background, data: {curso: vm.curso, tema: vm.tema, concepto: concepto, actividad: responseData.elemento}};
+                    $state.go('alumno.actividad.home', pageParams);
+                } else {
+                    logger.info("No hay actividades disponibles");
+                    vm.loading = true;
+                    vm.loadData();
+                }
             }        
             function onError(httpResponse) {
                 logger.error('No se pudo obtener la próxima actividad', httpResponse);
