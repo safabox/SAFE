@@ -55,16 +55,23 @@
         }
         
         function agregarRespuesta(){
+            var cantidad = vm.model.respuestas.length + 1;
             if(vm.model.tipo === 1) {
-                vm.model.respuestas.push({texto:'',correcta:false});
+                vm.model.respuestas.push({id:cantidad, texto:'',correcta:false});
             }else {
-                vm.model.respuestas.push({texto:'',verdadero:false,falso:false});
+                vm.model.respuestas.push({id:cantidad, texto:'',verdadero:false,falso:false});
             }
             
         }
         
         function eliminarRespuesta(idx) {
             vm.model.respuestas.splice(idx, 1);
+            var cantidad = 1;
+            _.forEach(vm.model.respuestas, function(value) {
+                value.id = cantidad;
+                cantidad++;
+            });
+            
         }
     }
 })();

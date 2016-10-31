@@ -59,9 +59,7 @@
                 } else {
                     return 0;
                 }
-                
-                
-                
+                                
                 function onSuccess(response) {            
                     vm.actividad = response.plain(); 
                 }        
@@ -82,7 +80,7 @@
                     vm.title = 'Nueva Actividad';                    
                     vm.actividad = {};
                     vm.actividad.ejercicio = [];
-                    vm.actividad.resultado = 0;
+                    vm.actividad.resultado = [];
                     setConfigIrt();
                 }         
                 
@@ -111,6 +109,23 @@
         }
         
         function guardar() {
+            vm.actividad.resultado = [];
+            
+            if(vm.actividad.ejercicio[0].tipo === 1) {                
+                _.forEach(vm.actividad.ejercicio[0].respuestas, function(value) {
+                    if(value.correcta === true){
+                       vm.actividad.resultado.push(value.id);
+                    }
+                });
+            } else {
+                _.forEach(vm.actividad.ejercicio[0].respuestas, function(value) {
+                    if(value.verdadero === true){
+                        vm.actividad.resultado.push(1);
+                    }else{
+                        vm.actividad.resultado.push(2);
+                    }
+                });                
+            }
             
             if(vm.editMode) {                
                 DocenteCursos.editAct(vm.actividad.titulo, vm.actividad.descripcion, vm.actividad.ejercicio, vm.actividad.resultado, vm.actividad.dificultad, vm.actividad.discriminador, vm.actividad.azar, vm.actividad.d, vm.actividad.tipo, vm.cursoId, vm.docenteId, vm.temaId, vm.conceptoId, vm.actividad.id).then(onSuccess, onError);
