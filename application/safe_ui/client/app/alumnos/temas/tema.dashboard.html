@@ -2,8 +2,12 @@
     .safe-cursor {
         cursor: pointer;
     }
-    .safe-btn-play {
+    .safe-btn-play, .safe-btn-finish {
         width: 100%;
+    }
+    .safe-btn-finish {
+        cursor: not-allowed;
+        opacity: 0.5;
     }
     
     .safe-tema-titulo {
@@ -32,6 +36,17 @@
     
     .safe-disabled, .safe-disabled .bg-white {
         color: #B6B6B6
+    }
+    .safe-finalizado, .safe-finalizado .bg-white {
+        color: #B6B6B6
+    }
+    .card .card-content.safe-finalizado {
+        padding-bottom: 15px;
+    }
+    .safe-finalizado .safe-copa {
+        text-align: center;
+        margin-top: -6px;
+        color:#EEC95A;
     }
     
     .safe-btn-actividad button {
@@ -97,7 +112,25 @@
                     </div>
                 </div>
                 <button type="button" class="btn btn-dark btn-lg safe-btn-play">
-                   <span class="fa fa-play-circle fa-2x"></span>
+                   <span class="fa fa-lock fa-2x"></span>
+                </button>                    
+            </div> 
+        </div>
+        <div class="col-md-4" ng-repeat="tema in vm.temaGroup.finalizados">
+            <div class="card bg-white" uib-tooltip="Haz finalizado el tema">
+                <div class="card-content white-text safe-finalizado" >
+                    <h3 class="safe-tema-titulo" uib-toolltip="{{tema.tema.titulo}}">{{tema.tema.titulo}}</h3>
+                    <div class="safe-copa">
+                       <span class="safe-logro">
+                          <span class="fa-stack fa-4x">
+                            <i class="fa fa-circle fa-stack-2x"></i>
+                            <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                          </span>
+                        </span>  
+                    </div>
+                </div>
+                <button type="button" class="btn btn-dark btn-lg safe-btn-finish">
+                   <span class="fa fa-flag-checkered fa-2x"></span>
                 </button>                    
             </div> 
         </div>

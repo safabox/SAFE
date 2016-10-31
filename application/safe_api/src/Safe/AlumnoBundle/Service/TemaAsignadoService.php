@@ -69,7 +69,7 @@ class TemaAsignadoService extends TemaService {
             } else {
                 $estado = ResultadoEvaluacion::FINALIZADO;
             }
-            $finalizadosConEstados[] = new TemaFinalizado($tema, $estado);
+            $finalizadosConEstados[] = new TemaFinalizado($finalizado, $estado);
         }
         
         return new TemasAsignados($disponibles, $bloqueados, $finalizadosConEstados);

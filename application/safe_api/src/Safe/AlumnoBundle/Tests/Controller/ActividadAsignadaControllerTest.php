@@ -138,7 +138,7 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $estado = json_decode($response->getContent(), true);
                 
         $this->assertEquals(ResultadoEvaluacion::APROBADO, $estado['resultado']);
-        $this->assertEquals(ResultadoEvaluacion::APROBADO_OBSERVACION, $estado['proxima_actividad']['estado']);
+        $this->assertEquals(ResultadoEvaluacion::DESAPROBADO, $estado['proxima_actividad']['estado']);
         
     }
 

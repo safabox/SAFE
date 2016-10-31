@@ -63,8 +63,17 @@
                     .all('resultados').post(resultado).then(onSuccess,onError);
             
             function onSuccess(response) {
-                logger.info('Alumno Guardado');
-                console.log("response", response);
+                var evaluation = response.plain();
+                if (evaluation.resultado === 'APROBADO') {
+                    logger.info("Muy bien");
+                } else {
+                    logger.warn("Inténtalo nuevamente");
+                }
+                if (evaluation.proxima_actividad && evaluation.proxima_actividad.estado === 'CURSANDO' && evaluation.proxima_actividad.elemento) {
+                    self.actividad = evaluation.proxima_actividad.elemento;
+                } else {
+                    $state.go('alumno.curso.tema.concepto.dashboard', { cursoId: self.curso.id, temaId: self.tema.id, background: self.background, data: {curso: self.curso, tema: self.tema}});
+                }
             }
             function onError(httpResponse) {
                 console.log(httpResponse);
