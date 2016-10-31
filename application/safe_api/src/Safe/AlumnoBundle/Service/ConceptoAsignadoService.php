@@ -66,7 +66,7 @@ class ConceptoAsignadoService extends ConceptoService {
             } else {
                 $estado = ResultadoEvaluacion::FINALIZADO;
             }
-            $finalizadosConEstados[] = new ConceptoFinalizado($concepto, $estado);
+            $finalizadosConEstados[] = new ConceptoFinalizado($finalizado, $estado);
         }
         
         return new ConceptosAsignados($disponibles, $bloqueados, $finalizadosConEstados);

@@ -129,7 +129,7 @@
                     </span>
                     <h3 class="ng-binding">Tus Logros</h3>                    
                 </div>
-                <ul class="list-group" ng-show="{{vm.conceptoGroup.finalizados.length > 0}}">
+                <ul class="list-group" ng-show="vm.hasConceptosFinalizados">
                     <li class="list-group-item" ng-repeat="finalizado in vm.conceptoGroup.finalizados">
                         <span class="btn-icon btn-icon-round btn-icon-sm  btn-gap-v bg-warning">
                             <i class="fa fa-trophy "></i>
@@ -138,7 +138,7 @@
                     </li>                                    
                 </ul>
                 
-                <div class="panel-body" ng-show="{{!vm.conceptoGroup || vm.conceptoGroup.finalizados.length == 0}}">
+                <div class="panel-body" ng-show="!vm.hasConceptosFinalizados">
                      <span class="safe-logro-placehoder">
                           <span class="fa-stack fa-5x">
                             <i class="fa fa-circle fa-stack-2x"></i>

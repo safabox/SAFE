@@ -14,6 +14,7 @@
         vm.tema = $stateParams.data.tema;
         vm.background = $stateParams.background;
         vm.hasConceptos = false;
+        vm.hasConceptosFinalizados = false;
         vm.hasConceptosHabilitados = false;
         vm.goProximaActividad = goProximaActividad;
 
@@ -38,6 +39,7 @@
             function onSuccess(response) {            
                 vm.conceptoGroup = response.plain(); 
                 vm.hasConceptos = (vm.conceptoGroup && (vm.conceptoGroup.disponibles.length > 0 || vm.conceptoGroup.bloqueados.length > 0));
+                vm.hasConceptosFinalizados = (vm.conceptoGroup && vm.conceptoGroup.finalizados.length > 0);
                 vm.hasConceptosHabilitados = vm.conceptoGroup && vm.conceptoGroup.disponibles.length > 0;
             }        
             function onError(httpResponse) {
