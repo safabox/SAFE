@@ -113,7 +113,7 @@ class IrtEquations {
             $standarError = 1 / sqrt($denominator);
             return new ThetaEstimation($estimatedTheta, $diffTheta, $standarError);
         }
-        return IrtEquations::estimateNewThetaWithStandarErrorNR($estimatedTheta, $itemsResult, $error, $limit, $logger);
+        return IrtEquations::estimateNewThetaWithStandarErrorNR($estimatedTheta, $itemsResult, $error, $limit);
         
     }
     
