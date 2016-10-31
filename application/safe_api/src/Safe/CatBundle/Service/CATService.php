@@ -19,6 +19,7 @@ use Safe\CatBundle\Entity\ExamineeTestStatus;
 use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Common\Util\Debug;
+use Symfony\Bridge\Monolog\Logger;
 
 class CATService {
     private $itemBankRepository;
@@ -27,9 +28,10 @@ class CATService {
     private $examineeRepository;
     private $abilityRepository;
     private $entityManager;
+    private $logger;
     
     public function __construct(EntityManager $entityManager, ItemBankRepository $itemBankRepository, ItemRepository $itemRepository, ItemResultRepository $itemResultRepository,
-            ExamineeRepository $examineeRepository, AbilityRepository $abilityRepository)
+            ExamineeRepository $examineeRepository, AbilityRepository $abilityRepository, Logger $logger)
     {
         $this->entityManager = $entityManager;
         $this->itemBankRepository = $itemBankRepository;
@@ -37,7 +39,7 @@ class CATService {
         $this->itemResultRepository = $itemResultRepository;
         $this->examineeRepository = $examineeRepository;
         $this->abilityRepository = $abilityRepository;
-        
+        $this->logger = $logger;
     }
     
     public function findAllItemBanks($limit = null, $offset = null) {
@@ -95,8 +97,7 @@ class CATService {
         return $examineeTestStatus;
     }
     
-    public function registerResult($examinee_code, $item_code, $result) {
-        
+    public function registerResult($examinee_code, $item_code, $result) {        
         $this->entityManager->getConnection()->beginTransaction();
         try {
             $examinee = $this->getExamineeByCode($examinee_code);
@@ -105,12 +106,13 @@ class CATService {
             $this->itemRepository->save($item);       
 
             $itemBank = $item->getItemBank();            
-            $ability = $this->abilityRepository->findOneAbility($examinee->getCode(), $itemBank->getCode());            
+            $ability = $this->abilityRepository->findOneAbility($examinee->getCode(), $itemBank->getCode());                        
             if (ThetaEstimationMethodType::THETA_MLE == $itemBank->getThetaEstimationMethod()) {
                 $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorML($ability->getTheta(), $item->getItemsResults(), $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
             } else {
                 $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorNR($ability->getTheta(), $item->getItemsResults(), $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
             }
+            //$this->logger->addDebug("######################################## Update theta ");
             $ability->updateTheta($thetaEstimation->getTheta());
             $ability->setThetaError($thetaEstimation->getStandarError());
 

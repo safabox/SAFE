@@ -1,7 +1,7 @@
 services:
     safe_cat.service.cat:
         class: Safe\CatBundle\Service\CATService
-        arguments: ["@doctrine.orm.default_entity_manager", "@safe_cat.repository.itemBank", "@safe_cat.repository.item", "@safe_cat.repository.itemResult","@safe_cat.repository.examinee", "@safe_cat.repository.ability"]
+        arguments: ["@doctrine.orm.default_entity_manager", "@safe_cat.repository.itemBank", "@safe_cat.repository.item", "@safe_cat.repository.itemResult","@safe_cat.repository.examinee", "@safe_cat.repository.ability", "@logger"]
     safe_cat.service.cat.stadistic:
         class: Safe\CatBundle\Service\CATStadisticService
         arguments: ["@doctrine.orm.default_entity_manager", "@safe_cat.repository.itemBank", "@safe_cat.repository.item", "@safe_cat.repository.itemResult","@safe_cat.repository.examinee", "@safe_cat.repository.ability"]

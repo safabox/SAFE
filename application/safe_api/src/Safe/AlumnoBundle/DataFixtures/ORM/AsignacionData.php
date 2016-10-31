@@ -62,6 +62,12 @@ class AsignacionData extends AlumnoData
         $manager->flush();
         $this->addReference('alumno14', $alumno14);
         
+        $alumno15 = $this->crearAlumno('alumno15', '15');
+        $manager->persist($alumno15->getUsuario());
+        $manager->persist($alumno15);                
+        $manager->flush();
+        $this->addReference('alumno15', $alumno15);
+        
         $curso = new Curso();
         $curso->setInstituto($this->getReference('instituto'));
         $curso->setTitulo('Asignacion');
@@ -249,6 +255,59 @@ class AsignacionData extends AlumnoData
         $manager->persist(new AlumnoEstadoTema($alumnoMat, $tema5Mat, true));
         $manager->flush();
         
+        
+        
+        $cursoUnaActividad = new Curso();
+        $cursoUnaActividad->setInstituto($this->getReference('instituto'));
+        $cursoUnaActividad->setTitulo('AsignacionUnaActividad');
+        $cursoUnaActividad->setDescripcion('Curso para simular las asignaciones');
+        $cursoUnaActividad->setDocentes(array($this->getReference('docente3')));
+        $cursoUnaActividad->setAlumnos(array($alumno15));         
+        $manager->persist($cursoUnaActividad);                
+        $manager->flush();
+        
+        $tema100 = $this->crearTema("100", $cursoUnaActividad);
+        $manager->persist($tema100);
+        $manager->flush();
+        
+        $concepto100 = $this->crearConcepto("100", $tema100, true);
+        $manager->persist($concepto100);
+        $manager->flush();
+        
+        $examinee15 = new Examinee();
+        $examinee15->setCode($alumno15->getId());
+        $manager->persist($examinee15);
+        $manager->flush();
+        
+        $itemBank100 = new ItemBank();
+        $itemBank100->setExpectedTheta(1);
+        $itemBank100->setCode($concepto100->getId());
+        $itemBank100->setThetaEstimationMethod(ThetaEstimationMethodType::THETA_NEWTON_RAPHSON);
+        $manager->persist($itemBank100);
+        $manager->flush();
+        
+        $ability15 = new Ability($examinee15, $itemBank100, 0);
+        $manager->persist($ability15);
+        $manager->flush();
+        
+        $actividad100 = $this->crearActividad("100", $concepto100, true, array(
+            'tipo' => 1,
+            'descripcion' => 'Multiple Choice - General',
+            'respuestas' => [
+               array('id'=>1, 'texto' => 'Respuesta 1'),
+               array('id'=>2, 'texto' => 'Respuesta 2'),
+               array('id'=>3, 'texto' => 'Respuesta 3'),
+               array('id'=>4, 'texto' => 'Respuesta 4') 
+            ],
+            'pregunta' => '<p>Cual es al respuesta correcta</p>'
+        ));
+        $actividad100->setResultado(array(1, 3));        
+        $manager->persist($actividad100);
+        $manager->flush();
+        
+        $item100 = $this->crearItem($actividad100, $itemBank100, 1);
+        $manager->persist($item100);
+        $manager->flush();   
     }
 
     public function getOrder() {

@@ -7,7 +7,7 @@ use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 use Doctrine\Common\Util\Debug;
 class ActividadAsignadaControllerTest extends SafeTestController {
-    
+    /*
     public function testGetProximo_actividadAction() {
         //inicio
         $login = $this->loginAlumno("alumno10");                
@@ -18,7 +18,7 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $tema = $this->getTemaByTitulo('4 tema');
         $concepto = $this->getConceptoByTitulo('3 concepto');
         
-        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadesget_alumno_curso_tema_proxima_actividad', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId() ,'_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadesget_alumno_curso_tema_concepto_proxima_actividad', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId() ,'_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
@@ -33,33 +33,6 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $this->assertCamposBasicosEquals($expectedActividad, $proximoResultado['elemento']);
         $this->assertArrayHasKey('ejercicio', $proximoResultado['elemento'], 'Ejercicio de la actividad no encontrada');        
     }
-    
-    public function testPostActividadResultado_ConUltimaActividad_RetornaAprobacionYCierreDeConcepto(){
-        //inicio
-        $login = $this->loginAlumno("alumno10");                
-        $cliente = $login['cliente'];                
-        $id = $login['datos']['idAlumno'];
-        $curso = $this->getCursoByTitulo('Asignacion');
-        $idCurso = $curso->getId();
-        $tema = $this->getTemaByTitulo('4 tema');
-        $concepto = $this->getConceptoByTitulo('5 concepto');
-        $actividad = $this->getActividadByTitulo('15 actividad');
-        $actividadId = $actividad->getId();
-        $resultadoActividad = $this->crearActividadResultadoArray($actividadId, array('respuesta' => 'true'));
-        $content = json_encode($resultadoActividad);
-        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadespost_alumno_curso_tema_resultado', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId(),'_format' => 'json'));
-        
-        $cliente->request('POST', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
-        
-        //validacion
-        $response = $cliente->getResponse();
-        $this->assertJsonResponse($response, 200);
-        $estado = json_decode($response->getContent(), true);
-                
-        $this->assertEquals(ResultadoEvaluacion::APROBADO, $estado['resultado']);
-        $this->assertEquals(ResultadoEvaluacion::APROBADO_OBSERVACION, $estado['proxima_actividad']['estado']);
-        
-    }
    
     public function testGetProximo_actividad_Action_ConAlumnoConHabilidadLograda_RetornaEstadoAprobado_Y_GeneraUnNuevoEstadoDeAprobacion() {
         //inicio
@@ -71,7 +44,7 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $tema = $this->getTemaByTitulo('4 tema');
         $concepto = $this->getConceptoByTitulo('3 concepto');
         
-        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadesget_alumno_curso_tema_proxima_actividad', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId() ,'_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadesget_alumno_curso_tema_concepto_proxima_actividad', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId() ,'_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
@@ -99,7 +72,7 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $concepto = $this->getConceptoByTitulo('3 concepto');
         $estadoConceptoAntes = $this->getEstadoConcepto($concepto->getId(), $id);
         
-        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadesget_alumno_curso_tema_proxima_actividad', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId() ,'_format' => 'json'));
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadesget_alumno_curso_tema_concepto_proxima_actividad', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId() ,'_format' => 'json'));
         
         //test
         $cliente->request('GET', $route, array('ACCEPT' => 'application/json'));
@@ -114,8 +87,61 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $estadoConceptoDespues = $this->getEstadoConcepto($concepto->getId(), $id);
         $this->assertEquals($estadoConceptoAntes, $estadoConceptoDespues);
     }
-
     
+    public function testPostActividadResultado_ConUltimaActividad_RetornaAprobacionYCierreDeConcepto(){
+        //inicio
+        $login = $this->loginAlumno("alumno10");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('Asignacion');
+        $idCurso = $curso->getId();
+        $tema = $this->getTemaByTitulo('4 tema');
+        $concepto = $this->getConceptoByTitulo('5 concepto');
+        $actividad = $this->getActividadByTitulo('15 actividad');
+        $actividadId = $actividad->getId();
+        $resultadoActividad = $this->crearActividadResultadoArray($actividadId, array('respuesta' => 'true'));
+        $content = json_encode($resultadoActividad);
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadespost_alumno_curso_tema_concepto_resultado', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId(),'_format' => 'json'));
+        
+        $cliente->request('POST', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $estado = json_decode($response->getContent(), true);
+                
+        $this->assertEquals(ResultadoEvaluacion::APROBADO, $estado['resultado']);
+        $this->assertEquals(ResultadoEvaluacion::APROBADO_OBSERVACION, $estado['proxima_actividad']['estado']);
+        
+    }
+    */
+    public function testPostActividadResultado_ConUnicaActividad_RetornaAprobacionYCierreDeConcepto(){
+        //inicio
+        $login = $this->loginAlumno("alumno15");                
+        $cliente = $login['cliente'];                
+        $id = $login['datos']['idAlumno'];
+        $curso = $this->getCursoByTitulo('AsignacionUnaActividad');
+        $idCurso = $curso->getId();
+        $tema = $this->getTemaByTitulo('100 tema');
+        $concepto = $this->getConceptoByTitulo('100 concepto');
+        $actividad = $this->getActividadByTitulo('100 actividad');
+        $actividadId = $actividad->getId();
+        $resultadoActividad = $this->crearActividadResultadoArray($actividadId, array(1,3));
+        $content = json_encode($resultadoActividad);
+        $route =  $this->getUrl('api_1_alumnos_cursos_temas_conceptos_actividadespost_alumno_curso_tema_concepto_resultado', array('alumnoId' => $id, 'cursoId' => $idCurso, 'temaId' => $tema->getId(), 'conceptoId' => $concepto->getId(),'_format' => 'json'));
+        
+        $cliente->request('POST', $route, array(), array(), array('CONTENT_TYPE' => 'application/json'), $content);
+        
+        //validacion
+        $response = $cliente->getResponse();
+        $this->assertJsonResponse($response, 200);
+        $estado = json_decode($response->getContent(), true);
+                
+        $this->assertEquals(ResultadoEvaluacion::APROBADO, $estado['resultado']);
+        $this->assertEquals(ResultadoEvaluacion::APROBADO_OBSERVACION, $estado['proxima_actividad']['estado']);
+        
+    }
+
     private function assertCamposBasicosEquals($expectedActividad, $actividad) {
         $this->assertEquals($expectedActividad->getId(), $actividad['id']);
         $this->assertEquals($expectedActividad->getTitulo(), $actividad['titulo']);
