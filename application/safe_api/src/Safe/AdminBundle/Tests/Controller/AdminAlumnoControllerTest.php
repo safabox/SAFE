@@ -4,8 +4,10 @@ namespace Safe\AdminBundle\Tests\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Safe\CoreBundle\Tests\Controller\SafeTestController;
+use Safe\CatBundle\Entity\Examinee;
 use Doctrine\Common\Util\Debug;
 class AdminAlumnoControllerTest extends SafeTestController {
+
 
     public function testGetAllAction() {
         //inicio
@@ -94,8 +96,11 @@ class AdminAlumnoControllerTest extends SafeTestController {
         $alumno = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('id', $alumno, 'id del alumno no encontrado');
         $this->assertNotNull($alumno['id'], 'El id del alumno no puede ser nulo');
+        
+        $examinee = $this->getExamineeByCode($alumno['id']);
+        $this->assertNotNull($examinee);
     }
-    
+
     public function testPutAction() {
         //inicio
         $id = '1';
@@ -117,7 +122,7 @@ class AdminAlumnoControllerTest extends SafeTestController {
         $this->assertEquals($nuevoNombre, $alumno->getUsuario()->getNombre());
         
     }
-     
+
     public function testPatchAction() {
         //inicio
         $id = '1';
@@ -158,6 +163,8 @@ class AdminAlumnoControllerTest extends SafeTestController {
         
     }
 
+      
+
     protected function crearAlumnoArray($username, $legajo, $curriculum = '<h3>Educaci&oacute;n<h3>') {
         $dato = array(
             'legajo' => $legajo,
@@ -183,6 +190,13 @@ class AdminAlumnoControllerTest extends SafeTestController {
         return $this->em
             ->getRepository('SafeAlumnoBundle:Alumno')
             ->find($id)
+        ;
+    }
+    
+     protected function getExamineeByCode($code) {
+        return $this->em
+            ->getRepository('SafeCatBundle:Examinee')
+            ->findOneByCode($code)
         ;
     }
     
