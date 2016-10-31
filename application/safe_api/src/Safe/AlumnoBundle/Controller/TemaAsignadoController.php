@@ -108,7 +108,7 @@ class TemaAsignadoController extends SafeRestAbstractController {
         
         return $this->generarRespuesta($proximoResultado,
                 Response::HTTP_OK,
-                array('Default', 'alumno_tema_detalle', 'alumno_concepto_detalle', 'alumno_actividad_detalle'));
+                array('Default', 'alumno_actividad_detalle'));
     }
     
     /**

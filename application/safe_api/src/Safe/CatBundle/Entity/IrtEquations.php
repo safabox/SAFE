@@ -9,6 +9,7 @@ use Safe\CatBundle\Entity\ThetaEstimation;
  *
  * @author zendar
  */
+use Doctrine\Common\Util\Debug;
 class IrtEquations {
 
     /**
@@ -86,6 +87,7 @@ class IrtEquations {
     public static function estimateNewThetaWithStandarErrorNR($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3)) {      
         $numerator = 0;
         $denominator = 0;
+        Debug::dump(count($itemsResult));
         if (count($itemsResult) <= 1) {             
              new ThetaEstimation($theta, 999, 999);
         }
