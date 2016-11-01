@@ -8,7 +8,8 @@
         var vm = this;
         var availableClass = ['primary', 'success', 'info', 'warning', 'danger']
         vm.loading = true;
-        vm.bot = true;
+        //vm.bot = true;
+        vm.bot = false;
         vm.goCurso = goCurso;
         vm.hasFinished = hasFinished;
         vm.closeBot = closeBot;

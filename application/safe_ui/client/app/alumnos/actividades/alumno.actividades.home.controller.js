@@ -3,7 +3,7 @@
 
     angular.module('app.alumno')
         .controller('AlumnoActividadHomeCtrl', ['$scope', '$state', '$uibModal','$q', '$stateParams', 'logger' ,'AlumnoService', 'UsuarioService', AlumnoActividadHomeCtrl])
-        .controller('AlumnoActividadMultipleChoiceCtrl', ['$scope', AlumnoActividadMultipleChoiceCtrl])
+        .controller('AlumnoActividadModalCtrl', ['$scope', '$uibModalInstance', 'param', AlumnoActividadModalCtrl])
 
     function AlumnoActividadHomeCtrl($scope, $state, $uibModal, $q, $stateParams, logger, AlumnoService, UsuarioService) {
         var self = this;
@@ -20,6 +20,8 @@
         self.background = $stateParams.background;        
         self.templateUrl = 'emptyTemplate.html';
         self.toogleOption = toogleOption;
+        self.hasDescription = (self.actividad.descripcion && self.actividad.descripcion.length > 0);
+        self.titulo = (self.actividad.titulo && self.actividad.titulo.length > 0) ? self.actividad.titulo : 'Actividad del concepto ' + self.concepto.titulo; 
         
         loadData();
         chanteTemplate();
@@ -44,11 +46,17 @@
         function viewConcept() {
             var modalInstance = $uibModal.open({
                 templateUrl: 'concepto.html',
-                size: 'lg'                
+                size: 'lg',
+                controller: 'AlumnoActividadModalCtrl',
+                resolve: {
+                   param: function () {                
+                       return {'concepto': self.concepto};
+                   }
+                }
               });
 
             modalInstance.result.then(function () {
-              concole.log("ok");
+              console.log("ok");
             }, function () {
               console.log("error");
             });
@@ -73,6 +81,8 @@
                 }
                 if (evaluation.proxima_actividad && evaluation.proxima_actividad.estado === 'CURSANDO' && evaluation.proxima_actividad.elemento) {
                     self.actividad = evaluation.proxima_actividad.elemento;
+                    self.hasDescription = (self.actividad.descripcion && self.actividad.descripcion.length > 0);
+                    self.titulo = (self.actividad.titulo && self.actividad.titulo.length > 0) ? self.actividad.titulo : 'Actividad del concepto ' + self.concepto.titulo; 
                     chanteTemplate();
                 } else {
                     $state.go('alumno.curso.tema.concepto.dashboard', { cursoId: self.curso.id, temaId: self.tema.id, background: self.background, data: {curso: self.curso, tema: self.tema}});
@@ -111,8 +121,14 @@
         }
         function toogleOption(option) {
             option.selected = !option.selected;
-        }
-      
+        }      
+    }
+    
+    function AlumnoActividadModalCtrl($scope, $uibModalInstance, param) {
+        $scope.concepto = param.concepto;
+        $scope.listo = function() {
+            $uibModalInstance.close();
+        };
     }
 
 
