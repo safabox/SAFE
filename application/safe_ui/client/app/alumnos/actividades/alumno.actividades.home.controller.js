@@ -18,9 +18,11 @@
         self.concepto = $stateParams.data.concepto;
         self.actividad = $stateParams.data.actividad;
         self.background = $stateParams.background;        
-        self.template = getTemplate();
+        self.templateUrl = 'emptyTemplate.html';
+        self.toogleOption = toogleOption;
         
         loadData();
+        chanteTemplate();
         
         function loadData() {
             $q.all([])
@@ -71,6 +73,7 @@
                 }
                 if (evaluation.proxima_actividad && evaluation.proxima_actividad.estado === 'CURSANDO' && evaluation.proxima_actividad.elemento) {
                     self.actividad = evaluation.proxima_actividad.elemento;
+                    chanteTemplate();
                 } else {
                     $state.go('alumno.curso.tema.concepto.dashboard', { cursoId: self.curso.id, temaId: self.tema.id, background: self.background, data: {curso: self.curso, tema: self.tema}});
                 }
@@ -91,21 +94,25 @@
                         respuestas.push(respuesta.id);
                     }
                 });
+            } else {
+                ejercicio.respuestas.forEach(function(respuesta){
+                    var resultado = (respuesta.resultado !== 'false');
+                    respuestas.push({id: respuesta.id, resultado: resultado});
+                });
             }
             return {actividadId: self.actividad.id, resultado: respuestas};
         }
-        function getTemplate() {
+        function chanteTemplate() {
             if (self.actividad.tipo === 'MULTIPLE_CHOICE') {
-                return  'multiplechoice.html';
+                self.templateUrl = 'multiplechoice.html';
+            } else {
+                self.templateUrl =  'multiplechoicematrix.html';
             }
         }
+        function toogleOption(option) {
+            option.selected = !option.selected;
+        }
       
-    }
-    
-    function AlumnoActividadMultipleChoiceCtrl($scope) {
-        var self = this;
-        
-        console.log(self);
     }
 
 

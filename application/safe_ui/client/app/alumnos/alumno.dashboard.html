@@ -47,7 +47,7 @@
     
 </style>
 <div class="page page-dashboard" data-ng-controller="AlumnoDashboardCtrl">
-    <div class="row">
+    <div class="row" ng-show="!vm.loading">
         <div class="col-md-4" ng-repeat="item in vm.cursos">
             <section class="panel panel-box safe-cursor" ng-click="vm.goCurso(item)">
                 <div class="panel-top bg-{{item.background}}">

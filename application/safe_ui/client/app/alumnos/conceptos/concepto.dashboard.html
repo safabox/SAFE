@@ -55,104 +55,104 @@
         border-color: #e5613b;       
     }
 </style>
-<div class="page page-dashboard" data-ng-controller="AlumnoConceptoDashboardCtrl">
-    <div class="row">
-        <div class="col-sm-12 col-md-8">
-            <div class="panel panel-profile">
-                <div class="panel-heading bg-success clearfix">
-                    <h3>{{vm.tema.titulo}}</h3>
-                </div>                
+<div data-ng-controller="AlumnoConceptoDashboardCtrl">
+    <div class="page page-dashboard" ng-show="!vm.loading">
+        <div class="row">
+            <div class="col-sm-12 col-md-8">
+                <div class="panel panel-profile">
+                    <div class="panel-heading bg-success clearfix">
+                        <h3>{{vm.tema.titulo}}</h3>
+                    </div>                
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <div class="safe-btn-actividad">
+                    <button class="btn btn-danger" ng-click="vm.goActividad()" ng-class="{'disabled, safe-actividad-disabled': !vm.hasConceptosHabilitados}">
+                        <span class="safe-text">Ir a la actividad</span>
+                        <span class="safe-btn-icon safe-right fa fa-arrow-circle-right fa-4x"></span>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-4">
-            <div class="safe-btn-actividad">
-                <button class="btn btn-danger" ng-click="vm.goActividad()" ng-class="{'disabled, safe-actividad-disabled': !vm.hasConceptosHabilitados}">
-                    <span class="safe-text">Ir a la actividad</span>
-                    <span class="safe-btn-icon safe-right fa fa-arrow-circle-right fa-4x"></span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div class="row">        
-        <div class="col-sm-8">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="panel mini-box safe-tema-proximamente" ng-hide="vm.hasConceptos">
-                        <span class="fa-stack fa-3x">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-cubes fa-stack-1x fa-inverse"></i>
-                        </span>
+        <div class="row">        
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel mini-box safe-tema-proximamente" ng-hide="vm.hasConceptos">
+                            <span class="fa-stack fa-3x">
+                              <i class="fa fa-circle fa-stack-2x"></i>
+                              <i class="fa fa-cubes fa-stack-1x fa-inverse"></i>
+                            </span>
 
-                        <div class="box-info">
-                            <p class="size-h3">Pr&oacute;ximamente</p>
-                            <p class="text-muted">Pr&oacute;ximamente los temas que aprender&aacute;s</p>
-                        </div>
-                    </div> 
-                </div>   
-                <div class="col-sm-12" ng-repeat="concepto in vm.conceptoGroup.disponibles">
-                    <div class="panel mini-box safe-tema-item" ng-click="vm.goProximaActividad(concepto)">
-                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-{{background}}">
-                            <i class="glyphicon glyphicon-list-alt"></i>
-                        </span>
-                        <div class="box-info">
-                            <p class="size-h3">{{concepto.titulo}}</p>
-                            <p class="text-muted">{{concepto.copete}}</p>
+                            <div class="box-info">
+                                <p class="size-h3">Pr&oacute;ximamente</p>
+                                <p class="text-muted">Pr&oacute;ximamente los conceptos que aprender&aacute;s</p>
+                            </div>
+                        </div> 
+                    </div>   
+                    <div class="col-sm-12" ng-repeat="concepto in vm.conceptoGroup.disponibles">
+                        <div class="panel mini-box safe-tema-item" ng-click="vm.goProximaActividad(concepto)">
+                            <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-{{background}}">
+                                <i class="glyphicon glyphicon-list-alt"></i>
+                            </span>
+                            <div class="box-info">
+                                <p class="size-h3">{{concepto.titulo}}</p>
+                                <p class="text-muted">{{concepto.copete}}</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-sm-12" ng-repeat="concepto in vm.conceptoGroup.bloqueados">
+                        <div class="panel mini-box bg-body safe-tema-item-blocked" uib-tooltip="Debes terminar los otros temas para poder avanzar." tooltip-placement="top">
+                            <span class="btn-icon btn-icon-round btn-icon-lg-alt">
+                                <!--<i class="glyphicon glyphicon-list-alt"></i>-->
+                                <i class="fa fa-lock"></i>                            
+                            </span>
+                            <div class="box-info">
+                                 <p class="size-h3">{{concepto.titulo}}</p>
+                                <p class="text-muted">{{concepto.copete}}</p>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="panel mini-box safe-tema-item" ng-click="vm.goBack()">
+                            <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-primary-light">
+                                <i class="fa fa-arrow-left"></i>
+                            </span>
+                            <div class="box-info">
+                                <p class="size-h3">Volver</p>
+                                <p class="text-muted">Ver otros temas</p>
+                            </div>
+                        </div> 
+                    </div>                  
                 </div>
-                <div class="col-sm-12" ng-repeat="concepto in vm.conceptoGroup.bloqueados">
-                    <div class="panel mini-box bg-body safe-tema-item-blocked" uib-tooltip="Debes terminar los otros temas para poder avanzar." tooltip-placement="top">
-                        <span class="btn-icon btn-icon-round btn-icon-lg-alt">
-                            <!--<i class="glyphicon glyphicon-list-alt"></i>-->
-                            <i class="fa fa-lock"></i>                            
-                        </span>
-                        <div class="box-info">
-                             <p class="size-h3">{{concepto.titulo}}</p>
-                            <p class="text-muted">{{concepto.copete}}</p>
-                        </div>
-                    </div> 
-                </div>
-                <div class="col-sm-12">
-                    <div class="panel mini-box safe-tema-item" ng-click="vm.goBack()">
-                        <span class="btn-icon btn-icon-round btn-icon-lg-alt bg-primary-light">
-                            <i class="fa fa-arrow-left"></i>
-                        </span>
-                        <div class="box-info">
-                            <p class="size-h3">Volver</p>
-                            <p class="text-muted">Ver otros temas</p>
-                        </div>
-                    </div> 
-                </div>                  
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="panel panel-profile">
-                <div class="panel-heading btn-info-alt clearfix">
-                    <span  class="pull-left profile safe-cursor" uib-tooltip="En este listado pod&eacute;s ver todos los temas que terminaste de este curso." tooltip-placement="right">
-                        <img alt="" src="images/bots/safe_masculino_1.svg" class="img-circle img80_80">
-                    </span>
-                    <h3 class="ng-binding">Tus Logros</h3>                    
+            <div class="col-sm-4">
+                <div class="panel panel-profile">
+                    <div class="panel-heading btn-info-alt clearfix">
+                        <span  class="pull-left profile safe-cursor" uib-tooltip="En este listado pod&eacute;s ver todos los temas que terminaste de este curso." tooltip-placement="right">
+                            <img alt="" src="images/bots/safe_masculino_1.svg" class="img-circle img80_80">
+                        </span>
+                        <h3 class="ng-binding">Tus Logros</h3>                    
+                    </div>
+                    <ul class="list-group" ng-show="vm.hasConceptosFinalizados">
+                        <li class="list-group-item" ng-repeat="finalizado in vm.conceptoGroup.finalizados">
+                            <span class="btn-icon btn-icon-round btn-icon-sm  btn-gap-v bg-warning">
+                                <i class="fa fa-trophy "></i>
+                            </span>                        
+                           <strong class="safe-logros-text">{{finalizado.concepto.titulo}}</strong>
+                        </li>                                    
+                    </ul>
+
+                    <div class="panel-body" ng-show="!vm.hasConceptosFinalizados">
+                         <span class="safe-logro-placehoder">
+                              <span class="fa-stack fa-5x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                              </span>
+                         </span>                        
+                    </div>                
                 </div>
-                <ul class="list-group" ng-show="vm.hasConceptosFinalizados">
-                    <li class="list-group-item" ng-repeat="finalizado in vm.conceptoGroup.finalizados">
-                        <span class="btn-icon btn-icon-round btn-icon-sm  btn-gap-v bg-warning">
-                            <i class="fa fa-trophy "></i>
-                        </span>                        
-                       <strong class="safe-logros-text">{{finalizado.concepto.titulo}}</strong>
-                    </li>                                    
-                </ul>
-                
-                <div class="panel-body" ng-show="!vm.hasConceptosFinalizados">
-                     <span class="safe-logro-placehoder">
-                          <span class="fa-stack fa-5x">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
-                          </span>
-                     </span>                        
-                </div>                
             </div>
         </div>
     </div>
-    
-    
-</div>
+</div>    

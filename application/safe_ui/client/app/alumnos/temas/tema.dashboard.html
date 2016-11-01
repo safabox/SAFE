@@ -67,88 +67,89 @@
         border-color: #e5613b;       
     }
 </style>
-<div class="page page-dashboard" data-ng-controller="AlumnoTemaDashboardCtrl">
-    <div class="row">
-        <div class="col-sm-12 col-md-8">
-            <div class="panel panel-profile">
-                <div class="panel-heading clearfix bg-{{vm.background}}">
-                    <h3>{{vm.curso.titulo}}</h3>
-                </div>                
+<div data-ng-controller="AlumnoTemaDashboardCtrl">
+    <div class="page page-dashboard" ng-show="!vm.loading">
+        <div class="row">
+            <div class="col-sm-12 col-md-8">
+                <div class="panel panel-profile">
+                    <div class="panel-heading clearfix bg-{{vm.background}}">
+                        <h3>{{vm.curso.titulo}}</h3>
+                    </div>                
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+
+                <div class="safe-btn-actividad">
+                    <button class="btn btn-danger" ng-click="vm.goActividad()"  ng-class="{'disabled, safe-actividad-disabled': !vm.hasTemasHabilitados}">
+                        <span class="safe-text">Ir a la actividad</span>
+                        <span class="safe-btn-icon safe-right fa fa-arrow-circle-right fa-4x"></span>
+                    </button>
+                </div>
             </div>
         </div>
-        <div class="col-sm-12 col-md-4">
-            
-            <div class="safe-btn-actividad">
-                <button class="btn btn-danger" ng-click="vm.goActividad()"  ng-class="{'disabled, safe-actividad-disabled': !vm.hasTemasHabilitados}">
-                    <span class="safe-text">Ir a la actividad</span>
-                    <span class="safe-btn-icon safe-right fa fa-arrow-circle-right fa-4x"></span>
-                </button>
+        <div class="row">
+            <div class="col-md-4" ng-repeat="tema in vm.temaGroup.disponibles">
+                <div class="card bg-white">
+                    <div class="card-content white-text">     
+                        <div>
+                            <h3 class="safe-tema-titulo" uib-tooltip="{{tema.titulo}}">{{tema.titulo}}</h3>
+                        </div>
+
+                        <div data-slim-scroll data-scroll-height="100px">
+                         {{tema.copete}}   
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-lg safe-btn-play btn-{{vm.background}}" ng-click="vm.goConcepto(tema)">
+                       <span class="fa fa-play-circle fa-2x"></span>
+                    </button>                    
+                </div> 
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4" ng-repeat="tema in vm.temaGroup.disponibles">
-            <div class="card bg-white">
-                <div class="card-content white-text">     
-                    <div>
+            <div class="col-md-4" ng-repeat="tema in vm.temaGroup.bloqueados">
+                <div class="card bg-white" uib-tooltip="Debes finalizar los otros temas para aprender este tema">
+                    <div class="card-content white-text safe-disabled" >
                         <h3 class="safe-tema-titulo" uib-tooltip="{{tema.titulo}}">{{tema.titulo}}</h3>
+                        <div data-slim-scroll data-scroll-height="100px">
+                           {{tema.copete}}  
+                        </div>
                     </div>
-                    
-                    <div data-slim-scroll data-scroll-height="100px">
-                     {{tema.copete}}   
+                    <button type="button" class="btn btn-dark btn-lg safe-btn-play">
+                       <span class="fa fa-lock fa-2x"></span>
+                    </button>                    
+                </div> 
+            </div>
+            <div class="col-md-4" ng-repeat="tema in vm.temaGroup.finalizados">
+                <div class="card bg-white" uib-tooltip="Haz finalizado el tema">
+                    <div class="card-content white-text safe-finalizado" >
+                        <h3 class="safe-tema-titulo" uib-toolltip="{{tema.tema.titulo}}">{{tema.tema.titulo}}</h3>
+                        <div class="safe-copa">
+                           <span class="safe-logro">
+                              <span class="fa-stack fa-4x">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
+                              </span>
+                            </span>  
+                        </div>
                     </div>
-                </div>
-                <button type="button" class="btn btn-lg safe-btn-play btn-{{vm.background}}" ng-click="vm.goConcepto(tema)">
-                   <span class="fa fa-play-circle fa-2x"></span>
-                </button>                    
-            </div> 
-        </div>
-        <div class="col-md-4" ng-repeat="tema in vm.temaGroup.bloqueados">
-            <div class="card bg-white" uib-tooltip="Debes finalizar los otros temas para aprender este tema">
-                <div class="card-content white-text safe-disabled" >
-                    <h3 class="safe-tema-titulo" uib-tooltip="{{tema.titulo}}">{{tema.titulo}}</h3>
-                    <div data-slim-scroll data-scroll-height="100px">
-                       {{tema.copete}}  
-                    </div>
-                </div>
-                <button type="button" class="btn btn-dark btn-lg safe-btn-play">
-                   <span class="fa fa-lock fa-2x"></span>
-                </button>                    
-            </div> 
-        </div>
-        <div class="col-md-4" ng-repeat="tema in vm.temaGroup.finalizados">
-            <div class="card bg-white" uib-tooltip="Haz finalizado el tema">
-                <div class="card-content white-text safe-finalizado" >
-                    <h3 class="safe-tema-titulo" uib-toolltip="{{tema.tema.titulo}}">{{tema.tema.titulo}}</h3>
-                    <div class="safe-copa">
-                       <span class="safe-logro">
-                          <span class="fa-stack fa-4x">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-trophy fa-stack-1x fa-inverse"></i>
-                          </span>
-                        </span>  
-                    </div>
-                </div>
-                <button type="button" class="btn btn-dark btn-lg safe-btn-finish">
-                   <span class="fa fa-flag-checkered fa-2x"></span>
-                </button>                    
-            </div> 
-        </div>
-      
-        
-        <div class="col-md-4">
-            <div class="card bg-white safe-cursor" ng-click="vm.goBack()" uib-tooltip="Ver otros cursos">
-                <div class="card-content white-text safe-box safe-box-back">
-                    <div class="safe-icon bg-primary-light">
-                        <i class="fa fa-arrow-left"></i>
-                    </div>    
-                </div>       
-                <button type="button" class="btn bg-primary-light btn-lg safe-btn-play">
-                   <span class="fa fa-arrow-left fa-2x"></span> <span class="safe-text">Volver</span>
-                </button> 
-            </div> 
-        </div>
-    </div>    
-</div>
-  
+                    <button type="button" class="btn btn-dark btn-lg safe-btn-finish">
+                       <span class="fa fa-flag-checkered fa-2x"></span>
+                    </button>                    
+                </div> 
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="card bg-white safe-cursor" ng-click="vm.goBack()" uib-tooltip="Ver otros cursos">
+                    <div class="card-content white-text safe-box safe-box-back">
+                        <div class="safe-icon bg-primary-light">
+                            <i class="fa fa-arrow-left"></i>
+                        </div>    
+                    </div>       
+                    <button type="button" class="btn bg-primary-light btn-lg safe-btn-play">
+                       <span class="fa fa-arrow-left fa-2x"></span> <span class="safe-text">Volver</span>
+                    </button> 
+                </div> 
+            </div>
+        </div>    
+    </div>
+</div>  
   
