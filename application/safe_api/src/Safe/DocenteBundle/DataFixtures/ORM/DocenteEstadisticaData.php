@@ -109,7 +109,7 @@ class DocenteEStadisticaData extends DocenteData
         $manager->persist($itemBank1);
         $manager->flush();
         
-        $manager->persist(new AlumnoEstadoConcepto($alumno1, $concepto1, true));
+        $manager->persist(new AlumnoEstadoConcepto($alumno1, $concepto1, true, 'APROBADO'));
         $manager->persist(new AlumnoEstadoConcepto($alumno2, $concepto1, true, 'CURSANDO'));
         $manager->flush();
         
@@ -157,8 +157,8 @@ class DocenteEStadisticaData extends DocenteData
         $manager->persist($itemBank2);
         $manager->flush();
         
-        $manager->persist(new AlumnoEstadoConcepto($alumno1, $concepto2, true));
-        $manager->persist(new AlumnoEstadoConcepto($alumno2, $concepto2, true));
+        $manager->persist(new AlumnoEstadoConcepto($alumno1, $concepto2, true, 'APROBADO'));
+        $manager->persist(new AlumnoEstadoConcepto($alumno2, $concepto2, true, 'APROBADO_OBSERVACION'));
         $manager->flush();
         
         $manager->persist(new Ability($examinee1, $itemBank2, 0));
@@ -174,8 +174,8 @@ class DocenteEStadisticaData extends DocenteData
         $manager->persist($itemBank3);
         $manager->flush();
         
-        $manager->persist(new AlumnoEstadoConcepto($alumno1, $concepto3, true));
-        $manager->persist(new AlumnoEstadoConcepto($alumno2, $concepto3, true));
+        $manager->persist(new AlumnoEstadoConcepto($alumno1, $concepto3, true, 'APROBADO'));
+        $manager->persist(new AlumnoEstadoConcepto($alumno2, $concepto3, false, 'DESAPROBADO'));
         $manager->flush();
         
         $manager->persist(new Ability($examinee1, $itemBank3, 0));

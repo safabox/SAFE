@@ -72,6 +72,13 @@ class AlumnoAsignadoControllerTest extends SafeTestController {
         $this->assertEquals(1, $concepto['theta'], '', 0.1);
         $this->assertEquals(0.2, $concepto['theta_error'], '', 0.1);
         $this->assertNotNull($concepto['fecha_actualizacion']);        
+        
+        $this->assertEquals(0, $tema['cant_cursando']);
+        $this->assertEquals(0, $tema['cant_pendientes']);
+        $this->assertEquals(3, $tema['cant_aprobados']);
+        $this->assertEquals(0, $tema['cant_aprobados_observaciones']);
+        $this->assertEquals(0, $tema['cant_desaprobados']);
+
     }
     
     public function testGetAlumnoEstadisticaAction_conAlumnoCursando() {
@@ -133,8 +140,10 @@ class AlumnoAsignadoControllerTest extends SafeTestController {
         $this->assertNotNull($concepto['fecha_actualizacion']); 
         
         $this->assertEquals(1, $tema['cant_cursando']);
-        $this->assertEquals(0, $tema['cant_finalizados']);
-        $this->assertEquals(2, $tema['cant_pendientes']);
+        $this->assertEquals(0, $tema['cant_pendientes']);
+        $this->assertEquals(0, $tema['cant_aprobados']);
+        $this->assertEquals(1, $tema['cant_aprobados_observaciones']);
+        $this->assertEquals(1, $tema['cant_desaprobados']);
     }
     
     public function testGetAlumnoEstadisticaAction_conAlumnoSinIniciar() {
@@ -196,8 +205,11 @@ class AlumnoAsignadoControllerTest extends SafeTestController {
         $this->assertNotNull($concepto['fecha_actualizacion']);        
         
         $this->assertEquals(0, $tema['cant_cursando']);
-        $this->assertEquals(0, $tema['cant_finalizados']);
         $this->assertEquals(3, $tema['cant_pendientes']);
+        $this->assertEquals(0, $tema['cant_aprobados']);
+        $this->assertEquals(0, $tema['cant_aprobados_observaciones']);
+        $this->assertEquals(0, $tema['cant_desaprobados']);
+
     }
     
     private function getElementFromArrayByTitulo($titulo, $items) {

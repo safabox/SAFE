@@ -15,31 +15,38 @@ class EstadisticaTemaAlumno {
    private $orden;
    private $estado;   
    private $conceptos;
-   private $cantFinalizados;
-   private $cantPendientes;
    private $cantCursando;
+   private $cantAprobados;
+   private $cantAprobadosObservaciones;
+   private $cantDesaprobados;
+   private $cantPendientes;
+   
    function __construct(Tema $tema, AlumnoEstadoTema $alumnoEstadoTema = null, $conceptos = array()) {
        $this->id = $tema->getId();
        $this->titulo = $tema->getTitulo();
        $this->orden = $tema->getOrden();
        $this->estado = ($alumnoEstadoTema == null) ? ResultadoEvaluacion::PENDIENTE : $alumnoEstadoTema->getEstado();
        $this->cantCursando = 0;
-       $this->cantFinalizados = 0;
+       $this->cantAprobados = 0;       
+       $this->cantAprobadosObservaciones = 0;
+       $this->cantDesaprobados = 0;
        $this->cantPendientes = 0;
        $this->conceptos = $conceptos;
        foreach ($conceptos as $concepto) {
             if ($concepto->getEstado() === ResultadoEvaluacion::CURSANDO) {
                 $this->cantCursando++;
-            } else if($concepto->getEstado() === ResultadoEvaluacion::FINALIZADO) {
-                $this->cantFinalizados++;
+            } else if($concepto->getEstado() === ResultadoEvaluacion::APROBADO) {
+                $this->cantAprobados++;
+            } else if($concepto->getEstado() === ResultadoEvaluacion::APROBADO_OBSERVACION) { 
+                $this->cantAprobadosObservaciones++;
+            } else if($concepto->getEstado() === ResultadoEvaluacion::DESAPROBADO) { 
+                $this->cantDesaprobados++;
             } else {
                 $this->cantPendientes++;
             }
         }
        
    }
-
-
    function getId() {
        return $this->id;
    }
@@ -58,6 +65,26 @@ class EstadisticaTemaAlumno {
 
    function getConceptos() {
        return $this->conceptos;
+   }
+
+   function getCantCursando() {
+       return $this->cantCursando;
+   }
+
+   function getCantAprobados() {
+       return $this->cantAprobados;
+   }
+
+   function getCantAprobadosObservaciones() {
+       return $this->cantAprobadosObservaciones;
+   }
+
+   function getCantDesaprobados() {
+       return $this->cantDesaprobados;
+   }
+
+   function getCantPendientes() {
+       return $this->cantPendientes;
    }
 
    function setId($id) {
@@ -80,30 +107,25 @@ class EstadisticaTemaAlumno {
        $this->conceptos = $conceptos;
    }
 
-   function getCantFinalizados() {
-       return $this->cantFinalizados;
+   function setCantCursando($cantCursando) {
+       $this->cantCursando = $cantCursando;
    }
 
-   function getCantPendientes() {
-       return $this->cantPendientes;
+   function setCantAprobados($cantAprobados) {
+       $this->cantAprobados = $cantAprobados;
    }
 
-   function getCantCursando() {
-       return $this->cantCursando;
+   function setCantAprobadosObservaciones($cantAprobadosObservaciones) {
+       $this->cantAprobadosObservaciones = $cantAprobadosObservaciones;
    }
 
-   function setCantFinalizados($cantFinalizados) {
-       $this->cantFinalizados = $cantFinalizados;
+   function setCantDesaprobados($cantDesaprobados) {
+       $this->cantDesaprobados = $cantDesaprobados;
    }
 
    function setCantPendientes($cantPendientes) {
        $this->cantPendientes = $cantPendientes;
    }
-
-   function setCantCursando($cantCursando) {
-       $this->cantCursando = $cantCursando;
-   }
-
 
 
 }
