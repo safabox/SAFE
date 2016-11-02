@@ -16,7 +16,7 @@ class ConceptoService {
     }
     
     public function findAll($temaId, $limit, $offset = 0) {
-        return $this->conceptoRepository->findBy(array('tema' => $temaId), null, $limit, $offset);
+        return $this->conceptoRepository->findBy(array('tema' => $temaId), array('orden' => 'ASC', 'titulo' => 'ASC'), $limit, $offset);
     }
         
     public function getById($id) {

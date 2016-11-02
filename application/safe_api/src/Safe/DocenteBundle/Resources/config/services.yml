@@ -10,13 +10,16 @@ services:
         arguments: ["@doctrine.orm.default_entity_manager", "@safe_curso.repository.curso"]   
     safe_docente.service.tema_impartido:
         class: Safe\DocenteBundle\Service\TemaImpartidoService
-        arguments: ["@safe_tema.repository.tema"]       
+        arguments: ["@safe_tema.repository.tema", "@safe_tema.repository.alumno.tema.estado", "@safe_docente.service.concepto_impartido"]       
     safe_docente.service.concepto_impartido:
         class: Safe\DocenteBundle\Service\ConceptoImpartidoService
-        arguments: ["@safe_tema.repository.concepto", "@safe_cat.service.cat"]               
+        arguments: ["@safe_tema.repository.concepto", "@safe_tema.repository.alumno.concepto.estado", "@safe_cat.service.cat"]               
     safe_docente.service.actividad_impartida:
         class: Safe\DocenteBundle\Service\ActividadImpartidaService
         arguments: ["@safe_tema.repository.actividad", "@safe_cat.service.cat"]                       
+    safe_docente.service.alumno_asignado:
+        class: Safe\DocenteBundle\Service\AlumnoAsignadoService
+        arguments: ["@safe_alumno.repository.alumno", "@safe_docente.service.tema_impartido"]                           
     safe_docente.repository.docente:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

@@ -86,7 +86,7 @@ class Tema
      *     joinColumns={@ORM\JoinColumn(name="sucesora_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="predecesora_id", referencedColumnName="id")}
      * )
-     * @ORM\OrderBy({"orden" = "ASC"})
+     * @ORM\OrderBy({"orden" = "ASC", "titulo" = "ASC"})
      * @Expose
      * @Groups({"docente_tema_detalle", "alumno_tema_detalle"})
      * @MaxDepth(2)
@@ -102,6 +102,7 @@ class Tema
     /**
      *
      * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\Concepto", mappedBy="tema")
+     * @ORM\OrderBy({"orden" = "ASC", "titulo" = "ASC"}) 
      * 
      */
     private $conceptos;

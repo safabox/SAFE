@@ -125,8 +125,12 @@ class CATService {
         }
     }
     
+    public function getAbility($examinee_code, $item_bank_code) {
+        return $this->abilityRepository->findOneAbility($examinee_code, $item_bank_code);
+    }
+    
     protected function getOrCreateAbility($examinee_code, $item_bank_code) {
-        $ability = $this->abilityRepository->findOneAbility($examinee_code, $item_bank_code);
+        $ability = $this->getAbility($examinee_code, $item_bank_code);
         if ($ability == null) {
             return $this->createAbilityFor($examinee_code, $item_bank_code);
         }

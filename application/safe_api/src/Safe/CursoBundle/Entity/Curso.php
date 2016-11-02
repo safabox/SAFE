@@ -101,6 +101,7 @@ class Curso
      /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Safe\TemaBundle\Entity\Tema", mappedBy="curso")
+     * @ORM\OrderBy({"orden" = "ASC", "titulo" = "ASC"}) 
      * @Expose
      * @Groups({"docente_detalle"})      
      */

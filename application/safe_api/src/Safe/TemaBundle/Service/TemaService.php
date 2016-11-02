@@ -16,7 +16,7 @@ class TemaService {
     }
     
     public function findAll($cursoId, $limit, $offset = 0) {
-        return $this->temaRepository->findBy(array('curso' => $cursoId), null, $limit, $offset);
+        return $this->temaRepository->findBy(array('curso' => $cursoId), array('orden' => 'ASC', 'titulo' => 'ASC'), $limit, $offset);
     }
         
     public function getById($id) {

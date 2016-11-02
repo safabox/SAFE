@@ -7,16 +7,24 @@ use Safe\TemaBundle\Service\ConceptoService;
 use Safe\CatBundle\Service\CatService;
 use Safe\CatBundle\Entity\ItemBank;
 use Safe\DocenteBundle\Form\ConceptoForm;
+use Safe\DocenteBundle\Entity\Estadistica\EstadisticaConceptoAlumno;
+
+use Safe\TemaBundle\Repository\AlumnoEstadoConceptoRepository;
 
 use Doctrine\Common\Util\Debug;
 class ConceptoImpartidoService extends ConceptoService {
     
     private $catService;
 
-    public function __construct(ConceptoRepository $conceptoRepository, CatService $catService)
+    private $alumnoEstadoConceptoRepository;
+    
+    public function __construct(ConceptoRepository $conceptoRepository, 
+            AlumnoEstadoConceptoRepository $alumnoEstadoConceptoRepository,
+            CatService $catService)
     {
          parent::__construct($conceptoRepository);
          $this->catService = $catService;
+         $this->alumnoEstadoConceptoRepository = $alumnoEstadoConceptoRepository;
     }
     
     public function getById($conceptoId) {
@@ -25,20 +33,19 @@ class ConceptoImpartidoService extends ConceptoService {
         $concepto->setItemBank($itemBank);        
         return $concepto;
     }
-    /*
-    public function crearConcepto($concepto) {        
-        $this->conceptoRepository->crearOActualizar($concepto);
-        return $concepto;
+    
+    public function getEstadisticaAlumno($temaId, $alumnoId) {
+        $conceptos = $this->findAll($temaId, null);
+        $estadisticas = array();
+        foreach ($conceptos as $concepto) {            
+            $itemBank = $this->catService->getItemBankByCode($concepto->getId());
+            $ability = $this->catService->getAbility($alumnoId, $concepto->getId());
+            $alumnoEstadoConcepto = $this->alumnoEstadoConceptoRepository->findOneBy(array('concepto'=> $concepto, 'alumno' => $alumnoId));
+            $estadisticaConceptoAlumno = new EstadisticaConceptoAlumno($concepto, $itemBank, $ability, $alumnoEstadoConcepto);
+            $estadisticas[] = $estadisticaConceptoAlumno;
+        }
+        return $estadisticas;
     }
-      
-    public function actualizarConcepto(ConceptoForm $conceptoForm) {
-        $concepto = $conceptoForm->$conceptoForm->getConcepto();
-        $item = $actividad->getItem();
-        $item = $this->actualizarEntidadItem($item, $actividadArray);
-        
-        $this->actividadRepository->crearOActualizar($actividad);
-        return $actividad;
-    }*/
 
     
 }

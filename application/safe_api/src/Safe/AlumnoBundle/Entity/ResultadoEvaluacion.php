@@ -6,6 +6,7 @@ class ResultadoEvaluacion {
     const APROBADO_OBSERVACION = 'APROBADO_OBSERVACION';
     const DESAPROBADO = 'DESAPROBADO';
     const CURSANDO = 'CURSANDO';
+    const PENDIENTE = 'PENDIENTE';
     const FINALIZADO = 'FINALIZADO';
            
     

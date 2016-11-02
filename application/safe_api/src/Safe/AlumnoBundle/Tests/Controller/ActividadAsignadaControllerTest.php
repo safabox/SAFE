@@ -7,7 +7,7 @@ use Safe\CoreBundle\Tests\Controller\SafeTestController;
 use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 use Doctrine\Common\Util\Debug;
 class ActividadAsignadaControllerTest extends SafeTestController {
-    /*
+    
     public function testGetProximo_actividadAction() {
         //inicio
         $login = $this->loginAlumno("alumno10");                
@@ -114,7 +114,7 @@ class ActividadAsignadaControllerTest extends SafeTestController {
         $this->assertEquals(ResultadoEvaluacion::APROBADO_OBSERVACION, $estado['proxima_actividad']['estado']);
         
     }
-    */
+    
     public function testPostActividadResultado_ConUnicaActividad_RetornaAprobacionYCierreDeConcepto(){
         //inicio
         $login = $this->loginAlumno("alumno15");                

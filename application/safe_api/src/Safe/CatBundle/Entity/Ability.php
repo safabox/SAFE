@@ -72,7 +72,7 @@ class Ability
     private $updated;
 
 
-    public function __construct($examinee, $itemBank, $theta, $thetaError=99)
+    public function __construct($examinee, $itemBank, $theta = 0, $thetaError=99)
     {
         $this->pastAbilities = new ArrayCollection();
         $this->examinee = $examinee;
