@@ -4,12 +4,21 @@ namespace Safe\CatBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+
+
 /**
  * PastAbility
  *
  * @ORM\Table(name="cat_past_ability")
  * @ORM\Entity(repositoryClass="Safe\CatBundle\Repository\PastAbilityRepository")
  * @ORM\HasLifecycleCallbacks() 
+ * @ExclusionPolicy("all")
  */
 class PastAbility
 {
@@ -26,6 +35,7 @@ class PastAbility
      * @var float
      *
      * @ORM\Column(name="theta", type="float", nullable=false)
+     * @Expose 
      */
     private $theta;
 
@@ -41,6 +51,7 @@ class PastAbility
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=false)
+     * @Expose 
      */
     private $created;
 

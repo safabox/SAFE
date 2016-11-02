@@ -54,6 +54,7 @@ class Ability
     /**
      *
      * @ORM\OneToMany(targetEntity="Safe\CatBundle\Entity\PastAbility", mappedBy="ability", cascade={"remove", "persist"})
+     * @ORM\OrderBy({"created" = "ASC"})
      */
     private $pastAbilities;
 

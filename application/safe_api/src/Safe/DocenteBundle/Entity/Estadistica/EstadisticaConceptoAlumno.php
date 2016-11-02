@@ -1,25 +1,80 @@
 <?php
 namespace Safe\DocenteBundle\Entity\Estadistica;
 
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\SerializedName;
+use JMS\Serializer\Annotation\Type;
+
 use Safe\TemaBundle\Entity\Concepto;
 use Safe\CatBundle\Entity\ItemBank;
 use Safe\CatBundle\Entity\Ability;
 use Safe\TemaBundle\Entity\AlumnoEstadoConcepto;
 use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
-class EstadisticaConceptoAlumno {
-   private $id;
-   private $titulo;
-   private $orden;
-   private $thetaEsperado;
-   private $incremento;
-   private $rango;
-   private $thetaMetodo;
-   private $theta;
-   private $thetaError;
-   private $estado;   
-   private $fechaActualizacion;
 
-   function __construct(Concepto $concepto, ItemBank $itemBank, Ability $ability = null, AlumnoEstadoConcepto $alumnoEstadoConcepto = null) {
+/**
+ * @ExclusionPolicy("all")
+ */
+class EstadisticaConceptoAlumno {
+  /**
+   * @Expose 
+   */  
+   private $id;
+  /**
+   * @Expose 
+   */  
+   private $titulo;
+  /**
+   * @Expose 
+   */   
+   private $orden;
+  /**
+   * @Expose 
+   */   
+   private $thetaEsperado;
+  /**
+   * @Expose 
+   */   
+   private $incremento;
+  /**
+   * @Expose 
+   */   
+   private $rango;
+  /**
+   * @Expose 
+   */   
+   private $thetaMetodo;
+  /**
+   * @Expose 
+   */   
+   private $theta;
+   /**
+   * @Expose 
+   */  
+   private $thetaError;
+   /**
+   * @Expose 
+   */  
+   private $estado;   
+   /**
+   * @Expose 
+   */  
+   private $fechaActualizacion;
+   /**
+   * @Expose 
+   * @Groups({"docente_estadistica_detalle"})
+   */  
+   private $resultados;
+
+   /**
+   * @Expose 
+   * @Groups({"docente_estadistica_detalle"})
+   */  
+   private $thetasAnteriores;
+   
+   function __construct(Concepto $concepto, ItemBank $itemBank, Ability $ability = null, AlumnoEstadoConcepto $alumnoEstadoConcepto = null, $resultados = array(), $completo = false) {
        $this->id = $concepto->getId();
        $this->titulo = $concepto->getTitulo();
        $this->orden = $concepto->getOrden();
@@ -37,7 +92,9 @@ class EstadisticaConceptoAlumno {
             $this->thetaError = 99;       
             $this->fechaActualizacion = new \DateTime(); 
        }
+       $this->resultados = $resultados;
        
+       $this->thetasAnteriores = ($completo && $ability != null) ? $ability->getPastAbilities() : array();
    }
 
    
@@ -126,6 +183,30 @@ class EstadisticaConceptoAlumno {
 
    function setIncremento($incremento) {
        $this->incremento = $incremento;
+   }
+
+   function getThetaMetodo() {
+       return $this->thetaMetodo;
+   }
+
+   function getResultados() {
+       return $this->resultados;
+   }
+
+   function setThetaMetodo($thetaMetodo) {
+       $this->thetaMetodo = $thetaMetodo;
+   }
+
+   function setResultados($resultados) {
+       $this->resultados = $resultados;
+   }
+
+   function getThetasAnteriores() {
+       return $this->thetasAnteriores;
+   }
+
+   function setThetasAnteriores($thetasAnteriores) {
+       $this->thetasAnteriores = $thetasAnteriores;
    }
 
 

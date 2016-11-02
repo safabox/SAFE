@@ -18,6 +18,11 @@ safe_docente_curso_alumno:
     parent:   safe_docente_curso
     resource: "Safe\DocenteBundle\Controller\AlumnoAsignadoController"
     name_prefix:  api_1_docentes_cursos_alumnos # naming collision    
+safe_docente_curso_alumno_concepto:
+    type: rest
+    parent:   safe_docente_curso
+    resource: "Safe\DocenteBundle\Controller\AlumnoAsignadoConceptoController"
+    name_prefix:  api_1_docentes_cursos_alumnos_conceptos # naming collision      
 safe_docente_curso_tema_concepto:
     type: rest
     parent:   safe_docente_curso_tema

@@ -13,6 +13,10 @@ use Safe\CatBundle\Entity\Examinee;
 use Safe\CatBundle\Entity\PastAbility;
 use Safe\CatBundle\Entity\Ability;
 use Safe\CatBundle\Entity\ItemBank;
+use Safe\CatBundle\Entity\Item;
+use Safe\CatBundle\Entity\ItemResult;
+use Safe\TemaBundle\Entity\Actividad;
+use Safe\TemaBundle\Entity\TipoActividad;
 use Safe\TemaBundle\Entity\AlumnoEstadoTema;
 use Safe\TemaBundle\Entity\AlumnoEstadoCurso;
 use Safe\TemaBundle\Entity\AlumnoEstadoConcepto;
@@ -147,6 +151,20 @@ class DocenteEStadisticaData extends DocenteData
         $manager->persist(new PastAbility($ability));
         $manager->flush();
         
+        $actividad1 = $this->crearActividad("1", $concepto1);
+        $manager->persist($actividad1);
+        $manager->flush();
+        
+        $item = $this->crearItem($actividad1, $itemBank1, 1);
+        $itemResult = ItemResult::fromItem($examinee1, $item, 1);
+        $manager->persist($item);
+        $manager->persist($itemResult);
+        $manager->flush();
+        
+        $itemResult2 = ItemResult::fromItem($examinee1, $item, 0);
+        $manager->persist($itemResult2);
+        $manager->flush();
+        
         
         $concepto2 = $this->crearConcepto("est_concepto_2", $tema1, true);
         $manager->persist($concepto2);
@@ -217,5 +235,23 @@ class DocenteEStadisticaData extends DocenteData
         $concepto->setHabilitado($habilitado);
         
         return $concepto;
+    }
+    
+     public function crearActividad($numero, $concepto, $habilitado=true, $ejercicio=array(), $descripcion='descripcion de la actividad') {
+        $actividad = new Actividad($numero." actividad");
+        $actividad->setDescripcion($descripcion);
+        $actividad->setConcepto($concepto);
+        $actividad->setHabilitado($habilitado);        
+        $actividad->setEjercicio($ejercicio);
+        $actividad->setTipo(TipoActividad::MULTIPLE_CHOICE);
+        $actividad->setResultado(array('resultado' => $ejercicio));
+        return $actividad;
+    }
+    
+    public function crearItem($actividad, $itemBank, $dificultad) {
+        $item = new Item($dificultad);
+        $item->setItemBank($itemBank);
+        $item->setCode($actividad->getId());
+        return $item;
     }
 }

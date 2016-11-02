@@ -6,7 +6,7 @@ use Safe\CatBundle\Repository\ItemRepository;
 use Safe\CatBundle\Repository\ItemResultRepository;
 use Safe\CatBundle\Repository\ExamineeRepository;
 use Safe\CatBundle\Repository\AbilityRepository;
-
+use Safe\CatBundle\Repository\PastAbilityRepository;
 
 use Safe\CatBundle\Entity\IrtEquations;
 use Safe\CatBundle\Entity\Ability;
@@ -27,6 +27,7 @@ class CATService {
     private $itemResultRepository;
     private $examineeRepository;
     private $abilityRepository;
+    private $pastAbilityRepository;
     private $entityManager;
     private $logger;
     
@@ -127,6 +128,22 @@ class CATService {
     
     public function getAbility($examinee_code, $item_bank_code) {
         return $this->abilityRepository->findOneAbility($examinee_code, $item_bank_code);
+    }
+    
+    public function getItemResults($item_bank_code, $examinee_code) {
+        $queryItem = $this->itemRepository->createQueryBuilder('item')
+                       ->join('item.itemBank', 'ib')                                       
+                       ->where('ib.code = :item_bank_code')
+                       ->andWhere('itemResult.item = item');
+        
+        $query = $this->itemResultRepository->createQueryBuilder('itemResult');
+        $query->join('itemResult.examinee', 'e')                                                        
+                ->where('e.code= :examinee_code')
+                ->andWhere($query->expr()->exists($queryItem->getDQL()))
+                ->setParameter('item_bank_code', $item_bank_code)
+                ->setParameter('examinee_code', $examinee_code);
+
+        return $query->getQuery()->getResult();
     }
     
     protected function getOrCreateAbility($examinee_code, $item_bank_code) {

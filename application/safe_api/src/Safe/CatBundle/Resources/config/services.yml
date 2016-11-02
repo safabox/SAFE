@@ -22,7 +22,7 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
-            - Safe\CatBundle\Entity\Ability            
+            - Safe\CatBundle\Entity\Ability  
     safe_cat.repository.item:
         class: Doctrine\ORM\EntityRepository
         factory_service: doctrine.orm.default_entity_manager

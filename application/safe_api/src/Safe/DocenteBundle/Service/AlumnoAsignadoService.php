@@ -21,5 +21,5 @@ class AlumnoAsignadoService extends AlumnoService {
         $temasEstadisticas = $this->temaImpartidoService->getEstadisticaAlumno($cursoId, $alumnoId);
         return new EstadisticaAlumno($alumno, $temasEstadisticas);
     }
-
+    
 }
