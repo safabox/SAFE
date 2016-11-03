@@ -177,9 +177,6 @@
                 logger.error('No se pudo recuperar el Docente', httpResponse);
             }
         }
-        
-        
-        
     }
 
 

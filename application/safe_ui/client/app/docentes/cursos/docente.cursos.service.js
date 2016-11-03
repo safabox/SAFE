@@ -43,7 +43,7 @@
                 rango: rango,
                 metodo: metodo,
                 incremento: incremento,
-                habilitado: habilitado,
+                habilitado: 'false',
             };
 
             var postConcepto = svc.one(docenteId).one('cursos', cursoId).one('temas', temaId);

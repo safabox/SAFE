@@ -9,11 +9,18 @@
         email: '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$',
     };
     
-    var configIRT = {
+    var configIrtTipoUno = {
         discriminador: 0,
         azar: 0,
         d: 1.7,
         tipo: 'MULTIPLE_CHOICE',
+    };
+    
+     var configIrtTipoDos = {
+        discriminador: 0,
+        azar: 0,
+        d: 1.7,
+        tipo: 'MULTIPLE_CHOICE_MATRIX',
     };
     
     var concepto = {
@@ -28,7 +35,8 @@
         .constant('debugModeEnabled', debugModeEnabled)
         .constant('fieldPattern', fieldPattern)
         .constant('accordion', accordion)
-        .constant('configIRT', configIRT)
+        .constant('configIrtTipoUno', configIrtTipoUno)
+        .constant('configIrtTipoDos', configIrtTipoDos)
         .constant('concepto', concepto);
 })();
 

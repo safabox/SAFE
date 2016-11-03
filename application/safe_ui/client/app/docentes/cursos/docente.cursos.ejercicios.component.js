@@ -27,7 +27,6 @@
         
         vm.agregarRespuesta = agregarRespuesta;
         vm.eliminarRespuesta= eliminarRespuesta;
-
         
         vm.respuestasTableParams = new NgTableParams({
             page: 1,
@@ -47,7 +46,6 @@
                                 ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
                                 ['html', 'insertImage','insertLink', 'insertVideo', 'wordcount', 'charcount']
                             ];
-            //vm.model.pregunta = '';
         }
         
         function getData() {
@@ -60,8 +58,7 @@
                 vm.model.respuestas.push({id:cantidad, texto:'',correcta:false});
             }else {
                 vm.model.respuestas.push({id:cantidad, texto:'',verdadero:false,falso:false});
-            }
-            
+            }            
         }
         
         function eliminarRespuesta(idx) {

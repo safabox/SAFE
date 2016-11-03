@@ -1,4 +1,4 @@
-<div class="page" data-ng-controller="TemaConceptoCursosEdit" data-ng-hide="vm.loading">
+<div class="page" data-ng-hide="vm.loading">
 
     <section class="invoice-container" id="invoice">
 
@@ -31,14 +31,6 @@
                                        <field-error-label data-field="vm.form.titulo" data-field-label="Título" />
                                     </div>
                                 </div>
-                               
-                                <div class="form-group" show-errors>
-                                    <label class="col-md-2 control-label" for="copete">Decripción Corta:</label>
-                                    <div class="col-md-10">
-                                       <input class="form-control" type="text" placeholder="Decripción Corta" name="copete" data-ng-model="vm.concepto.copete" required>
-                                       <field-error-label data-field="vm.form.copete" data-field-label="Copete" />
-                                    </div>
-                                </div>
 
                                 <div class="form-group" show-errors>
                                     <label class="col-md-2 control-label" for="orden">Orden:</label>
@@ -47,11 +39,18 @@
                                     </div>
                                 </div>
                                 
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="copete">Copete:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="text" placeholder="Copete" name="copete" data-ng-model="vm.concepto.copete" required>
+                                       <field-error-label data-field="vm.form.copete" data-field-label="Copete" />
+                                    </div>
+                                </div>
+                                
                                 <div class="form-group" >
                                     <label class="col-md-2 control-label" for="descripcion" >Descripción:</label>
                                     <div class="col-md-10">
-                                       <div text-angular ta-toolbar="vm.toolbar" ng-model="vm.concepto.descripcion" class="ui-editor-concepto"></div> 
-                                       
+                                       <div text-angular ta-toolbar="vm.toolbar" ng-model="vm.concepto.descripcion" class="ui-editor-concepto"></div>                                        
                                     </div>
                                 </div>       
                                                                 

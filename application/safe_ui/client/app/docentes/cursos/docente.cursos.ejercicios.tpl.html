@@ -111,12 +111,12 @@
                                         </td>
                                         <td class="col-md-2" data-title="'Verdadero'" header-class="'text-center'">
                                             <div style="padding-top: 6px; padding-left: 50px;">
-                                                <label class="ui-checkbox"><input name="checkbox1" type="checkbox" ng-model="respuesta.verdadero" value="option1" ><span></span></label>
-                                            </div>  
+                                                <label class="ui-checkbox"><input name="checkbox1" type="checkbox" ng-model="respuesta.verdadero" value="option1" ng-disabled="respuesta.falso"><span></span></label>
+                                            </div>                                                    
                                         </td>
                                         <td class="col-md-2" data-title="'Falso'" header-class="'text-left'">
                                             <div style="padding-top: 6px; padding-left: 10px;">
-                                                <label class="ui-checkbox"><input name="checkbox1" type="checkbox" ng-model="respuesta.falso" value="option1" ><span></span></label>
+                                                <label class="ui-checkbox"><input name="checkbox1" type="checkbox" ng-model="respuesta.falso" value="option1" ng-disabled="respuesta.verdadero"><span></span></label>
                                             </div> 
                                         </td>
                                         <td class="col-md-2" data-title="'Acciones'" header-class="'text-left'">                          

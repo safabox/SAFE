@@ -4,9 +4,9 @@
     angular.module('app.docente.cursos')
         .controller('TemaConceptoCursosEdit', controller);
 
-    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams', 'messageBox', 'concepto', 'configIRT' ]; 
+    controller.$inject = ['_', '$q', '$state','logger', 'debugModeEnabled', '$stateParams', 'DocenteCursos', 'UsuarioService', 'NgTableParams', 'messageBox', 'concepto' ]; 
     
-    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams, messageBox, concepto, configIRT) {
+    function controller(_, $q, $state, logger, debugModeEnabled, $stateParams, DocenteCursos, UsuarioService, NgTableParams, messageBox, concepto) {
         var vm = this;
         vm.debug = debugModeEnabled;
         vm.loading = true;
@@ -100,18 +100,18 @@
                 vm.cantidadActividades = _.size(vm.actividades);                
                 if(vm.cantidadActividades !== 0) vm.noDataActividad = false; 
                 
-                _.forEach(vm.conpceptosTema, function(value) {
-                    if(value.id == vm.conceptoId) {
-                        vm.conpceptosTema.splice(value,1);
-                    }
-                });
-                
                 vm.toolbar = [
                     ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
                     ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
                     ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
                     ['html', 'insertImage','insertLink', 'insertVideo', 'wordcount', 'charcount']
                 ];
+                
+                _.forEach(vm.conpceptosTema, function(value) {
+                    if(value.id == vm.conceptoId) {
+                        vm.conpceptosTema.splice(value,1);
+                    }
+                });
                 
             }
             
@@ -134,19 +134,10 @@
                     if (answer === 'ok') {
                         var actividadRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id).one('actividads', actividad.id);  
                         var actividadPath =
-                        {
-                            titulo: actividad.titulo, 
-                            descripcion: actividad.descripcion,
-                            ejercicio: actividad.ejercicio, 
-                            resultado: actividad.resultado,
-                            dificultad: actividad.dificultad,
-                            discriminador: actividad.discriminador,
-                            azar: actividad.azar,
-                            d: actividad.d,
-                            tipo: actividad.tipo,      
+                        {  
                             habilitado: false,
                         };                
-                        actividadPath.path(actividadPut).then(onSuccess, onError); 
+                        actividadRemove.patch(actividadPath).then(onSuccess, onError); 
                     }
                 });
             
@@ -166,20 +157,11 @@
                 .then(function (answer) {
                     if (answer === 'ok') {
                         var actividadRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id).one('actividads', actividad.id);  
-                        var actividadPut =
-                        {
-                            titulo: actividad.titulo, 
-                            descripcion: actividad.descripcion,
-                            ejercicio: actividad.ejercicio, 
-                            resultado: actividad.resultado,
-                            dificultad: actividad.dificultad,
-                            discriminador: actividad.discriminador,
-                            azar: actividad.azar,
-                            d: actividad.d,
-                            tipo: actividad.tipo,      
+                        var actividadPatch =
+                        {   
                             habilitado: true,
                         };                
-                        actividadRecupero.customPUT(actividadPut).then(onSuccess, onError); 
+                        actividadRecupero.patch(actividadPatch).then(onSuccess, onError); 
                     }
                 });
             

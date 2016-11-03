@@ -132,21 +132,12 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var conceptoRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id);  
-                        var conceptoPut =
+                        var conceptoRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',conc.id);  
+                        var conceptoPatch =
                         {
-                            titulo: conc.titulo, 
-                            descripcion: conc.descripcion,
-                            copete: conc.copete, 
-                            orden: conc.orden,
-                            predecesoras: conc.predecesoras,
-                            tipo: concepto.tipo,
-                            rango: concepto.rango,
-                            metodo: concepto.metodo,
-                            incremento: concepto.incremento,
-                            habilitado: false,
+                            'habilitado': false
                         };                
-                        conceptoRemove.customPUT(conceptoPut).then(onSuccess, onError); 
+                        conceptoRemove.patch(conceptoPatch).then(onSuccess, onError); 
                     }
                 });
             
@@ -165,21 +156,12 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var conceptoRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id);  
-                        var conceptoPut =
+                        var conceptoRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',conc.id);  
+                        var conceptoPatch =
                         {
-                            titulo: conc.titulo, 
-                            descripcion: conc.descripcion,
-                            copete: conc.copete, 
-                            orden: conc.orden,
-                            predecesoras: conc.predecesoras,
-                            tipo: concepto.tipo,
-                            rango: concepto.rango,
-                            metodo: concepto.metodo,
-                            incremento: concepto.incremento,
-                            habilitado: false,
+                            'habilitado': true
                         };                            
-                        conceptoRecupero.customPUT(conceptoPut).then(onSuccess, onError); 
+                        conceptoRecupero.patch(conceptoPatch).then(onSuccess, onError); 
                     }
                 });
             
