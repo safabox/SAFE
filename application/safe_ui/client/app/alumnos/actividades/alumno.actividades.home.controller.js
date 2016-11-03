@@ -77,7 +77,7 @@
                 if (evaluation.resultado === 'APROBADO') {
                     logger.info("Muy bien");
                 } else {
-                    logger.warn("Inténtalo nuevamente");
+                    logger.warning("Inténtalo nuevamente");
                 }
                 if (evaluation.proxima_actividad && evaluation.proxima_actividad.estado === 'CURSANDO' && evaluation.proxima_actividad.elemento) {
                     self.actividad = evaluation.proxima_actividad.elemento;

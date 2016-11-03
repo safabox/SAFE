@@ -42,10 +42,10 @@ class ActividadAsignadaService extends ActividadService {
         $actividad = $this->getById($actividadId);
         $evaluador = EvaluadorFactory::crearEvaluador($actividad->getTipo());
         $resultadoActividad = $evaluador->evaluar($actividad->getResultado(), $resultado);
-        $itemResult = ($resultadoActividad) ? 1 : 0;
+        $itemResult = ($resultadoActividad != null && $resultadoActividad['resultado']) ? 1 : 0;
         $this->catService->registerResult($alumnoId, $actividadId, $itemResult);
         
-        $estadoActividad = ($resultadoActividad) ? ResultadoEvaluacion::APROBADO : ResultadoEvaluacion::DESAPROBADO;
+        $estadoActividad = ($itemResult == 1) ? ResultadoEvaluacion::APROBADO : ResultadoEvaluacion::DESAPROBADO;
         
         $proximoResultado = $this->proximaActividad($conceptoId, $alumnoId);
         return new ResultadoActividad($estadoActividad, $proximoResultado);       
