@@ -50,7 +50,7 @@ class ConceptoData extends AbstractFixture implements OrderedFixtureInterface
         $concepto3->setTema($this->getReference('curso-matematicas-tema1'));
         $concepto3->getPredecesoras()->add($concepto1);
         $concepto3->setOrden(1);
-        $concepto3->setHabilitado(true);
+        $concepto3->setHabilitado(false);
         $manager->persist($concepto3);
         $manager->flush();
 

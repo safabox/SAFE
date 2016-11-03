@@ -225,7 +225,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $conceptoDesactualizadoBBDD = $this->getConcepto($conceptoId);
         $conceptoAActualizar = array(
             'titulo' => $conceptoDesactualizadoBBDD->getTitulo().' PATCH',
-            'habilitado' => false
+            'habilitado' => 'true'
         );
         $content = json_encode($conceptoAActualizar);
         $route =  $this->getUrl('api_1_docentes_cursos_temas_conceptospatch_docente_curso_tema_concepto', array('docenteId' => $id, 'cursoId' => $cursoId, 'temaId' => $temaId, 'conceptoId' => $conceptoId, '_format' => 'json'));
@@ -239,7 +239,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
         $concepto = $this->getConcepto($conceptoId);
         $this->assertEquals($conceptoAActualizar['titulo'], $concepto->getTitulo());
         $this->assertEquals($conceptoDesactualizadoBBDD->getDescripcion(), $concepto->getDescripcion());
-        $this->assertEquals($conceptoAActualizar['habilitado'], $concepto->isHabilitado());
+        $this->assertTrue($concepto->isHabilitado());
     }
 
     public function testPatchAction_cambiarPredesoras() {

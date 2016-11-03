@@ -10,7 +10,7 @@ class BooleanTypeToBooleanTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        if (true === $value || BooleanType::VALUE_TRUE === (int) $value) {
+        if (($value != null) && (true === $value || BooleanType::VALUE_TRUE === (int) $value || 'true' === strtolower($value))) {
             return BooleanType::VALUE_TRUE;
         }
         return BooleanType::VALUE_FALSE;
@@ -20,7 +20,7 @@ class BooleanTypeToBooleanTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        if (BooleanType::VALUE_TRUE === (int) $value) {
+        if (($value != null) && (true === $value || BooleanType::VALUE_TRUE === (int) $value || 'true' === strtolower($value))) {
             return true;
         }
         return false;
