@@ -132,7 +132,7 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var actividadRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id).one('actividads', actividad.id);  
+                        var actividadRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('conceptos',concepto.id).one('actividads', actividad.id);  
                         var actividadPath =
                         {  
                             habilitado: false,
@@ -156,7 +156,7 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var actividadRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',concepto.id).one('actividads', actividad.id);  
+                        var actividadRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('conceptos',concepto.id).one('actividads', actividad.id);  
                         var actividadPatch =
                         {   
                             habilitado: true,

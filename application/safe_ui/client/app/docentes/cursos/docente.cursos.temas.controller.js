@@ -132,10 +132,10 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var conceptoRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',conc.id);  
+                        var conceptoRemove = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('conceptos',conc.id);  
                         var conceptoPatch =
                         {
-                            'habilitado': false
+                            'habilitado': 'false'
                         };                
                         conceptoRemove.patch(conceptoPatch).then(onSuccess, onError); 
                     }
@@ -156,10 +156,10 @@
             messageBox.showOkCancel(title)
                 .then(function (answer) {
                     if (answer === 'ok') {
-                        var conceptoRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('concepto',conc.id);  
+                        var conceptoRecupero = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('conceptos',conc.id);  
                         var conceptoPatch =
                         {
-                            'habilitado': true
+                            'habilitado': 'true'
                         };                            
                         conceptoRecupero.patch(conceptoPatch).then(onSuccess, onError); 
                     }
