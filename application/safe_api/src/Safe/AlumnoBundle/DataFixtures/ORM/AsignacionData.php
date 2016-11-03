@@ -227,6 +227,7 @@ class AsignacionData extends AlumnoData
         $manager->flush();
         
         $actividad15 = $this->crearActividad("15", $concepto5);
+        $actividad15->setTipo('Dummy');
         $manager->persist($actividad15);
         $manager->flush();
         
