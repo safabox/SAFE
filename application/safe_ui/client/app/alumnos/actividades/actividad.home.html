@@ -52,57 +52,57 @@
         padding:40px 0;
     }
 </style>
-<div data-ng-controller="AlumnoActividadHomeCtrl as vm">
-    <div class="page page-dashboard" ng-show="!vm.loading">
-        <div class="safe-breadcrumb">
-            <ol class="breadcrumb">
-                <li><a href="" ng-click="vm.goCurso()">{{vm.curso.titulo}}</a></li>
-                <li><a href="" ng-click="vm.goTema()">{{vm.tema.titulo}}</a></li>
-                <li ng-click="vm.goBack()"><a href="">{{vm.concepto.titulo}}</a></li>
-                <li class="active"><a href="">{{vm.titulo}}</a></li>
-            </ol>
-        </div>  
-        <div class="row">
-            <div class="col-sm-12">
-                <section class="safe-actividad">
-                    <div class="safe-panel-top bg-primary" ng-class="{'safe-only-title': !vm.hasDescription}">
-                        <div class="text-center">
-                            <h3 >{{vm.titulo}}</h3>
-                        </div>
-                    </div>                
-                    <div class="safe-actividad-intro">
 
-                        <div class="safe-panel-img bg-primary safe-cursor" ng-class="{'safe-only-title': !vm.hasDescription}"  ng-click="vm.viewConcept()"  uib-tooltip="Haz click en mi imagen para saber en que estamos trabajando" tooltip-placement="right">
-                            <img alt="" src="images/bots/safe_masculino_1.svg" class="img-circle">
-                        </div>
-                        <div ng-hide="!vm.hasDescription">    
-                            <div class="safe-texto" data-slim-scroll data-scroll-height="150px">
-                                <div ta-bind ng-model="vm.actividad.descripcion"> </div>
-                            </div>
-                        </div>    
+<div class="page page-dashboard" ng-show="!vm.loading">
+    <div class="safe-breadcrumb">
+        <ol class="breadcrumb">
+            <li><a href="" ng-click="vm.goCurso()">{{vm.curso.titulo}}</a></li>
+            <li><a href="" ng-click="vm.goTema()">{{vm.tema.titulo}}</a></li>
+            <li ng-click="vm.goBack()"><a href="">{{vm.concepto.titulo}}</a></li>
+            <li class="active"><a href="">{{vm.titulo}}</a></li>
+        </ol>
+    </div>  
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="safe-actividad">
+                <div class="safe-panel-top bg-primary" ng-class="{'safe-only-title': !vm.hasDescription}">
+                    <div class="text-center">
+                        <h3 >{{vm.titulo}}</h3>
                     </div>
-                    <div class="safe-ejercicio">
-                        <section class="panel panel-default">
-                            <div class="panel-heading"><span class="fa fa-pencil-square-o"></span> Resolver</div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-12" >
-                                        <div ng-include="vm.templateUrl"></div>
-                                    </div>                                
-                                </div>
-                            </div>
-                        </section>                    
-                    </div>
-                    <div class='pull-right safe-btn-group'>
-                        <button type="button" class="btn btn-suceess btn-lg" ng-click="vm.goBack()">Volver</button>
-                        <button type="button" class="btn btn-primary btn-lg" ng-click="vm.enviar()">Enviar</button>
+                </div>                
+                <div class="safe-actividad-intro">
 
+                    <div class="safe-panel-img bg-primary safe-cursor" ng-class="{'safe-only-title': !vm.hasDescription}"  ng-click="vm.viewConcept()"  uib-tooltip="Haz click en mi imagen para saber en que estamos trabajando" tooltip-placement="right">
+                        <img alt="" src="images/bots/safe_masculino_1.svg" class="img-circle">
                     </div>
-                </section>
-            </div>
+                    <div ng-hide="!vm.hasDescription">    
+                        <div class="safe-texto" data-slim-scroll data-scroll-height="150px">
+                            <div ta-bind ng-model="vm.actividad.descripcion"> </div>
+                        </div>
+                    </div>    
+                </div>
+                <div class="safe-ejercicio">
+                    <section class="panel panel-default">
+                        <div class="panel-heading"><span class="fa fa-pencil-square-o"></span> Resolver</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-sm-12" >
+                                    <div ng-include="vm.templateUrl"></div>
+                                </div>                                
+                            </div>
+                        </div>
+                    </section>                    
+                </div>
+                <div class='pull-right safe-btn-group'>
+                    <button type="button" class="btn btn-suceess btn-lg" ng-click="vm.goBack()">Volver</button>
+                    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.enviar()">Enviar</button>
+
+                </div>
+            </section>
         </div>
     </div>
 </div>
+
 <script type="text/ng-template" id="multiplechoice.html">
     <div ta-bind ng-model="vm.actividad.ejercicio[0].pregunta" ></div>
     <ul class="task-list list-unstyled">
