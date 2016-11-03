@@ -10,7 +10,7 @@ class EvaluadorFactory {
     public static function crearEvaluador($tipo) {
         
         switch ($tipo) {
-            case 'MULTIPLE_CHOICE ':
+            case 'MULTIPLE_CHOICE':
                 return new EvaluadorMultipleChoice();
             case 'MULTIPLE_CHOICE_MATRIX':
                 return new EvaluadorMultipleChoiceMatrix();
