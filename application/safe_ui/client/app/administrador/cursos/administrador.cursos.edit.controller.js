@@ -28,7 +28,7 @@
         
         vm.fieldLabels = [
             { name: 'titulo', label: 'Título' },
-            { name: 'descripcion', label: 'Descripción' },
+            { name: 'copete', label: 'Copete' },
         ];
         
         activate();
@@ -230,7 +230,8 @@
             var cursoPatch =
             {
                 'titulo':  vm.curso.titulo,
-                'descripcion': vm.curso.descripcion,
+                'copete': vm.curso.copete,
+                'descripcion': '',
                 'docentes': [],
                 'alumnos': [],
                 'habilitado':1
