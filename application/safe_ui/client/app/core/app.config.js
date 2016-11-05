@@ -3,8 +3,9 @@
 
     angular.module('app')
         .factory('appConfig', [appConfig]);
-
+        
     function appConfig() {
+                
         var pageTransitionOpts = [
             {
                 name: 'Fade up',
@@ -42,8 +43,7 @@
             warning:    '#EEC95A',
             danger:     '#E87352',
             gray:       '#DCDCDC'
-        };
-        
+        };        
         
 
         return {

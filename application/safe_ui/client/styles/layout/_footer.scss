@@ -12,6 +12,30 @@
     border-top: 1px solid darken($main_container_bg, 5%);
 }
 
+.app-footer-docente {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-left: 0px; // Nav width
+    font-size: $font-size-small;
+    padding: $padding-large-horizontal;
+    background-color: darken($main_container_bg, 2%);
+    border-top: 1px solid darken($main_container_bg, 5%);
+}
+
+.app-footer-alumno {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-left: 0px; // Nav width
+    font-size: $font-size-small;
+    padding: $padding-large-horizontal;
+    background-color: darken($main_container_bg, 2%);
+    border-top: 1px solid darken($main_container_bg, 5%);
+}
+
 
 // When Nav collapsed, overrides vertical Nav
 .nav-collapsed-min {

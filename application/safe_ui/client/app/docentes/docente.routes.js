@@ -40,7 +40,7 @@
                     template: '<ui-view/>'
                 }
             },  
-            {
+            /*{
                 state: 'docente.cursos.list',
                 config: {
                     url: '/cursos',
@@ -50,7 +50,7 @@
                     controllerAs: 'vm',    
                     params: {error: null}
                 }
-            },
+            },*/
             {
                 state: 'docente.cursos.edit',
                 config: {

@@ -64,18 +64,18 @@
                                     'bg-white': ['31','32','33','34','35','36'].indexOf(main.skin) >= 0,
                                     'bg-dark': ['31','32','33','34','35','36'].indexOf(main.skin) < 0
                    }"
-                   >
+                   ng-show="menuAdministrador">
             </aside>
-
-            <div id="content" class="content-container">
+            
+            <div id="content" ng-controller="SidebarCtrl" class="content-container{{content}}">
                 <section data-ui-view
                          class="view-container {{main.pageTransition.class}}">
                 </section>
             </div>
 
-            <footer data-ng-include=" 'app/layout/footer.html' "
+            <footer ng-controller="SidebarCtrl" data-ng-include=" 'app/layout/footer.html' "
                     id="footer"
-                    class="app-footer">
+                    class="app-footer{{content}}">
             </footer>
         </div>
         
@@ -200,22 +200,21 @@
         <script src="app/docentes/docente.module.js"></script>
         <script src="app/docentes/docente.routes.js"></script>
         <script src="app/docentes/docente.dashboard.controller.js"></script>
-        <script src="app/docentes/docente.dashboard.service.js"></script>
-        
+        <script src="app/docentes/docente.dashboard.service.js"></script>        
         <script src="app/docentes/cursos/docente.cursos.module.js"></script>
         <script src="app/docentes/cursos/docente.cursos.service.js"></script>
-        <script src="app/docentes/cursos/docente.cursos.list.controller.js"></script>
+        <!--<script src="app/docentes/cursos/docente.cursos.list.controller.js"></script>-->
         <script src="app/docentes/cursos/docente.cursos.edit.controller.js"></script>
-        <script src="app/docentes/cursos/docente.cursos.temas.controller.js"></script>
-        <script src="app/docentes/cursos/docente.cursos.temas.concepto.controller.js"></script>
-        <script src="app/docentes/cursos/docente.cursos.temas.conceptos.actividad.controller.js"></script>  
-        <script src="app/docentes/cursos/docente.cursos.ejercicios.component.js"></script>               
-        <script src="app/docentes/cursos/crear-tema-popup/crear-tema-popup.module.js"></script>
-        <script src="app/docentes/cursos/crear-tema-popup/crear-tema-popup.js"></script>
-        <script src="app/docentes/cursos/crear-tema-popup/crear-tema-popup.controller.js"></script>
-        <script src="app/docentes/cursos/crear-concepto-popup/crear-concepto-popup.module.js"></script>
-        <script src="app/docentes/cursos/crear-concepto-popup/crear-concepto-popup.js"></script>
-        <script src="app/docentes/cursos/crear-concepto-popup/crear-concepto-popup.controller.js"></script>
+        <script src="app/docentes/cursos/temas/docente.cursos.temas.controller.js"></script>
+        <script src="app/docentes/cursos/temas/crear-tema-popup/crear-tema-popup.module.js"></script>
+        <script src="app/docentes/cursos/temas/crear-tema-popup/crear-tema-popup.js"></script>
+        <script src="app/docentes/cursos/temas/crear-tema-popup/crear-tema-popup.controller.js"></script>
+        <script src="app/docentes/cursos/conceptos/docente.cursos.temas.concepto.controller.js"></script>
+        <script src="app/docentes/cursos/conceptos/crear-concepto-popup/crear-concepto-popup.module.js"></script>
+        <script src="app/docentes/cursos/conceptos/crear-concepto-popup/crear-concepto-popup.js"></script>
+        <script src="app/docentes/cursos/conceptos/crear-concepto-popup/crear-concepto-popup.controller.js"></script>
+        <script src="app/docentes/cursos/actividades/docente.cursos.temas.conceptos.actividad.controller.js"></script>  
+        <script src="app/docentes/cursos/actividades/docente.cursos.ejercicios.component.js"></script>   
         <!-- endinjector -->
         <!-- endbuild -->
         

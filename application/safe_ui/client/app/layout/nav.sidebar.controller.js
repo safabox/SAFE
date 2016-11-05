@@ -7,24 +7,27 @@
     function SidebarCtrl(_, $scope, $localStorage, $state) {
         
         $scope.$on("$stateChangeSuccess", function updatePage() {
-           $scope.roles = $localStorage.usuarioSafe.roles;
+            $scope.roles = $localStorage.usuarioSafe.roles;
 
             if(_.indexOf($scope.roles, "ROLE_SUPER_ADMIN") >= 0){
-               $scope.menuAdministrador = true;
+                $scope.menuAdministrador = true;
+                $scope.content = '';
             }
             else {
                $scope.menuAdministrador = false;
             }
             
             if(_.indexOf($scope.roles, "ROLE_ALUMNO") >= 0){
-               $scope.menuAlumno = true;
+                $scope.menuAlumno = true;
+                $scope.content = '-alumno';
             }
             else {
-               $scope.menuAlumno = false;
+                $scope.menuAlumno = false;
             }
             
             if(_.indexOf($scope.roles, "ROLE_DOCENTE") >= 0){
-               $scope.menuDocente = true;
+                $scope.menuDocente = true;
+                $scope.content = '-docente';
             }
             else {
                $scope.menuDocente = false;
