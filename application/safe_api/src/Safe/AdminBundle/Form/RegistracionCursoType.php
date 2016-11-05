@@ -28,7 +28,8 @@ class RegistracionCursoType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('titulo', TextType::class)
-                ->add('descripcion', TextareaType::class)
+                ->add('copete', TextType::class)
+                ->add('descripcion', TextareaType::class)                
                 ->add('docentes',  CollectionType::class, array(
                     'entry_type' => 'identificador_docente',
                     'allow_add' => true,        

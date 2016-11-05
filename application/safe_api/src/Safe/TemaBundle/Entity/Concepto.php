@@ -10,6 +10,7 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 use JMS\Serializer\Annotation\Expose;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\VirtualProperty;
+use JMS\Serializer\Annotation\SerializedName;
 
 
 use Safe\CatBundle\Entity\ItemBank;
@@ -92,6 +93,15 @@ class Concepto
      * @Expose
      */
     private $habilitado;
+    
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="mostrarResultado", type="boolean", nullable=true)
+     * @Expose
+     * @SerializedName("mostrarResultado")
+     */
+    private $mostrarResultado;
     
     /**
      * @ORM\ManyToMany(targetEntity="Safe\TemaBundle\Entity\Concepto", inversedBy="sucesoras")
@@ -412,7 +422,15 @@ class Concepto
         $this->copete = $copete;
     }
 
-            
+    function getMostrarResultado() {
+        return $this->mostrarResultado;
+    }
+
+    function setMostrarResultado($mostrarResultado) {
+        $this->mostrarResultado = $mostrarResultado;
+    }
+
+                
     //Transient
     /**
      * @Groups({"docente_concepto_detalle"}) 

@@ -55,8 +55,8 @@
             vm.rango = concepto.rango;
             vm.metodo = concepto.metodo;
             vm.incremento = concepto.incremento;
-            
-            DocenteCursos.newConcepto(vm.titulo, vm.descripcion, vm.copete, vm.orden, vm.predecesoras, vm.tipo, vm.rango, vm.metodo, vm.incremento, vm.cursoId, vm.docenteId, vm.temaId,vm.habilitado).then(onSuccess, onError);
+            vm.habilitado = false;
+            DocenteCursos.newConcepto(vm.titulo, vm.descripcion, vm.copete, vm.orden, vm.predecesoras, vm.tipo, vm.rango, vm.metodo, vm.incremento, vm.cursoId, vm.docenteId, vm.temaId,vm.habilitado, vm.mostrarResultado).then(onSuccess, onError);
             
             function onSuccess(response) {
                 logger.info('Se guardó el concepto');

@@ -76,6 +76,13 @@ class ConceptoForm
     private $habilitado;
     
     /**
+     * @var bool
+     *
+     * @Expose
+     */
+    private $mostrarResultado;
+    
+    /**
      * @Expose
      * @Groups({"docente_concepto_detalle"})
      */
@@ -127,6 +134,8 @@ class ConceptoForm
     }
     public function initWithConcepto(Concepto $concepto) {
         $this->titulo = $concepto->getTitulo();
+        $this->copete = $concepto->getCopete();
+        $this->mostrarResultado = $concepto->getMostrarResultado();
         $this->descripcion = $concepto->getDescripcion();
         $this->orden = $concepto->getOrden();
         $this->habilitado = $concepto->isHabilitado();
@@ -147,6 +156,7 @@ class ConceptoForm
         $concepto->setDescripcion($this->descripcion);
         $concepto->setOrden($this->orden);
         $concepto->setHabilitado($this->habilitado);
+        $concepto->setMostrarResultado($this->mostrarResultado);
         $concepto->setPredecesoras($this->predecesoras);
         $concepto->setSucesoras($this->sucesoras);
         $concepto->setTema($this->tema);
@@ -314,6 +324,16 @@ class ConceptoForm
     function setCopete($copete) {
         $this->copete = $copete;
     }
+    
+    function getMostrarResultado() {
+        return $this->mostrarResultado;
+    }
+
+    function setMostrarResultado($mostrarResultado) {
+        $this->mostrarResultado = $mostrarResultado;
+    }
+
+
     
 }
 

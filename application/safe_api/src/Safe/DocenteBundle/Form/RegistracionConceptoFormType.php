@@ -36,6 +36,7 @@ class RegistracionConceptoFormType extends AbstractType {
                 ->add('descripcion', TextareaType::class)
                 ->add('orden', NumberType::class)
                 ->add('habilitado', BooleanType::class)  
+                ->add('mostrarResultado', BooleanType::class)
                 ->add('predecesoras',  CollectionType::class, array(
                     'entry_type' => 'identificador_concepto',
                     'allow_add' => true,        

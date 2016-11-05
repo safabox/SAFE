@@ -4,6 +4,8 @@ namespace Safe\CatBundle\Entity;
 use Safe\CatBundle\Entity\ItemType;
 use Safe\CatBundle\Entity\ItemResult;
 use Safe\CatBundle\Entity\ThetaEstimation;
+use Symfony\Bridge\Monolog\Logger;
+
 /**
  * Description of Irt
  *
@@ -84,7 +86,7 @@ class IrtEquations {
      * result[1] = diferencia con theta anterior.
      * result[2] = error estandar.
      */
-    public static function estimateNewThetaWithStandarErrorNR($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3)) {      
+    public static function estimateNewThetaWithStandarErrorNR($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3), Logger $logger = null) {      
         $numerator = 0;
         $denominator = 0;        
         if (count($itemsResult) <= 1) {             
@@ -93,15 +95,18 @@ class IrtEquations {
         foreach ($itemsResult as $itemResult) {
             $p = IrtEquations::probP($theta, $itemResult);
             $q = 1 - $p;
-            $num = $itemResult->getA() * ($itemResult->getResult() - $p);            
+            if ($itemResult->getA() == 0) {
+                $denominator += $p * $q;
+                $num =  $itemResult->getResult() - $p;
+            } else {
+                $num = $itemResult->getA() * ($itemResult->getResult() - $p);            
+                $denominator += pow($itemResult->getA(), 2) * $p * $q;     
+            }
             $numerator +=  $num;
-            $denominator += pow($itemResult->getA(), 2) * $p * $q;            
         }
-         
         //$numerator = $numerator * -1;
         $diffTheta = ($numerator/$denominator);       
-        $unsignedDiffTheta = ($diffTheta < 0) ? (-1 * $diffTheta) : $diffTheta;  
-        
+        $unsignedDiffTheta = ($diffTheta < 0) ? (-1 * $diffTheta) : $diffTheta;         
         $estimatedTheta = $theta + $diffTheta;
         if ($unsignedDiffTheta < $error || $estimatedTheta < $limit[0] || $estimatedTheta > $limit[1]) {
             if ($estimatedTheta < $limit[0]) {
@@ -111,13 +116,14 @@ class IrtEquations {
             }
             
             $standarError = 1 / sqrt($denominator);
+            $logger->addDebug("·······························thetaEstimado2: ".$estimatedTheta);
             return new ThetaEstimation($estimatedTheta, $diffTheta, $standarError);
         }
-        return IrtEquations::estimateNewThetaWithStandarErrorNR($estimatedTheta, $itemsResult, $error, $limit);
+        return IrtEquations::estimateNewThetaWithStandarErrorNR($estimatedTheta, $itemsResult, $error, $limit, $logger);
         
     }
     
-    public static function estimateNewThetaWithStandarErrorML($theta, $itemsResult, $increment = 0.25, $limit = array(-3, 3)) {              
+    public static function estimateNewThetaWithStandarErrorML($theta, $itemsResult, $increment = 0.25, $limit = array(-3, 3), Logger $logger = null) {              
         $maxLikehoodSum = null;
         $maxTheta = $limit[0];        
         for($thetaEval=$limit[0]; $thetaEval < $limit[1]; $thetaEval += $increment) {
@@ -139,12 +145,16 @@ class IrtEquations {
         $denominatorSum = 0;
         foreach ($itemsResult as $itemResult) {
             $p = IrtEquations::probP($maxTheta, $itemResult);
-            $alpha_pow2 = ($itemResult->getA() ** 2) * ($itemResult->getD() ** 2);
+            $alpha_pow2 =  pow($itemResult->getA(), 2) * pow($itemResult->getD(), 2);
             $denominator = $alpha_pow2 * $p * (1 - $p);
             $denominatorSum += $denominator;
         }        
-        $standarError = 1 / sqrt($denominatorSum);
-        return new ThetaEstimation($maxTheta, $maxTheta - $theta, $standarError);
+        if ($denominatorSum == 0) {
+            $standarError = 999;
+        } else {
+            $standarError = 1 / sqrt($denominatorSum);
+        }        
+        return new ThetaEstimation($maxTheta, $maxTheta - $theta, $standarError, $logger);
     }
     
 }
