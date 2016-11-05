@@ -53,6 +53,12 @@
                                        <div text-angular ta-toolbar="vm.toolbar" ng-model="vm.concepto.descripcion" class="ui-editor-concepto"></div>                                        
                                     </div>
                                 </div>       
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="orden" uib-tooltip="Muestra el resultado al alumno una vez que realiza la actividad.">Mostrar resultado:</label>
+                                    <div class="col-md-10">
+                                        <label class="ui-switch ui-switch-success"><input type="checkbox" name="resultado" data-ng-model="vm.concepto.mostrarResultado" ><i></i></label>
+                                    </div>
+                                </div>
                                                                 
                                 <div class="form-group">
                                     <label class="col-md-2 control-label" for="predecesoras">Predecesoras:</label>
