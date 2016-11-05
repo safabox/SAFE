@@ -6,10 +6,12 @@ use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 class ResultadoActividad {
     private $resultado;
     private $proximaActividad;
+    private $resolucionAnterior;
 
-    function __construct($resultado, $proximaActividad) {
+    function __construct($resultado, $proximaActividad, $resolucionAnterior) {
         $this->resultado = $resultado;
         $this->proximaActividad = $proximaActividad;
+        $this->resolucionAnterior = $resolucionAnterior;
     }
 
 
@@ -29,5 +31,14 @@ class ResultadoActividad {
         $this->proximaActividad = $proximaActividad;
     }
 
+    function getResolucionAnterior() {
+        return $this->resolucionAnterior;
+    }
+
+    function setResolucionAnterior($resolucionAnterior) {
+        $this->resolucionAnterior = $resolucionAnterior;
+    }
+
+    
 
 }

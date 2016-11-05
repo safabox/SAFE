@@ -51,6 +51,27 @@
     .safe-only-title.safe-panel-top {
         padding:40px 0;
     }
+    .safe-incorrecto {
+        background-color: #FEF0F0;
+        color: #9D545B;
+    }
+    
+    .safe-correcto {
+        background-color: #F2FBEC;
+        color: #7A8C6B;
+    }
+    
+    .safe-incorrecto .safe-option-callout {
+        border-color: #E87352;
+        background-color: #FEF0F0;
+        color: #9D545B; 
+    }
+    
+    .safe-correcto .safe-option-callout {
+        border-color: #e9f7d7;
+        background-color: #F2FBEC;
+        color: #7A8C6B;
+    }
 </style>
 
 <div class="page page-dashboard" ng-show="!vm.loading">
@@ -95,8 +116,8 @@
                 </div>
                 <div class='pull-right safe-btn-group'>
                     <button type="button" class="btn btn-suceess btn-lg" ng-click="vm.goBack()">Volver</button>
-                    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.enviar()">Enviar</button>
-
+                    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.enviar()" ng-show="vm.showEnviar">Enviar</button>
+                    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.irProximaActividad()" ng-show="vm.showProximaActividadBtn">Proxima Actividad</button>
                 </div>
             </section>
         </div>
@@ -106,7 +127,7 @@
 <script type="text/ng-template" id="multiplechoice.html">
     <div ta-bind ng-model="vm.actividad.ejercicio[0].pregunta" ></div>
     <ul class="task-list list-unstyled">
-        <li ng-repeat="opcion in vm.actividad.ejercicio[0].respuestas">
+        <li ng-repeat="opcion in vm.actividad.ejercicio[0].respuestas" ng-class="{'safe-incorrecto': vm.showResultado && opcion.resultadoEsperado == false, 'safe-correcto': vm.showResultado && opcion.resultadoEsperado == true}">
             <div class="safe-option-callout callout-info safe-cursor" ng-click="vm.toogleOption(opcion)">
                 <label class="ui-checkbox">
                     <input id="opcion_{{opcion.id}}" type="checkbox" ng-model="opcion.selected">
@@ -129,7 +150,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="opcion in vm.actividad.ejercicio[0].respuestas" >
+                <tr ng-repeat="opcion in vm.actividad.ejercicio[0].respuestas" ng-class="{'safe-incorrecto': vm.showResultado && opcion.resultadoEsperado != opcion.resultado, 'safe-correcto': vm.showResultado && opcion.resultadoEsperado == opcion.resultado}" >
                     <td class="col-md-10 text-left">{{opcion.texto}}</td>
                     <td class="text-center"><input type="radio" data-ng-name="opcion.texto" data-ng-model="opcion.resultado" data-ng-value="true" /></td>
                     <td class="text-center"><input type="radio" data-ng-name="opcion.texto" data-ng-model="opcion.resultado" data-ng-value="false" /></td>
@@ -157,5 +178,18 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click='listo()'>Listo</button>        
+    </div>
+</script>  
+
+<script type="text/ng-template" id="confirmarEnvioActividad.html">
+    <div class="safe-modal-header modal-header bg-warning">
+        <h3>Advertencia</h3>
+    </div>
+    <div class="modal-body">
+        <p>No seleccion&oacute; ninguna respuesta. ¿Está seguro de continuar?</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click='cancelarEnvio()'>Cancel</button>
+        <button class="btn btn-primary" ng-click='continuarEnvio()'>Deseo continuar</button>                         
     </div>
 </script>  
