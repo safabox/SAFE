@@ -105,15 +105,17 @@ class CATService {
             $item = $this->itemRepository->findOneByCode($item_code);            
             $item->addResult($examinee, $result);
             $this->itemRepository->save($item);       
-
             $itemBank = $item->getItemBank();            
-            $ability = $this->abilityRepository->findOneAbility($examinee->getCode(), $itemBank->getCode());                        
+            $ability = $this->abilityRepository->findOneAbility($examinee->getCode(), $itemBank->getCode());    
+            
+            $itemResults = $this->getItemResults($itemBank->getCode(), $examinee_code);
+ //           $this->logger->addDebug("######################################## !! : ".count($itemResults));
             if (ThetaEstimationMethodType::THETA_MLE == $itemBank->getThetaEstimationMethod()) {
-                $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorML($ability->getTheta(), $item->getItemsResults(), $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
+                $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorML($ability->getTheta(), $itemResults, $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
             } else {
-                $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorNR($ability->getTheta(), $item->getItemsResults(), $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
+                $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorNR($ability->getTheta(), $itemResults, $itemBank->getDiscretIncrement(), $itemBank->getItemRange(), $this->logger);
             }
-            //$this->logger->addDebug("######################################## Update theta ");
+//            $this->logger->addDebug("######################################## Update theta ");
             $ability->updateTheta($thetaEstimation->getTheta());
             $ability->setThetaError($thetaEstimation->getStandarError());
 
