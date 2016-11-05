@@ -109,15 +109,19 @@ class CATService {
             $ability = $this->abilityRepository->findOneAbility($examinee->getCode(), $itemBank->getCode());    
             
             $itemResults = $this->getItemResults($itemBank->getCode(), $examinee_code);
- //           $this->logger->addDebug("######################################## !! : ".count($itemResults));
             if (ThetaEstimationMethodType::THETA_MLE == $itemBank->getThetaEstimationMethod()) {
-                $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorML($ability->getTheta(), $itemResults, $itemBank->getDiscretIncrement(), $itemBank->getItemRange());
+                $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorML($ability->getTheta(), $itemResults, $itemBank->getDiscretIncrement(), $itemBank->getItemRange(), $this->logger);
             } else {
                 $thetaEstimation = IrtEquations::estimateNewThetaWithStandarErrorNR($ability->getTheta(), $itemResults, $itemBank->getDiscretIncrement(), $itemBank->getItemRange(), $this->logger);
             }
-//            $this->logger->addDebug("######################################## Update theta ");
+            $this->logger->addDebug("###################################Original theta ".$ability->getTheta());
             $ability->updateTheta($thetaEstimation->getTheta());
             $ability->setThetaError($thetaEstimation->getStandarError());
+            
+            //$this->logger->addDebug("###################################Current theta ".$thetaEstimation->getTheta());
+            //foreach ($ability->getPastAbilities() as $value) {
+            //    $this->logger->addDebug("###################################Past theta ".$value->getTheta());
+            //}
 
             $this->abilityRepository->save($ability);
             $this->entityManager->getConnection()->commit();

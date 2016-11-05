@@ -86,7 +86,7 @@ class IrtEquations {
      * result[1] = diferencia con theta anterior.
      * result[2] = error estandar.
      */
-    public static function estimateNewThetaWithStandarErrorNR($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3), $logger) {      
+    public static function estimateNewThetaWithStandarErrorNR($theta, $itemsResult, $error = 0.001, $limit = array(-3, 3), Logger $logger = null) {      
         $numerator = 0;
         $denominator = 0;        
         if (count($itemsResult) <= 1) {             
@@ -94,7 +94,6 @@ class IrtEquations {
         }
         foreach ($itemsResult as $itemResult) {
             $p = IrtEquations::probP($theta, $itemResult);
-            $logger->addDebug("!!!p: ".$p);
             $q = 1 - $p;
             if ($itemResult->getA() == 0) {
                 $denominator += $p * $q;
@@ -104,9 +103,6 @@ class IrtEquations {
                 $denominator += pow($itemResult->getA(), 2) * $p * $q;     
             }
             $numerator +=  $num;
-            
-            
-            $logger->addDebug("denominador: ".$denominator);
         }
         //$numerator = $numerator * -1;
         $diffTheta = ($numerator/$denominator);       
@@ -127,7 +123,7 @@ class IrtEquations {
         
     }
     
-    public static function estimateNewThetaWithStandarErrorML($theta, $itemsResult, $increment = 0.25, $limit = array(-3, 3)) {              
+    public static function estimateNewThetaWithStandarErrorML($theta, $itemsResult, $increment = 0.25, $limit = array(-3, 3), Logger $logger = null) {              
         $maxLikehoodSum = null;
         $maxTheta = $limit[0];        
         for($thetaEval=$limit[0]; $thetaEval < $limit[1]; $thetaEval += $increment) {
@@ -149,12 +145,16 @@ class IrtEquations {
         $denominatorSum = 0;
         foreach ($itemsResult as $itemResult) {
             $p = IrtEquations::probP($maxTheta, $itemResult);
-            $alpha_pow2 = ($itemResult->getA() ** 2) * ($itemResult->getD() ** 2);
+            $alpha_pow2 =  pow($itemResult->getA(), 2) * pow($itemResult->getD(), 2);
             $denominator = $alpha_pow2 * $p * (1 - $p);
             $denominatorSum += $denominator;
         }        
-        $standarError = 1 / sqrt($denominatorSum);
-        return new ThetaEstimation($maxTheta, $maxTheta - $theta, $standarError);
+        if ($denominatorSum == 0) {
+            $standarError = 999;
+        } else {
+            $standarError = 1 / sqrt($denominatorSum);
+        }        
+        return new ThetaEstimation($maxTheta, $maxTheta - $theta, $standarError, $logger);
     }
     
 }
