@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('app.docente')
-        .controller('DocenteDashboardCtrl', ['$scope','$q','DocenteCursos','UsuarioService', '$state', 'debugModeEnabled', '$filter',DocenteDashboardCtrl])
+        .controller('DocenteDashboardCtrl', ['$q','DocenteCursos','UsuarioService', '$state', 'debugModeEnabled', '$filter', 'logger', DocenteDashboardCtrl])
 
-    function DocenteDashboardCtrl($scope, $q, DocenteCursos,UsuarioService, $state, debugModeEnabled, $filter) {
+    function DocenteDashboardCtrl($q, DocenteCursos,UsuarioService, $state, debugModeEnabled, $filter, logger) {
         var vm = this;
         
         vm.loading = true;
@@ -69,7 +69,7 @@
         }
 
         function goCurso(item) {            
-            $state.go('docente.cursos.edit', { id: item.id});
+            $state.go('docente.cursos.edit', { id: item.id, background: item.background });
         }
 
         function hasFinished(curso) {

@@ -18,7 +18,7 @@
 
             var modalInstance = $uibModal.open({
                 size: 'lg',
-                templateUrl: 'app/docentes/cursos/crear-tema-popup/crear-tema-popup.tpl.html',
+                templateUrl: 'app/docentes/cursos/temas/crear-tema-popup/crear-tema-popup.tpl.html',
                 controller: 'CrearTemaPopupController',
                 controllerAs: 'vm',
                 resolve: {
