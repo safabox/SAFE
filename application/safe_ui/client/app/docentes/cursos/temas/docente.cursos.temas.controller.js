@@ -222,7 +222,7 @@
         }
         
         function goBack() {
-            $state.go('docente.cursos.edit', { 'id': $stateParams.idCurso});
+            $state.go('docente.cursos.edit', { 'id': $stateParams.idCurso, 'background': $stateParams.background });
         }
     }    
 })(); 

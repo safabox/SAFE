@@ -4,12 +4,13 @@
     angular.module('app.docente.cursos')
         .controller('DocenteCursosEdit', controller);
 
-    controller.$inject = ['_', '$q', 'DocenteCursos', '$state', 'logger', 'debugModeEnabled', '$stateParams', 'UsuarioService', 'NgTableParams', 'CrearTemaPopup', 'messageBox']; 
+    controller.$inject = ['_', '$q', 'DocenteCursos', '$state', 'logger', 'debugModeEnabled', '$stateParams', 'UsuarioService', 'NgTableParams', 'CrearTemaPopup', 'messageBox', '$filter']; 
     
-    function controller(_, $q, DocenteCursos, $state, logger, debugModeEnabled, $stateParams, UsuarioService, NgTableParams, CrearTemaPopup, messageBox) {
+    function controller(_, $q, DocenteCursos, $state, logger, debugModeEnabled, $stateParams, UsuarioService, NgTableParams, CrearTemaPopup, messageBox, $filter) {
         
         var vm = this;
         vm.loading = true;
+        vm.background = $stateParams.background;
         vm.debug = debugModeEnabled;
         vm.editMode = ($state.includes('**.edit'));
         vm.noDataTemas = true; 
@@ -20,11 +21,20 @@
         vm.puedeEliminar = puedeEliminar;
         vm.puedeRecuperar = puedeRecuperar;
         vm.recuperarTema = recuperarTema;
+        vm.goEditTema = goEditTema;
+        
+        vm.select = select;
+        vm.onFilterChange = onFilterChange;
+        vm.onNumPerPageChange = onNumPerPageChange;
+        vm.onOrderChange = onOrderChange;
+        vm.search = search;
+        vm.order = order;
         
         vm.guardar = guardar;
         vm.groupInfoGral = { isOpen: true };
         vm.groupTemas = { isOpen: true };
         
+        /*
         vm.fieldLabels = [
             { name: 'titulo', label: 'Título' },
             { name: 'descripcion', label: 'Descripción' },
@@ -37,13 +47,12 @@
             total: 0,
             counts: [8, 10, 20, 50, 100],
             getData: getTemasTabla
-        });        
+        });*/        
         
         activate();
         
         function activate() {
             
-            setTitle();
             loadData();
             
             function loadData() {
@@ -56,7 +65,11 @@
                     return  curso.get().then(onSuccess, onError);
 
                     function onSuccess(response) {            
-                        vm.curso = response.plain();     
+                        vm.curso = response.plain(); 
+                        if (vm.editMode) {
+                            vm.title = vm.curso.titulo;
+                            vm.subTitle = vm.curso.copete;
+                        }
                     }        
                     function onError(httpResponse) {
                         logger.error('No se pudo obtener el Curso', httpResponse);
@@ -65,25 +78,31 @@
                 
                 function onLoadComplete() {
                     vm.loading = false;
+
+                    vm.searchKeywords = '';
+                    vm.filteredStores = [];
+                    vm.row = '';
+                    vm.numPerPageOpt = [2,9,20];
+                    vm.numPerPage = vm.numPerPageOpt[1];
+                    vm.currentPage = 1;
+                    vm.currentPageStores = [];
                     
-                    if (vm.editMode){
-                        setTitle();   
-                                                
+                    if (vm.editMode){      
                         vm.cantidadTemas = _.size(vm.curso.temas);                
                         if(vm.cantidadTemas !== 0) vm.noDataTemas = false; 
                     }
                     else{
                         vm.curso = '';
                     }
+                    
+                    init();
+                
+                    function init () {
+                        vm.search();
+                        return vm.select(vm.currentPage);
+                    };   
                 }
-            }
-            
-            function setTitle() {
-                if (vm.editMode) {
-                    vm.title = 'Editar Curso ';
-                    vm.subTitle = 'MODIFICACION CURSO';
-                }
-            }            
+            }         
         }
         
         function agregarNuevoTema() {
@@ -94,12 +113,12 @@
             }
         }
 
-        function getTemasTabla(params) {
+        /* function getTemasTabla(params) {
             params.total(vm.curso.temas.length);
 
             var result = vm.curso.temas.slice((params.page() - 1) * params.count(), params.page() * params.count());
             return result;              
-        }
+        }*/
                 
         function guardar() {
             goBack();
@@ -180,6 +199,48 @@
         function goBack() {
             $state.go('^.list');
         }
+        
+        function goEditTema(tema){
+            $state.go('docente.cursos.tema.edit', { id: tema.id, idCurso: vm.curso.id, background: vm.background});
+        }
+
+        function select(page) {
+            var end, start;
+            start = (page - 1) * vm.numPerPage;
+            end = start + vm.numPerPage;
+            return vm.currentPageStores = vm.filteredStores.slice(start, end);
+        };
+
+        function onFilterChange() {
+            vm.select(1);
+            vm.currentPage = 1;
+            return vm.row = '';
+        };
+
+        function onNumPerPageChange() {
+            vm.select(1);
+            return vm.currentPage = 1;
+        };
+
+        function onOrderChange() {
+            vm.select(1);
+            return vm.currentPage = 1;
+        };
+
+        function search() {
+            vm.filteredStores = $filter('filter')(vm.curso.temas, vm.searchKeywords);
+            return vm.onFilterChange();
+        };
+
+        function order(rowName) {
+            if (vm.row === rowName) {
+                return;
+            }
+            vm.row = rowName;
+            vm.filteredStores = $filter('orderBy')(vm.curso.temas, rowName);
+            return vm.onOrderChange();
+        }; 
+        
     }
 })(); 
 

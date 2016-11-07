@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var debugModeEnabled = true;
+    var debugModeEnabled = false;
     var accordion = true;
 
     var fieldPattern = {
@@ -10,14 +10,14 @@
     };
     
     var configIrtTipoUno = {
-        discriminador: 0,
+        discriminador: 1,
         azar: 0,
         d: 1.7,
         tipo: 'MULTIPLE_CHOICE',
     };
     
      var configIrtTipoDos = {
-        discriminador: 0,
+        discriminador: 1,
         azar: 0,
         d: 1.7,
         tipo: 'MULTIPLE_CHOICE_MATRIX',

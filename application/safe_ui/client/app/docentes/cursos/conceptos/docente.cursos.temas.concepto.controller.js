@@ -197,11 +197,13 @@
                 descripcion: vm.concepto.descripcion,
                 copete: vm.concepto.copete, 
                 orden: vm.concepto.orden,
+                mostrarResultado: vm.concepto.mostrarResultado,
                 predecesoras: vm.concepto.predecesoras,
                 tipo: vm.concepto.tipo,
                 rango: vm.concepto.rango,
                 metodo: vm.concepto.metodo,
                 incremento: vm.concepto.incremento,
+                habilitado: vm.concepto.habilitado
             };
             
             var concepto = DocenteCursos.one(vm.docenteId).one('cursos', vm.cursoId).one('temas', vm.temaId).one('conceptos', vm.conceptoId);

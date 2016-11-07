@@ -116,6 +116,36 @@ html {
                 margin-left: 220px;
             }
         }
+        
+        > .content-container-admin {
+            overflow: hidden;
+            min-height: 100%;
+            margin-left: 0;
+            // @include transition(none);
+            @media (min-width:$screen-sm) {
+                margin-left: 220px;
+            }
+        }
+        
+        > .content-container-docente {
+            overflow: hidden;
+            min-height: 100%;
+            margin-left: 0;
+            // @include transition(none);
+            @media (min-width:$screen-sm) {
+                margin-left: 0px;
+            }
+        }
+        
+        > .content-container-alumno {
+            overflow: hidden;
+            min-height: 100%;
+            margin-left: 0;
+            // @include transition(none);
+            @media (min-width:$screen-sm) {
+                margin-left: 0px;
+            }
+        }
 
     }
 

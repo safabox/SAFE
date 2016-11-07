@@ -40,7 +40,7 @@
                     template: '<ui-view/>'
                 }
             },  
-            {
+            /*{
                 state: 'docente.cursos.list',
                 config: {
                     url: '/cursos',
@@ -50,11 +50,11 @@
                     controllerAs: 'vm',    
                     params: {error: null}
                 }
-            },
+            },*/
             {
                 state: 'docente.cursos.edit',
                 config: {
-                    url: '/cursos/:id',
+                    url: '/cursos/:id&:background',
                     templateUrl: path + 'app/docentes/cursos/docente.cursos.edit.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'DocenteCursosEdit',
@@ -73,8 +73,8 @@
             {
                 state: 'docente.cursos.tema.edit',
                 config: {
-                    url: '/cursos/tema/:id&:idCurso',
-                    templateUrl: path + 'app/docentes/cursos/docente.cursos.temas.html',
+                    url: '/cursos/tema/:id&:idCurso&:background',
+                    templateUrl: path + 'app/docentes/cursos/temas/docente.cursos.temas.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'TemaCursosEdit',
                     controllerAs: 'vm',    
@@ -93,7 +93,7 @@
                 state: 'docente.cursos.tema.concepto.edit',
                 config: {
                     url: '/cursos/tema/concepto/:id&:idTema&:idCurso',
-                    templateUrl: path + 'app/docentes/cursos/docente.cursos.temas.concepto.html',
+                    templateUrl: path + 'app/docentes/cursos/conceptos/docente.cursos.temas.concepto.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'TemaConceptoCursosEdit',
                     controllerAs: 'vm',    
@@ -112,7 +112,7 @@
                 state: 'docente.cursos.tema.concepto.newAct',
                 config: {
                     url: '/cursos/tema/concepto/actividad/new/:id&:idCurso&:idTema&:idConcepto',
-                    templateUrl: path + 'app/docentes/cursos/docente.cursos.temas.conceptos.actividad.html',
+                    templateUrl: path + 'app/docentes/cursos/actividades/docente.cursos.temas.conceptos.actividad.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'ActividadCursosEdit',
                     controllerAs: 'vm',    
@@ -123,7 +123,7 @@
                 state: 'docente.cursos.tema.concepto.editAct',
                 config: {
                     url: '/cursos/tema/concepto/actividad/:id&:idCurso&:idTema&:idConcepto',
-                    templateUrl: path + 'app/docentes/cursos/docente.cursos.temas.conceptos.actividad.html',
+                    templateUrl: path + 'app/docentes/cursos/actividades/docente.cursos.temas.conceptos.actividad.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'ActividadCursosEdit',
                     controllerAs: 'vm',    

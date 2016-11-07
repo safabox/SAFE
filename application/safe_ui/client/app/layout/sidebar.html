@@ -5,14 +5,14 @@
         data-slim-scroll
         data-collapse-nav
         data-highlight-active>
-        <li class="nav-title">
+        <li ng-show="menuAdministrador" class="nav-title">
             <span data-translate="MENU"></span>
         </li>
-        
+                
         <li ng-show="menuAdministrador"><a ng-click="inicio()" href=""> <i class="fa fa-dashboard"></i><span data-translate="Dashboard"></span> </a></li>
-        <li ng-show="menuAlumno"><a ng-click="inicio()" href=""> <i class="fa fa-dashboard"></i><span data-translate="Dashboard"></span> </a></li>
+        <!--<li ng-show="menuAlumno"><a ng-click="inicio()" href=""> <i class="fa fa-dashboard"></i><span data-translate="Dashboard"></span> </a></li>
         <li ng-show="menuDocente"><a ng-click="inicio()" href=""> <i class="fa fa-dashboard"></i><span data-translate="Dashboard"></span> </a></li>
-        
+        -->
         <li ng-show="menuAdministrador" > 
             <a href="#/"><i class="glyphicon glyphicon-list-alt"></i><span data-translate="Administración"></span></a>
             <ul>
@@ -21,7 +21,7 @@
                 <li><a data-ui-sref="admin.cursos.list" href=""><i class="fa fa-caret-right"></i><span data-translate="Cursos"></span></a></li>
             </ul>
         </li>
-        
+        <!--
         <li ng-show="menuAlumno" > 
             <a href="#/"><i class="glyphicon glyphicon-list-alt"></i><span data-translate="Alumno"></span></a>
             <ul>
@@ -35,6 +35,6 @@
                 <li><a data-ui-sref="docente.cursos.list" href=""><i class="fa fa-caret-right"></i><span data-translate="Cursos"></span></a></li>    
             </ul>
         </li>
-        
+        -->
     </ul>
 </div>

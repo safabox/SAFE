@@ -2,11 +2,14 @@
     'use strict';
 
     angular.module('app.administrador')
-        .controller('AdminDashboardCtrl', ['_', '$q', '$scope', 'AdminAlumnos', 'AdminDocentes', 'AdminCursos', 'logger', AdminDashboardCtrl]);
+        .controller('AdminDashboardCtrl', ['_', '$q', '$scope', 'AdminAlumnos', 'AdminDocentes', 'AdminCursos', 'logger', '$state', AdminDashboardCtrl]);
 
-    function AdminDashboardCtrl(_, $q, $scope, AdminAlumnos, AdminDocentes, AdminCursos, logger) {
+    function AdminDashboardCtrl(_, $q, $scope, AdminAlumnos, AdminDocentes, AdminCursos, logger, $state) {
         var vm = this;
         
+        vm.goAlumnos = goAlumnos;
+        vm.goDocentes = goDocentes;
+        vm.goCursos = goCursos;
         vm.cantidadUsuarios = 0;
         vm.cantidadAlumnos = 0;
         vm.cantidadDocentes = 0;
@@ -168,6 +171,18 @@
                     }
                 ]
             };
+        }
+        
+        function goAlumnos(){
+            $state.go('admin.alumnos.list');
+        }
+        
+        function goDocentes(){
+            $state.go('admin.docentes.list');
+        }
+        
+        function goCursos(){
+            $state.go('admin.cursos.list');
         }
     }
 

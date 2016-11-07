@@ -59,9 +59,16 @@
 
             function onSuccess(response) {            
                 var responseData = response.plain();
+                if (!!responseData.actividad && responseData.actividad.estado === 'CURSANDO' && responseData.actividad.elemento != null) {
+                    var pageParams = {background: vm.background, data: {curso: vm.curso, tema: vm.tema, concepto: responseData.concepto.elemento, actividad: responseData.actividad.elemento}};
+                    $state.go('alumno.actividad.home', pageParams);    
+                } else {
+                    logger.info("No hay actividades disponibles");
+                    vm.loading = true;
+                    vm.loadData();
+                }
                 
-                var pageParams = {background: vm.background, data: {curso: vm.curso, tema: vm.tema, concepto: responseData.concepto.elemento, actividad: responseData.actividad.elemento}};
-                $state.go('alumno.actividad.home', pageParams);
+                
             }        
             function onError(httpResponse) {
                 logger.error('No se pudo obtener la próxima actividad', httpResponse);
