@@ -130,6 +130,26 @@
                     params: {error: null}
                 }
             },  
+            
+            {
+                state: 'docente.cursos.alumno',
+                config: {
+                    abstract: true,
+                    url: '/cursos/:idCurso',
+                    template: '<ui-view/>'
+                }
+            },
+            {
+                state: 'docente.cursos.alumno.view',
+                config: {
+                    url: '/alumno/:idAlumno/dashboard/:background',
+                    templateUrl: path + 'app/docentes/cursos/alumnos/docente.cursos.alumnos.html',
+                    roles: ["ROLE_DOCENTE"],
+                    controller: 'DocenteAlumnosCtrl',
+                    controllerAs: 'vm',    
+                    params: {error: null, data: null}
+                }
+            },
         ];
     }
     
