@@ -29,46 +29,46 @@
 <div class="page page-profile" ng-show="!vm.loading">
     <header class="profile-header">
         <div class="row">
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-6">
                 <div class="profile-img">
                     <!--<img alt="" src="images/g1.jpg" class="img-circle">-->
                     <img alt="" src="images/persona.png" class="img-circle">
                 </div>
                 <ul class="safe-profile">
-                    <li><span>Nombre:</span> Juan perez</li>
-                    <li><span>Legajo:</span> 43252</li>
-                    <li><span>Ultimo ingreso:</span> 11/11/2016</li>
+                    <li><span>Nombre:</span>{{vm.estadisticasTemas.nombre}}</li>
+                    <li><span>Legajo:</span>{{vm.estadisticasTemas.legajo}}</li>
+                    <li><span>Ultimo ingreso:</span>{{vm.alumno.usuario.last_login | date :  "dd/MM/yyyy HH:mm:ss"}}</li>
                 </ul>
             </div>
-            <div class="col-sm-offset-3 col-sm-3  col-md-offset-2 col-md-2">
+            <div class="col-sm-4 col-md-2">
                 <section class="panel panel-box">
                     <div class="panel-top bg-success">
                         <i class="glyphicon glyphicon-ok text-large"></i>
                     </div>
                     <div class="panel-bottom bg-reverse">
-                        <p class="size-h1">231</p>
+                        <p class="size-h1">{{vm.estadisticasTemas.cant_finalizados}}</p>
                         <p class="text-muted">Temas finalizandos</p>
                     </div>
                 </section>
             </div>  
-            <div class="col-sm-3 col-md-2">
+            <div class="col-sm-4 col-md-2">
                 <section class="panel panel-box">
                     <div class="panel-top bg-orange">
                         <i class="glyphicon glyphicon-list-alt text-large"></i>
                     </div>
                     <div class="panel-bottom bg-reverse">
-                        <p class="size-h1">231</p>
-                        <p class="text-muted">Temas cursando</p>
+                        <p class="size-h1">{{vm.estadisticasTemas.cant_cursando}}</p>
+                        <p class="text-muted">Temas en curso</p>
                     </div>
                 </section>
             </div>  
-            <div class="col-sm-3 col-md-2">
+            <div class="col-sm-4 col-md-2">
                 <section class="panel panel-box">
                     <div class="panel-top bg-info">
                         <i class="glyphicon glyphicon-list-alt text-large"></i>
                     </div>
                     <div class="panel-bottom bg-reverse">
-                        <p class="size-h1">231</p>
+                        <p class="size-h1">{{vm.estadisticasTemas.cant_pendientes}}</p>
                         <p class="text-muted">Temas pendiente</p>
                     </div>
                 </section>
@@ -86,30 +86,30 @@
                 </span></li><li><i class="fa fa-bookmark"></i> Collections <span class="text-muted">(55)
                 </span></li><li><i class="fa fa-check"></i> Tasks <span class="text-muted">(34)
             </span></li></ul>-->
-            <span>Matemàticas</span>
+            <span>{{vm.curso.titulo}}</span>
         </div>
     </header>  
     <div class="row">
         <div class="col-sm-12">
             <uib-accordion class="ui-accordion">
-                <uib-accordion-group class="safe-accordion">
+                <uib-accordion-group class="safe-accordion" ng-repeat="tema in vm.estadisticasTemas.temas">
                     <uib-accordion-heading>
                         <div class="row">
                             <div class="col-sm-6">
-                                <span class="fa fa-bookmark"></span> Operaciones
+                                <span class="fa fa-bookmark"></span> {{tema.titulo}} ({{vm.getStatus(tema.estado)}})
                             </div>
                             <div class="col-sm-6">
                              <ul class="list-unstyled list-inline pull-right">
-                                <li uib-tooltip="Cantidad de conceptos aprobados."><i class="fa fa-check"></i> Aprobado <span class="text-muted">(39)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos aprobados con amplio margen de error."><i class="fa fa-exclamation-triangle"></i> Observacion <span class="text-muted">(63)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos desaprobados."><i class="fa fa-times-circle"></i> Desaprobado <span class="text-muted">(55)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos pendientes."><i class="glyphicon glyphicon-list-alt"></i> Cursando <span class="text-muted">(34)</span></li>
+                                <li uib-tooltip="Cantidad de conceptos aprobados."><i class="fa fa-check"></i> Aprobados <span class="text-muted">({{tema.cant_aprobados}})</span></li>
+                                <li uib-tooltip="Cantidad de conceptos aprobados pero supera la toleracia de la estimación."><i class="fa fa-exclamation-triangle"></i> Observaci&oacute;n <span class="text-muted">({{tema.cant_aprobados_observaciones}})</span></li>
+                                <li uib-tooltip="Cantidad de conceptos desaprobados."><i class="fa fa-times-circle"></i> Desaprobados <span class="text-muted">({{tema.cant_desaprobados}})</span></li>
+                                <li uib-tooltip="Cantidad de conceptos pendientes."><i class="glyphicon glyphicon-list-alt"></i> Pendientes <span class="text-muted">({{tema.cant_cursando + tema.cant_pendientes}})</span></li>
                              </ul>   
                             </div>
                         </div>
                     </uib-accordion-heading>
                         <div class='pull-right safe-estadistica'>
-                            <button class="btn btn-primary" ng-click='vm.viewTemaChart()'><span class="fa fa-area-chart"></span></button>
+                            <button class="btn btn-primary" ng-click='vm.viewTemaChart(tema)'><span class="fa fa-area-chart"></span></button>
                         </div>
                         <table class="table table-bordered table-striped table-responsive">
                             <thead>
@@ -137,100 +137,25 @@
                                 <th></th>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Sumas y restas</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>0</td>
-                                    <td>11/11/2016</td>
-                                    <td>Aprobado</td>
+                                <tr ng-repeat="concepto in tema.conceptos">
+                                    <td>{{concepto.titulo}}</td>                                    
+                                    <td>{{concepto.theta_esperado}}</td>
+                                    <td>{{concepto.theta}}</td>
+                                    <td>{{concepto.incremento}}</td>
+                                    <td>{{concepto.theta_error}}</td>
+                                    <td>{{concepto.fecha_actualizacion | date :  "dd/MM/yyyy HH:mm:ss"}}</td>
+                                    <td>{{vm.getStatus(concepto.estado)}}</td>
                                     <td>
-                                        <button type="button" uib-tooltip="Editar" class="btn btn-xs btn-primary" aria-label="Ver estadísticas">
-                                            <span class="fa fa-area-chart" aria-hidden="true"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Multiplicacion</td>
-                                    <td>1</td>
-                                    <td>0</td>
-                                    <td>0.23</td>
-                                    <td>0.5</td>
-                                    <td>11/11/2016</td>
-                                    <td>Aprobado</td>
-                                    <td>
-                                        <button type="button" uib-tooltip="Editar" class="btn btn-xs btn-primary" aria-label="Ver estadísticas">
-                                            <span class="fa fa-area-chart" aria-hidden="true"></span>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Division</td>
-                                    <td>0</td>
-                                    <td>0.5</td>
-                                    <td>0.2</td>
-                                    <td>-1.0</td>
-                                    <td>11/11/2016</td>
-                                    <td>Aprobado</td>
-                                    <td>
-                                        <button type="button" uib-tooltip="Editar" class="btn btn-xs btn-primary" aria-label="Ver estadísticas">
+                                        <button type="button" uib-tooltip="Editar" class="btn btn-xs btn-primary" aria-label="Ver estadísticas" ng-click='vm.viewConceptoChart(concepto)'>
                                             <span class="fa fa-area-chart" aria-hidden="true"></span>
                                         </button>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>              
-
-                    
-              
-                </uib-accordion-group>
-                
-                
-                <uib-accordion-group class="safe-accordion">
-                    <uib-accordion-heading>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <span class="fa fa-bookmark"></span> Interpretacion
-                            </div>
-                            <div class="col-sm-6">
-                             <ul class="list-unstyled list-inline pull-right">
-                                <li uib-tooltip="Cantidad de conceptos aprobados."><i class="fa fa-check"></i> Aprobado <span class="text-muted">(39)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos aprobados con amplio margen de error."><i class="fa fa-exclamation-triangle"></i> Observacion <span class="text-muted">(63)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos desaprobados."><i class="fa fa-times-circle"></i> Desaprobado <span class="text-muted">(55)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos pendientes."><i class="glyphicon glyphicon-list-alt"></i> Cursando <span class="text-muted">(34)</span></li>
-                             </ul>   
-                            </div>
-                        </div>
-                    </uib-accordion-heading>
-                </uib-accordion-group>
-                
-                <uib-accordion-group class="safe-accordion">
-                    <uib-accordion-heading>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <span class="fa fa-bookmark"></span> Analisis
-                            </div>
-                            <div class="col-sm-6">
-                             <ul class="list-unstyled list-inline pull-right">
-                                <li uib-tooltip="Cantidad de conceptos aprobados."><i class="fa fa-check"></i> Aprobado <span class="text-muted">(39)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos aprobados con amplio margen de error."><i class="fa fa-exclamation-triangle"></i> Observacion <span class="text-muted">(63)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos desaprobados."><i class="fa fa-times-circle"></i> Desaprobado <span class="text-muted">(55)</span></li>
-                                <li uib-tooltip="Cantidad de conceptos pendientes."><i class="glyphicon glyphicon-list-alt"></i> Cursando <span class="text-muted">(34)</span></li>
-                             </ul>   
-                            </div>
-                        </div>
-                    </uib-accordion-heading>
                 </uib-accordion-group>
             </uib-accordion>
-            <!--
-            <div class="panel panel-default panel-minimal">
-                                <div class="divider divider-md"></div>
-                                <div class="panel-body">
-                                    <div data-echarts data-options="vm.pie.options" style="height: 350px;"></div>
-                                </div>
-                            </div>
-            -->
+           
         </div>
     </div>
 </div>
@@ -238,7 +163,7 @@
 
 <script type="text/ng-template" id="tema_chart.html">
     <div class="safe-modal-header modal-header btn-info">
-        <h3>titulo</h3>
+        <h3>{{tema.titulo}}</h3>
     </div>
     <div class="modal-body">
         <div data-echarts data-options="options" style="height: 350px;"></div>        
@@ -248,3 +173,40 @@
     </div>
 </script>  
 
+<script type="text/ng-template" id="concepto_chart.html">
+    <div class="safe-modal-header modal-header btn-info">
+        <h3>{{estadisticaConcepto.titulo}}</h3>
+    </div>
+    <div class="modal-body">
+        <uib-tabset class="ui-tab">
+            <uib-tab heading="Progreso">
+                <div class="alert alert-info" ng-hide="estadisticaConcepto.thetas_anteriores.length > 0">No se encontr&oacute; registros de las habilidades pasadas</div>
+                <div data-echarts data-options="options" style="height: 350px;" ng-hide="estadisticaConcepto.thetas_anteriores.length == 0"></div>       
+
+            </uib-tab>
+            <uib-tab heading="Actividades">
+                <div class="alert alert-info" ng-hide="estadisticaConcepto.resultados.length > 0">No se encontr&oacute; registros de las actividades realizadas</div>
+                       <table class="table table-bordered table-striped table-responsive" ng-hide="estadisticaConcepto.resultados.length == 0">
+                    <thead>
+                        <th>
+                            <div class="th">Actividad</div>
+                        </th>
+                        <th>
+                            <div class="th">Estado</div>
+                        </th>
+                    </thead>    
+                    <tbody>
+                        <tr ng-repeat="resultado in estadisticaConcepto.resultados">
+                            <td>{{resultado.titulo}}</td>
+                            <td>{{getStatus(resultado.estado)}}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </uib-tab>
+        </uib-tabset>    
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click='listo()'>Listo</button>        
+    </div>
+</script>

@@ -243,7 +243,7 @@
         }; 
         
         function goAlumno(alumno) {
-            $state.go('docente.cursos.alumno.view', {idCurso: vm.curso.id, idAlumno: alumno.id, background: vm.background, data: {alumno: alumno}});
+            $state.go('docente.cursos.alumno.view', {idCurso: vm.curso.id, idAlumno: alumno.id, background: vm.background, data: {curso: vm.curso, alumno: alumno}});
             
         }
         

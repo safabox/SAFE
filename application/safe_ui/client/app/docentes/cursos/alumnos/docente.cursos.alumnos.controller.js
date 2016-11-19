@@ -2,11 +2,11 @@
     'use strict';
 
     angular.module('app.docente.cursos')
-        .controller('DocenteAlumnosCtrl', ['$q', '$stateParams', '$uibModal','UsuarioService', DocenteAlumnosCtrl])
+        .controller('DocenteAlumnosCtrl', ['$q', '$stateParams', '$uibModal','UsuarioService', 'Docente', DocenteAlumnosCtrl])
         .controller('DocenteAlumnoTemaModalCtrl', ['$scope', '$uibModalInstance', 'param', '$timeout','$window', DocenteAlumnoTemaModalCtrl])
-        .controller('DocenteAlumnoConceptoModalCtrl', ['$scope', '$uibModalInstance', 'param', '$timeout','$window', DocenteAlumnoTemaModalCtrl])
+        .controller('DocenteAlumnoConceptoModalCtrl', ['$scope', '$uibModalInstance', 'param', '$timeout','$window', DocenteAlumnoConceptoModalCtrl])
 
-    function DocenteAlumnosCtrl($q, $stateParams, $uibModal, UsuarioService) {
+    function DocenteAlumnosCtrl($q, $stateParams, $uibModal, UsuarioService, Docente) {
         var vm = this;
         vm.loading = true;
         
@@ -14,15 +14,32 @@
         vm.docenteId = UsuarioService.getUserCurrentDoc();
         vm.cursoId = $stateParams.idCurso;
         vm.alumnoId = $stateParams.idAlumno;
-        //vm.alumno = $stateParams.data.alumno;
+        vm.alumno = $stateParams.data.alumno;
+        vm.curso = $stateParams.data.curso;
         vm.viewTemaChart = viewTemaChart;
+        vm.viewConceptoChart = viewConceptoChart;
+        vm.getStatus = getStatus;
         loadData();
         
         function loadData() {
-            $q.all([])
+            $q.all([getEstadisticaTema()])
             .then(onLoadComplete);
 
         }
+        function getEstadisticaTema() {
+            var estadisticaTemas = Docente.one(vm.docenteId).one('cursos', vm.cursoId).one('alumnos', vm.alumnoId).one('estadistica');
+            return  estadisticaTemas.get().then(onSuccess, onError);
+
+            function onSuccess(response) {            
+                vm.estadisticasTemas = response.plain();   
+            }        
+            function onError(httpResponse) {
+                logger.error('No se pudo obtener las estadisticas de los temas', httpResponse);
+            }
+
+        }
+        
+        
         function onLoadComplete() {
             vm.loading = false;
         }
@@ -34,24 +51,60 @@
                 controller: 'DocenteAlumnoTemaModalCtrl',
                 resolve: {
                    param: function () {                
-                       return {'titulo': 'titulo'};
+                       return {tema: tema};
                    }
                 }
               });
 
             modalInstance.result.then(function () {
               console.log("ok");
-            }, function () {
-              console.log("error");
             });
         }
         
+        function viewConceptoChart(concepto) {
+            var estadisticaConceptos = Docente.one(vm.docenteId).one('cursos', vm.cursoId).one('alumnos', vm.alumnoId).one('conceptos', concepto.id).one('estadistica');
+            return  estadisticaConceptos.get().then(onSuccess, onError);
+
+            function onSuccess(response) {            
+                var estadisticaConcepto = response.plain();   
+                var modalInstance = $uibModal.open({
+                                                    templateUrl: 'concepto_chart.html',
+                                                    size: 'md',
+                                                    controller: 'DocenteAlumnoConceptoModalCtrl',
+                                                        resolve: {
+                                                           param: function () {                
+                                                               return {'estadisticaConcepto': estadisticaConcepto};
+                                                           }
+                                                        }
+                                                    });
+                modalInstance.result.then(function () {
+                  console.log("ok");
+                });
+            }        
+            function onError(httpResponse) {
+                logger.error('No se pudo obtener las estadisticas del concepto', httpResponse);
+            }            
+        }
         
+        function getStatus(status) {
+            switch(status) {
+                case 'APROBADO':
+                    return 'Aprobado';
+                case 'APROBADO_OBSERVACION':
+                    return 'Observación';
+                case 'DESAPROBADO':
+                    return 'Desaprobado';
+                case 'FINALIZADO':
+                    return 'finalizado';    
+                default:
+                    return 'Pendiente';
+            }
+        }
         
     }  
     
     function DocenteAlumnoTemaModalCtrl($scope, $uibModalInstance, param, $timeout, $window) {
-        //$scope.concepto = param.concepto;
+        $scope.tema = param.tema;
         $scope.options = {
             tooltip : {
                 trigger: 'item',
@@ -72,10 +125,10 @@
                     radius : '55%',
                     center: ['50%', '60%'],
                     data:[
-                        {value:335, name:'Aprobado'},
-                        {value:310, name:'Observación'},
-                        {value:234, name:'Desaprobado'},
-                        {value:135, name:'Cursando'}
+                        {value:param.tema.cant_aprobados, name:'Aprobado'},
+                        {value:param.tema.cant_aprobados_observaciones, name:'Observación'},
+                        {value:param.tema.cant_desaprobados, name:'Desaprobado'},
+                        {value:param.tema.cant_cursando + param.tema.cant_pendientes, name:'Cursando'}
                     ]
                 }
             ]
@@ -88,36 +141,85 @@
     }
     
     function DocenteAlumnoConceptoModalCtrl($scope, $uibModalInstance, param, $timeout, $window) {
+        $scope.estadisticaConcepto = param.estadisticaConcepto;
         $scope.options = {
             tooltip : {
-                trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                trigger: 'axis',
+                showDelay : 0,
+                axisPointer:{
+                    show: true,
+                    type : 'cross',
+                    lineStyle: {
+                        type : 'dashed',
+                        width : 1
+                    }
+                }
             },
             legend: {
-                orient : 'vertical',
-                x : 'left',
-                data:['Aprobado','Observación','Desaprobado','Cursando']
+                data:['Progreso de las habilidades']
             },
             toolbox: {
-                show : false
+                show : true,
+                feature : {
+                    //mark : {show: true, title: 'Marcar'},          
+                    restore : {show: true, title: 'Refrescar'},
+                    saveAsImage : {show: true, title: 'Guardar a imagen'}
+                }
             },
-            calculable : true,
-            series : [
+            xAxis : [
                 {
-                    type:'pie',
-                    radius : '55%',
-                    center: ['50%', '60%'],
-                    data:[
-                        {value:335, name:'Aprobado'},
-                        {value:310, name:'Observación'},
-                        {value:234, name:'Desaprobado'},
-                        {value:135, name:'Cursando'}
-                    ]
+                    type : 'category',
+                    data: (function (thetas) {
+                            var d = [];
+                            for (var i=0; i < thetas.length; i++) {
+                                d.push(i);
+                            }
+                            return d;
+                          })(param.estadisticaConcepto.thetas_anteriores)
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value',
+                    scale:true,
+                    min: -3,
+                    max: 3
+                }
+            ],
+            series : [                
+                {
+                    name:'progreso',                   
+                    type:'line', 
+                    data: (function (thetas) {
+                            var d = [];
+                            for (var i=0; i < thetas.length; i++) {
+                                d.push({
+                                    value: thetas[i].theta,
+                                    formatter: "HOla"
+                                });
+                            }
+                            return d;
+                          })(param.estadisticaConcepto.thetas_anteriores)
+                    
                 }
             ]
         };
+      
         $scope.listo = function() {
             $uibModalInstance.close();
         };
+        $scope.getStatus = function(status) {
+            switch(status) {
+                case 'APROBADO':
+                    return 'Aprobado';
+                case 'DESAPROBADO':
+                    return 'Desaprobado';
+                case 'FINALIZADO':
+                    return 'finalizado';    
+                default:
+                    return 'Pendiente';
+            }
+        }
+        $timeout(function(){ $window.dispatchEvent(new Event('resize')); });
     }
 })(); 
