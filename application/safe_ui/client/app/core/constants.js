@@ -11,14 +11,14 @@
     
     var configIrtTipoUno = {
         discriminador: 1,
-        azar: 0,
+        azar: 1,
         d: 1.7,
         tipo: 'MULTIPLE_CHOICE',
     };
     
      var configIrtTipoDos = {
         discriminador: 1,
-        azar: 0,
+        azar: 1,
         d: 1.7,
         tipo: 'MULTIPLE_CHOICE_MATRIX',
     };
