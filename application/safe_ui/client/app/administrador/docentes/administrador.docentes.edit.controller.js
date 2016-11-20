@@ -46,6 +46,7 @@
                 function onLoadComplete() {
                     vm.loading = false;
                     vm.generos = getGeneros();
+                    vm.tipoDocumentos = getTipoDocumentos();
                     
                     if (vm.editMode){
                         getDocente();
@@ -89,6 +90,12 @@
                     }];
             }
             
+            function getTipoDocumentos(){
+                return [{
+                    id: 'DNI',
+                    descripcion: 'DNI'
+                }];
+            }
         }
         
         vm.guardar = guardar;

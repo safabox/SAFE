@@ -48,9 +48,9 @@
                                 <div class="form-group" show-errors>
                                     <label class="col-md-2 control-label" for="tipoDocumento">Tipo de Documento:</label>
                                     <div class="col-md-10">
-                                       <input class="form-control" type="text" placeholder="Tipo de Documento" name="tipoDocumento" data-ng-model="vm.docente.usuario.tipo_documento.codigo" >
+                                       <select class="form-control" placeholder="tipoDocumento" name="tipoDocumento" data-ng-model="vm.docente.usuario.tipo_documento.codigo" ng-options="opt.id as opt.descripcion for opt in vm.tipoDocumentos" ></select>
                                        <field-error-label data-field="vm.form.tipoDocumento" data-field-label="Tipo de Documento" />
-                                    </div>
+                                    </div>   
                                 </div> 
                                 <div class="form-group" show-errors>
                                     <label class="col-md-2 control-label" for="numeroDocumento">Número de Documento:</label>

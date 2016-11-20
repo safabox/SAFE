@@ -17,7 +17,7 @@
         vm.groupInfoGral = { isOpen: true };
         vm.groupSeguridad = { isOpen: true };
         vm.groupCursos = { isOpen: true };
-
+                
         vm.fieldLabels = [
             { name: 'legajo', label: 'Legajo' },
             { name: 'nombre', label: 'Nombre' },
@@ -46,6 +46,7 @@
                 function onLoadComplete() {
                     vm.loading = false;
                     vm.generos = getGeneros();
+                    vm.tipoDocumentos = getTipoDocumentos();
                     
                     if (vm.editMode){
                         getAlumno();
@@ -89,6 +90,12 @@
                     }];
             }
             
+            function getTipoDocumentos(){
+                return [{
+                    id: 'DNI',
+                    descripcion: 'DNI'
+                }];
+            }
         }
         
         vm.guardar = guardar;
