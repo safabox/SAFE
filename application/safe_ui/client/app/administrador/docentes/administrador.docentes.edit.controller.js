@@ -93,30 +93,70 @@
         
         vm.guardar = guardar;
         function guardar() {
-            
-            var docentePut =
-            {
-                'legajo':  vm.docente.legajo,
-                'usuario': {
-                    'nombre': vm.docente.usuario.nombre,
-                    'apellido': vm.docente.usuario.apellido,
-                    'username': vm.docente.usuario.username,     
-                    'tipoDocumento':  vm.docente.usuario.tipo_documento.codigo,
-                    'numeroDocumento': vm.docente.usuario.numero_documento,
-                    'genero': vm.docente.usuario.genero,
-                    'email': vm.docente.usuario.email,
-                    'enabled': true,
-                    'textPassword': {
-                        'first' : vm.docente.usuario.textPassword.first,
-                        'second' : vm.docente.usuario.textPassword.second
-                    }
-                }
-            };
-            
+                        
             if (vm.editMode) { 
+                if(typeof vm.docente.usuario.textPassword === 'undefined')
+                {
+                    var docentePut =
+                    {
+                        'legajo':  vm.docente.legajo,
+                        'usuario': {
+                            'nombre': vm.docente.usuario.nombre,
+                            'apellido': vm.docente.usuario.apellido,
+                            'username': vm.docente.usuario.username,     
+                            'tipoDocumento':  vm.docente.usuario.tipo_documento.codigo,
+                            'numeroDocumento': vm.docente.usuario.numero_documento,
+                            'genero': vm.docente.usuario.genero,
+                            'email': vm.docente.usuario.email,
+                            'enabled': true
+                        }
+                    };
+                }
+                else 
+                {
+                    var docentePut =
+                    {
+                        'legajo':  vm.docente.legajo,
+                        'usuario': {
+                            'nombre': vm.docente.usuario.nombre,
+                            'apellido': vm.docente.usuario.apellido,
+                            'username': vm.docente.usuario.username,     
+                            'tipoDocumento':  vm.docente.usuario.tipo_documento.codigo,
+                            'numeroDocumento': vm.docente.usuario.numero_documento,
+                            'genero': vm.docente.usuario.genero,
+                            'email': vm.docente.usuario.email,
+                            'enabled': true,
+                            'textPassword': {
+                                'first' : vm.docente.usuario.textPassword.first,
+                                'second' : vm.docente.usuario.textPassword.second
+                            }
+                        }
+                    };
+                }
+               
                 var docente = AdminDocentes.one($stateParams.id);
                 docente.customPUT(docentePut).then(onSuccess,onError);
             }else{
+                
+                var docentePut =
+                {
+                    'legajo':  vm.docente.legajo,
+                    'usuario': {
+                        'nombre': vm.docente.usuario.nombre,
+                        'apellido': vm.docente.usuario.apellido,
+                        'username': vm.docente.usuario.username,     
+                        'tipoDocumento':  vm.docente.usuario.tipo_documento.codigo,
+                        'numeroDocumento': vm.docente.usuario.numero_documento,
+                        'genero': vm.docente.usuario.genero,
+                        'email': vm.docente.usuario.email,
+                        'enabled': true,
+                        'textPassword': {
+                            'first' : vm.docente.usuario.textPassword.first,
+                            'second' : vm.docente.usuario.textPassword.second
+                        }
+                    }
+                };
+                
                 AdminDocentes.post(docentePut).then(onSuccess,onError);
             }
             
@@ -129,7 +169,6 @@
                 var message = ErrorHelper.parseRequestError(httpResponse);
                 logger.error(message, httpResponse, 'No se pudo guardar el Docente');
             }
-              
         }
         
         function goBack() {

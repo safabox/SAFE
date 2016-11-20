@@ -98,7 +98,7 @@
                                 <div class="form-group" show-errors>
                                     <label class="col-md-2 control-label" for="password">Clave:</label>
                                     <div class="col-md-10">
-                                       <input class="form-control" type="password" placeholder="Clave" id="password" name="password" data-ng-model="vm.alumno.usuario.textPassword.first" required>
+                                       <input class="form-control" type="password" placeholder="Clave" id="password" name="password" data-ng-model="vm.alumno.usuario.textPassword.first" ng-required="!vm.editMode">
                                        <field-error-label data-field="vm.form.password" data-field-label="Clave" />
                                     </div>
                                 </div>                      
@@ -106,7 +106,7 @@
                                 <div class="form-group" show-errors>
                                     <label class="col-md-2 control-label" for="confirmPassword">Confirmación:</label>
                                     <div class="col-md-10">
-                                       <input class="form-control" type="password" placeholder="Confirmación de Clave" name="confirmPassword" data-ng-model="vm.alumno.usuario.textPassword.second" required>
+                                       <input class="form-control" type="password" placeholder="Confirmación de Clave" name="confirmPassword" data-ng-model="vm.alumno.usuario.textPassword.second" ng-required="!vm.editMode">
                                        <field-error-label data-field="vm.form.confirmPassword" data-field-label="Confirmación de Clave" />
                                     </div>
                                 </div>                                           

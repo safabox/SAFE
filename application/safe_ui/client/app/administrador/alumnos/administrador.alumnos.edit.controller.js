@@ -94,29 +94,69 @@
         vm.guardar = guardar;
         function guardar() {
             
-            var alumnoPut =
-            {
-                'legajo':  vm.alumno.legajo,
-                'usuario': {
-                    'nombre': vm.alumno.usuario.nombre,
-                    'apellido': vm.alumno.usuario.apellido,
-                    'username': vm.alumno.usuario.username,     
-                    'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
-                    'numeroDocumento': vm.alumno.usuario.numero_documento,
-                    'genero': vm.alumno.usuario.genero,
-                    'email': vm.alumno.usuario.email,
-                    'enabled': true,
-                    'textPassword': {
-                        'first' : vm.alumno.usuario.textPassword.first,
-                        'second' : vm.alumno.usuario.textPassword.second
-                    }
-                }
-            };
-
             if (vm.editMode) {
+                
+                if(typeof vm.alumno.usuario.textPassword === 'undefined')
+                {
+                    var alumnoPut =
+                    {
+                        'legajo':  vm.alumno.legajo,
+                        'usuario': {
+                            'nombre': vm.alumno.usuario.nombre,
+                            'apellido': vm.alumno.usuario.apellido,
+                            'username': vm.alumno.usuario.username,     
+                            'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
+                            'numeroDocumento': vm.alumno.usuario.numero_documento,
+                            'genero': vm.alumno.usuario.genero,
+                            'email': vm.alumno.usuario.email,
+                            'enabled': true
+                        }
+                    };
+                }
+                else 
+                {
+                    var alumnoPut =
+                    {
+                        'legajo':  vm.alumno.legajo,
+                        'usuario': {
+                            'nombre': vm.alumno.usuario.nombre,
+                            'apellido': vm.alumno.usuario.apellido,
+                            'username': vm.alumno.usuario.username,     
+                            'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
+                            'numeroDocumento': vm.alumno.usuario.numero_documento,
+                            'genero': vm.alumno.usuario.genero,
+                            'email': vm.alumno.usuario.email,
+                            'enabled': true,
+                            'textPassword': {
+                                'first' : vm.alumno.usuario.textPassword.first,
+                                'second' : vm.alumno.usuario.textPassword.second
+                            }
+                        }
+                    };
+                }
                 var alumno = AdminAlumnos.one($stateParams.id);
                 alumno.customPUT(alumnoPut).then(onSuccess,onError);
             }else{
+
+                var alumnoPut =
+                {
+                    'legajo':  vm.alumno.legajo,
+                    'usuario': {
+                        'nombre': vm.alumno.usuario.nombre,
+                        'apellido': vm.alumno.usuario.apellido,
+                        'username': vm.alumno.usuario.username,     
+                        'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
+                        'numeroDocumento': vm.alumno.usuario.numero_documento,
+                        'genero': vm.alumno.usuario.genero,
+                        'email': vm.alumno.usuario.email,
+                        'enabled': true,
+                        'textPassword': {
+                            'first' : vm.alumno.usuario.textPassword.first,
+                            'second' : vm.alumno.usuario.textPassword.second
+                        }
+                    }
+                };
+
                 AdminAlumnos.post(alumnoPut).then(onSuccess,onError);
             }
             
