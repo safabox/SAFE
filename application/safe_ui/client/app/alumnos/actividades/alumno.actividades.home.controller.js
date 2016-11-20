@@ -4,6 +4,7 @@
     angular.module('app.alumno')
         .controller('AlumnoActividadHomeCtrl', ['$scope', '$state', '$uibModal','$q', '$stateParams', 'logger' ,'AlumnoService', 'UsuarioService', AlumnoActividadHomeCtrl])
         .controller('AlumnoActividadModalCtrl', ['$scope', '$uibModalInstance', 'param', AlumnoActividadModalCtrl])
+        .controller('AlumnoActividadNotificacionModalCtrl', ['$scope', '$uibModalInstance', 'param', AlumnoActividadNotificacionModalCtrl])
 
     function AlumnoActividadHomeCtrl($scope, $state, $uibModal, $q, $stateParams, logger, AlumnoService, UsuarioService) {
         var self = this;
@@ -22,6 +23,9 @@
         self.toogleOption = toogleOption;
         self.hasDescription = (self.actividad.descripcion && self.actividad.descripcion.length > 0);
         self.titulo = (self.actividad.titulo && self.actividad.titulo.length > 0) ? self.actividad.titulo : 'Actividad del concepto ' + self.concepto.titulo; 
+        self.proximaActividad = null;
+        self.goProximaActividad = goProximaActividad;
+        self.mostrarResultado = false;
         
         loadData();
         chanteTemplate();
@@ -64,8 +68,34 @@
         
         function enviar() {
             var resultado = getResultado();
-            console.log("resultado", getResultado());
+            var respuesta = {
+                actividadId: resultado.actividadId, 
+                resultado: resultado.resultado
+            }
+            if (resultado.tieneRespuestasIncompletas) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'actividad_notificacion.html',
+                    size: 'md',
+                    controller: 'AlumnoActividadNotificacionModalCtrl',
+                    resolve: {
+                        param: function () {                
+                            return {'concepto': self.concepto};
+                        }
+                    }
+                });
+                modalInstance.result.then(function () {
+                    enviarResultados(respuesta);
+                });               
+            } else {
+                enviarResultados(respuesta);
+            }
             
+        }
+        
+        
+        function enviarResultados(resultado) {
+            self.proximaActividad = null;
+            self.mostrarResultado = false;
             AlumnoService.one(UsuarioService.getUserCurrentAlumnoId())
                     .one('cursos', self.curso.id)
                     .one('temas', self.tema.id)
@@ -74,20 +104,21 @@
             
             function onSuccess(response) {
                 var evaluation = response.plain();
+                self.mostrarResultado = self.concepto.mostrarResultado;
                 if (evaluation.resultado === 'APROBADO') {
                     logger.info("Muy bien");
                 } else {
                     logger.warning("Intentálo de nuevo con la próxima actividad");
                 }
                 if (evaluation.proxima_actividad && evaluation.proxima_actividad.estado === 'CURSANDO' && evaluation.proxima_actividad.elemento) {
-                    self.actividad = evaluation.proxima_actividad.elemento;
-                    self.hasDescription = (self.actividad.descripcion && self.actividad.descripcion.length > 0);
-                    self.titulo = (self.actividad.titulo && self.actividad.titulo.length > 0) ? self.actividad.titulo : 'Actividad del concepto ' + self.concepto.titulo; 
-                    chanteTemplate();
+                    self.proximaActividad = evaluation.proxima_actividad.elemento;
+                }                
+                if (self.mostrarResultado) {
+                    mostrarResultado(evaluation.resultado_esperado);
                 } else {
-                    $state.go('alumno.curso.tema.concepto.dashboard', { cursoId: self.curso.id, temaId: self.tema.id, background: self.background, data: {curso: self.curso, tema: self.tema}});
+                    goProximaActividad();                   
                 }
-            }
+            }            
             function onError(httpResponse) {
                 console.log(httpResponse);
                 logger.error('No se pudo evaluar al Alumno', httpResponse);
@@ -95,22 +126,41 @@
         }
         
         
+        function goProximaActividad() {
+            self.mostrarResultado = false;
+            if (self.proximaActividad != null) {
+                self.actividad = self.proximaActividad;
+                self.hasDescription = (self.actividad.descripcion && self.actividad.descripcion.length > 0);
+                self.titulo = (self.actividad.titulo && self.actividad.titulo.length > 0) ? self.actividad.titulo : 'Actividad del concepto ' + self.concepto.titulo; 
+                chanteTemplate();
+            } else {
+                $state.go('alumno.curso.tema.concepto.dashboard', { cursoId: self.curso.id, temaId: self.tema.id, background: self.background, data: {curso: self.curso, tema: self.tema}});
+            }   
+
+        }
+        
+        
         function getResultado() {
             var ejercicio = self.actividad.ejercicio[0];
             var respuestas = [];
+            var tieneRespuestasIncompletas = false;
             if (self.actividad.tipo === 'MULTIPLE_CHOICE') {
                 ejercicio.respuestas.forEach(function(respuesta){
                     if (respuesta.selected) {
                         respuestas.push(respuesta.id);
                     }
                 });
+                tieneRespuestasIncompletas = (respuestas.length === 0);
             } else {
                 ejercicio.respuestas.forEach(function(respuesta){
-                    var resultado = (respuesta.resultado !== 'false');
-                    respuestas.push({id: respuesta.id, resultado: resultado});
+                    if (respuesta.resultado !== undefined && respuesta.resultado !== null) {
+                        var resultado = (respuesta.resultado != 'false' && respuesta.resultado != false);
+                        respuestas.push({id: respuesta.id, resultado: resultado});                        
+                    }
                 });
+                tieneRespuestasIncompletas = (respuestas.length !== ejercicio.respuestas.length);
             }
-            return {actividadId: self.actividad.id, resultado: respuestas};
+            return {tieneRespuestasIncompletas: tieneRespuestasIncompletas, actividadId: self.actividad.id, resultado: respuestas};
         }
         function chanteTemplate() {
             if (self.actividad.tipo === 'MULTIPLE_CHOICE') {
@@ -121,7 +171,35 @@
         }
         function toogleOption(option) {
             option.selected = !option.selected;
-        }      
+        }     
+        
+        function mostrarResultado(resultadoEsperado) {
+            var ejercicio = self.actividad.ejercicio[0];
+            var resultado = null; 
+            if (self.actividad.tipo === 'MULTIPLE_CHOICE') {                
+                ejercicio.respuestas.forEach(function(respuesta){
+                    resultado = findInArray(resultadoEsperado, respuesta, function(item, arrayItem){ return item.id == arrayItem});
+                    respuesta.isTrue = (resultado != null);
+                });
+            } else {
+                ejercicio.respuestas.forEach(function(respuesta){
+                    resultado = findInArray(resultadoEsperado, respuesta, function(item, arrayItem){ return item.id == arrayItem.id});
+                    if (resultado != null) {
+                      respuesta.isTrue = resultado.resultado;  
+                    }                 
+                });
+            } 
+        }
+        
+        function findInArray(array, element, evaluator) {
+            if (!array || array.length == 0) return null;
+            for (var i=0; i < array.length; i++) {
+                if (evaluator(element, array[i])) {
+                    return array[i];
+                }
+            }
+            return null;
+        }
     }
     
     function AlumnoActividadModalCtrl($scope, $uibModalInstance, param) {
@@ -131,5 +209,14 @@
         };
     }
 
+    function AlumnoActividadNotificacionModalCtrl($scope, $uibModalInstance, param) {
+        $scope.concepto = param.concepto;
+        $scope.ok = function() {
+            $uibModalInstance.close();
+        };
+         $scope.cancel = function() {
+            $uibModalInstance.dismiss();
+        };
+    }
 
 })(); 
