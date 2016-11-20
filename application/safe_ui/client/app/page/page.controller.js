@@ -22,8 +22,7 @@
 
             function onError(httpResponse) {
                 logger.error('Usuario o Contraseña Incorrecta');
-                defered.reject(error);
-                console.log(httpResponse);
+                defered.reject(httpResponse);
             }
         }
                 

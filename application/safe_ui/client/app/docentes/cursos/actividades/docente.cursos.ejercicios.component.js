@@ -4,7 +4,7 @@
     angular
         .module('app.docente.cursos')
         .component('docenteCursosEjercicios', {
-            templateUrl: 'app/docentes/cursos/docente.cursos.ejercicios.tpl.html',
+            templateUrl: 'app/docentes/cursos/actividades/docente.cursos.ejercicios.tpl.html',
             controller: controller,
             controllerAs: 'vm',
             bindings: {
@@ -20,10 +20,6 @@
         vm.debug = debugModeEnabled;
         
         vm.groupVistaPrevia = { isOpen: false };
-        
-        if(!vm.editMode){
-            vm.model.respuestas = [];
-        }
         
         vm.agregarRespuesta = agregarRespuesta;
         vm.eliminarRespuesta= eliminarRespuesta;

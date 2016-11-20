@@ -197,7 +197,7 @@
         }
         
         function goBack() {
-            $state.go('^.list');
+            $state.go('docente.dashboard');
         }
         
         function goEditTema(tema){

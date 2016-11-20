@@ -142,6 +142,7 @@
             vm.actividad.ejercicio.push({
                 tipo: tipo.id,
                 descripcion: tipo.descripcion,
+                respuestas: [],
             });            
             
             function setConfigIrt(tipo){            
