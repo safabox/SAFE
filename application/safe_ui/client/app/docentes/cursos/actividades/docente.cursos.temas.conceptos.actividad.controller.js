@@ -25,11 +25,11 @@
         vm.ejerciciosDisponibles = [
             {
                 id: 1,
-                descripcion: 'Multiple Choice - General'
+                descripcion: 'Test de Selección Multiple - General'
             },
             {
                 id: 2,
-                descripcion: 'Multiple Choice - Matriz de Seleccion'
+                descripcion: 'Test de Selección Multiple - Matriz de Seleccion'
             },
         ];
         
