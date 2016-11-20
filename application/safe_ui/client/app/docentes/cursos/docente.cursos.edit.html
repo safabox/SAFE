@@ -256,7 +256,7 @@
                                     <tr ng-repeat="alumno in vm.curso.alumnos" >
                                         <td class="text-left"><span class="icon glyphicon glyphicon-user"></span> {{alumno.usuario.nombre}} {{alumno.usuario.apellido}}</td>
                                         <td class="text-left">
-                                            <button type="button" uib-tooltip="Ver" class="btn btn-xs btn-primary" aria-label="Ver"  >
+                                            <button type="button" uib-tooltip="Ver" class="btn btn-xs btn-primary" aria-label="Ver"  ng-click="vm.goAlumno(alumno)">
                                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                             </button>
                                         </td>

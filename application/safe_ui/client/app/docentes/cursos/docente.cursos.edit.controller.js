@@ -33,6 +33,7 @@
         vm.guardar = guardar;
         vm.groupInfoGral = { isOpen: true };
         vm.groupTemas = { isOpen: true };
+        vm.goAlumno = goAlumno;
         
         /*
         vm.fieldLabels = [
@@ -240,6 +241,11 @@
             vm.filteredStores = $filter('orderBy')(vm.curso.temas, rowName);
             return vm.onOrderChange();
         }; 
+        
+        function goAlumno(alumno) {
+            $state.go('docente.cursos.alumno.view', {idCurso: vm.curso.id, idAlumno: alumno.id, background: vm.background, data: {curso: vm.curso, alumno: alumno}});
+            
+        }
         
     }
 })(); 

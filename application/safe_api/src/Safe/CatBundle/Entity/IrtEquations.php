@@ -72,11 +72,11 @@ class IrtEquations {
         $q = 1 - $p;
         switch($item->getItemType()){
             case ItemType::TWO_PL: 
-                return ($item->getA() ** 2) * ($item->getD() ** 2) * $p * $q;                
+                return pow($item->getA(), 2) * pow($item->getD(), 2) * $p * $q;                
             case ItemType::THREE_Pl:
-                return ($item->getA() ** 2) * ($item->getD() ** 2) * (($p - $item->getC()) ** 2) * $q / (pow ((1 - $item->getC()), 2) * $p);
+                return pow($item->getA(), 2) * pow($item->getD(), 2) * pow(($p - $item->getC()), 2) * $q / (pow ((1 - $item->getC()), 2) * $p);
             default:
-                return ($item->getD() ** 2) * $p * $q;                
+                return pow($item->getD(), 2) * $p * $q;                
         }        
     }
     
