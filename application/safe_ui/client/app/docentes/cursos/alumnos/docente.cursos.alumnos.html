@@ -189,12 +189,32 @@
                             <div class="th">Actividad</div>
                         </th>
                         <th>
+                            <div class="th">Dificultad</div>
+                        </th>                       
+                        <th>
+                            <div class="th" uib-tooltip="Que tan diferente es la probabilidad entre un estudiante con una habilidad determinada y otro con una habilidad cercana">Discriminador</div>
+                        </th>
+                        <th >
+                            <div class="th" uib-tooltip="Probabilidad de que un estudiante responda la pregunta por azar.">Azar</div>
+                        </th>
+                        <th>
+                            <div class="th">D</div>
+                        </th>
+                        <th>
+                            <div class="th">Fecha</div>
+                        </th>
+                        <th>
                             <div class="th">Estado</div>
                         </th>
                     </thead>    
                     <tbody>
                         <tr ng-repeat="resultado in estadisticaConcepto.resultados">
-                            <td>{{resultado.titulo}}</td>
+                            <td>{{resultado.titulo}}</td>                            
+                            <td>{{resultado.dificultad}}</td>
+                            <td>{{resultado.discriminador}}</td>
+                            <td>{{resultado.azar}}</td>                            
+                            <td>{{resultado.d}}</td>
+                            <td>{{resultado.fecha | date :  "dd/MM/yyyy HH:mm:ss" }}</td>
                             <td>{{getStatus(resultado.estado)}}</td>
                         </tr>
                         
