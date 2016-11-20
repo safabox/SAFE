@@ -8,7 +8,13 @@ use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 class EstadisticaResultadoActividadAlumno {   
     private $id;
     private $titulo;
+    private $dificultad; //b
+    private $discriminador; //a
+    private $azar; //c
+    private $d; //d
+    private $fecha;
     private $estado;
+    
     
     function __construct(Actividad $actividad, ItemResult $itemResult) {
         $this->id = $actividad->getId();
@@ -17,7 +23,12 @@ class EstadisticaResultadoActividadAlumno {
             $this->estado = ResultadoEvaluacion::APROBADO;
         } else {
             $this->estado = ResultadoEvaluacion::DESAPROBADO;
-        }                
+        }               
+        $this->dificultad = $itemResult->getB();
+        $this->discriminador = $itemResult->getA();
+        $this->azar = $itemResult->getC();
+        $this->d = $itemResult->getD();
+        $this->fecha = $itemResult->getCreated();
     }
 
     function getId() {
@@ -44,5 +55,44 @@ class EstadisticaResultadoActividadAlumno {
         $this->estado = $estado;
     }
 
+    function getDificultad() {
+        return $this->dificultad;
+    }
+
+    function setDificultad($dificultad) {
+        $this->dificultad = $dificultad;
+    }
+    
+    function getDiscriminador() {
+        return $this->discriminador;
+    }
+
+    function getAzar() {
+        return $this->azar;
+    }
+
+    function getD() {
+        return $this->d;
+    }
+
+    function setDiscriminador($discriminador) {
+        $this->discriminador = $discriminador;
+    }
+
+    function setAzar($azar) {
+        $this->azar = $azar;
+    }
+
+    function setD($d) {
+        $this->d = $d;
+    }
+
+    function getFecha() {
+        return $this->fecha;
+    }
+
+    function setFecha($fecha) {
+        $this->fecha = $fecha;
+    }
 
 }

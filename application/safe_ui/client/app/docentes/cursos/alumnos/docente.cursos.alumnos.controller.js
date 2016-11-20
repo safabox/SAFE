@@ -77,7 +77,7 @@
                 var estadisticaConcepto = response.plain();   
                 var modalInstance = $uibModal.open({
                                                     templateUrl: 'concepto_chart.html',
-                                                    size: 'md',
+                                                    size: 'lg',
                                                     controller: 'DocenteAlumnoConceptoModalCtrl',
                                                         resolve: {
                                                            param: function () {                
