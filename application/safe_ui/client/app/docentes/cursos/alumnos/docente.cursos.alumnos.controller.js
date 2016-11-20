@@ -203,7 +203,7 @@
                             for (var i=0; i < thetas.length; i++) {
                                 d.push({
                                     value: thetas[i].theta,
-                                    formatter: "HOla"
+                                    theta_error: thetas[i].theta_error
                                 });
                             }
                             return d;
