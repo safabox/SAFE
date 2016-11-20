@@ -51,6 +51,7 @@ class PastAbility
      * @var float
      *
      * @ORM\Column(name="theta_error", type="float", nullable=false)
+     * @Expose 
      */
     private $thetaError;
 
