@@ -20,12 +20,17 @@
         vm.viewConceptoChart = viewConceptoChart;
         vm.getStatus = getStatus;
         vm.goBack = goBack;
+        vm.reload = reload;
         loadData();
         
         function loadData() {
             $q.all([getEstadisticaTema()])
             .then(onLoadComplete);
 
+        }
+        function reload() {
+           vm.loading = true;
+           loadData();
         }
         function getEstadisticaTema() {
             var estadisticaTemas = Docente.one(vm.docenteId).one('cursos', vm.cursoId).one('alumnos', vm.alumnoId).one('estadistica');
