@@ -35,7 +35,7 @@
                     <img alt="" src="images/persona.png" class="img-circle">
                 </div>
                 <ul class="safe-profile">
-                    <li><span>Nombre:</span>{{vm.estadisticasTemas.nombre}}</li>
+                    <li><span>Nombre:</span>{{vm.alumno.usuario.nombre}}, {{vm.alumno.usuario.apellido}}</li>
                     <li><span>Legajo:</span>{{vm.estadisticasTemas.legajo}}</li>
                     <li><span>Ultimo ingreso:</span>{{vm.alumno.usuario.last_login | date :  "dd/MM/yyyy HH:mm:ss"}}</li>
                 </ul>
@@ -155,8 +155,10 @@
                         </table>              
                 </uib-accordion-group>
             </uib-accordion>
-           
-        </div>
+            <div class="pull-right">
+                <button type="button" class="btn btn-success btn-lg" ng-click="vm.goBack()">Volver</button>
+            </div>    
+        </div>        
     </div>
 </div>
 

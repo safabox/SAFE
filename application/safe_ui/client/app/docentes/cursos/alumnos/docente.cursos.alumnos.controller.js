@@ -2,11 +2,11 @@
     'use strict';
 
     angular.module('app.docente.cursos')
-        .controller('DocenteAlumnosCtrl', ['$q', '$stateParams', '$uibModal','UsuarioService', 'Docente', DocenteAlumnosCtrl])
+        .controller('DocenteAlumnosCtrl', ['$q', '$state', '$stateParams', '$uibModal', 'logger', 'UsuarioService', 'Docente', DocenteAlumnosCtrl])
         .controller('DocenteAlumnoTemaModalCtrl', ['$scope', '$uibModalInstance', 'param', '$timeout','$window', DocenteAlumnoTemaModalCtrl])
         .controller('DocenteAlumnoConceptoModalCtrl', ['$scope', '$uibModalInstance', 'param', '$timeout','$window', DocenteAlumnoConceptoModalCtrl])
 
-    function DocenteAlumnosCtrl($q, $stateParams, $uibModal, UsuarioService, Docente) {
+    function DocenteAlumnosCtrl($q, $state, $stateParams, $uibModal, logger, UsuarioService, Docente) {
         var vm = this;
         vm.loading = true;
         
@@ -19,6 +19,7 @@
         vm.viewTemaChart = viewTemaChart;
         vm.viewConceptoChart = viewConceptoChart;
         vm.getStatus = getStatus;
+        vm.goBack = goBack;
         loadData();
         
         function loadData() {
@@ -38,7 +39,9 @@
             }
 
         }
-        
+        function goBack() {
+            $state.go('docente.cursos.edit', { id: vm.cursoId, background: vm.background  });
+        }
         
         function onLoadComplete() {
             vm.loading = false;

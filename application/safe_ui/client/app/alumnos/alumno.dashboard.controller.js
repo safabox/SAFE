@@ -2,9 +2,9 @@
     'use strict';
 
     angular.module('app.alumno')
-        .controller('AlumnoDashboardCtrl', ['$scope','$state','$q', 'AlumnoService', 'UsuarioService', AlumnoDashboardCtrl])
+        .controller('AlumnoDashboardCtrl', ['$scope','$state','$q', 'logger', 'AlumnoService', 'UsuarioService', AlumnoDashboardCtrl])
 
-    function AlumnoDashboardCtrl($scope, $state, $q, AlumnoService, UsuarioService) {
+    function AlumnoDashboardCtrl($scope, $state, $q, logger, AlumnoService, UsuarioService) {
         var vm = this;
         var availableClass = ['primary', 'success', 'info', 'warning', 'danger']
         vm.loading = true;
