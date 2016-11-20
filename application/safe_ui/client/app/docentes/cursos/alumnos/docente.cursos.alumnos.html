@@ -80,13 +80,8 @@
     
 
         <div class="profile-info">
-            <!--<ul class="list-unstyled list-inline">
-                <li><i class="fa fa-video-camera"></i> Films <span class="text-muted">(39)</span></li>
-                <li><i class="fa fa-camera"></i> Photos <span class="text-muted">(63)
-                </span></li><li><i class="fa fa-bookmark"></i> Collections <span class="text-muted">(55)
-                </span></li><li><i class="fa fa-check"></i> Tasks <span class="text-muted">(34)
-            </span></li></ul>-->
             <span>{{vm.curso.titulo}}</span>
+            <span class="btn-icon-lined btn-icon-round btn-success pull-right" ng-click="vm.reload()"><span class="fa fa-refresh"></span></span>
         </div>
     </header>  
     <div class="row">
