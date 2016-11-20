@@ -47,8 +47,8 @@ class ActividadAsignadaService extends ActividadService {
         
         $estadoActividad = ($itemResult == 1) ? ResultadoEvaluacion::APROBADO : ResultadoEvaluacion::DESAPROBADO;
         
-        $proximoResultado = $this->proximaActividad($conceptoId, $alumnoId);
-        return new ResultadoActividad($estadoActividad, $proximoResultado);       
+        $proximaActividad = $this->proximaActividad($conceptoId, $alumnoId);
+        return new ResultadoActividad($estadoActividad, $proximaActividad, $resultadoActividad['respuesta']);       
     }
     
     public function proximaActividad($conceptoId, $alumnoId) {

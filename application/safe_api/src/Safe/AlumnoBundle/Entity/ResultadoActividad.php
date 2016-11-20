@@ -6,10 +6,12 @@ use Safe\AlumnoBundle\Entity\ResultadoEvaluacion;
 class ResultadoActividad {
     private $resultado;
     private $proximaActividad;
+    private $resultadoEsperado;
 
-    function __construct($resultado, $proximaActividad) {
+    function __construct($resultado, $proximaActividad, $resultadoEsperado) {
         $this->resultado = $resultado;
         $this->proximaActividad = $proximaActividad;
+        $this->resultadoEsperado = $resultadoEsperado;
     }
 
 
@@ -27,6 +29,16 @@ class ResultadoActividad {
 
     function setProximaActividad($proximaActividad) {
         $this->proximaActividad = $proximaActividad;
+    }
+    
+    
+
+    function getResultadoEsperado() {
+        return $this->resultadoEsperado;
+    }
+
+    function setResultadoEsperado($resultadoEsperado) {
+        $this->resultadoEsperado = $resultadoEsperado;
     }
 
 
