@@ -3,10 +3,15 @@
     <section class="invoice-container" id="invoice">
         
         <div class="row">
-            <div class="col-md-9">
-                <p class="size-h1">{{vm.title}}</p>
+            <div class="col-sm-12">
+                <div class="panel panel-profile text-center">
+                    <div class="panel-heading clearfix bg-{{vm.background}}">
+                        <h3>{{vm.title}}</h3>               
+                        <h6>{{vm.subTitle}}</h6>
+                    </div>                
+                </div>
             </div>
-        </div>    
+        </div>
         
         <pre ng-if="vm.debug" style="max-height: 300px; overflow: scroll;">{{vm.actividad | json}}</pre>
 
@@ -38,14 +43,51 @@
                                     </div>
                                 </div>  
 
-                                <div class="form-group" show-errors>
-                                    <label class="col-md-2 control-label" for="descripcion">Dificultad</label>
-                                    <div class="col-md-10">
-                                       <input class="form-control" type="number" placeholder="Valor entre -3 y 3" min="-3" max="3" step="0.01" name="dificultad" data-ng-model="vm.actividad.dificultad" required>
-                                       <field-error-label data-field="vm.form.dificultad" data-field-label="Dificultad" />
-                                    </div>
-                                </div>                                
                                 
+                                <div class="form-group">
+                                    <div class="col-md-10 col-md-offset-2">
+                                        <uib-accordion close-others="vm.accordion" class="ui-accordion">
+                                            <uib-accordion-group is-open="vm.groupOpAvanzadas.isOpen" class="ui-accordion">
+                                                <uib-accordion-heading>
+                                                    <div>
+                                                        Opciones Avanzadas
+                                                        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupOpAvanzadas.isOpen, 'glyphicon-chevron-right': !vm.groupOpAvanzadas.isOpen}"></i>
+                                                    </div>
+                                                </uib-accordion-heading>  
+                                            
+                                                <div class="form-group" show-errors>
+                                                    <label class="col-md-2 control-label" for="descripcion">Dificultad</label>
+                                                    <div class="col-md-10">
+                                                       <input class="form-control" type="number" placeholder="Valor entre -3 y 3" min="-3" max="3" step="0.01" name="dificultad" data-ng-model="vm.actividad.dificultad" required>
+                                                       <field-error-label data-field="vm.form.dificultad" data-field-label="Dificultad" />
+                                                    </div>
+                                                </div>    
+
+                                                <div class="form-group" >
+                                                    <label class="col-md-2 control-label" for="discriminador" >Discriminador:</label>
+                                                    <div class="col-md-10">
+                                                        <input class="form-control" type="number" min="0" step="0.01" placeholder="Discriminador" name="discriminador" data-ng-model="vm.actividad.discriminador" required>
+                                                    </div>
+                                                </div>     
+
+                                                <div class="form-group" >
+                                                    <label class="col-md-2 control-label" for="azar" >Azar:</label>
+                                                    <div class="col-md-10">
+                                                        <input class="form-control" type="number" min="0" step="0.01" placeholder="Azar" name="azar" data-ng-model="vm.actividad.azar" required>
+                                                    </div>
+                                                </div>    
+
+                                                <div class="form-group" >
+                                                    <label class="col-md-2 control-label" for="d" >D:</label>
+                                                    <div class="col-md-10">
+                                                        <input class="form-control" type="number" min="0" step="0.01" placeholder="D" name="d" data-ng-model="vm.actividad.d" required>
+                                                    </div>
+                                                </div>   
+                                                
+                                            </uib-accordion-group>
+                                        </uib-accordion>
+                                    </div>
+                                </div>                  
                             </uib-accordion-group>
                         </uib-accordion>
                     </div>  
@@ -86,7 +128,7 @@
                                             </div>
                                         </uib-accordion-heading>
 
-                                        <docente-cursos-ejercicios ng-model="formulaModel" edit-mode="vm.editMode"></docente-cursos-ejercicios>
+                                        <docente-cursos-ejercicios ng-model="formulaModel" edit-mode="vm.editMode" descripcion="vm.actividad.descripcion"></docente-cursos-ejercicios>
                                         
                                     </uib-accordion-group>
                                 </uib-accordion>

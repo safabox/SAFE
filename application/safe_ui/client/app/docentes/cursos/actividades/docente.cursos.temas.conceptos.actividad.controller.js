@@ -11,6 +11,7 @@
         vm.debug = debugModeEnabled;
         vm.editMode = ($state.includes('**.editAct'));
         vm.loading = true;
+        vm.background = $stateParams.background;
         
         vm.docenteId = UsuarioService.getUserCurrentDoc();
         vm.cursoId = $stateParams.idCurso;
@@ -21,6 +22,7 @@
         vm.groupInfoGral = { isOpen: true };
         vm.groupEjercicios = { isOpen: true };
         vm.groupEjercicio = { isOpen: true };
+        vm.groupOpAvanzadas = { isOpen: false }; 
         
         vm.ejerciciosDisponibles = [
             {
@@ -80,7 +82,7 @@
                 
                 if (vm.editMode){
                     vm.title = 'Editar Actividad ';
-                    vm.subTitle = 'MODIFICACION CURSO';
+                    vm.subTitle = vm.actividad.titulo;
                     setActividad();
                 }
                 else{
@@ -254,7 +256,7 @@
         }
         
         function goBack() {
-            $state.go('docente.cursos.tema.concepto.edit', { 'id': vm.conceptoId, 'idTema': vm.temaId , 'idCurso': vm.cursoId });
+            $state.go('docente.cursos.tema.concepto.edit', { 'id': vm.conceptoId, 'idTema': vm.temaId , 'idCurso': vm.cursoId, 'background': vm.background });
         }
     }    
 })(); 

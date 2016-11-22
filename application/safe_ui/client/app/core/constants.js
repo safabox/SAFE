@@ -26,7 +26,7 @@
     var concepto = {
         tipo: 'RASH',
         rango: [-3,3],
-        metodo: 'THETA_NEWTON_RAPHSON',
+        metodo: 'THETA_MLE', //THETA_NEWTON_RAPHSON
         incremento: 0.5,
     };    
     

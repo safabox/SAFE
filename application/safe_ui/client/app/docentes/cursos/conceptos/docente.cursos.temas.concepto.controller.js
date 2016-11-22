@@ -13,10 +13,23 @@
         vm.noDataActividad = true; 
         vm.groupInfoGral = { isOpen: true };
         vm.groupActividades = { isOpen: true };
+        vm.groupOpAvanzadas = { isOpen: false };
+        vm.background = $stateParams.background;
         
         vm.fieldLabels = [
             { name: 'titulo', label: 'Título' },
             { name: 'descripcion', label: 'Descripción' },
+        ];
+        
+        vm.tipo = [
+            { id: 'RASH', descripcion: 'RASH'},
+            { id: 'PL1', descripcion: 'PL1'},
+            { id: 'PL2', descripcion: 'PL2'},
+        ];
+        
+        vm.metodo = [
+            { id: 'THETA_MLE', descripcion: 'THETA_MLE'},
+            { id: 'THETA_NEWTON_RAPHSON', descripcion: 'THETA_NEWTON_RAPHSON'}
         ];
         
         vm.docenteId = UsuarioService.getUserCurrentDoc();
@@ -67,7 +80,8 @@
                 return  conceptos.get().then(onSuccess, onError);
 
                 function onSuccess(response) {            
-                    vm.conpceptosTema = response.plain();     
+                    vm.conpceptosTemaTodos = response.plain();   
+                    vm.conpceptosTema = _.filter(vm.conpceptosTemaTodos, function(o) { return o.habilitado; });
                 }        
                 function onError(httpResponse) {
                     logger.error('No se pudo obtener los datos de los conceptos', httpResponse);
@@ -117,6 +131,7 @@
             
             function setTitle() {
                 vm.title = 'Editar Concepto';
+                vm.subTitle = vm.concepto.titulo;
             }    
         }
 
@@ -227,7 +242,7 @@
         }
         
         function goBack() {
-            $state.go('docente.cursos.tema.edit', { 'id': vm.temaId , 'idCurso': vm.cursoId });
+            $state.go('docente.cursos.tema.edit', { 'id': vm.temaId , 'idCurso': vm.cursoId, 'background': $stateParams.background });
         }
     }    
 })(); 

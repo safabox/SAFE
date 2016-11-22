@@ -10,10 +10,11 @@
             bindings: {
                 model: '=ngModel',
                 editMode: '=editMode',
+                descripcion: '=',
             },
         });
 
-    controller.$inject = ['_', 'debugModeEnabled', 'NgTableParams'];
+    controller.$inject = ['_', 'debugModeEnabled', 'NgTableParams', ];
 
     function controller(_, debugModeEnabled, NgTableParams) {
         var vm = this;
