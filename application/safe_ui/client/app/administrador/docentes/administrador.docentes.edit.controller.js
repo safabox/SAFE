@@ -35,48 +35,48 @@
         
         function activate() {
             
-            setTitle();
             loadData();
             
             function loadData() {
 
-                $q.all([])
+                $q.all([getDocente()])
                     .then(onLoadComplete);
+                    
+                function getDocente(){     
+                    var docente = AdminDocentes.one($stateParams.id);  
+                    return  docente.get().then(onSuccess, onError);
 
+                    function onSuccess(response) {            
+                        vm.docente = response.plain();     
+                    }        
+                    function onError(httpResponse) {
+                        logger.error('No se pudo obtener el Docente', httpResponse);
+                    }         
+                }
+                
                 function onLoadComplete() {
                     vm.loading = false;
                     vm.generos = getGeneros();
                     vm.tipoDocumentos = getTipoDocumentos();
                     
                     if (vm.editMode){
-                        getDocente();
+                        setTitle();
                     }
                     else{
                         vm.docente = '';
+                        setTitle();
                     }
                 }
             }
             
             function setTitle() {
                 if (vm.editMode) {
-                    vm.title = 'Editar Docente ' + $stateParams.id;
+                    vm.title = 'Editar Docente: ' + vm.docente.usuario.nombre + ' ' + vm.docente.usuario.apellido;
                     vm.subTitle = 'MODIFICACION DOCENTE';
                 } else {
                     vm.title = 'Nuevo Docente';
                     vm.subTitle = 'ALTA DECENTE';
                 }
-            }
-            
-            function getDocente(){     
-                var docente = AdminDocentes.one($stateParams.id);  
-                return  docente.get().then(onSuccess, onError);
-
-                function onSuccess(response) {            
-                    vm.docente = response.plain();     
-                }        
-                function onError(httpResponse) {
-                    logger.error('No se pudo obtener el Docente', httpResponse);
-                }         
             }
             
             function getGeneros(){

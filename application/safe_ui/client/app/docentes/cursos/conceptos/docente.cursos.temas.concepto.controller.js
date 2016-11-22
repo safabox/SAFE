@@ -41,6 +41,7 @@
         vm.recuperarActividad = recuperarActividad;
         vm.puedeEliminar = puedeEliminar;
         vm.puedeRecuperar = puedeRecuperar;
+        vm.traductorTipo = vm.traductorTipo;
         
         vm.guardar = guardar;
         vm.cancel = cancel;
@@ -235,6 +236,14 @@
                 logger.error('No se pudo guardar el concepto', httpResponse);
             }
             
+        }
+        
+        function traductorTipo(tipo) {
+            if(tipo == 'MULTIPLE_CHOICE_MATRIX'){
+                return 'Selección Multiple Matriz';
+            }else{
+                return 'Selección Multiple';
+            }
         }
         
         function cancel() {

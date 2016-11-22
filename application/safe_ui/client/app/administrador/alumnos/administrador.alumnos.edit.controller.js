@@ -35,13 +35,24 @@
         
         function activate() {
             
-            setTitle();
             loadData();
             
             function loadData() {
 
-                $q.all([])
+                $q.all([getAlumno()])
                     .then(onLoadComplete);
+
+                function getAlumno(){     
+                    var alumno = AdminAlumnos.one($stateParams.id);  
+                    return  alumno.get().then(onSuccess, onError);
+
+                    function onSuccess(response) {            
+                        vm.alumno = response.plain();     
+                    }        
+                    function onError(httpResponse) {
+                        logger.error('No se pudo obtener el Alumno', httpResponse);
+                    }         
+                }
 
                 function onLoadComplete() {
                     vm.loading = false;
@@ -49,34 +60,23 @@
                     vm.tipoDocumentos = getTipoDocumentos();
                     
                     if (vm.editMode){
-                        getAlumno();
+                        setTitle();
                     }
                     else{
                         vm.alumno = '';
+                        setTitle();
                     }
                 }
             }
             
             function setTitle() {
                 if (vm.editMode) {
-                    vm.title = 'Editar Alumno ' + $stateParams.id;
+                    vm.title = 'Editar Alumno: ' + vm.alumno.usuario.nombre + ' ' + vm.alumno.usuario.apellido;
                     vm.subTitle = 'MODIFICACION ALUMNO';
                 } else {
                     vm.title = 'Nuevo Alumno';
                     vm.subTitle = 'ALTA ALUMNO';
                 }
-            }
-            
-            function getAlumno(){     
-                var alumno = AdminAlumnos.one($stateParams.id);  
-                return  alumno.get().then(onSuccess, onError);
-
-                function onSuccess(response) {            
-                    vm.alumno = response.plain();     
-                }        
-                function onError(httpResponse) {
-                    logger.error('No se pudo obtener el Alumno', httpResponse);
-                }         
             }
             
             function getGeneros(){

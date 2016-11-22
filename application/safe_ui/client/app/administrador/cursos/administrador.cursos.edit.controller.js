@@ -53,7 +53,6 @@
         
         function activate() {
             
-            setTitle();
             loadData();
             
             function loadData() {
@@ -98,8 +97,9 @@
                 function onLoadComplete() {
                     vm.loading = false;
                     
+                    setTitle();
+                    
                     if (vm.editMode){
-                        setTitle();
                         vm.cantidadAlumnos = _.size(vm.alumnos);                
                         if(vm.cantidadAlumnos !== 0) vm.noDataAlumnos = false;  
                         vm.cantidadDocentes = _.size(vm.docentes);                
@@ -109,17 +109,17 @@
                         vm.curso = '';
                     }
                 }
+                
+                function setTitle() {
+                    if (vm.editMode) {
+                        vm.title = 'Editar Curso: ' + vm.curso.titulo;
+                        vm.subTitle = 'MODIFICACION CURSO';
+                    } else {
+                        vm.title = 'Nuevo Curso';
+                        vm.subTitle = 'ALTA CURSO';
+                    }
+                }     
             }
-            
-            function setTitle() {
-                if (vm.editMode) {
-                    vm.title = 'Editar Curso ' + $stateParams.id;
-                    vm.subTitle = 'MODIFICACION CURSO';
-                } else {
-                    vm.title = 'Nuevo Curso';
-                    vm.subTitle = 'ALTA CURSO';
-                }
-            }            
         }
         
         function getAlumnosTabla(params){
