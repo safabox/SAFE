@@ -60,7 +60,8 @@ class RegistracionConceptoFormType extends AbstractType {
                                     ThetaEstimationMethodType::THETA_NEWTON_RAPHSON => ThetaEstimationMethodType::THETA_NEWTON_RAPHSON,                                
                             )
                 ))
-                ->add('incremento', NumberType::class)  
+                ->add('incremento', NumberType::class)
+                ->add('expectativa', NumberType::class)
         ;
         
         

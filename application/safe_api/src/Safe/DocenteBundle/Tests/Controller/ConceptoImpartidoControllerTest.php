@@ -340,6 +340,7 @@ class ConceptoImpartidoControllerTest extends SafeTestController {
             'rango' => array(-1, 1),
             'metodo' => 'THETA_MLE',
             'incremento' => 0.1,
+            'expectativa' => 0
         );
         return $dato;
     }
