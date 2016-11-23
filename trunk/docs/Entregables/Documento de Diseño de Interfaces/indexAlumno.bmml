@@ -1,0 +1,51 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="1343" measuredH="646" mockupW="1330" mockupH="640">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="13" y="6" w="1330" h="640" measuredW="450" measuredH="400" zOrder="0" locked="true" isInGroup="-1">
+      <controlProperties>
+        <borderStyle>square</borderStyle>
+        <color>13421772</color>
+        <text>SAFE%20-%20FrontEnd%0Ahttp%3A//</text>
+        <verticalScrollbar>false</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Component" x="16" y="80" w="1324" h="110" measuredW="1324" measuredH="110" zOrder="1" locked="true" isInGroup="-1">
+      <controlProperties>
+        <override controlID="0" x="0" y="0" w="1324" h="110">
+          <borderColor>10066329</borderColor>
+          <size>60</size>
+          <text>SAFE</text>
+        </override>
+        <override controlID="-1"/>
+        <src>./assets/Bootstrap.bmml#bs-bg-gray-light</src>
+      </controlProperties>
+    </control>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::TextInput" x="573" y="271" w="261" h="-1" measuredW="58" measuredH="27" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Alumno</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::TextInput" x="573" y="319" w="261" h="-1" measuredW="45" measuredH="27" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>*****</text>
+      </controlProperties>
+    </control>
+    <control controlID="6" controlTypeID="com.balsamiq.mockups::SubTitle" x="460" y="271" w="89" h="-1" measuredW="89" measuredH="27" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Usuario%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="7" controlTypeID="com.balsamiq.mockups::SubTitle" x="417" y="319" w="132" h="-1" measuredW="132" measuredH="27" zOrder="5" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Contrase%F1a%3A</text>
+      </controlProperties>
+    </control>
+    <control controlID="8" controlTypeID="com.balsamiq.mockups::Button" x="573" y="369" w="261" h="28" measuredW="73" measuredH="27" zOrder="6" locked="false" isInGroup="-1">
+      <controlProperties>
+        <color>2848996</color>
+        <href>alumnoTableroCursos%26bm%3BalumnoTableroCursos.bmml%26bm%3BalumnoTableroCursos.bmml%26bm%3BalumnoTableroCursos.bmml</href>
+        <map>%3Carea%20shape%3D%22rect%22%20coords%3D%22560%2C363%2C821%2C391%22%20href%3D%22alumnoTableroCursos.bmml%22%20alt%3D%22alumnoTableroCursos%22%20id%3D%228%22/%3E</map>
+        <text>Ingresar</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
