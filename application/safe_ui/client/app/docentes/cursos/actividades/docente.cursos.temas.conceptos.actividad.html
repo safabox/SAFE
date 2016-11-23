@@ -42,6 +42,15 @@
                                        <div text-angular ta-toolbar="vm.toolbar" ng-model="vm.actividad.descripcion" class="ui-editor-concepto"></div>                                        
                                     </div>
                                 </div>  
+                                
+                                
+                                <div class="form-group" show-errors>
+                                    <label class="col-md-2 control-label" for="descripcion">Dificultad:</label>
+                                    <div class="col-md-10">
+                                       <input class="form-control" type="number" placeholder="Dificultad" step="0.25" name="dificultad" data-ng-model="vm.actividad.dificultad" required>
+                                       <field-error-label data-field="vm.form.dificultad" data-field-label="Dificultad" />
+                                    </div>
+                                </div>    
 
                                 
                                 <div class="form-group">
@@ -54,15 +63,6 @@
                                                         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.groupOpAvanzadas.isOpen, 'glyphicon-chevron-right': !vm.groupOpAvanzadas.isOpen}"></i>
                                                     </div>
                                                 </uib-accordion-heading>  
-                                            
-                                                <div class="form-group" show-errors>
-                                                    <label class="col-md-2 control-label" for="descripcion">Dificultad</label>
-                                                    <div class="col-md-10">
-                                                       <input class="form-control" type="number" placeholder="Valor entre -3 y 3" min="-3" max="3" step="0.01" name="dificultad" data-ng-model="vm.actividad.dificultad" required>
-                                                       <field-error-label data-field="vm.form.dificultad" data-field-label="Dificultad" />
-                                                    </div>
-                                                </div>    
-
                                                 <div class="form-group" >
                                                     <label class="col-md-2 control-label" for="discriminador" >Discriminador:</label>
                                                     <div class="col-md-10">

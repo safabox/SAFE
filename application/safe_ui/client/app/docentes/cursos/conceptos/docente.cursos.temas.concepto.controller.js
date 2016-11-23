@@ -23,8 +23,8 @@
         
         vm.tipo = [
             { id: 'RASH', descripcion: 'RASH'},
-            { id: 'PL1', descripcion: 'PL1'},
-            { id: 'PL2', descripcion: 'PL2'},
+            { id: '2PL', descripcion: '2PL'},
+            { id: '3PL', descripcion: '3PL'},
         ];
         
         vm.metodo = [
@@ -217,6 +217,7 @@
                 tipo: vm.concepto.tipo,
                 rango: vm.concepto.rango,
                 metodo: vm.concepto.metodo,
+                expectativa: vm.concepto.expectativa,
                 incremento: vm.concepto.incremento,
                 habilitado: vm.concepto.habilitado
             };
