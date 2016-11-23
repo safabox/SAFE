@@ -110,6 +110,9 @@
                 } else {
                     logger.warning("Intentálo de nuevo con la próxima actividad");
                 }
+                
+                logAbility(evaluation.proxima_actividad.examinee_test_status);
+                
                 if (evaluation.proxima_actividad && evaluation.proxima_actividad.estado === 'CURSANDO' && evaluation.proxima_actividad.elemento) {
                     self.proximaActividad = evaluation.proxima_actividad.elemento;
                 } else {
@@ -126,6 +129,15 @@
             function onError(httpResponse) {
                 console.log(httpResponse);
                 logger.error('No se pudo evaluar al Alumno', httpResponse);
+            }
+            
+            function logAbility(result) {
+                try {
+                    console.log("Habilidad: [" + result.theta + "], estimated error: [" + result.estimated_error + "], increment: [" + result.discret_increment+ "], status [" + result.status + "]" )
+                } catch (err) {
+                    console.log(err);
+                }
+                
             }
         }
         
