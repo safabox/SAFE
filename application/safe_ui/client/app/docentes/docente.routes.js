@@ -111,7 +111,7 @@
             {
                 state: 'docente.cursos.tema.concepto.newAct',
                 config: {
-                    url: '/cursos/tema/concepto/actividad/new/:id&:idCurso&:idTema&:idConcepto&:background',
+                    url: '/cursos/tema/concepto/actividad/new/:idCurso&:idTema&:idConcepto&:background',
                     templateUrl: path + 'app/docentes/cursos/actividades/docente.cursos.temas.conceptos.actividad.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'ActividadCursosEdit',
