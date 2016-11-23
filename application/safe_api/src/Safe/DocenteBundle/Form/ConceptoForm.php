@@ -189,7 +189,8 @@ class ConceptoForm
         $itemBank->setItemRange($this->rango);
         $itemBank->setThetaEstimationMethod($this->metodo);
         $itemBank->setDiscretIncrement($this->incremento);
-        $itemBank->setExpectedTheta($this->expectativa);
+        $expectativa = (is_null($this->expectativa)) ? 0 : $this->expectativa;
+        $itemBank->setExpectedTheta($expectativa);
         return $itemBank;
     }
     
