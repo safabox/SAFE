@@ -467,6 +467,15 @@ class Concepto
         return ($this->itemBank != null) ? $this->itemBank->getDiscretIncrement() : null;
     }
     
+    /**
+     * @Groups({"docente_concepto_detalle"}) 
+     * @VirtualProperty 
+     * @return type float
+     */
+    public function getExpectativa() {
+        return ($this->itemBank != null) ? $this->itemBank->getExpectedTheta() : null;
+    }
+    
 /*    public function setTipo($tipo) {
         $this->itemBank = ($this->itemBank == null) ? new ItemBank() : $this->itemBank;
     }
