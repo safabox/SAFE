@@ -41,7 +41,6 @@
         vm.recuperarActividad = recuperarActividad;
         vm.puedeEliminar = puedeEliminar;
         vm.puedeRecuperar = puedeRecuperar;
-        vm.traductorTipo = vm.traductorTipo;
         
         vm.guardar = guardar;
         vm.cancel = cancel;
@@ -237,15 +236,7 @@
             }
             
         }
-        
-        function traductorTipo(tipo) {
-            if(tipo == 'MULTIPLE_CHOICE_MATRIX'){
-                return 'Selección Multiple Matriz';
-            }else{
-                return 'Selección Multiple';
-            }
-        }
-        
+                
         function cancel() {
             goBack();
         }
