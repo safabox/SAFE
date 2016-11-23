@@ -86,7 +86,7 @@ class CATService {
     public function getExamineeStatusFor($item_bank_code, $examinee_code) {
         $ability = $this->getOrCreateAbility($examinee_code, $item_bank_code);
         $itemBank = $this->getItemBankByCode($item_bank_code);
-        $examineeTestStatus = new ExamineeTestStatus(ExamineeTestStatus::FAIL, $ability->getThetaError(), $itemBank->getDiscretIncrement());
+        $examineeTestStatus = new ExamineeTestStatus(ExamineeTestStatus::FAIL, $ability->getTheta(), $ability->getThetaError(), $itemBank->getDiscretIncrement());
         
         if ($ability->getTheta() >= $itemBank->getExpectedTheta()) {
             if ($ability->getUnsignedThetaError() <= $itemBank->getDiscretIncrement()){

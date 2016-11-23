@@ -16,6 +16,8 @@ class ResultadoEvaluacion {
         
     private $elemento;
     
+    private $examineeTestStatus;
+    
     function __construct($estado = ResultadoEvaluacion::CURSANDO, $elemento=null, $mensaje='') {
         $this->elemento = $elemento;        
         $this->estado = $estado;
@@ -46,6 +48,12 @@ class ResultadoEvaluacion {
         $this->elemento = $elemento;
     }
 
+    function getExamineeTestStatus() {
+        return $this->examineeTestStatus;
+    }
 
+    function setExamineeTestStatus($examineeTestStatus) {
+        $this->examineeTestStatus = $examineeTestStatus;
+    }
 
 }

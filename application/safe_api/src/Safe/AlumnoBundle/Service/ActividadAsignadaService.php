@@ -58,7 +58,8 @@ class ActividadAsignadaService extends ActividadService {
            return new ResultadoEvaluacion($alumnoEstadoConcepto->getEstado());
         }
         
-        $examineeTestStatus = $this->catService->getExamineeStatusFor($conceptoId, $alumnoId);        
+        $examineeTestStatus = $this->catService->getExamineeStatusFor($conceptoId, $alumnoId);
+        $proximoResultado->setExamineeTestStatus($examineeTestStatus);
         
         $estado = ResultadoEvaluacion::APROBADO;
         if (ExamineeTestStatus::APPROVED != $examineeTestStatus->getStatus()) {           
