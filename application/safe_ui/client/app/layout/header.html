@@ -38,7 +38,7 @@
                              class="toggle-min"
                              ><i class="fa fa-bars"></i></a>
             </li> 
-            <li class="dropdown text-normal nav-profile" uib-dropdown is-open="status.isopenProfile">
+            <li class="dropdown text-normal nav-profile" uib-dropdown>
                 
                 <a href="javascript:;" uib-dropdown-toggle ng-disabled="disabled">
                     <div style="margin-top: 5px;">
@@ -46,6 +46,7 @@
                         <span>{{user}}</span>
                     </div>
                 </a>
+                                
                 <!--<ul class="dropdown-menu with-arrow dropdown-menu-scaleIn" uib-dropdown-menu>
                     <li>
                         <a href="#/page/profile">
@@ -58,18 +59,43 @@
         </ul> 
 
         <ul class="nav-right pull-right list-unstyled">
-            <li class="dropdown" uib-dropdown is-open="status.isopenComment">
-            </li>
-            <li class="dropdown" uib-dropdown is-open="status.isopenEmail">
-            </li>
-            <li class="dropdown" uib-dropdown is-open="status.isopenBell">
-            </li>
             <li>
                 <a ng-click="logout()" class="bg-info sf-pointer">
                     <i class="fa fa-power-off"></i>
                 </a>
             </li>
         </ul>
+        
+        <ul class="nav-left pull-right list-unstyled">
+            <li class="text-normal nav-profile" ng-show="admin">
+                <a href="http://safe.safabox.com/app/manuales/ManualAdministrador.pdf" download="ManualAdministrador.pdf" uib-dropdown-toggle ng-disabled="disabled" tooltip-placement="left" uib-tooltip="Descargar Manual">
+                    <div style="margin-top: 5px;">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <span></span>
+                    </div>
+                </a>
+            </li>
+            
+            <li class="text-normal nav-profile" ng-show="alumno">
+                <a href="http://safe.safabox.com/app/manuales/ManualAlumno.pdf" download="ManualAlumno.pdf" uib-dropdown-toggle ng-disabled="disabled" tooltip-placement="left" uib-tooltip="Descargar Manual">
+                    <div style="margin-top: 5px;">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <span></span>
+                    </div>
+                </a>
+            </li>
+
+            <li class="text-normal nav-profile" ng-show="docente">
+                <a href="http://safe.safabox.com/app/manuales/ManualDocente.pdf" download="ManualDocente.pdf" uib-dropdown-toggle ng-disabled="disabled" tooltip-placement="left" uib-tooltip="Descargar Manual">
+                    <div style="margin-top: 5px;">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <span></span>
+                    </div>
+                </a>
+            </li>
+            
+        </ul>
+
     </div>
 
 </header>

@@ -119,6 +119,13 @@ class ConceptoForm
     
     private $incremento;
     
+    /**
+     * @Expose
+     *
+     */
+    
+    private $expectativa;
+    
     
     private $tema;
     
@@ -170,6 +177,7 @@ class ConceptoForm
         $this->rango = $itemBank->getItemRange();
         $this->metodo = $itemBank->getThetaEstimationMethod();
         $this->incremento = $itemBank->getDiscretIncrement();
+        $this->expectativa = $itemBank->getExpectedTheta();
     }
     
     public function createItemBank() {
@@ -181,6 +189,8 @@ class ConceptoForm
         $itemBank->setItemRange($this->rango);
         $itemBank->setThetaEstimationMethod($this->metodo);
         $itemBank->setDiscretIncrement($this->incremento);
+        $expectativa = (is_null($this->expectativa)) ? 0 : $this->expectativa;
+        $itemBank->setExpectedTheta($expectativa);
         return $itemBank;
     }
     
@@ -333,7 +343,16 @@ class ConceptoForm
         $this->mostrarResultado = $mostrarResultado;
     }
 
+    function getExpectativa() {
+        return $this->expectativa;
+    }
 
+    function setExpectativa($expectativa) {
+        $this->expectativa = $expectativa;
+    }
+
+
+    
     
 }
 

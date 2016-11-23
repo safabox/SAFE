@@ -8,13 +8,16 @@ class ExamineeTestStatus {
     const FAIL = 'FAIL';
     
     private $status;
+    
+    private $theta;
         
     private $estimatedError;
     
     private $discretIncrement;
     
-    function __construct($status, $estimatedError = 99, $discretIncrement = 0.25) {
+    function __construct($status, $theta, $estimatedError = 99, $discretIncrement = 0.25) {
         $this->status = $status;
+        $this->theta = $theta;
         $this->estimatedError = $estimatedError;
         $this->discretIncrement = $discretIncrement;
     }
@@ -41,6 +44,14 @@ class ExamineeTestStatus {
 
     function setDiscretIncrement($discretIncrement) {
         $this->discretIncrement = $discretIncrement;
+    }
+
+    function getTheta() {
+        return $this->theta;
+    }
+
+    function setTheta($theta) {
+        $this->theta = $theta;
     }
 
 

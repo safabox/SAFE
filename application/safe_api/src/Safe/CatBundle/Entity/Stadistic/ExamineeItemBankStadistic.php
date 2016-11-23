@@ -9,7 +9,7 @@ class ExamineeItemBankStadistic {
     private $currentTheta;
     private $pastAbilities;
 
-    function __construct($itemBankCode, $itemsNumbers = 0, $itemsResolved = 0, $itemsResolvedOk = 0, $currentTheta = -9999, $pastAbilities = array()) {
+    function __construct($itemBankCode, $itemsNumbers = 0, $itemsResolved = 0, $itemsResolvedOk = 0, $currentTheta = -99, $pastAbilities = array()) {
         $this->itemBankCode = $itemBankCode;
         $this->itemsNumbers = $itemsNumbers;
         $this->itemsResolved = $itemsResolved;

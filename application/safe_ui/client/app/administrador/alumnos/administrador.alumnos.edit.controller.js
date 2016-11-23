@@ -17,7 +17,7 @@
         vm.groupInfoGral = { isOpen: true };
         vm.groupSeguridad = { isOpen: true };
         vm.groupCursos = { isOpen: true };
-
+                
         vm.fieldLabels = [
             { name: 'legajo', label: 'Legajo' },
             { name: 'nombre', label: 'Nombre' },
@@ -35,47 +35,48 @@
         
         function activate() {
             
-            setTitle();
             loadData();
             
             function loadData() {
 
-                $q.all([])
+                $q.all([getAlumno()])
                     .then(onLoadComplete);
+
+                function getAlumno(){     
+                    var alumno = AdminAlumnos.one($stateParams.id);  
+                    return  alumno.get().then(onSuccess, onError);
+
+                    function onSuccess(response) {            
+                        vm.alumno = response.plain();     
+                    }        
+                    function onError(httpResponse) {
+                        logger.error('No se pudo obtener el Alumno', httpResponse);
+                    }         
+                }
 
                 function onLoadComplete() {
                     vm.loading = false;
                     vm.generos = getGeneros();
+                    vm.tipoDocumentos = getTipoDocumentos();
                     
                     if (vm.editMode){
-                        getAlumno();
+                        setTitle();
                     }
                     else{
                         vm.alumno = '';
+                        setTitle();
                     }
                 }
             }
             
             function setTitle() {
                 if (vm.editMode) {
-                    vm.title = 'Editar Alumno ' + $stateParams.id;
+                    vm.title = 'Editar Alumno: ' + vm.alumno.usuario.nombre + ' ' + vm.alumno.usuario.apellido;
                     vm.subTitle = 'MODIFICACION ALUMNO';
                 } else {
                     vm.title = 'Nuevo Alumno';
                     vm.subTitle = 'ALTA ALUMNO';
                 }
-            }
-            
-            function getAlumno(){     
-                var alumno = AdminAlumnos.one($stateParams.id);  
-                return  alumno.get().then(onSuccess, onError);
-
-                function onSuccess(response) {            
-                    vm.alumno = response.plain();     
-                }        
-                function onError(httpResponse) {
-                    logger.error('No se pudo obtener el Alumno', httpResponse);
-                }         
             }
             
             function getGeneros(){
@@ -89,34 +90,80 @@
                     }];
             }
             
+            function getTipoDocumentos(){
+                return [{
+                    id: 'DNI',
+                    descripcion: 'DNI'
+                }];
+            }
         }
         
         vm.guardar = guardar;
         function guardar() {
             
-            var alumnoPut =
-            {
-                'legajo':  vm.alumno.legajo,
-                'usuario': {
-                    'nombre': vm.alumno.usuario.nombre,
-                    'apellido': vm.alumno.usuario.apellido,
-                    'username': vm.alumno.usuario.username,     
-                    'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
-                    'numeroDocumento': vm.alumno.usuario.numero_documento,
-                    'genero': vm.alumno.usuario.genero,
-                    'email': vm.alumno.usuario.email,
-                    'enabled': true,
-                    'textPassword': {
-                        'first' : vm.alumno.usuario.textPassword.first,
-                        'second' : vm.alumno.usuario.textPassword.second
-                    }
-                }
-            };
-
             if (vm.editMode) {
+                
+                if(typeof vm.alumno.usuario.textPassword === 'undefined')
+                {
+                    var alumnoPut =
+                    {
+                        'legajo':  vm.alumno.legajo,
+                        'usuario': {
+                            'nombre': vm.alumno.usuario.nombre,
+                            'apellido': vm.alumno.usuario.apellido,
+                            'username': vm.alumno.usuario.username,     
+                            'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
+                            'numeroDocumento': vm.alumno.usuario.numero_documento,
+                            'genero': vm.alumno.usuario.genero,
+                            'email': vm.alumno.usuario.email,
+                            'enabled': true
+                        }
+                    };
+                }
+                else 
+                {
+                    var alumnoPut =
+                    {
+                        'legajo':  vm.alumno.legajo,
+                        'usuario': {
+                            'nombre': vm.alumno.usuario.nombre,
+                            'apellido': vm.alumno.usuario.apellido,
+                            'username': vm.alumno.usuario.username,     
+                            'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
+                            'numeroDocumento': vm.alumno.usuario.numero_documento,
+                            'genero': vm.alumno.usuario.genero,
+                            'email': vm.alumno.usuario.email,
+                            'enabled': true,
+                            'textPassword': {
+                                'first' : vm.alumno.usuario.textPassword.first,
+                                'second' : vm.alumno.usuario.textPassword.second
+                            }
+                        }
+                    };
+                }
                 var alumno = AdminAlumnos.one($stateParams.id);
                 alumno.customPUT(alumnoPut).then(onSuccess,onError);
             }else{
+
+                var alumnoPut =
+                {
+                    'legajo':  vm.alumno.legajo,
+                    'usuario': {
+                        'nombre': vm.alumno.usuario.nombre,
+                        'apellido': vm.alumno.usuario.apellido,
+                        'username': vm.alumno.usuario.username,     
+                        'tipoDocumento':  vm.alumno.usuario.tipo_documento.codigo,
+                        'numeroDocumento': vm.alumno.usuario.numero_documento,
+                        'genero': vm.alumno.usuario.genero,
+                        'email': vm.alumno.usuario.email,
+                        'enabled': true,
+                        'textPassword': {
+                            'first' : vm.alumno.usuario.textPassword.first,
+                            'second' : vm.alumno.usuario.textPassword.second
+                        }
+                    }
+                };
+
                 AdminAlumnos.post(alumnoPut).then(onSuccess,onError);
             }
             

@@ -13,6 +13,7 @@
         vm.noDataConceptos = true; 
         vm.groupInfoGral = { isOpen: true };
         vm.groupConceptos = { isOpen: true };
+        vm.background = $stateParams.background;
         
         vm.fieldLabels = [
             { name: 'titulo', label: 'Título' },
@@ -46,7 +47,7 @@
         activate();
         
         function activate() {
-            $q.all([cargaTema(), cargarTemasCurso(), cargaConceptosTema()])
+            $q.all([cargaTema(), cargaConceptosTema(), cargarTemasCurso()])
                 .then(onLoadComplete);       
             
             function cargaTema() {
@@ -66,8 +67,9 @@
 
                 return  curso.get().then(onSuccess, onError);
 
-                function onSuccess(response) {            
-                    vm.cursoTemas = response.plain();     
+                function onSuccess(response) {  
+                    vm.cursoTemasTodos = response.plain();   
+                    vm.cursoTemas = _.filter(vm.cursoTemasTodos, function(o) { return o.habilitado; });
                 }        
                 function onError(httpResponse) {
                     logger.error('No se pudo obtener los datos del tema', httpResponse);
@@ -100,15 +102,16 @@
                 vm.cantidadConceptos = _.size(vm.conceptos);                
                 if(vm.cantidadConceptos !== 0) vm.noDataConceptos = false; 
                 
-                _.forEach(vm.cursoTema, function(value) {
+                _.forEach(vm.cursoTemas, function(value) {
                     if(value.id == vm.temaId) {
-                        vm.cursoTema.splice(value,1);
+                        vm.cursoTemas.splice(value,1);
                     }
                 });
             }
             
             function setTitle() {
                 vm.title = 'Editar Tema';
+                vm.subTitle = vm.tema.titulo;
             }    
         }
 

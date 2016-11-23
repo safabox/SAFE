@@ -51,6 +51,19 @@
     .safe-only-title.safe-panel-top {
         padding:40px 0;
     }
+    
+    .safe-mostrar-resultado .safe-option-callout.safe-ok {
+        background-color: #d3fad3;
+        border-color: #60CD9B;
+    }
+    .safe-mostrar-resultado td.safe-ok {
+        background-color: #f3faf3;
+        border-color: #60CD9B;
+    }
+    .safe-mostrar-resultado td.safe-ko {
+        background-color: #fdf7f7;
+        border-color: #E87352;
+    }
 </style>
 
 <div class="page page-dashboard" ng-show="!vm.loading">
@@ -86,7 +99,7 @@
                         <div class="panel-heading"><span class="fa fa-pencil-square-o"></span> Resolver</div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-sm-12" >
+                                <div class="col-sm-12" ng-class="{'safe-mostrar-resultado' : vm.mostrarResultado}">
                                     <div ng-include="vm.templateUrl"></div>
                                 </div>                                
                             </div>
@@ -95,8 +108,8 @@
                 </div>
                 <div class='pull-right safe-btn-group'>
                     <button type="button" class="btn btn-suceess btn-lg" ng-click="vm.goBack()">Volver</button>
-                    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.enviar()">Enviar</button>
-
+                    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.enviar()" ng-show="!vm.mostrarResultado">Enviar</button>
+                    <button type="button" class="btn btn-primary btn-lg" ng-click="vm.goProximaActividad()" ng-show="vm.mostrarResultado && vm.proximaActividad != null">Ir pr&oacute;xima actividad</button>
                 </div>
             </section>
         </div>
@@ -107,7 +120,7 @@
     <div ta-bind ng-model="vm.actividad.ejercicio[0].pregunta" ></div>
     <ul class="task-list list-unstyled">
         <li ng-repeat="opcion in vm.actividad.ejercicio[0].respuestas">
-            <div class="safe-option-callout callout-info safe-cursor" ng-click="vm.toogleOption(opcion)">
+            <div class="safe-option-callout callout-info safe-cursor" ng-click="vm.toogleOption(opcion)" ng-class="{'safe-ok' : opcion.isTrue, 'safe-ko' : !opcion.isTrue}">
                 <label class="ui-checkbox">
                     <input id="opcion_{{opcion.id}}" type="checkbox" ng-model="opcion.selected">
                     <span>{{opcion.texto}}</span>
@@ -131,8 +144,8 @@
             <tbody>
                 <tr ng-repeat="opcion in vm.actividad.ejercicio[0].respuestas" >
                     <td class="col-md-10 text-left">{{opcion.texto}}</td>
-                    <td class="text-center"><input type="radio" data-ng-name="opcion.texto" data-ng-model="opcion.resultado" data-ng-value="true" /></td>
-                    <td class="text-center"><input type="radio" data-ng-name="opcion.texto" data-ng-model="opcion.resultado" data-ng-value="false" /></td>
+                    <td class="text-center" ng-class="{'safe-ok' : opcion.isTrue}"><input type="radio" data-ng-name="opcion.texto" data-ng-model="opcion.resultado" data-ng-value="true" /></td>
+                    <td class="text-center" ng-class="{'safe-ok' : !opcion.isTrue}"><input type="radio" data-ng-name="opcion.texto" data-ng-model="opcion.resultado" data-ng-value="false" /></td>
                 </tr>
             </tbody>
         </table>
@@ -159,3 +172,16 @@
         <button class="btn btn-primary" ng-click='listo()'>Listo</button>        
     </div>
 </script>  
+
+<script type="text/ng-template" id="actividad_notificacion.html">
+    <div class="safe-modal-header modal-header btn-warning">
+        <h3>Advertencia</h3>
+    </div>
+    <div class="modal-body">
+        ¿Est&aacute; seguro que quieren enviar las respuestas vac&iacute;as?
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click='ok()'>S&iacute;</button>     
+        <button class="btn btn-default" ng-click='cancel()'>No</button>
+    </div>
+</script>

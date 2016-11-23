@@ -46,6 +46,14 @@ class PastAbility
      * @ORM\JoinColumn(name="ability_id", referencedColumnName="id", nullable=false)   
      */
     private $ability;
+    
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="theta_error", type="float", nullable=false)
+     * @Expose 
+     */
+    private $thetaError;
 
     /**
      * @var \DateTime
@@ -60,6 +68,7 @@ class PastAbility
     {
         $this->ability = $ability;        
         $this->theta = $ability->getTheta();
+        $this->thetaError = $ability->getThetaError();
     }
     
     /**
@@ -152,6 +161,14 @@ class PastAbility
     public function getCreated()
     {
         return $this->created;
+    }
+    
+    function getThetaError() {
+        return $this->thetaError;
+    }
+
+    function setThetaError($thetaError) {
+        $this->thetaError = $thetaError;
     }
 }
 

@@ -1,0 +1,229 @@
+<style>
+    .safe-profile {
+        display: inline-block;
+        list-style: none;
+        color: white;
+        font-size: 1.25em;
+        padding-left: 0;
+        vertical-align: middle;
+    }
+    .safe-profile span {
+        font-weight: bolder;
+    }
+    
+    .safe-resumen-list {
+        display: inline-block;
+        list-style: none;
+    }
+    .safe-resumen-list li {
+        display: inline-table;
+    }
+    .safe-cursor {
+        cursor: pointer;
+    }
+    .safe-estadistica {
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="page page-profile" ng-show="!vm.loading">
+    <header class="profile-header">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="profile-img">
+                    <!--<img alt="" src="images/g1.jpg" class="img-circle">-->
+                    <img alt="" src="images/persona.png" class="img-circle">
+                </div>
+                <ul class="safe-profile">
+                    <li><span>Nombre:</span>{{vm.alumno.usuario.nombre}}, {{vm.alumno.usuario.apellido}}</li>
+                    <li><span>Legajo:</span>{{vm.estadisticasTemas.legajo}}</li>
+                    <li><span>Ultimo ingreso:</span>{{vm.alumno.usuario.last_login | date :  "dd/MM/yyyy HH:mm:ss"}}</li>
+                </ul>
+            </div>
+            <div class="col-sm-4 col-md-2">
+                <section class="panel panel-box">
+                    <div class="panel-top bg-success">
+                        <i class="glyphicon glyphicon-ok text-large"></i>
+                    </div>
+                    <div class="panel-bottom bg-reverse">
+                        <p class="size-h1">{{vm.estadisticasTemas.cant_finalizados}}</p>
+                        <p class="text-muted">Temas finalizandos</p>
+                    </div>
+                </section>
+            </div>  
+            <div class="col-sm-4 col-md-2">
+                <section class="panel panel-box">
+                    <div class="panel-top bg-orange">
+                        <i class="glyphicon glyphicon-list-alt text-large"></i>
+                    </div>
+                    <div class="panel-bottom bg-reverse">
+                        <p class="size-h1">{{vm.estadisticasTemas.cant_cursando}}</p>
+                        <p class="text-muted">Temas en curso</p>
+                    </div>
+                </section>
+            </div>  
+            <div class="col-sm-4 col-md-2">
+                <section class="panel panel-box">
+                    <div class="panel-top bg-info">
+                        <i class="glyphicon glyphicon-list-alt text-large"></i>
+                    </div>
+                    <div class="panel-bottom bg-reverse">
+                        <p class="size-h1">{{vm.estadisticasTemas.cant_pendientes}}</p>
+                        <p class="text-muted">Temas pendiente</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+        
+        
+            
+    
+
+        <div class="profile-info">
+            <span>{{vm.curso.titulo}}</span>
+            <span class="btn-icon-lined btn-icon-round btn-success pull-right" ng-click="vm.reload()"><span class="fa fa-refresh"></span></span>
+        </div>
+    </header>  
+    <div class="row">
+        <div class="col-sm-12">
+            <uib-accordion class="ui-accordion">
+                <uib-accordion-group class="safe-accordion" ng-repeat="tema in vm.estadisticasTemas.temas">
+                    <uib-accordion-heading>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <span class="fa fa-bookmark"></span> {{tema.titulo}} ({{vm.getStatus(tema.estado)}})
+                            </div>
+                            <div class="col-sm-6">
+                             <ul class="list-unstyled list-inline pull-right">
+                                <li uib-tooltip="Cantidad de conceptos aprobados."><i class="fa fa-check"></i> Aprobados <span class="text-muted">({{tema.cant_aprobados}})</span></li>
+                                <li uib-tooltip="Cantidad de conceptos aprobados pero supera la toleracia de la estimación."><i class="fa fa-exclamation-triangle"></i> Observaci&oacute;n <span class="text-muted">({{tema.cant_aprobados_observaciones}})</span></li>
+                                <li uib-tooltip="Cantidad de conceptos desaprobados."><i class="fa fa-times-circle"></i> Desaprobados <span class="text-muted">({{tema.cant_desaprobados}})</span></li>
+                                <li uib-tooltip="Cantidad de conceptos pendientes."><i class="glyphicon glyphicon-list-alt"></i> Pendientes <span class="text-muted">({{tema.cant_cursando + tema.cant_pendientes}})</span></li>
+                             </ul>   
+                            </div>
+                        </div>
+                    </uib-accordion-heading>
+                        <div class='pull-right safe-estadistica'>
+                            <button class="btn btn-primary" ng-click='vm.viewTemaChart(tema)'><span class="fa fa-area-chart"></span></button>
+                        </div>
+                        <table class="table table-bordered table-striped table-responsive">
+                            <thead>
+                                <th>
+                                    <div class="th">Concepto</div>
+                                </th>
+                                <th>
+                                    <div class="th">Habilidad esperada</div>
+                                </th>
+                                <th>
+                                    <div class="th">Habilidad alcanzada</div>
+                                </th>
+                                <th>
+                                    <div class="th">Tolerancia de estimación</div>
+                                </th>
+                                <th>
+                                    <div class="th">Error de estimación</div>
+                                </th>
+                                <th>
+                                    <div class="th">Fecha</div>
+                                </th>
+                                <th>
+                                    <div class="th">Estado</div>
+                                </th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="concepto in tema.conceptos">
+                                    <td>{{concepto.titulo}}</td>                                    
+                                    <td>{{concepto.theta_esperado}}</td>
+                                    <td>{{concepto.theta}}</td>
+                                    <td>{{concepto.incremento}}</td>
+                                    <td>{{concepto.theta_error}}</td>
+                                    <td>{{concepto.fecha_actualizacion | date :  "dd/MM/yyyy HH:mm:ss"}}</td>
+                                    <td>{{vm.getStatus(concepto.estado)}}</td>
+                                    <td>
+                                        <button type="button" uib-tooltip="Editar" class="btn btn-xs btn-primary" aria-label="Ver estadísticas" ng-click='vm.viewConceptoChart(concepto)'>
+                                            <span class="fa fa-area-chart" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>              
+                </uib-accordion-group>
+            </uib-accordion>
+            <div class="pull-right">
+                <button type="button" class="btn btn-success btn-lg" ng-click="vm.goBack()">Volver</button>
+            </div>    
+        </div>        
+    </div>
+</div>
+
+
+<script type="text/ng-template" id="tema_chart.html">
+    <div class="safe-modal-header modal-header btn-info">
+        <h3>{{tema.titulo}}</h3>
+    </div>
+    <div class="modal-body">
+        <div data-echarts data-options="options" style="height: 350px;"></div>        
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click='listo()'>Listo</button>        
+    </div>
+</script>  
+
+<script type="text/ng-template" id="concepto_chart.html">
+    <div class="safe-modal-header modal-header btn-info">
+        <h3>{{estadisticaConcepto.titulo}}</h3>
+    </div>
+    <div class="modal-body">
+        <uib-tabset class="ui-tab">
+            <uib-tab heading="Progreso">
+                <div class="alert alert-info" ng-hide="estadisticaConcepto.thetas_anteriores.length > 0">No se encontr&oacute; registros de las habilidades pasadas</div>
+                <div data-echarts data-options="options" style="height: 350px;" ng-hide="estadisticaConcepto.thetas_anteriores.length == 0"></div>       
+
+            </uib-tab>
+            <uib-tab heading="Actividades">
+                <div class="alert alert-info" ng-hide="estadisticaConcepto.resultados.length > 0">No se encontr&oacute; registros de las actividades realizadas</div>
+                       <table class="table table-bordered table-striped table-responsive" ng-hide="estadisticaConcepto.resultados.length == 0">
+                    <thead>
+                        <th>
+                            <div class="th">Actividad</div>
+                        </th>
+                        <th>
+                            <div class="th">Dificultad</div>
+                        </th>                       
+                        <th>
+                            <div class="th" uib-tooltip="Que tan diferente es la probabilidad entre un estudiante con una habilidad determinada y otro con una habilidad cercana">Discriminador</div>
+                        </th>
+                        <th >
+                            <div class="th" uib-tooltip="Probabilidad de que un estudiante responda la pregunta por azar.">Azar</div>
+                        </th>
+                        <th>
+                            <div class="th">D</div>
+                        </th>
+                        <th>
+                            <div class="th">Fecha</div>
+                        </th>
+                        <th>
+                            <div class="th">Estado</div>
+                        </th>
+                    </thead>    
+                    <tbody>
+                        <tr ng-repeat="resultado in estadisticaConcepto.resultados">
+                            <td>{{resultado.titulo}}</td>                            
+                            <td>{{resultado.dificultad}}</td>
+                            <td>{{resultado.discriminador}}</td>
+                            <td>{{resultado.azar}}</td>                            
+                            <td>{{resultado.d}}</td>
+                            <td>{{resultado.fecha | date :  "dd/MM/yyyy HH:mm:ss" }}</td>
+                            <td>{{getStatus(resultado.estado)}}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </uib-tab>
+        </uib-tabset>    
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click='listo()'>Listo</button>        
+    </div>
+</script>

@@ -11,14 +11,14 @@
     
     var configIrtTipoUno = {
         discriminador: 1,
-        azar: 0,
+        azar: 1,
         d: 1.7,
         tipo: 'MULTIPLE_CHOICE',
     };
     
      var configIrtTipoDos = {
         discriminador: 1,
-        azar: 0,
+        azar: 1,
         d: 1.7,
         tipo: 'MULTIPLE_CHOICE_MATRIX',
     };
@@ -26,7 +26,7 @@
     var concepto = {
         tipo: 'RASH',
         rango: [-3,3],
-        metodo: 'THETA_NEWTON_RAPHSON',
+        metodo: 'THETA_MLE', //THETA_NEWTON_RAPHSON
         incremento: 0.5,
     };    
     

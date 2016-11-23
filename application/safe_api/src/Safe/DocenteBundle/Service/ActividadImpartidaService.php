@@ -27,7 +27,8 @@ class ActividadImpartidaService extends ActividadService {
     }
     
     public function crearActividad($actividadArray, $concepto) {
-        $actividad = new Actividad($actividadArray['titulo'], $actividadArray['ejercicio'], $actividadArray['resultado'], $actividadArray['tipo'], $actividadArray['descripcion'], $this->getBoolean($actividadArray['habilitado']));
+        $descripcion = (array_key_exists('descripcion', $actividadArray)) ? $actividadArray['descripcion'] : '';
+        $actividad = new Actividad($actividadArray['titulo'], $actividadArray['ejercicio'], $actividadArray['resultado'], $actividadArray['tipo'], $descripcion, $this->getBoolean($actividadArray['habilitado']));
         $actividad->setConcepto($concepto);  
         $item = $this->crearItem($actividadArray, $concepto);
         $actividad->setItem($item);

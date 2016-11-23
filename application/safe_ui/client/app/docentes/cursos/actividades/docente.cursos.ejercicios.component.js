@@ -4,26 +4,23 @@
     angular
         .module('app.docente.cursos')
         .component('docenteCursosEjercicios', {
-            templateUrl: 'app/docentes/cursos/docente.cursos.ejercicios.tpl.html',
+            templateUrl: 'app/docentes/cursos/actividades/docente.cursos.ejercicios.tpl.html',
             controller: controller,
             controllerAs: 'vm',
             bindings: {
                 model: '=ngModel',
                 editMode: '=editMode',
+                descripcion: '=',
             },
         });
 
-    controller.$inject = ['_', 'debugModeEnabled', 'NgTableParams'];
+    controller.$inject = ['_', 'debugModeEnabled', 'NgTableParams', ];
 
     function controller(_, debugModeEnabled, NgTableParams) {
         var vm = this;
         vm.debug = debugModeEnabled;
         
         vm.groupVistaPrevia = { isOpen: false };
-        
-        if(!vm.editMode){
-            vm.model.respuestas = [];
-        }
         
         vm.agregarRespuesta = agregarRespuesta;
         vm.eliminarRespuesta= eliminarRespuesta;

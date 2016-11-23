@@ -92,7 +92,7 @@
             {
                 state: 'docente.cursos.tema.concepto.edit',
                 config: {
-                    url: '/cursos/tema/concepto/:id&:idTema&:idCurso',
+                    url: '/cursos/tema/concepto/:id&:idTema&:idCurso&:background',
                     templateUrl: path + 'app/docentes/cursos/conceptos/docente.cursos.temas.concepto.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'TemaConceptoCursosEdit',
@@ -111,7 +111,7 @@
             {
                 state: 'docente.cursos.tema.concepto.newAct',
                 config: {
-                    url: '/cursos/tema/concepto/actividad/new/:id&:idCurso&:idTema&:idConcepto',
+                    url: '/cursos/tema/concepto/actividad/new/:idCurso&:idTema&:idConcepto&:background',
                     templateUrl: path + 'app/docentes/cursos/actividades/docente.cursos.temas.conceptos.actividad.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'ActividadCursosEdit',
@@ -122,7 +122,7 @@
             {
                 state: 'docente.cursos.tema.concepto.editAct',
                 config: {
-                    url: '/cursos/tema/concepto/actividad/:id&:idCurso&:idTema&:idConcepto',
+                    url: '/cursos/tema/concepto/actividad/:id&:idCurso&:idTema&:idConcepto&:background',
                     templateUrl: path + 'app/docentes/cursos/actividades/docente.cursos.temas.conceptos.actividad.html',
                     roles: ["ROLE_DOCENTE"],
                     controller: 'ActividadCursosEdit',
@@ -130,6 +130,26 @@
                     params: {error: null}
                 }
             },  
+            
+            {
+                state: 'docente.cursos.alumno',
+                config: {
+                    abstract: true,
+                    url: '/cursos/:idCurso',
+                    template: '<ui-view/>'
+                }
+            },
+            {
+                state: 'docente.cursos.alumno.view',
+                config: {
+                    url: '/alumno/:idAlumno/dashboard/:background',
+                    templateUrl: path + 'app/docentes/cursos/alumnos/docente.cursos.alumnos.html',
+                    roles: ["ROLE_DOCENTE"],
+                    controller: 'DocenteAlumnosCtrl',
+                    controllerAs: 'vm',    
+                    params: {error: null, data: null}
+                }
+            },
         ];
     }
     
