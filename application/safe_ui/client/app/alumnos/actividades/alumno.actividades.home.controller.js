@@ -112,7 +112,11 @@
                 }
                 if (evaluation.proxima_actividad && evaluation.proxima_actividad.estado === 'CURSANDO' && evaluation.proxima_actividad.elemento) {
                     self.proximaActividad = evaluation.proxima_actividad.elemento;
+                } else {
+                    closeConcept();
                 }                
+                
+                
                 if (self.mostrarResultado) {
                     mostrarResultado(evaluation.resultado_esperado);
                 } else {
@@ -122,6 +126,35 @@
             function onError(httpResponse) {
                 console.log(httpResponse);
                 logger.error('No se pudo evaluar al Alumno', httpResponse);
+            }
+        }
+        
+        function closeConcept() {
+            var nextConcept = AlumnoService.one(UsuarioService.getUserCurrentAlumnoId()).one('cursos', self.curso.id).one('temas', self.tema.id).one('proximo_concepto');            
+            return  nextConcept.get().then(onSuccess, onError);
+            function onSuccess(response) {
+                var nextConcept = response.plain();
+                if (nextConcept.estado === 'FINALIZADO'){
+                    logger.info("Concepto Finalizado");
+                    closeIssue();
+                }
+            }
+            function onError(httpResponse) {
+                console.log(httpResponse);
+            }
+        }
+        
+        function closeIssue() {
+            var nextIssue = AlumnoService.one(UsuarioService.getUserCurrentAlumnoId()).one('cursos', self.curso.id).one('proximo_tema');
+            return  nextIssue.get().then(onSuccess, onError);
+            function onSuccess(response) {
+                var nextConcept = response.plain();
+                if (nextConcept.estado === 'FINALIZADO'){
+                    logger.info("Tema Finalizado");
+                }
+            }
+            function onError(httpResponse) {
+                console.log(httpResponse);
             }
         }
         
