@@ -57,8 +57,8 @@
                         <i class="glyphicon glyphicon-list-alt text-large"></i>
                     </div>
                     <div class="panel-bottom bg-reverse">
-                        <p class="size-h1">{{vm.estadisticasTemas.cant_cursando}}</p>
-                        <p class="text-muted">Temas en curso</p>
+                        <p class="size-h1">{{vm.estadisticasTemas.cant_pendientes}}</p>
+                        <p class="text-muted">Temas pendientes</p>
                     </div>
                 </section>
             </div>  
@@ -68,8 +68,8 @@
                         <i class="glyphicon glyphicon-list-alt text-large"></i>
                     </div>
                     <div class="panel-bottom bg-reverse">
-                        <p class="size-h1">{{vm.estadisticasTemas.cant_pendientes}}</p>
-                        <p class="text-muted">Temas pendiente</p>
+                        <p class="size-h1">{{vm.estadisticasTemas.cant_pendientes + vm.estadisticasTemas.cant_finalizados}}</p>
+                        <p class="text-muted">Temas totales</p>
                     </div>
                 </section>
             </div>

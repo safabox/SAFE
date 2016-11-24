@@ -125,7 +125,10 @@ class IrtEquations {
     public static function estimateNewThetaWithStandarErrorML($theta, $itemsResult, $increment = 0.25, $limit = array(-3, 3), Logger $logger = null) {              
         $maxLikehoodSum = null;
         $maxTheta = $limit[0];        
-        for($thetaEval=$limit[0]; $thetaEval < $limit[1]; $thetaEval += $increment) {
+        $thetaLimit = $increment + $limit[1];
+
+        for($thetaEval=$limit[0]; $thetaEval < $thetaLimit; $thetaEval += $increment) {
+            $thetaEval = ($thetaEval > $limit[1]) ? $limit[1] : $thetaEval;
             $likelihoodSum = 0;
             foreach ($itemsResult as $itemResult) {
                 $p = IrtEquations::probP($thetaEval, $itemResult);
